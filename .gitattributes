@@ -1,1 +1,6 @@
-*.dart linguist-language=Dart
+# Ignore platform-specific native code when detecting language
+ios/** linguist-vendored
+android/** linguist-vendored
+linux/** linguist-vendored
+windows/** linguist-vendored
+macos/** linguist-vendored
