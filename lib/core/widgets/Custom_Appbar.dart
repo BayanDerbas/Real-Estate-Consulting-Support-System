@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import '../constants/Fonts.dart';
 import '../constants/colors.dart';
 
@@ -12,10 +13,10 @@ class CustomAppbar extends StatelessWidget {
   const CustomAppbar({
     super.key,
     required this.text,
-    this.textColor = colors.pureWhite,
+    this.textColor = AppColors.pureWhite,
     required this.icon,
     required this.iconColor,
-    this.appbarColor = colors.deepNavy,
+    this.appbarColor = AppColors.deepNavy,
   });
 
   @override
@@ -24,28 +25,18 @@ class CustomAppbar extends StatelessWidget {
       clipper: SlantedClipper(),
       child: Container(
         width: double.infinity,
-        height: 150,
+        height: 140,
         color: appbarColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                text,
-                style: Fonts.itim.copyWith(
-                  color: textColor,
-                  fontSize: 20,
-                ),
-              ),
-              Icon(
-                icon,
-                color: iconColor,
-                size: 30,
-              ),
-            ],
-          ),
-        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              text,
+              style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
+            ),
+            Icon(icon, color: iconColor, size: 30),
+          ],
+        ).paddingOnly(bottom: 30, left: 20, right: 20),
       ),
     );
   }
@@ -56,9 +47,10 @@ class SlantedClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = Path();
     path.lineTo(0, 0);
-    path.lineTo(size.width, 0); // Top left
-    path.lineTo(size.width, size.height - 30); // Slanted point on the right
-    path.lineTo(0, size.height); // Bottom left
+    path.lineTo(size.width, 0);
+    path.lineTo(size.width, size.height - 40);
+
+    path.lineTo(0, size.height);
     path.close();
     return path;
   }

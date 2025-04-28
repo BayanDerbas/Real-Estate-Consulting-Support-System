@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:graduation_project/core/constants/app_theme.dart';
+import 'package:graduation_project/core/routes/routes.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 
+import 'features/Auth/presentation/pages/upload_documents.dart';
+import 'features/Auth/presentation/widgets/base_auth_screen.dart';
 import 'features/home/presentation/pages/Home.dart';
 
 void main() {
@@ -9,12 +16,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      theme: ThemeData(colorScheme: AppTheme.lightScheme()),
       debugShowCheckedModeBanner: false,
-      home: const Home(),
+      home: UploadDocuments(),
+      getPages: AppRoutes.routes_,
     );
   }
 }
