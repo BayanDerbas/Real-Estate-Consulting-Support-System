@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController {
   var selectedIndex = (-1).obs;
   var isFavorite = false.obs;
   var isFollowing = false.obs;
@@ -13,31 +13,47 @@ class HomeController extends GetxController{
     bottomNavIndex.value = index;
   }
 
-  void changeIndex(int index){
+  void changeIndex(int index) {
     currentIndex.value = index;
   }
+
   // حاليا هي الليست
-  var propertiesList = [
+  var propertiesList =
+      [
+        {
+          'imagePath': 'assets/images/property1.jpg',
+          'title': 'Show properties 1',
+        },
+        {
+          'imagePath': 'assets/images/property2.jpg',
+          'title': 'Show properties 2',
+        },
+        {
+          'imagePath': 'assets/images/property3.jpg',
+          'title': 'Show properties 3',
+        },
+        {
+          'imagePath': 'assets/images/property4.jpg',
+          'title': 'Show properties 4',
+        },
+      ].obs;
+
+  var postsList = [
     {
-      'imagePath': 'assets/images/property1.jpg',
-      'title': 'Show properties 1',
+      'userName' : 'محمد محمد',
+      'userImage': 'assets/images/expert.jpg',
+      'postText': '...............................................\n.....................................................',
+      'postImage': 'assets/images/garden.jpg',
     },
     {
-      'imagePath': 'assets/images/property2.jpg',
-      'title': 'Show properties 2',
-    },
-    {
-      'imagePath': 'assets/images/property3.jpg',
-      'title': 'Show properties 3',
-    },
-    {
-      'imagePath': 'assets/images/property4.jpg',
-      'title': 'Show properties 4',
+      'userName' : 'محمد محمد',
+      'userImage': 'assets/images/expert.jpg',
+      'postText': '...............................................\n.....................................................',
+      'postImage': 'assets/images/garden.jpg',
     },
   ].obs;
 
-
-  void selectIndex(int index){
+  void selectIndex(int index) {
     selectedIndex.value = index;
   }
 
@@ -50,21 +66,17 @@ class HomeController extends GetxController{
     }
   }
 
-  void toggleLike(){
-    isLiked.value = !isLiked.value;
-    if(isLiked.value){
-      print("Like.....");
-    } else {
-      print("failed");
+  void toggleLike() {
+    if (isDisLiked.value) {
+      isDisLiked.value = false;
     }
+    isLiked.value = !isLiked.value;
   }
 
   void toggleUnLike() {
-    isDisLiked.value = !isDisLiked.value;
-    if(isDisLiked.value){
-      print("Disliked");
-    } else {
-      print("failed");
+    if (isLiked.value) {
+      isLiked.value = false;
     }
+    isDisLiked.value = !isDisLiked.value;
   }
 }

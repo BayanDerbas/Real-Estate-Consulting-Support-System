@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
+import 'package:graduation_project/features/home/presentation/pages/Home.dart';
 
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({super.key});
@@ -11,7 +12,7 @@ class CustomBottomBar extends StatelessWidget {
     final HomeController controller = Get.find<HomeController>();
 
     return Obx(
-          () => Padding(
+      () => Padding(
         padding: const EdgeInsets.all(12.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
@@ -30,6 +31,15 @@ class CustomBottomBar extends StatelessWidget {
                 currentIndex: controller.currentIndex.value,
                 onTap: (index) {
                   controller.changeIndex(index);
+                  if (index == 0) {
+                    Get.to(() => 'home');
+                  } else if (index == 1) {
+                    Get.to(() => 'home');
+                  } else if (index == 2) {
+                    Get.to(() => 'home');
+                  } else if (index == 3) {
+                    Get.to(() => 'home');
+                  }
                 },
                 selectedItemColor: AppColors.lavender,
                 unselectedItemColor: AppColors.pureWhite,
@@ -40,28 +50,28 @@ class CustomBottomBar extends StatelessWidget {
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.home,
-                      size: controller.currentIndex.value == 0 ? 30 : 25,
+                      size: controller.currentIndex.value == 0 ? 40 : 30,
                     ),
                     label: "",
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.newspaper,
-                      size: controller.currentIndex.value == 1 ? 30 : 25,
+                      size: controller.currentIndex.value == 1 ? 40 : 30,
                     ),
                     label: "",
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.person_pin,
-                      size: controller.currentIndex.value == 2 ? 30 : 25,
+                      size: controller.currentIndex.value == 2 ? 40 : 30,
                     ),
                     label: "",
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
                       Icons.settings,
-                      size: controller.currentIndex.value == 3 ? 30 : 25,
+                      size: controller.currentIndex.value == 3 ? 40 : 30,
                     ),
                     label: "",
                   ),

@@ -36,7 +36,7 @@ class CustomAppbar extends StatelessWidget {
             ),
             Icon(icon, color: iconColor, size: 30),
           ],
-        ).paddingOnly(bottom: 30, left: 20, right: 20),
+        ).paddingOnly(bottom: 30, left: 20, right: 20,top: 20),
       ),
     );
   }

@@ -25,7 +25,7 @@ class CustomIconButton extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(top:15.0,left: 15,right: 15,bottom: 10),
             child: Container(
               width: 70,
               height: 70,
@@ -46,7 +46,6 @@ class CustomIconButton extends StatelessWidget {
                       : null,
             ),
           ),
-          SizedBox(height: 8),
           Text(label, style: Fonts.itim.copyWith(color: AppColors.deepNavy)),
         ],
       ),

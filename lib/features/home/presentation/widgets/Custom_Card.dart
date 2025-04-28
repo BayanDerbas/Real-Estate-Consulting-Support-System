@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/colors.dart'; // مسار الألوان عندك
-import '../../../../core/constants/fonts.dart'; // مسار الخطوط عندك
+import '../../../../../../core/constants/colors.dart'; // مسار الألوان عندك
+import '../../../../../../core/constants/fonts.dart'; // مسار الخطوط عندك
 
 class CustomCard extends StatelessWidget {
   final String imagePath;
