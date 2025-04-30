@@ -8,23 +8,21 @@ class PropertyDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomPropertyDetails(
+      body:
+      CustomPropertyDetails(
+        images: [
+          'assets/images/balcony.jpg',
+          'assets/images/bedroom.jpg',
+          'assets/images/livingroom.jpg',
+        ],
+        price: '1200',
+        title: 'Villa',
+        location: 'New Cairo',
+        area: '200m²',
+        beds: '3',
+        baths: '2',
+        details: 'Spacious villa with garden and pool...',
         imagePath: 'assets/images/villa.jpg',
-        price: '500',
-        title: 'Luxury villa',
-        location: 'Qalamoun, Deir Atiyah',
-        area: '240 m²',
-        beds: '2',
-        baths: '3',
-        details: 'This is a beautiful villa located in a quiet area with amazing views...'
-            '\n............................................................'
-            '\n............................................................'
-            '\n............................................................'
-            '\n............................................................'
-            '\n............................................................'
-            '\n............................................................'
-            '\n............................................................'
-            '\n........................................................... ',
       ),
     );
   }
