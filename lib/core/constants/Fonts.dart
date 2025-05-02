@@ -17,8 +17,13 @@ class Fonts {
   static final TextStyle underlinedStyle = GoogleFonts.itim(
     decoration: TextDecoration.underline,
     color: AppColors.deepNavy,
-
     fontSize: 20,
     fontWeight: FontWeight.bold,
+  );
+  static final TextStyle titleOfOnboardingStyle = GoogleFonts.itim(
+    fontSize: 24,
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    letterSpacing: 1.2,
   );
 }

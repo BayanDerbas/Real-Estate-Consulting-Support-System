@@ -21,4 +21,5 @@ class AppColors {
   static const Color customGray = Color(0xFFB2A4A4);
   static const Color lightBulishGray = Color(0xFFBFC5CE);
   static const Color darkGray = Color.fromRGBO(59, 59, 59, 1.0);
+  static const Color filterButtonWhite = Color.fromRGBO(217, 217, 217, 0.7);
 }

@@ -8,7 +8,6 @@ import 'package:graduation_project/features/Auth/presentation/pages/sign_up_scre
 import 'features/Auth/presentation/pages/upload_documents.dart';
 import 'features/Auth/presentation/widgets/base_auth_screen.dart';
 import 'features/home/presentation/pages/Home.dart';
-import 'features/service provider/presentation/pages/ServiceProvider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppTheme.lightScheme().onPrimary,
       ),
       debugShowCheckedModeBanner: false,
-      home: ServiceProvider(),
+      home: Home(),
       getPages: AppRoutes.routes_,
     );
   }
