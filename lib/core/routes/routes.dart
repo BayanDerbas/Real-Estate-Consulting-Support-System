@@ -5,6 +5,7 @@ import 'package:graduation_project/features/Auth/presentation/pages/upload_docum
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import '../../features/home/presentation/pages/Home.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
+import '../../features/service provider/presentation/pages/ServiceProvider.dart';
 
 class AppRoutes {
   static const String home = "/home";
@@ -13,11 +14,13 @@ class AppRoutes {
   static const String uploadDocuments = '/upload_documents';
   static const String properties = '/properties';
   static const String propertyDetails = '/propertyDetails';
+  static const String serviceProvider = '/serviceProvider';
 
   static List<GetPage> routes_ = [
-    GetPage(name: propertyDetails, page: () => const PropertyDetails()),
-    GetPage(name: properties, page: () => const Properties()),
-    GetPage(name: home, page: () => const Home()),
+    GetPage(name: serviceProvider, page: () => ServiceProvider()),
+    GetPage(name: propertyDetails, page: () =>  PropertyDetails()),
+    GetPage(name: properties, page: () =>  Properties()),
+    GetPage(name: home, page: () =>  Home()),
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: signup, page: () => SignUpScreen()),
     GetPage(name: uploadDocuments, page: () => UploadDocuments()),

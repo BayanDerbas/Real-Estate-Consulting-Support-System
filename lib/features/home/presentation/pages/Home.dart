@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-import 'package:graduation_project/core/widgets/Custom_Post.dart';
+import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
 import '../widgets/Custom_BottomBar.dart';
-import '../../../../core/widgets/Custom_ExpertCard.dart';
+import '../widgets/Custom_ExpertCard.dart';
 import '../../../../core/widgets/Custom_IconButton.dart';
 import '../widgets/Custom_Card.dart';
 import '../widgets/Custom_QuickAccess.dart';

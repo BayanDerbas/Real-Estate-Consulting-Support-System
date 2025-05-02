@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/Fonts.dart';
-import '../../../../core/constants/colors.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
+import '../../../../../../core/constants/Fonts.dart';
+import '../../../../../../core/constants/colors.dart';
 
 class CustomExpertCard extends StatelessWidget {
   final String name;
@@ -68,14 +69,18 @@ class CustomExpertCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               name,
-                              style: Fonts.itim.copyWith(fontSize: 20, color: AppColors.black),
+                              style: Fonts.itim.copyWith(fontSize: 18, color: AppColors.black),
+                              softWrap: true,
+                              overflow: TextOverflow.visible,
                             ),
-                            SizedBox(width: 5,),
+                            SizedBox(width: 15),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              height: 48,
                               decoration: BoxDecoration(
                                 color: Colors.grey[300],
                                 borderRadius: BorderRadius.circular(8),
@@ -83,8 +88,10 @@ class CustomExpertCard extends StatelessWidget {
                               child: Text(
                                 jobTitle,
                                 style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.deepNavy),
-                              ),
-                            ),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ).padding(EdgeInsets.only(right: 15,left:15,top:5,bottom: 5),),
+                            ).expanded(flex: 5),
                           ],
                         ),
                         SizedBox(height: 8),
@@ -97,25 +104,34 @@ class CustomExpertCard extends StatelessWidget {
                               style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.black),
                             ),
                             SizedBox(width: 8),
-                            Text(
-                              '$experienceYears سنوات من الخبرة',
-                              style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
+                            Flexible(
+                              child: Text(
+                                '$experienceYears سنوات من الخبرة',
+                                style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ),
                             ),
                           ],
                         ),
                         SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.brightness_1, color:AppColors.skyBlue, size: 10),
+                            Icon(Icons.brightness_1, color: AppColors.skyBlue, size: 10),
                             SizedBox(width: 4),
-                            Text(
-                              '$successfulCases تجربة ناجحة',
-                              style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.black),
+                            Flexible(
+                              child: Text(
+                                '$successfulCases تجربة ناجحة',
+                                style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.black),
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ),
                             ),
                           ],
                         ),
                         SizedBox(height: 8),
-                        Row(
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.start,
                           children: [
                             Text(
                               'أقرب موعد يوم :  ',
@@ -125,9 +141,14 @@ class CustomExpertCard extends StatelessWidget {
                               appointmentDate,
                               style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender),
                             ),
+                          ],
+                        ),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          children: [
                             Text(
                               ' الساعة: ',
-                              style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.black),
+                              style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
                             ),
                             Text(
                               appointmentTime,
@@ -142,7 +163,7 @@ class CustomExpertCard extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 0,
+              bottom: 3,
               left: 0,
               child: Container(
                 decoration: BoxDecoration(

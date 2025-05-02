@@ -16,6 +16,7 @@ class AppColors {
   static const Color softWhite = Color(0xFFFAFAFA);
   static const Color lightGrey = Color(0xFFEEEEEE);
   static const Color grey = Color.fromRGBO(158, 158, 158, 1.0);
+  static const Color grey2 = Color.fromRGBO(226,226,226,1.0);
   static const Color goldenYellow = Color(0xFFFFE289);
   static const Color customGray = Color(0xFFB2A4A4);
   static const Color lightBulishGray = Color(0xFFBFC5CE);

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
-import '../controllers/PropertyDetails_Controller.dart';
 
 class CustomPropertyDetails extends StatelessWidget {
   final List<String> images;
@@ -15,6 +13,9 @@ class CustomPropertyDetails extends StatelessWidget {
   final String beds;
   final String baths;
   final String details;
+  final int selectedIndex;
+  final Function(int index) onImageTap;
+  final Function(DragEndDetails details) onSwipe;
 
   const CustomPropertyDetails({
     Key? key,
@@ -27,12 +28,13 @@ class CustomPropertyDetails extends StatelessWidget {
     required this.baths,
     required this.details,
     required this.images,
+    required this.selectedIndex,
+    required this.onImageTap,
+    required this.onSwipe,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    propertyDetailsController controller = Get.put(propertyDetailsController());
-
     final List<String> allImages = [imagePath, ...images];
 
     return SingleChildScrollView(
@@ -40,105 +42,80 @@ class CustomPropertyDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onHorizontalDragEnd: (details) {
-              if (details.primaryVelocity! < 0) {
-                controller.nextImage(allImages.length);
-              } else if (details.primaryVelocity! > 0) {
-                controller.previousImage(allImages.length);
-              }
-            },
-            child: Obx(() {
-              return Stack(
-                children: [
-                  Container(
+            onHorizontalDragEnd: onSwipe,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.black.withOpacity(0.2),
+                        blurRadius: 8,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(35),
+                    child: Image.asset(
+                      allImages[selectedIndex],
+                      width: double.infinity,
+                      height: 400,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: AppColors.pureWhite,
+                      size: 35,
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
+                      color: AppColors.pureWhite,
+                      borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.black.withOpacity(0.2),
+                          color: AppColors.black.withOpacity(0.5),
                           blurRadius: 8,
                           offset: Offset(0, 4),
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(35),
-                      child: Image.asset(
-                        allImages[controller.selectedImageIndex.value],
-                        width: double.infinity,
-                        height: 400,
-                        fit: BoxFit.cover,
+                    child: Text(
+                      '$price/month',
+                      style: Fonts.itim.copyWith(
+                        color: AppColors.black,
+                        fontSize: 20,
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 10,
-                    left: 10,
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: AppColors.pureWhite,
-                        size: 35,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.pureWhite,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.black.withOpacity(0.5),
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        '$price/month',
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.black,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 10),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: List.generate(allImages.length, (index) {
-          //     return GestureDetector(
-          //       onTap: () => controller.changeImage(index),
-          //       child: Padding(
-          //         padding: EdgeInsets.all(8),
-          //         child: CircleAvatar(
-          //           radius: 25,
-          //           backgroundImage: AssetImage(allImages[index]),
-          //         ),
-          //       ),
-          //     );
-          //   }),
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(allImages.length, (index) {
               return GestureDetector(
-                onTap: () => controller.changeImage(index),
+                onTap: () => onImageTap(index),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Container(
                     width: 50,
                     height: 50,
@@ -161,60 +138,43 @@ class CustomPropertyDetails extends StatelessWidget {
               );
             }),
           ),
+          const SizedBox(height: 20),
+          Text(
+            title,
+            style: Fonts.itim.copyWith(color: AppColors.black, fontSize: 26),
+          ).padding(EdgeInsets.symmetric(horizontal: 16)),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              const Icon(Icons.location_on, size: 22, color: AppColors.grey),
+              const SizedBox(width: 5),
+              Text(
+                location,
+                style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
+              ),
+            ],
+          ).padding(EdgeInsets.symmetric(horizontal: 16)),
 
           const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              title,
-              style: Fonts.itim.copyWith(color: AppColors.black, fontSize: 26),
-            ),
-          ),
-          const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                const Icon(Icons.location_on, size: 22, color: AppColors.grey),
-                const SizedBox(width: 5),
-                Text(
-                  location,
-                  style: Fonts.itim.copyWith(
-                    color: AppColors.grey,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildInfoCard(Icons.aspect_ratio, area),
+              _buildInfoCard(Icons.bed, '$beds beds'),
+              _buildInfoCard(Icons.bathtub, '$baths baths'),
+            ],
+          ).padding(EdgeInsets.symmetric(horizontal: 16)),
           const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildInfoCard(Icons.aspect_ratio, area),
-                _buildInfoCard(Icons.bed, '$beds beds'),
-                _buildInfoCard(Icons.bathtub, '$baths baths'),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'Details',
-              style: Fonts.itim.copyWith(color: AppColors.black, fontSize: 24),
-            ),
-          ),
+          Text(
+            'Details',
+            style: Fonts.itim.copyWith(color: AppColors.black, fontSize: 24),
+          ).padding(EdgeInsets.symmetric(horizontal: 16)),
           const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              details,
-              style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 16),
-            ),
-          ),
+          Text(
+            details,
+            style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 16),
+          ).padding(EdgeInsets.symmetric(horizontal: 16)),
+
           const SizedBox(height: 30),
         ],
       ),
@@ -236,20 +196,17 @@ class CustomPropertyDetails extends StatelessWidget {
           ),
         ],
       ),
-      child: _buildIconText(icon, text).padding(EdgeInsets.all(8)),
-    );
-  }
-
-  Widget _buildIconText(IconData icon, String text) {
-    return Row(
-      children: [
-        Icon(icon, size: 20, color: AppColors.darkGray),
-        const SizedBox(width: 5),
-        Text(
-          text,
-          style: Fonts.itim.copyWith(color: AppColors.darkGray, fontSize: 16),
-        ),
-      ],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 20, color: AppColors.darkGray),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: Fonts.itim.copyWith(color: AppColors.darkGray, fontSize: 16),
+          ),
+        ],
+      ),
     );
   }
 }

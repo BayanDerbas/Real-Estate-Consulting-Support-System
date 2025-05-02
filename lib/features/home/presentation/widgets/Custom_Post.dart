@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // نحتاج GetX هنا
 
-import '../constants/Fonts.dart';
-import '../constants/colors.dart';
+import '../../../../core/constants/Fonts.dart';
+import '../../../../core/constants/colors.dart';
 
 class CustomPost extends StatelessWidget {
   final String username;
