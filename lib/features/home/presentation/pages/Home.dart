@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import '../../../../core/constants/Fonts.dart';
@@ -97,7 +98,6 @@ class Home extends StatelessWidget {
               fontSize: 24,
             ),
           ).padding(EdgeInsets.all(8)),
-
           GridView.count(
             crossAxisCount: 2,
             mainAxisSpacing: 10,
@@ -108,7 +108,7 @@ class Home extends StatelessWidget {
             children: [
               CustomQuickAccessCard(
                 title: "Send Request",
-                imagePath: 'assets/images/sendRequest.png',
+                imagePath: AppImages.sendRequest,
                 backgroundColor: AppColors.blushRose,
                 onPressed: () {
                   print(
@@ -118,7 +118,7 @@ class Home extends StatelessWidget {
               ).makeSafeArea(),
               CustomQuickAccessCard(
                 title: "Publish Ticket",
-                imagePath: 'assets/images/PublishTicket.png',
+                imagePath: AppImages.PublishTicket,
                 backgroundColor: AppColors.skyBlue,
                 onPressed: () {
                   print('Publish Ticket Pressed');
@@ -126,7 +126,7 @@ class Home extends StatelessWidget {
               ),
               CustomQuickAccessCard(
                 title: "My Appointments",
-                imagePath: 'assets/images/MyAppointement.png',
+                imagePath: AppImages.MyAppointement,
                 backgroundColor: AppColors.goldenYellow,
                 onPressed: () {
                   print('My Appointments Pressed');
@@ -134,7 +134,7 @@ class Home extends StatelessWidget {
               ),
               CustomQuickAccessCard(
                 title: "Search Experts",
-                imagePath: 'assets/images/SearchExperts.png',
+                imagePath: AppImages.SearchExperts,
                 backgroundColor: AppColors.lavender,
                 onPressed: () {
                   print('Search Experts Pressed');
@@ -142,7 +142,6 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -177,12 +176,11 @@ class Home extends StatelessWidget {
                   successfulCases: 20,
                   appointmentDate: '10-25',
                   appointmentTime: '5:00 م',
-                  imagePath: 'assets/images/expert.jpg',
+                  imagePath: AppImages.expert,
                   isFavorite: controller.isFavorite.value,
-                  // نمرر الحالة
                   onFavoriteToggle: () {
                     controller.isFavorite
-                        .toggle(); // نقلب القيمة لما يضغط على القلب
+                        .toggle();
                   },
                 ),
           ),
@@ -190,16 +188,24 @@ class Home extends StatelessWidget {
             children: List.generate(controller.postsList.length, (index) {
               final post = controller.postsList[index];
               return CustomPost(
-                username: post['userName']!,
-                userImage: post['userImage']!,
-                postText: post['postText']!,
-                postImage: post['postImage']!,
+                username: post['userName'] as String,
+                userImage: post['userImage'] as String,
+                postText: post['postText'] as String,
+                postImage: post['postImage'] as String,
                 isFollowing: controller.isFollowing,
-                isLiked: controller.isLiked,
-                isDisLiked: controller.isDisLiked,
+                isLiked: post['isLiked'] as RxBool,
+                isDisLiked: post['isDisLiked'] as RxBool,
+                onLike: () {
+                  if ((post['isDisLiked'] as RxBool).value)
+                    (post['isDisLiked'] as RxBool).value = false;
+                  (post['isLiked'] as RxBool).value = !(post['isLiked'] as RxBool).value;
+                },
+                onDisLike: () {
+                  if ((post['isLiked'] as RxBool).value)
+                    (post['isLiked'] as RxBool).value = false;
+                  (post['isDisLiked'] as RxBool).value = !(post['isDisLiked'] as RxBool).value;
+                },
                 onFollow: controller.toggleFollow,
-                onLike: controller.toggleLike,
-                onDisLike: controller.toggleUnLike,
               );
             }),
           )

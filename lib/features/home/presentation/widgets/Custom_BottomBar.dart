@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
-import 'package:graduation_project/features/home/presentation/pages/Home.dart';
 
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({super.key});
@@ -30,18 +29,22 @@ class CustomBottomBar extends StatelessWidget {
                 type: BottomNavigationBarType.fixed,
                 currentIndex: controller.currentIndex.value,
                 onTap: (index) {
+                  controller.hasTapped.value = true;
                   controller.changeIndex(index);
                   if (index == 0) {
-                    Get.to(() => 'home');
+                    Get.offAllNamed('/home');
                   } else if (index == 1) {
-                    Get.to(() => 'home');
+                    Get.offAllNamed('/posts');
                   } else if (index == 2) {
-                    Get.to(() => 'home');
+                    Get.offAllNamed('/profile');
                   } else if (index == 3) {
-                    Get.to(() => 'home');
+                    Get.offAllNamed('/settings');
                   }
                 },
-                selectedItemColor: AppColors.lavender,
+                selectedItemColor:
+                    controller.hasTapped.value == -1
+                        ? AppColors.pureWhite
+                        : AppColors.lavender,
                 unselectedItemColor: AppColors.pureWhite,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,

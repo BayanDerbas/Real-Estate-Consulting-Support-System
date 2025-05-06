@@ -5,6 +5,7 @@ import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 
+import '../../../../core/constants/Fonts.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
 
 class BaseAuthScreen extends StatelessWidget {
@@ -37,55 +38,52 @@ class BaseAuthScreen extends StatelessWidget {
             iconColor: Colors.white,
           ),
         ),
-
-        body: Center(
-          child: Column(
-            children: [
-              Container(
-                height: 400,
-                width: width * 0.9,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.skyBlue,
-                      AppColors.lightBulishGray,
-                      AppColors.softPink2,
-                    ],
-                    begin: Alignment.topLeft,
-                    stops: [0.0, 0.38, 0.75],
-                  ),
-                ),
-                child: Center(child: widget),
-              ).paddingOnly(top: 70, left: 20, right: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    bodyText!,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ).paddingOnly(right: 4),
-                  Text(
-                    clickableText!,
-
-                    style: TextStyle(
-                      fontSize: 13,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ).onTap(onTap!),
-                ],
-              ).paddingAll(15),
-              Container(
-                constraints: BoxConstraints(maxWidth: width * 0.9),
-                child: Text(
-                  footerText!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 17, color: AppColors.customGray),
+        body: Column(
+          children: [
+            Container(
+              height: 400,
+              width: width * 0.9,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.skyBlue,
+                    AppColors.lightBulishGray,
+                    AppColors.softPink2,
+                  ],
+                  begin: Alignment.topLeft,
+                  stops: [0.0, 0.38, 0.75],
                 ),
               ),
-            ],
-          ).scrollDirection(Axis.vertical),
-        ),
+              child: Center(child: widget),
+            ).paddingOnly(top: 70, left: 20, right: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  bodyText!,
+                  style:Fonts.itim.copyWith(color: AppColors.black,fontSize: 16,fontWeight: FontWeight.bold)
+                ).paddingOnly(right: 4),
+                Text(
+                  clickableText!,
+                  style:Fonts.itim.copyWith(
+                    color: AppColors.black,
+                    fontSize: 15,
+                    decoration: TextDecoration.underline
+                  ),
+                ).onTap(onTap!),
+              ],
+            ).paddingAll(15),
+            Container(
+              constraints: BoxConstraints(maxWidth: width * 0.9),
+              child: Text(
+                footerText!,
+                textAlign: TextAlign.center,
+                style: Fonts.itim.copyWith(color: AppColors.grey,fontSize: 17),
+              ),
+            ),
+          ],
+        ).scrollDirection(Axis.vertical),
       ),
     );
   }

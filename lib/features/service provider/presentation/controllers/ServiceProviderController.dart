@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:graduation_project/core/constants/image_paths.dart';
 
 class ServiceProvider_Controller extends GetxController {
   var serviceProviders = <Map<String, dynamic>>[].obs;
@@ -15,7 +16,7 @@ class ServiceProvider_Controller extends GetxController {
         "successfulCases": 50,
         "appointmentDate": "2025-05-01",
         "appointmentTime": "10:00 AM",
-        "imagePath": "assets/images/expert.jpg",
+        "imagePath": AppImages.expert,
         "isFavorite": false,
         "isExpanded": false,
         "text": "this is for low service",
@@ -30,7 +31,7 @@ class ServiceProvider_Controller extends GetxController {
         "successfulCases": 30,
         "appointmentDate": "2025-05-02",
         "appointmentTime": "12:00 PM",
-        "imagePath": "assets/images/expert.jpg",
+        "imagePath": AppImages.expert,
         "isFavorite": false,
         "isExpanded": false,
         "text": "this is for low service",

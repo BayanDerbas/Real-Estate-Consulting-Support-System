@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/constants/image_paths.dart';
 
 import '../pages/PropertyDetails.dart';
 import '../widgets/Custom_Properties.dart';
@@ -18,7 +19,7 @@ class PropertiesController extends GetxController {
 
   final List<CustomProperties> propertiesList = [
     CustomProperties(
-      imagePath: 'assets/images/villa.jpg',
+      imagePath: AppImages.villa,
       place: 'Qalamoun, Deir Atiyah',
       propertType: 'Villa',
       propertyIcon: Icons.villa,
@@ -27,7 +28,7 @@ class PropertiesController extends GetxController {
       },
     ),
     CustomProperties(
-      imagePath: 'assets/images/property4.jpg',
+      imagePath:AppImages.property4,
       place: 'Damascus, Mezzeh',
       propertType: 'Apartment',
       propertyIcon: Icons.apartment,
@@ -36,7 +37,7 @@ class PropertiesController extends GetxController {
       },
     ),
     CustomProperties(
-      imagePath: 'assets/images/store.jpg',
+      imagePath:AppImages.store,
       place: 'Aleppo, Downtown',
       propertType: 'Store',
       propertyIcon: Icons.store,

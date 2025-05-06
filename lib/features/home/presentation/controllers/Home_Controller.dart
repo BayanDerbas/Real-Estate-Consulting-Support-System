@@ -8,14 +8,7 @@ class HomeController extends GetxController {
   var isDisLiked = false.obs;
   var bottomNavIndex = 0.obs;
   var currentIndex = 0.obs;
-
-  void changeBottomNavIndex(int index) {
-    bottomNavIndex.value = index;
-  }
-
-  void changeIndex(int index) {
-    currentIndex.value = index;
-  }
+  var hasTapped = false.obs;
 
   // حاليا هي الليست
   var propertiesList =
@@ -44,14 +37,26 @@ class HomeController extends GetxController {
       'userImage': 'assets/images/expert.jpg',
       'postText': '...............................................\n.....................................................',
       'postImage': 'assets/images/garden.jpg',
+      'isLiked': false.obs,
+      'isDisLiked': false.obs,
     },
     {
       'userName' : 'محمد محمد',
       'userImage': 'assets/images/expert.jpg',
       'postText': '...............................................\n.....................................................',
       'postImage': 'assets/images/garden.jpg',
+      'isLiked': false.obs,
+      'isDisLiked': false.obs,
     },
   ].obs;
+
+  void changeBottomNavIndex(int index) {
+    bottomNavIndex.value = index;
+  }
+
+  void changeIndex(int index) {
+    currentIndex.value = index;
+  }
 
   void selectIndex(int index) {
     selectedIndex.value = index;
