@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:graduation_project/features/Auth/presentation/pages/on_boarding_pages.dart';
 import 'package:graduation_project/features/home/presentation/pages/Home.dart';
-import 'package:graduation_project/features/posts/presentation/pages/Posts.dart';
 import 'core/constants/app_theme.dart';
 import 'core/routes/routes.dart';
-import 'features/search/presentation/pages/filter_page.dart';
 
 void main() {
   runApp(const MyApp());

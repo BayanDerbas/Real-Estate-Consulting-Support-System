@@ -16,10 +16,12 @@ class AppColors {
   static const Color softWhite = Color(0xFFFAFAFA);
   static const Color lightGrey = Color(0xFFEEEEEE);
   static const Color grey = Color.fromRGBO(158, 158, 158, 1.0);
-  static const Color grey2 = Color.fromRGBO(226,226,226,1.0);
+  static const Color grey2 = Color.fromRGBO(226, 226, 226, 1.0);
   static const Color goldenYellow = Color(0xFFFFE289);
   static const Color customGray = Color(0xFFB2A4A4);
   static const Color lightBulishGray = Color(0xFFBFC5CE);
   static const Color darkGray = Color.fromRGBO(59, 59, 59, 1.0);
   static const Color filterButtonWhite = Color.fromRGBO(217, 217, 217, 0.7);
+  static const Color whiteCard = Color.fromRGBO(240, 240, 240, 1.00);
+  // static const Color blackFont
 }
