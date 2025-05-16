@@ -84,6 +84,7 @@ flutter:
      - assets/images/bedroom.jpg
      - assets/images/livingroom.jpg
      - assets/images/follow.png
+     - assets/images/user.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

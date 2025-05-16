@@ -4,6 +4,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
+import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
 import 'package:graduation_project/core/widgets/Custom_IconButton.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
@@ -18,7 +19,13 @@ class Posts extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostsController controller = Get.put(PostsController());
     final HomeController homeController = Get.put(HomeController());
+    final CustomDrawerController drawerController = Get.put(CustomDrawerController());
     return Scaffold(
+      drawer:CustomDrawer(
+        userName: drawerController.userName.value,
+        email: drawerController.email.value,
+        userImage: drawerController.userImage.value,
+      ),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(

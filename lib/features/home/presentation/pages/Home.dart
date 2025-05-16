@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
@@ -19,8 +20,14 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.put(HomeController());
+    final CustomDrawerController drawerController = Get.put(CustomDrawerController());
     return Scaffold(
-      appBar: PreferredSize(
+      drawer:CustomDrawer(
+        userName: drawerController.userName.value,
+        email: drawerController.email.value,
+        userImage: drawerController.userImage.value,
+      ),
+        appBar: PreferredSize(
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
           text: "Welcome Home",
