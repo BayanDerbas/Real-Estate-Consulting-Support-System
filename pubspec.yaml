@@ -41,6 +41,7 @@ dependencies:
   ticket_widget: ^1.0.2
   dotted_line: ^3.2.3
   dotted_border: ^2.1.0
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:
@@ -85,6 +86,7 @@ flutter:
      - assets/images/livingroom.jpg
      - assets/images/follow.png
      - assets/images/user.png
+     - assets/images/communication.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

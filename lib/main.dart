@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graduation_project/features/home/presentation/pages/Home.dart';
+import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
+import 'package:graduation_project/features/service%20provider/presentation/pages/Book.dart';
+import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviders.dart';
 import 'core/constants/app_theme.dart';
 import 'core/routes/routes.dart';
+import 'features/service provider/presentation/pages/ServiceProviderProfile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: Book(),
       getPages: AppRoutes.routes_,
     );
   }

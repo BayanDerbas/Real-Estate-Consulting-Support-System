@@ -9,7 +9,6 @@ import 'package:graduation_project/core/widgets/Custom_IconButton.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/widgets/CustomPosts.dart';
-
 import '../../../home/presentation/widgets/Custom_BottomBar.dart';
 
 class Posts extends StatelessWidget {

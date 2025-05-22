@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 
-class ServiceProvider_Controller extends GetxController {
+class ServiceProviders_Controller extends GetxController {
   var serviceProviders = <Map<String, dynamic>>[].obs;
 
   @override

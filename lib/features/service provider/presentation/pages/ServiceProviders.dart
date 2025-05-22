@@ -4,15 +4,15 @@ import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
-import '../controllers/ServiceProviderController.dart';
+import '../controllers/ServiceProvidersControllers.dart';
 import '../widgets/CustomServiceProviderCard.dart';
 
-class ServiceProvider extends StatelessWidget {
-  const ServiceProvider({super.key});
+class ServiceProviders extends StatelessWidget {
+  const ServiceProviders({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ServiceProvider_Controller());
+    final controller = Get.put(ServiceProviders_Controller());
 
     return Scaffold(
       appBar: PreferredSize(
@@ -60,6 +60,9 @@ class ServiceProvider extends StatelessWidget {
                     onToggleExpand: () => controller.toggleExpanded(index),
                     onTap: () {
                       print("تم الضغط على زر احجز الآن لـ ${provider['name']}");
+                    },
+                    onCardTap: (){
+                      Get.toNamed('/profile',arguments: provider);
                     },
                     pricre: provider['price'],
                     textProvider:provider['textProvider'],

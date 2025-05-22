@@ -10,6 +10,7 @@ class Customserviceprovidercard extends StatelessWidget {
   final VoidCallback? onFavoriteToggle;
   final VoidCallback? onToggleExpand;
   final VoidCallback? onTap;
+  final VoidCallback? onCardTap;
   final String pricre;
   final String textProvider;
 
@@ -22,6 +23,7 @@ class Customserviceprovidercard extends StatelessWidget {
     required this.onTap,
     required this.pricre,
     required this.textProvider,
+    required this.onCardTap,
   });
 
   @override
@@ -215,6 +217,6 @@ class Customserviceprovidercard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ).onTap(onCardTap!);
   }
 }
