@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:graduation_project/core/constants/colors.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
-import '../../../../core/constants/styles.dart';
 
 class TicketCard extends StatelessWidget {
   final double width;

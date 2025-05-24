@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import '../../../../core/constants/Fonts.dart';
@@ -14,7 +13,7 @@ class DottedTextField extends StatelessWidget {
   final void Function()? onIconTap;
 
   const DottedTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     this.icon,
     this.isPassword = false,
@@ -22,7 +21,7 @@ class DottedTextField extends StatelessWidget {
     this.onIconTap,
     required this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

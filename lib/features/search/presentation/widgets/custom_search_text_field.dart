@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation_project/core/constants/image_paths.dart';
 
 class CustomSearchTextField extends StatelessWidget {
   const CustomSearchTextField({
@@ -12,7 +10,7 @@ class CustomSearchTextField extends StatelessWidget {
   final double width;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: Row(

@@ -18,7 +18,7 @@ class CustomPropertyDetails extends StatelessWidget {
   final Function(DragEndDetails details) onSwipe;
 
   const CustomPropertyDetails({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.price,
     required this.title,
@@ -31,7 +31,7 @@ class CustomPropertyDetails extends StatelessWidget {
     required this.selectedIndex,
     required this.onImageTap,
     required this.onSwipe,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

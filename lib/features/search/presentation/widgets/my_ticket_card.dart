@@ -1,11 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/colors.dart';
-import '../../../../core/constants/image_paths.dart';
 import '../../../../core/constants/styles.dart';
 import 'custom_ticket_widget.dart';
 

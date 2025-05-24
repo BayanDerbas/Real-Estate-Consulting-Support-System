@@ -1,17 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/styles.dart';
 
-import '../../../../core/constants/fake_data_not_for_use.dart';
-import '../../../../core/constants/image_paths.dart';
 import '../controllers/appointments_controller.dart';
 import '../widgets/base_search_screen.dart';
-import '../widgets/custom_appointment_card.dart';
 import '../widgets/custom_tab_bar.dart';
 
 class Appointments extends StatelessWidget {

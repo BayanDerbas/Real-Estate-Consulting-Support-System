@@ -13,14 +13,14 @@ class CustomTextFormField extends StatelessWidget {
   final void Function()? onIconTap;
 
   const CustomTextFormField({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.icon,
     this.isPassword = false,
     this.controller,
     this.onIconTap,
     required this.width,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

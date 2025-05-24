@@ -8,7 +8,7 @@ import '../widgets/custom_on_boarding_page.dart';
 class OnBoardingScreen extends StatelessWidget {
   final OnBoardingController controller = Get.put(OnBoardingController());
 
-  OnBoardingScreen({Key? key}) : super(key: key); // added constructor properly
+  OnBoardingScreen({super.key}); // added constructor properly
 
   @override
   Widget build(BuildContext context) {

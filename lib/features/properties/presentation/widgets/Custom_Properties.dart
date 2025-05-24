@@ -10,7 +10,7 @@ class CustomProperties extends StatelessWidget {
   final IconData propertyIcon;
   final VoidCallback? onTap;
 
-  CustomProperties({
+  const CustomProperties({
     super.key,
     required this.imagePath,
     required this.place,

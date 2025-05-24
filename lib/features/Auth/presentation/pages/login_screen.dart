@@ -9,7 +9,7 @@ import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

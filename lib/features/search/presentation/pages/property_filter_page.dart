@@ -3,10 +3,7 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/styles.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-import 'package:graduation_project/features/Auth/presentation/widgets/custom_drop_down_with_field.dart';
-import 'package:graduation_project/features/Auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:graduation_project/features/search/presentation/controllers/property_filter_controller.dart';
-import 'package:graduation_project/features/search/presentation/controllers/service_provider_filter_controller.dart';
 import 'package:graduation_project/features/search/presentation/widgets/base_search_screen.dart';
 
 import '../../../../core/widgets/Custom_Button.dart';

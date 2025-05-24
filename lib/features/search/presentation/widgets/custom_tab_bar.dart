@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:graduation_project/core/constants/styles.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -13,11 +11,11 @@ class TabSelector extends StatelessWidget {
   final void Function(int) onTabSelected;
 
   const TabSelector({
-    Key? key,
+    super.key,
     required this.titles,
     required this.currentIndex,
     required this.onTabSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

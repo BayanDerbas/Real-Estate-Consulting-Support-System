@@ -4,14 +4,13 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/upload_documents_controller.dart';
-import '../../../../core/constants/Fonts.dart';
 import '../../../../core/routes/routes.dart';
 import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_drop_down_with_field.dart';
 import '../widgets/custom_text_form_field.dart';
 
 class UploadDocuments extends StatelessWidget {
-  UploadDocuments({super.key});
+  const UploadDocuments({super.key});
 
   @override
   Widget build(BuildContext context) {

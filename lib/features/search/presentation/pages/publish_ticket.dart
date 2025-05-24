@@ -5,11 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import 'package:graduation_project/features/Auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:graduation_project/features/search/presentation/widgets/base_search_screen.dart';
 import 'package:graduation_project/features/search/presentation/widgets/custom_range_slider.dart';
 import 'package:graduation_project/features/search/presentation/widgets/dotted_text_field.dart';
-import 'package:ticket_widget/ticket_widget.dart';
 
 import '../../../../core/constants/styles.dart';
 import '../controllers/tickets_controller.dart';

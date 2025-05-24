@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_utils/get_utils.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/search/presentation/widgets/base_search_screen.dart';

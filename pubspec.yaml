@@ -42,19 +42,19 @@ dependencies:
   dotted_line: ^3.2.3
   dotted_border: ^2.1.0
   flutter_rating_bar: ^4.0.1
+  dio: ^5.8.0+1
+  dartz: ^0.10.1
+  json_serializable: ^6.9.5
+  build_runner: ^2.4.15
+  json_annotation: ^4.9.0
 
 
+intl: ^0.19.0
+flutter_localization: ^0.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  intl: ^0.19.0
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  json_serializable: ^6.9.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -69,24 +69,24 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/property1.jpg
-     - assets/images/property2.jpg
-     - assets/images/property3.jpg
-     - assets/images/property4.jpg
-     - assets/images/sendRequest.png
-     - assets/images/MyAppointement.png
-     - assets/images/PublishTicket.png
-     - assets/images/SearchExperts.png
-     - assets/images/expert.jpg
-     - assets/images/garden.jpg
-     - assets/images/villa.jpg
-     - assets/images/store.jpg
-     - assets/images/balcony.jpg
-     - assets/images/bedroom.jpg
-     - assets/images/livingroom.jpg
-     - assets/images/follow.png
-     - assets/images/user.png
-     - assets/images/communication.png
+    - assets/images/property1.jpg
+    - assets/images/property2.jpg
+    - assets/images/property3.jpg
+    - assets/images/property4.jpg
+    - assets/images/sendRequest.png
+    - assets/images/MyAppointement.png
+    - assets/images/PublishTicket.png
+    - assets/images/SearchExperts.png
+    - assets/images/expert.jpg
+    - assets/images/garden.jpg
+    - assets/images/villa.jpg
+    - assets/images/store.jpg
+    - assets/images/balcony.jpg
+    - assets/images/bedroom.jpg
+    - assets/images/livingroom.jpg
+    - assets/images/follow.png
+    - assets/images/user.png
+    - assets/images/communication.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

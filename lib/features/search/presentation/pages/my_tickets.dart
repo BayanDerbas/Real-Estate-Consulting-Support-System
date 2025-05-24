@@ -7,7 +7,7 @@ import '../../../../core/constants/fake_data_not_for_use.dart';
 import '../controllers/my_tickets_controller.dart';
 
 class MyTickets extends StatelessWidget {
-  MyTickets({super.key});
+  const MyTickets({super.key});
 
   @override
   Widget build(BuildContext context) {

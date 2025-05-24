@@ -3,7 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-import 'package:graduation_project/core/widgets/Custom_Button.dart';
 
 class CustomRating extends StatelessWidget {
   final String image;

@@ -5,14 +5,14 @@ import 'package:graduation_project/core/constants/Fonts.dart'; // لو تستخ�
 
 class CustomDropDownWithField extends StatelessWidget {
   const CustomDropDownWithField({
-    Key? key,
+    super.key,
 
     required this.list,
     required this.item,
     required this.onChanged,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

@@ -203,13 +203,15 @@ class Home extends StatelessWidget {
                 isLiked: post['isLiked'] as RxBool,
                 isDisLiked: post['isDisLiked'] as RxBool,
                 onLike: () {
-                  if ((post['isDisLiked'] as RxBool).value)
+                  if ((post['isDisLiked'] as RxBool).value) {
                     (post['isDisLiked'] as RxBool).value = false;
+                  }
                   (post['isLiked'] as RxBool).value = !(post['isLiked'] as RxBool).value;
                 },
                 onDisLike: () {
-                  if ((post['isLiked'] as RxBool).value)
+                  if ((post['isLiked'] as RxBool).value) {
                     (post['isLiked'] as RxBool).value = false;
+                  }
                   (post['isDisLiked'] as RxBool).value = !(post['isDisLiked'] as RxBool).value;
                 },
                 onFollow: controller.toggleFollow,

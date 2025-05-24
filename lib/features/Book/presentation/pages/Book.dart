@@ -4,7 +4,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import 'package:graduation_project/features/service%20provider/presentation/widgets/Custom_Book.dart';
+import 'package:graduation_project/features/Book/presentation/widgets/Custom_Book.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../controllers/BookController.dart';
 
@@ -63,6 +63,7 @@ class Book extends StatelessWidget {
                 width: double.infinity,
               onPressed: () {
                   print("................................................");
+                  Get.toNamed('/confirm');
               },
             ).padding(EdgeInsets.all(15)),
           ],

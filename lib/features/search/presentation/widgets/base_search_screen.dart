@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:graduation_project/core/extensions/widget_extension.dart';
-import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import 'package:graduation_project/core/constants/colors.dart';
 
 import '../../../../core/widgets/Custom_Appbar.dart';
 
 class BaseSearchScreen extends StatelessWidget {
-  BaseSearchScreen({
+  const BaseSearchScreen({
     super.key,
     required this.widget,
     this.appBarTitle,

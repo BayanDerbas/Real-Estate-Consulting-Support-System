@@ -7,7 +7,6 @@ import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/features/rating/presentation/controllers/Rating_Controller.dart';
 import 'package:graduation_project/features/rating/presentation/widgets/Custom_Rating.dart';
 
-import '../../../../core/constants/Fonts.dart';
 import '../../../../core/widgets/Custom_Button.dart';
 import '../../../../core/widgets/Custom_TextButton.dart';
 
