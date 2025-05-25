@@ -3,14 +3,46 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-
 import '../controllers/ConfirmController.dart';
+import '../controllers/PayementController.dart';
 import '../widgets/Custom_Confirm.dart';
+import '../widgets/Custom_PaymentBottomSheet.dart';
 
 class Confirm extends StatelessWidget {
   Confirm({super.key});
 
-  final ConfirmController controller = Get.put(ConfirmController());
+  final ConfirmController confirmController = Get.put(ConfirmController());
+  final PaymentController paymentController = Get.put(PaymentController());
+
+  void _showPaymentBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return CustomPaymentBottomSheet(
+          cardNumberController: paymentController.cardNumberController,
+          expiryDateController: paymentController.expiryDateController,
+          cvcController: paymentController.cvcController,
+          countryOrRegionController: paymentController.countryOrRegionController,
+          zipCodeController: paymentController.zipCodeController,
+          finalPrice: "30.00",
+          onClose: () {
+            paymentController.clearFields();
+            Navigator.pop(context);
+          },
+          onPay: () {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Payment Successful!")),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +59,6 @@ class Confirm extends StatelessWidget {
         child: Column(
           children: [
             CustomConfirm(
-              appointementDetails: "جلسة استشارية",
               calltype: "فيديو",
               time: "30 دقيقة",
               expertName: "د. محمد أحمد",
@@ -37,14 +68,15 @@ class Confirm extends StatelessWidget {
               discountRate: "0.00",
               finalPrice: "30.00",
             ),
-
             const SizedBox(height: 30),
             CustomButton(
-              text: "تأكيد الدفع",
+              text: "الدفع وتأكيد الحجز",
               backgroundColor: AppColors.deepNavy,
               textColor: AppColors.pureWhite,
               width: 375,
-              onPressed: (){},
+              onPressed: () {
+                _showPaymentBottomSheet(context);
+              },
             ),
           ],
         ),

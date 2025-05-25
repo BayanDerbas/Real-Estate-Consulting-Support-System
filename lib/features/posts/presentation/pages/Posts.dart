@@ -24,6 +24,7 @@ class Posts extends StatelessWidget {
         userName: drawerController.userName.value,
         email: drawerController.email.value,
         userImage: drawerController.userImage.value,
+        userType: 'عقارات',
       ),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(150),
@@ -72,9 +73,58 @@ class Posts extends StatelessWidget {
                   isSelected: controller.selectedIndex.value == 4,
                   onTap: () => controller.selectIndex(4),
                 ),
+                if (drawerController.userType.value == "عقارات" ||
+                    drawerController.userType.value == "محامي" ||
+                    drawerController.userType.value == "مهندس") ...[
+                  CustomIconButton(
+                    icon: Icons.bar_chart,
+                    label: 'Statistics',
+                    isSelected: controller.selectedIndex.value == 5,
+                    onTap: () {
+                      controller.selectIndex(5);
+                      print("Statistics pressed");
+                      // يمكنك إضافة انتقال إلى صفحة الإحصائيات
+                      // Get.toNamed("/statistics");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.confirmation_number,
+                    label: 'Tickets',
+                    isSelected: controller.selectedIndex.value == 6,
+                    onTap: () {
+                      controller.selectIndex(6);
+                      print("Tickets pressed");
+                      // يمكنك إضافة انتقال إلى صفحة التذاكر
+                      // Get.toNamed("/tickets");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.schedule,
+                    label: 'Schedule Time',
+                    isSelected: controller.selectedIndex.value == 7,
+                    onTap: () {
+                      controller.selectIndex(7);
+                      print("Schedule Time pressed");
+                      // يمكنك إضافة انتقال إلى صفحة الجدولة
+                      // Get.toNamed("/schedule_time");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.discount,
+                    label: 'Discount',
+                    isSelected: controller.selectedIndex.value == 8,
+                    onTap: () {
+                      controller.selectIndex(8);
+                      print("Discount pressed");
+                      // يمكنك إضافة انتقال إلى صفحة الخصومات
+                      // Get.toNamed("/discounts");
+                    },
+                  ),
+                ],
               ],
             ).scrollDirection(Axis.horizontal),
           ),
+          SizedBox(height: 10,),
           Obx(
             () => Column(
               children: List.generate(controller.postsList.length, (index) {
@@ -103,7 +153,7 @@ class Posts extends StatelessWidget {
                   },
                 );
               }),
-            ),
+            ).padding(EdgeInsets.all(10)),
           ),
         ],
       ).scrollDirection(Axis.vertical),

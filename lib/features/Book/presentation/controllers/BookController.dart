@@ -38,6 +38,13 @@ class BookController extends GetxController {
     selectedDate.value = DateTime.now();
   }
 
+  List<DateTime> getCurrentMonthDays() {
+    final firstDay = DateTime(currentMonthDate.value.year, currentMonthDate.value.month, 1);
+    final lastDay = DateTime(currentMonthDate.value.year, currentMonthDate.value.month + 1, 0);
+    return List.generate(lastDay.day, (index) => firstDay.add(Duration(days: index)));
+  }
+
+
   List<DateTime> getCurrentWeek() {
     final today = selectedDate.value;
     final firstDayOfWeek = today.subtract(Duration(days: today.weekday % 7));

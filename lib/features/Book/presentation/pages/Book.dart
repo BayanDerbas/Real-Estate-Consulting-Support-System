@@ -34,7 +34,7 @@ class Book extends StatelessWidget {
               experience: "10",
               successCount: "20",
               followerNum: "3",
-              weekDays: controller.getCurrentWeek(),
+              monthDays: controller.getCurrentMonthDays(),
               selectedDate: controller.selectedDate.value,
               onDateSelected: controller.selectDate,
               monthName: controller.getMonthName(),

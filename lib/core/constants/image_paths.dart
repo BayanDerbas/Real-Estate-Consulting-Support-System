@@ -20,4 +20,5 @@ class AppImages {
   static const String follow = '$basePath/follow.png';
   static const String user = '$basePath/user.png';
   static const String book = '$basePath/communication.png';
+  static const String walletBackground = '$basePath/walletBackground.jpg';
 }

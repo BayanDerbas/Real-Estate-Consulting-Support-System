@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/utils.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../constants/Fonts.dart';
 import '../constants/colors.dart';
 

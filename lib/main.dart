@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Confirm.dart';
+import 'package:graduation_project/features/home/presentation/pages/Home.dart';
+import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
+import 'package:graduation_project/features/search/presentation/pages/appointments.dart';
+import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviderProfile.dart';
 import 'core/constants/app_theme.dart';
 import 'core/routes/routes.dart';
+import 'features/wallet/presentation/pages/Wallet.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: Confirm(),
+      home: Scheduletime(),
       getPages: AppRoutes.routes_,
     );
   }

@@ -5,7 +5,6 @@ import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 
 class CustomConfirm extends StatelessWidget {
-  final String appointementDetails;
   final String calltype;
   final String time;
   final String expertName;
@@ -17,7 +16,6 @@ class CustomConfirm extends StatelessWidget {
 
   const CustomConfirm({
     super.key,
-    required this.appointementDetails,
     required this.calltype,
     required this.time,
     required this.expertName,

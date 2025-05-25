@@ -11,7 +11,7 @@ class CustomBook extends StatelessWidget {
   final String experience;
   final String successCount;
   final String followerNum;
-  final List<DateTime> weekDays;
+  final List<DateTime> monthDays;
   final DateTime selectedDate;
   final Function(DateTime) onDateSelected;
   final String monthName;
@@ -38,7 +38,7 @@ class CustomBook extends StatelessWidget {
     required this.experience,
     required this.successCount,
     required this.followerNum,
-    required this.weekDays,
+    required this.monthDays,
     required this.selectedDate,
     required this.onDateSelected,
     required this.monthName,
@@ -200,14 +200,13 @@ class CustomBook extends StatelessWidget {
           height: 90,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: weekDays.length,
+            itemCount: monthDays.length,
             padding: const EdgeInsets.symmetric(horizontal: 10),
             itemBuilder: (context, index) {
-              final date = weekDays[index];
+              final date = monthDays[index];
               final isSelected =
                   selectedDate.day == date.day &&
                   selectedDate.month == date.month;
-              //selectedDate.year == date.year;
 
               return GestureDetector(
                 onTap: () => onDateSelected(date),
@@ -402,7 +401,7 @@ class CustomBook extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
-        ).padding(EdgeInsets.only(left: 16, top: 13,bottom: 13)),
+        ).padding(EdgeInsets.only(left: 16, top: 13, bottom: 13)),
         SizedBox(
           height: 130,
           child: GridView.builder(
@@ -469,5 +468,14 @@ class CustomBook extends StatelessWidget {
   String _getWeekDayAbbreviation(DateTime date) {
     const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     return days[date.weekday % 7];
+  }
+
+  List<DateTime> generateMonthDays(DateTime selectedDate) {
+    final firstDay = DateTime(selectedDate.year, selectedDate.month, 1);
+    final lastDay = DateTime(selectedDate.year, selectedDate.month + 1, 0);
+    return List.generate(
+      lastDay.day,
+      (index) => DateTime(selectedDate.year, selectedDate.month, index + 1),
+    );
   }
 }

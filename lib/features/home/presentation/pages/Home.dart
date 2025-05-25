@@ -21,14 +21,16 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomeController controller = Get.put(HomeController());
     final CustomDrawerController drawerController = Get.put(CustomDrawerController());
+
     return Scaffold(
-      drawer:CustomDrawer(
+      drawer: CustomDrawer(
         userName: drawerController.userName.value,
         email: drawerController.email.value,
         userImage: drawerController.userImage.value,
+        userType: 'عقارات', // نوع المستخدم
       ),
-        appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Welcome Home",
           icon: Icons.notifications,
@@ -39,53 +41,100 @@ class Home extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Obx(
-                () =>
-                Row(
-                  children: [
-                    CustomIconButton(
-                      icon: Icons.wallet_outlined,
-                      label: 'Wallet',
-                      isSelected: controller.selectedIndex.value == 0,
-                      onTap: () => controller.selectIndex(0),
-                    ),
-                    CustomIconButton(
-                      icon: Icons.favorite_border,
-                      label: 'Favorite',
-                      isSelected: controller.selectedIndex.value == 1,
-                      onTap: () => controller.selectIndex(1),
-                    ),
-                    CustomIconButton(
-                      icon: Icons.group_add,
-                      label: 'Followings',
-                      isSelected: controller.selectedIndex.value == 2,
-                      onTap: () => controller.selectIndex(2),
-                    ),
-                    CustomIconButton(
-                      icon: Icons.home_work_rounded,
-                      label: 'Properties',
-                      isSelected: controller.selectedIndex.value == 3,
-                      onTap: () {
-                        controller.selectIndex(3);
-                        Get.toNamed("/properties");
-                        },
-                    ),
-                    CustomIconButton(
-                      icon: Icons.engineering,
-                      label: 'Services Provider',
-                      isSelected: controller.selectedIndex.value == 4,
-                      onTap: () => controller.selectIndex(4),
-                    ),
-                  ],
-                ).scrollDirection(Axis.horizontal),
+                () => Row(
+              children: [
+                CustomIconButton(
+                  icon: Icons.wallet_outlined,
+                  label: 'Wallet',
+                  isSelected: controller.selectedIndex.value == 0,
+                  onTap: () => controller.selectIndex(0),
+                ),
+                CustomIconButton(
+                  icon: Icons.favorite_border,
+                  label: 'Favorite',
+                  isSelected: controller.selectedIndex.value == 1,
+                  onTap: () => controller.selectIndex(1),
+                ),
+                CustomIconButton(
+                  icon: Icons.group_add,
+                  label: 'Followings',
+                  isSelected: controller.selectedIndex.value == 2,
+                  onTap: () => controller.selectIndex(2),
+                ),
+                CustomIconButton(
+                  icon: Icons.home_work_rounded,
+                  label: 'Properties',
+                  isSelected: controller.selectedIndex.value == 3,
+                  onTap: () {
+                    controller.selectIndex(3);
+                    Get.toNamed("/properties");
+                  },
+                ),
+                CustomIconButton(
+                  icon: Icons.engineering,
+                  label: 'Services Provider',
+                  isSelected: controller.selectedIndex.value == 4,
+                  onTap: () => controller.selectIndex(4),
+                ),
+                if (drawerController.userType.value == "عقارات" ||
+                    drawerController.userType.value == "محامي" ||
+                    drawerController.userType.value == "مهندس") ...[
+                  CustomIconButton(
+                    icon: Icons.bar_chart,
+                    label: 'Statistics',
+                    isSelected: controller.selectedIndex.value == 5,
+                    onTap: () {
+                      controller.selectIndex(5);
+                      print("Statistics pressed");
+                      // يمكنك إضافة انتقال إلى صفحة الإحصائيات
+                      // Get.toNamed("/statistics");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.confirmation_number,
+                    label: 'Tickets',
+                    isSelected: controller.selectedIndex.value == 6,
+                    onTap: () {
+                      controller.selectIndex(6);
+                      print("Tickets pressed");
+                      // يمكنك إضافة انتقال إلى صفحة التذاكر
+                      // Get.toNamed("/tickets");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.schedule,
+                    label: 'Schedule Time',
+                    isSelected: controller.selectedIndex.value == 7,
+                    onTap: () {
+                      controller.selectIndex(7);
+                      print("Schedule Time pressed");
+                      // يمكنك إضافة انتقال إلى صفحة الجدولة
+                      // Get.toNamed("/schedule_time");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.discount,
+                    label: 'Discount',
+                    isSelected: controller.selectedIndex.value == 8,
+                    onTap: () {
+                      controller.selectIndex(8);
+                      print("Discount pressed");
+                      // يمكنك إضافة انتقال إلى صفحة الخصومات
+                      // Get.toNamed("/discounts");
+                    },
+                  ),
+                ],
+              ],
+            ).scrollDirection(Axis.horizontal),
           ),
+          SizedBox(height: 10,),
           SizedBox(
             height: 250,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: controller.propertiesList.length,
               itemBuilder: (context, index) {
-                final Map<String, dynamic> property =
-                controller.propertiesList[index];
+                final Map<String, dynamic> property = controller.propertiesList[index];
                 return CustomCard(
                   onTap: () {
                     print("..........................");
@@ -97,30 +146,28 @@ class Home extends StatelessWidget {
               },
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             "Quick Access",
             style: Fonts.itim.copyWith(
               color: AppColors.deepNavy,
               fontSize: 24,
             ),
-          ).padding(EdgeInsets.all(8)),
+          ).padding(const EdgeInsets.all(8)),
           GridView.count(
             crossAxisCount: 2,
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             childAspectRatio: 1,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               CustomQuickAccessCard(
                 title: "Send Request",
                 imagePath: AppImages.sendRequest,
                 backgroundColor: AppColors.blushRose,
                 onPressed: () {
-                  print(
-                    'Send Request Pressed.........................................',
-                  );
+                  print('Send Request Pressed.........................................');
                 },
               ).makeSafeArea(),
               CustomQuickAccessCard(
@@ -172,24 +219,22 @@ class Home extends StatelessWidget {
                 ),
               ),
             ],
-          ).padding(EdgeInsets.all(8)),
+          ).padding(const EdgeInsets.all(8)),
           Obx(
-                () =>
-                CustomExpertCard(
-                  name: 'محمد محمد',
-                  jobTitle: 'محامي',
-                  rating: 4.9,
-                  experienceYears: 7,
-                  successfulCases: 20,
-                  appointmentDate: '10-25',
-                  appointmentTime: '5:00 م',
-                  imagePath: AppImages.expert,
-                  isFavorite: controller.isFavorite.value,
-                  onFavoriteToggle: () {
-                    controller.isFavorite
-                        .toggle();
-                  },
-                ),
+                () => CustomExpertCard(
+              name: 'محمد محمد',
+              jobTitle: 'محامي',
+              rating: 4.9,
+              experienceYears: 7,
+              successfulCases: 20,
+              appointmentDate: '10-25',
+              appointmentTime: '5:00 م',
+              imagePath: AppImages.expert,
+              isFavorite: controller.isFavorite.value,
+              onFavoriteToggle: () {
+                controller.isFavorite.toggle();
+              },
+            ),
           ),
           Column(
             children: List.generate(controller.postsList.length, (index) {
@@ -217,7 +262,7 @@ class Home extends StatelessWidget {
                 onFollow: controller.toggleFollow,
               );
             }),
-          )
+          ),
         ],
       ).scrollDirection(Axis.vertical),
       bottomNavigationBar: CustomBottomBar(),
