@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const Color red = Colors.red;
   static const Color purple = Color(0xFFA772EB);
   static const Color lavender = Color.fromRGBO(206, 175, 250, 1.0);
   static const Color softPink = Color(0xFFFFB9C3);

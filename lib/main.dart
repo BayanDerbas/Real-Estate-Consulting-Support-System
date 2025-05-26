@@ -7,8 +7,10 @@ import 'package:graduation_project/features/home/presentation/pages/Home.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
 import 'package:graduation_project/features/search/presentation/pages/appointments.dart';
 import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviderProfile.dart';
+import 'package:graduation_project/features/service%20provider/presentation/widgets/Custom_ServiceProviderProfile.dart';
 import 'core/constants/app_theme.dart';
 import 'core/routes/routes.dart';
+import 'features/Discounts/presentation/pages/Discounts.dart';
 import 'features/wallet/presentation/pages/Wallet.dart';
 
 void main() {
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: Scheduletime(),
+      home: Discounts(),
       getPages: AppRoutes.routes_,
     );
   }

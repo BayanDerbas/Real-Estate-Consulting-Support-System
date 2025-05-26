@@ -7,6 +7,12 @@ class Fonts {
     fontSize: 18,
     fontWeight: FontWeight.w600,
   );
+
+  static final TextStyle taj = GoogleFonts.tajawal(
+    fontSize: 18,
+    fontWeight: FontWeight.w300,
+  );
+
   static final TextStyle hintTextStyle = GoogleFonts.itim(
     fontSize: 20,
     color: AppColors.purple,
