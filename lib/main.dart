@@ -14,17 +14,20 @@ import 'package:graduation_project/features/Discounts/presentation/pages/Discoun
 import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'; // استيراد مكتبة firebase_messaging
+import 'core/di/dependence_initializer.dart';
+import 'features/Auth/presentation/pages/sign_up_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  DependenceInitializer.dependenceInjection();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   String? token = await messaging.getToken();
-  print("...................................................................\n");
+  print(
+    "...................................................................\n",
+  );
   print("FCM Token: $token");
 
   runApp(const MyApp());
@@ -49,7 +52,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: const Discounts(),
+      home: const SignUpScreen(),
       getPages: AppRoutes.routes_,
     );
   }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'api_service.dart';
+part of 'auth_service.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -8,8 +8,8 @@ part of 'api_service.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
-class _ApiService implements ApiService {
-  _ApiService(this._dio, {this.baseUrl, this.errorLogger}) {
+class _AuthService implements AuthService {
+  _AuthService(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://195.88.87.77:8000/api/v1';
   }
 
@@ -20,15 +20,14 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<void> register({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String phone,
+  Future<HttpResponse<RegisterModel>> userRegister(
+    String firstName,
+    String lastName,
+    String email,
+    String password,
+    String phone,
     String? role,
-    String? location,
-  }) async {
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -42,10 +41,7 @@ class _ApiService implements ApiService {
     if (role != null) {
       _data.fields.add(MapEntry('role', role));
     }
-    if (location != null) {
-      _data.fields.add(MapEntry('location', location));
-    }
-    final _options = _setStreamType<void>(
+    final _options = _setStreamType<HttpResponse<RegisterModel>>(
       Options(
             method: 'POST',
             headers: _headers,
@@ -60,7 +56,45 @@ class _ApiService implements ApiService {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    await _dio.fetch<void>(_options);
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RegisterModel _value;
+    try {
+      _value = RegisterModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<LoginModel>> login(LoginModel request) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _options = _setStreamType<HttpResponse<LoginModel>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://195.88.87.77:8000/api/v1/auth/login',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LoginModel _value;
+    try {
+      _value = LoginModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
