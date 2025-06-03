@@ -4,6 +4,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
+import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_text_form_field.dart';
@@ -14,8 +15,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+    final controller = Get.find<LoginController>();
     return BaseAuthScreen(
       widget: Column(
         children: [
@@ -23,13 +23,13 @@ class LoginScreen extends StatelessWidget {
             width: width * 0.8,
             hintText: "email",
             icon: Icons.email_outlined,
-            controller: emailController,
+            controller: controller.email,
           ).paddingOnly(left: 15, right: 15, top: 40),
           CustomTextFormField(
             width: width * 0.8,
             hintText: "password",
             icon: Icons.password,
-            controller: passwordController,
+            controller: controller.password,
           ).paddingSymmetric(horizontal: 15),
           Text("Forgot password ?", style: Fonts.underlinedStyle)
               .onTap(() {
@@ -44,6 +44,8 @@ class LoginScreen extends StatelessWidget {
             borderRadius: 10,
             width: width * 0.8,
             onPressed: () {
+              print(controller.email);
+              controller.userLogin();
               print('Login button pressed');
             },
           ).paddingOnly(top: 30),

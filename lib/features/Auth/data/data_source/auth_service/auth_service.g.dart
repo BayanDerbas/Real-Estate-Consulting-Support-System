@@ -26,21 +26,25 @@ class _AuthService implements AuthService {
     String email,
     String password,
     String phone,
-    String? role,
+    String role,
+    String latitude,
+    String longitude,
+    String location,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Content-Type': 'multipart/form-data'};
+    _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
     _data.fields.add(MapEntry('firstName', firstName));
     _data.fields.add(MapEntry('lastName', lastName));
     _data.fields.add(MapEntry('email', email));
     _data.fields.add(MapEntry('password', password));
     _data.fields.add(MapEntry('phone', phone));
-    if (role != null) {
-      _data.fields.add(MapEntry('role', role));
-    }
+    _data.fields.add(MapEntry('role', role));
+    _data.fields.add(MapEntry('latitude', latitude));
+    _data.fields.add(MapEntry('longitude', longitude));
+    _data.fields.add(MapEntry('location', location));
     final _options = _setStreamType<HttpResponse<RegisterModel>>(
       Options(
             method: 'POST',
@@ -69,13 +73,15 @@ class _AuthService implements AuthService {
   }
 
   @override
-  Future<HttpResponse<LoginModel>> login(LoginModel request) async {
+  Future<HttpResponse<LoginResponseModel>> login(
+    LoginRequestModel request,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _options = _setStreamType<HttpResponse<LoginModel>>(
+    final _options = _setStreamType<HttpResponse<LoginResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -86,9 +92,40 @@ class _AuthService implements AuthService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LoginModel _value;
+    late LoginResponseModel _value;
     try {
-      _value = LoginModel.fromJson(_result.data!);
+      _value = LoginResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<VerificationCodeModel>> verificationCode(
+    VerificationCodeModel request,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _options = _setStreamType<HttpResponse<VerificationCodeModel>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://195.88.87.77:8000/api/v1/auth/verification',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late VerificationCodeModel _value;
+    try {
+      _value = VerificationCodeModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

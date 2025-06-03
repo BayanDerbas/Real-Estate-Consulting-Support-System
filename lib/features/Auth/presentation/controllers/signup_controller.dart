@@ -40,6 +40,9 @@ class RegisterController extends GetxController {
         password: password.text,
         phone: phone.text,
         role: role.toString(),
+        latitude: '0',
+        longitude: '0',
+        location: "",
       ),
     );
     data.fold((l) => errMessage(l.err_message), (r) async {

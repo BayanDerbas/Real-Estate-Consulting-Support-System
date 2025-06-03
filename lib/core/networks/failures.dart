@@ -44,11 +44,11 @@ class serverFailure extends Failures {
 
   factory serverFailure.fromResponse(int statusCode, dynamic response) {
     if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return serverFailure('You enter wrong data .');
+      return serverFailure(response.toString());
     } else if (statusCode == 404) {
       return serverFailure('Your request is not found .');
     } else if (statusCode == 500) {
-      return serverFailure('Internal Server error , please try again .');
+      return serverFailure(response.toString());
     } else {
       return serverFailure('Opps !! , there was an error , please try again .');
     }

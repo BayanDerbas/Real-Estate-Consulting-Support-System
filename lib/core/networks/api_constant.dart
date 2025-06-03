@@ -3,5 +3,6 @@ class ApiConstant {
   static const String auth = "$baseUrl/auth";
   static const String loginPath = "$auth/login";
   static const String registerPath = "$auth/register";
+  static const String verificationCode = "$auth/verification";
   static const String refresh = "$auth/refresh";
 }

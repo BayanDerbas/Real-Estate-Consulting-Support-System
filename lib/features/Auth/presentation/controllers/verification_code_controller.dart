@@ -1,21 +1,21 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/core/routes/routes.dart';
-import 'package:graduation_project/features/Auth/data/model/login_model.dart';
+import 'package:graduation_project/features/Auth/data/data_source/auth_service/auth_service.dart';
+import 'package:graduation_project/features/Auth/data/model/verificationcode_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 
-import '../../../../core/widgets/custom_snack_bar.dart';
+import '../../../../core/routes/routes.dart';
 
-class LoginController extends GetxController {
-  final TextEditingController password = TextEditingController();
-  final TextEditingController email = TextEditingController();
+class VerificationCodeController extends GetxController {
+  final AuthRepository _authRepository;
+  VerificationCodeController(this._authRepository);
   RxString errMessage = ''.obs;
   var isLoading = false.obs;
-  final AuthRepository _authRepository;
-  LoginController(this._authRepository);
-  Future<void> userLogin() async {
-    if (email.text.trim().isEmpty || password.text.trim().isEmpty) {
+  final TextEditingController code = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  Future<void> verificationCode() async {
+    if (email.text.trim().isEmpty || code.text.trim().isEmpty) {
       AwesomeDialog(
         context: Get.context!,
         dialogType: DialogType.warning,
@@ -30,8 +30,8 @@ class LoginController extends GetxController {
     isLoading(true);
     errMessage("");
 
-    final data = await _authRepository.userLogin(
-      LoginRequestModel(email: email.text, password: password.text),
+    final data = await _authRepository.verificationCode(
+      VerificationCodeModel(email: email.text, verificationCode: code.text),
     );
 
     isLoading(false);
@@ -43,7 +43,7 @@ class LoginController extends GetxController {
           context: Get.context!,
           dialogType: DialogType.error,
           animType: AnimType.rightSlide,
-          title: "Login Failed",
+          title: "account has been verified successfully",
           desc: errMessage.value,
           btnOkOnPress: () {},
         ).show();

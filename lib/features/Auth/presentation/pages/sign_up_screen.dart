@@ -57,13 +57,6 @@ class SignUpScreen extends StatelessWidget {
             borderRadius: 10,
             width: width * 0.8,
             onPressed: () {
-              final user = RegisterModel(
-                firstName: controller.firstName.text,
-                lastName: controller.lastName.text,
-                email: controller.email.text,
-                password: controller.password.text,
-                phone: controller.phone.text,
-              );
               print((
                 controller.firstName.text,
                 controller.lastName.text,

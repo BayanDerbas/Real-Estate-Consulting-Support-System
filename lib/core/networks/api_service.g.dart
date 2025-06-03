@@ -19,50 +19,6 @@ class _ApiService implements ApiService {
 
   final ParseErrorLogger? errorLogger;
 
-  @override
-  Future<void> register({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String phone,
-    String? role,
-    String? location,
-  }) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    final _data = FormData();
-    _data.fields.add(MapEntry('firstName', firstName));
-    _data.fields.add(MapEntry('lastName', lastName));
-    _data.fields.add(MapEntry('email', email));
-    _data.fields.add(MapEntry('password', password));
-    _data.fields.add(MapEntry('phone', phone));
-    if (role != null) {
-      _data.fields.add(MapEntry('role', role));
-    }
-    if (location != null) {
-      _data.fields.add(MapEntry('location', location));
-    }
-    final _options = _setStreamType<void>(
-      Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'multipart/form-data',
-          )
-          .compose(
-            _dio.options,
-            'http://195.88.87.77:8000/api/v1/auth/register',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    await _dio.fetch<void>(_options);
-  }
-
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

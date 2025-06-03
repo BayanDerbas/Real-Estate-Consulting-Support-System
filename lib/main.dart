@@ -15,6 +15,8 @@ import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dar
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'; // استيراد مكتبة firebase_messaging
 import 'core/di/dependence_initializer.dart';
+import 'features/Auth/presentation/pages/login_screen.dart';
+import 'features/Auth/presentation/pages/otp_page.dart';
 import 'features/Auth/presentation/pages/sign_up_screen.dart';
 import 'firebase_options.dart';
 
@@ -52,7 +54,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: const SignUpScreen(),
+      home: const LoginScreen(),
       getPages: AppRoutes.routes_,
     );
   }
