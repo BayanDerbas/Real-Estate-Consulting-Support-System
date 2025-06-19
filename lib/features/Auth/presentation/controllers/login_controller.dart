@@ -57,6 +57,7 @@ class LoginController extends GetxController {
           title: "Success",
           desc: "Account created successfully",
           btnOkOnPress: () {},
+          autoHide: Duration(seconds: 2),
         ).show();
       },
     );

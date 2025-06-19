@@ -10,6 +10,8 @@ class OTPInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OtpTextField(
+      autoFocus: true,
+      borderRadius: BorderRadius.circular(10),
       numberOfFields: otpLength,
       borderColor: Colors.grey,
       focusedBorderColor: Colors.blue,

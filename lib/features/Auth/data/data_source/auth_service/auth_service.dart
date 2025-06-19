@@ -5,7 +5,7 @@ import 'package:graduation_project/features/Auth/data/model/verificationcode_mod
 import 'package:retrofit/retrofit.dart';
 
 import '../../../../../core/networks/api_constant.dart';
-
+import 'dart:io';
 part 'auth_service.g.dart';
 
 @RestApi(baseUrl: ApiConstant.baseUrl)
@@ -22,11 +22,17 @@ abstract class AuthService {
     @Part(name: 'password') String password,
     @Part(name: 'phone') String phone,
     @Part(name: 'role') String role,
-    @Part(name: 'latitude') String latitude,
-    @Part(name: 'longitude') String longitude,
-    @Part(name: 'location') String location,
+    @Part(name: 'latitude') String? latitude,
+    @Part(name: 'longitude') String? longitude,
+    @Part(name: 'location') String? location,
+    @Part(name: "commercialRegisterImage") File? commercialRegisterImage,
+    @Part(name: "idCardImage") File? idCardImage,
+    @Part(name: "degreeCertificateImage") File? degreeCertificateImage,
+    @Part(name: 'profession') String? profession,
+    @Part(name: 'experience') String? experience,
+    @Part(name: 'bio') String? bio,
   );
-  //
+
   @POST(ApiConstant.loginPath)
   Future<HttpResponse<LoginResponseModel>> login(
     @Body() LoginRequestModel request,

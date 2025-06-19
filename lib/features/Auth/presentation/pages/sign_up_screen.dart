@@ -4,7 +4,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
+import 'package:graduation_project/features/Auth/presentation/widgets/custom_drop_down_with_field.dart';
 import '../controllers/signup_controller.dart';
 import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_text_form_field.dart';
@@ -20,61 +20,85 @@ class SignUpScreen extends StatelessWidget {
       widget: Column(
         children: [
           CustomTextFormField(
+            keyboardType: TextInputType.name,
             width: width * 0.8,
             hintText: "first name",
-            icon: Icons.person,
+            icon: Icons.email_outlined,
             controller: controller.firstName,
-          ).paddingOnly(left: 15, right: 15, top: 20),
+          ).paddingOnly(left: 15, right: 15, top: 40),
           CustomTextFormField(
+            keyboardType: TextInputType.name,
             width: width * 0.8,
             hintText: "last name",
-            icon: Icons.person,
+            icon: Icons.password,
             controller: controller.lastName,
-          ).paddingOnly(left: 15, right: 15),
+          ).paddingSymmetric(horizontal: 15),
           CustomTextFormField(
+            keyboardType: TextInputType.emailAddress,
             width: width * 0.8,
             hintText: "email",
             icon: Icons.email,
             controller: controller.email,
           ).paddingSymmetric(horizontal: 15),
           CustomTextFormField(
+            keyboardType: TextInputType.name,
             width: width * 0.8,
             hintText: "password",
             icon: Icons.password,
             controller: controller.password,
           ).paddingSymmetric(horizontal: 15),
           CustomTextFormField(
+            keyboardType: TextInputType.phone,
             width: width * 0.8,
             hintText: "phone",
             icon: Icons.phone,
             controller: controller.phone,
           ).paddingSymmetric(horizontal: 15),
-
-          CustomButton(
-            text: 'Signup',
-            textColor: AppColors.pureWhite,
-            backgroundColor: AppColors.deepNavy,
-            borderRadius: 10,
+          CustomDropDownWithField(
             width: width * 0.8,
-            onPressed: () {
-              print((
-                controller.firstName.text,
-                controller.lastName.text,
-                controller.email.text,
-                controller.password.text,
-                controller.phone.text,
-              ));
-              controller.userRegister();
+            list: controller.roles,
+            item: controller.selectedRole,
+            onChanged: (newVal) {
+              controller.onChangeRole(newVal);
             },
-          ).paddingOnly(top: 30),
+          ),
+          Obx(() {
+            if (controller.isLoading.value) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              ).paddingOnly(top: 20);
+            }
+
+            return controller.selectedRole.value == 'USER'
+                ? CustomButton(
+                  text: 'register',
+                  textColor: AppColors.pureWhite,
+                  backgroundColor: AppColors.deepNavy,
+                  borderRadius: 10,
+                  width: width * 0.8,
+                  onPressed: () {
+                    controller.userRegister();
+                  },
+                ).paddingOnly(top: 10)
+                : CustomButton(
+                  text: 'continue fill info',
+                  textColor: AppColors.pureWhite,
+                  backgroundColor: AppColors.deepNavy,
+                  borderRadius: 10,
+                  width: width * 0.8,
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.continueFillExpertInfo);
+                  },
+                ).paddingOnly(top: 10);
+          }),
         ],
       ).scrollDirection(Axis.vertical),
-      appBarTitle: "Register user",
-      bodyText: "already have an account ?!",
-      clickableText: "Login",
-      footerText: 'OR \n sign in with : ',
+      appBarTitle: "Welcome Back",
+      bodyText: " have an account?",
+      clickableText: "Sign in",
+      footerText:
+          "By clicking login you agree to Tradinos Terms & Conditions. Capital at risk: Before any thing, Please read the Key Risks.",
       onTap: () {
-        print('Sign up tapped');
         Get.toNamed(AppRoutes.login);
       },
     );

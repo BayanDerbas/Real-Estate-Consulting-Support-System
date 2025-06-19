@@ -9,6 +9,8 @@ class CustomTextFormField extends StatelessWidget {
   final IconData icon;
   final bool isPassword;
   final double width;
+  final int? maxLines;
+  final TextInputType? keyboardType;
   final TextEditingController? controller;
   final void Function()? onIconTap;
 
@@ -20,6 +22,8 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.onIconTap,
     required this.width,
+    this.maxLines,
+    this.keyboardType,
   });
 
   @override
@@ -33,6 +37,8 @@ class CustomTextFormField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: isPassword,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText,
@@ -45,6 +51,6 @@ class CustomTextFormField extends StatelessWidget {
         ),
         style: Fonts.contentTextFieldStyle,
       ),
-    ).paddingSymmetric(vertical: 10);
+    ).paddingSymmetric(vertical: 7);
   }
 }

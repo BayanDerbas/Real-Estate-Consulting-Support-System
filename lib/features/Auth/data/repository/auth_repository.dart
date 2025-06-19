@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
 import 'package:graduation_project/core/networks/failures.dart';
@@ -10,8 +11,13 @@ import '../data_source/auth_service/auth_service.dart';
 class AuthRepository {
   final AuthService _authService;
   AuthRepository(this._authService);
-  Future<Either<Failures, dynamic>> userRegister(RegisterModel request) async {
+  // In your AuthRepository class
+  Future<Either<Failures, RegisterModel>> userRegister(
+    RegisterModel request,
+  ) async {
     try {
+      // There should be NO "!" operators here.
+      // The nullable values from the 'request' model are passed directly.
       final httpResponse = await _authService.userRegister(
         request.firstName!,
         request.lastName!,
@@ -19,10 +25,17 @@ class AuthRepository {
         request.password!,
         request.phone!,
         request.role!,
-        "0",
-        "0",
-        "",
+        request.latitude,
+        request.longitude,
+        request.location,
+        request.commercialRegisterImage,
+        request.idCardImage,
+        request.degreeCertificateImage,
+        request.profession,
+        request.experience,
+        request.bio,
       );
+
       return Right(httpResponse.data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));

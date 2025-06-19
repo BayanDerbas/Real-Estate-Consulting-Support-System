@@ -27,12 +27,19 @@ class _AuthService implements AuthService {
     String password,
     String phone,
     String role,
-    String latitude,
-    String longitude,
-    String location,
+    String? latitude,
+    String? longitude,
+    String? location,
+    File? commercialRegisterImage,
+    File? idCardImage,
+    File? degreeCertificateImage,
+    String? profession,
+    String? experience,
+    String? bio,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Content-Type': 'multipart/form-data'};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
@@ -42,9 +49,59 @@ class _AuthService implements AuthService {
     _data.fields.add(MapEntry('password', password));
     _data.fields.add(MapEntry('phone', phone));
     _data.fields.add(MapEntry('role', role));
-    _data.fields.add(MapEntry('latitude', latitude));
-    _data.fields.add(MapEntry('longitude', longitude));
-    _data.fields.add(MapEntry('location', location));
+    if (latitude != null) {
+      _data.fields.add(MapEntry('latitude', latitude));
+    }
+    if (longitude != null) {
+      _data.fields.add(MapEntry('longitude', longitude));
+    }
+    if (location != null) {
+      _data.fields.add(MapEntry('location', location));
+    }
+    if (commercialRegisterImage != null) {
+      _data.files.add(
+        MapEntry(
+          'commercialRegisterImage',
+          MultipartFile.fromFileSync(
+            commercialRegisterImage.path,
+            filename:
+                commercialRegisterImage.path.split(Platform.pathSeparator).last,
+          ),
+        ),
+      );
+    }
+    if (idCardImage != null) {
+      _data.files.add(
+        MapEntry(
+          'idCardImage',
+          MultipartFile.fromFileSync(
+            idCardImage.path,
+            filename: idCardImage.path.split(Platform.pathSeparator).last,
+          ),
+        ),
+      );
+    }
+    if (degreeCertificateImage != null) {
+      _data.files.add(
+        MapEntry(
+          'degreeCertificateImage',
+          MultipartFile.fromFileSync(
+            degreeCertificateImage.path,
+            filename:
+                degreeCertificateImage.path.split(Platform.pathSeparator).last,
+          ),
+        ),
+      );
+    }
+    if (profession != null) {
+      _data.fields.add(MapEntry('profession', profession));
+    }
+    if (experience != null) {
+      _data.fields.add(MapEntry('experience', experience));
+    }
+    if (bio != null) {
+      _data.fields.add(MapEntry('bio', bio));
+    }
     final _options = _setStreamType<HttpResponse<RegisterModel>>(
       Options(
             method: 'POST',

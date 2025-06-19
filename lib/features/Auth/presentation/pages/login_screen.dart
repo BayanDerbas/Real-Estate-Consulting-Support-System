@@ -15,8 +15,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     final controller = Get.find<LoginController>();
     return BaseAuthScreen(
+      componentHeight: height * 0.5,
       widget: Column(
         children: [
           CustomTextFormField(
@@ -37,18 +39,20 @@ class LoginScreen extends StatelessWidget {
               })
               .align(alignment: Alignment.centerLeft)
               .paddingOnly(left: width * 0.05),
-          CustomButton(
-            text: 'login',
-            textColor: AppColors.pureWhite,
-            backgroundColor: AppColors.deepNavy,
-            borderRadius: 10,
-            width: width * 0.8,
-            onPressed: () {
-              print(controller.email);
-              controller.userLogin();
-              print('Login button pressed');
-            },
-          ).paddingOnly(top: 30),
+          Obx(() {
+            return controller.isLoading.value
+                ? const CircularProgressIndicator().paddingOnly(top: 30)
+                : CustomButton(
+                  text: 'Login',
+                  textColor: AppColors.pureWhite,
+                  backgroundColor: AppColors.deepNavy,
+                  borderRadius: 10,
+                  width: width * 0.8,
+                  onPressed: () {
+                    controller.userLogin();
+                  },
+                ).paddingOnly(top: 30);
+          }),
         ],
       ),
       appBarTitle: "Welcome Back",

@@ -17,6 +17,9 @@ RegisterModel _$RegisterModelFromJson(Map<String, dynamic> json) =>
       latitude: json['latitude'] as String?,
       longitude: json['longitude'] as String?,
       location: json['location'] as String?,
+      profession: json['profession'] as String?,
+      experience: json['experience'] as String?,
+      bio: json['bio'] as String?,
     );
 
 Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
@@ -30,4 +33,7 @@ Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'location': instance.location,
+      'profession': instance.profession,
+      'experience': instance.experience,
+      'bio': instance.bio,
     };

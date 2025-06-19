@@ -15,12 +15,14 @@ class BaseAuthScreen extends StatelessWidget {
     this.clickableText,
     this.footerText,
     this.onTap,
+    this.componentHeight,
   });
   final Widget widget;
   final String? appBarTitle;
   final String? bodyText;
   final String? clickableText;
   final String? footerText;
+  final double? componentHeight;
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class BaseAuthScreen extends StatelessWidget {
         body: Column(
           children: [
             Container(
-              height: 400,
+              height: componentHeight ?? height * 0.6,
               width: width * 0.9,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -60,14 +62,18 @@ class BaseAuthScreen extends StatelessWidget {
               children: [
                 Text(
                   bodyText!,
-                  style:Fonts.itim.copyWith(color: AppColors.black,fontSize: 16,fontWeight: FontWeight.bold)
+                  style: Fonts.itim.copyWith(
+                    color: AppColors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ).paddingOnly(right: 4),
                 Text(
                   clickableText!,
-                  style:Fonts.itim.copyWith(
+                  style: Fonts.itim.copyWith(
                     color: AppColors.black,
                     fontSize: 15,
-                    decoration: TextDecoration.underline
+                    decoration: TextDecoration.underline,
                   ),
                 ).onTap(onTap!),
               ],
@@ -77,7 +83,7 @@ class BaseAuthScreen extends StatelessWidget {
               child: Text(
                 footerText!,
                 textAlign: TextAlign.center,
-                style: Fonts.itim.copyWith(color: AppColors.grey,fontSize: 17),
+                style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 17),
               ),
             ),
           ],

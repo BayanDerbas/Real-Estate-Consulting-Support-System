@@ -15,6 +15,5 @@ class DependenceInitializer {
     Get.lazyPut(() => AuthRepository(Get.find()));
     Get.put(RegisterController(Get.find()));
     Get.put(LoginController(Get.find()));
-    Get.put(VerificationCodeController(Get.find()));
   }
 }
