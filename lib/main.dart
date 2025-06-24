@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Confirm.dart';
 import 'package:graduation_project/features/home/presentation/pages/Home.dart';

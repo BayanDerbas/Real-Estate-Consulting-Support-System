@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
 import 'package:graduation_project/core/networks/failures.dart';
+import 'package:graduation_project/features/Auth/data/model/change_password_model.dart';
 import 'package:graduation_project/features/Auth/data/model/verificationcode_model.dart';
 
 import '../data_source/auth_service/auth_service.dart';
@@ -16,8 +17,6 @@ class AuthRepository {
     RegisterModel request,
   ) async {
     try {
-      // There should be NO "!" operators here.
-      // The nullable values from the 'request' model are passed directly.
       final httpResponse = await _authService.userRegister(
         request.firstName!,
         request.lastName!,
@@ -60,6 +59,22 @@ class AuthRepository {
   ) async {
     try {
       final httpResponse = await _authService.verificationCode(request);
+      return Right(httpResponse.data);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, dynamic>> changePassword(
+    ChangePasswordModel request,
+  ) async {
+    try {
+      final httpResponse = await _authService.changePassword(
+        request.email,
+        request.password,
+      );
       return Right(httpResponse.data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));

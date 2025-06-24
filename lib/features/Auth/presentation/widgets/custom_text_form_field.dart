@@ -13,7 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final void Function()? onIconTap;
-
+  final String? Function(String?)? validator;
   const CustomTextFormField({
     super.key,
     required this.hintText,
@@ -24,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.width,
     this.maxLines,
     this.keyboardType,
+    this.validator,
   });
 
   @override
@@ -34,7 +35,8 @@ class CustomTextFormField extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: AppColors.pureWhite.withOpacity(0.36),
       ),
-      child: TextField(
+      child: TextFormField(
+        validator: validator,
         controller: controller,
         obscureText: isPassword,
         keyboardType: keyboardType,

@@ -5,19 +5,20 @@ import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/functions/validate_input.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
+import 'package:graduation_project/features/Auth/presentation/controllers/change_password_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_text_form_field.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ChangePassword extends StatelessWidget {
+  const ChangePassword({super.key});
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final controller = Get.find<LoginController>();
+    final controller = Get.find<ChangePasswordController>();
     return BaseAuthScreen(
       componentHeight: height * 0.5,
       widget: Form(
@@ -43,26 +44,22 @@ class LoginScreen extends StatelessWidget {
                 return validateInput(val!, 8, 25, 'password');
               },
             ).paddingSymmetric(horizontal: 15),
-            Text("Forgot password ?", style: Fonts.underlinedStyle)
-                .onTap(() {
-                  print('i love amona');
-                })
-                .align(alignment: Alignment.centerLeft)
-                .paddingOnly(left: width * 0.05),
+
             Obx(() {
               return controller.isLoading.value
                   ? const CircularProgressIndicator().paddingOnly(top: 30)
                   : CustomButton(
-                    text: 'Login',
+                    text: 'Change',
+
                     textColor: AppColors.pureWhite,
                     backgroundColor: AppColors.deepNavy,
                     borderRadius: 10,
                     width: width * 0.8,
                     onPressed: () {
                       bool isValidInput = controller.validateInput();
-                      if (isValidInput)
-                        controller.userLogin();
-                      else {
+                      if (isValidInput) {
+                        controller.changePassword();
+                      } else {
                         return;
                       }
                     },
@@ -72,12 +69,11 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       appBarTitle: "Welcome Back",
-      bodyText: "Don't have an account?",
-      clickableText: "Sign Up",
-      footerText:
-          "By clicking login you agree to Tradinos Terms & Conditions. Capital at risk: Before any thing, Please read the Key Risks.",
+      bodyText: " ",
+      clickableText: " ",
+      footerText: ' ',
       onTap: () {
-        Get.toNamed(AppRoutes.signup);
+        Get.toNamed(AppRoutes.home);
       },
     );
   }

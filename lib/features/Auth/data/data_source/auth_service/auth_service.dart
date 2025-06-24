@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' hide Headers;
+import 'package:graduation_project/features/Auth/data/model/change_password_model.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
 import 'package:graduation_project/features/Auth/data/model/verificationcode_model.dart';
@@ -40,5 +41,11 @@ abstract class AuthService {
   @POST(ApiConstant.verificationCode)
   Future<HttpResponse<VerificationCodeModel>> verificationCode(
     @Body() VerificationCodeModel request,
+  );
+
+  @POST(ApiConstant.changePassword)
+  Future<HttpResponse<dynamic>> changePassword(
+    @Query("email") String email,
+    @Query("password") String password,
   );
 }

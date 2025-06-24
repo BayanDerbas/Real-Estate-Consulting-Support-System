@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:graduation_project/core/di/bindings/verification_binds.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/otp_page.dart';
@@ -36,6 +37,7 @@ class AppRoutes {
   static const String scheduleTime = '/scheduleTime';
   static const String discounts = '/discounts';
   static const String continueFillExpertInfo = '/continue_fill_expert_info';
+  static const String changePassword = '/change_password';
   static List<GetPage> routes_ = [
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -61,5 +63,6 @@ class AppRoutes {
     GetPage(name: signup, page: () => SignUpScreen()),
     GetPage(name: uploadDocuments, page: () => UploadDocuments()),
     GetPage(name: continueFillExpertInfo, page: () => ContinueInfoForExpert()),
+    GetPage(name: changePassword, page: () => ChangePassword()),
   ];
 }

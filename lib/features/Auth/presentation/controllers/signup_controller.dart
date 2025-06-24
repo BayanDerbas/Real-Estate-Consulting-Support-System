@@ -40,6 +40,7 @@ class RegisterController extends GetxController {
     selectedRole.value = val;
   }
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Future<void> pickImage(ImageSource source, Rx<File?> fileVariable) async {
     final XFile? pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
@@ -50,8 +51,6 @@ class RegisterController extends GetxController {
   }
 
   Future<void> userRegister() async {
-    if (!_validateFields()) return;
-
     isLoading(true);
     errMessage("");
 
@@ -100,64 +99,12 @@ class RegisterController extends GetxController {
     );
   }
 
-  bool _validateFields() {
-    if (firstName.text.trim().isEmpty ||
-        lastName.text.trim().isEmpty ||
-        email.text.trim().isEmpty ||
-        password.text.trim().isEmpty ||
-        phone.text.trim().isEmpty) {
-      customSnackBar(
-        title: "Error",
-        message: "Please fill in all personal details.",
-      );
-      return false;
+  bool validateInput() {
+    var formData = formKey.currentState;
+    if (formData!.validate()) {
+      return true;
     }
-
-    switch (selectedRole.value) {
-      case 'EXPERT':
-        if (profession.text.trim().isEmpty ||
-            experience.text.trim().isEmpty ||
-            bio.text.trim().isEmpty) {
-          customSnackBar(
-            title: "Error",
-            message:
-                "Profession, Experience, and Bio are required for Experts.",
-          );
-          return false;
-        }
-        if (idCardImage.value == null || degreeCertificateImage.value == null) {
-          customSnackBar(
-            title: "Error",
-            message:
-                "ID Card and Degree Certificate images are required for Experts.",
-          );
-          return false;
-        }
-        break;
-
-      case 'OFFICE':
-        if (bio.text.trim().isEmpty || location.text.trim().isEmpty) {
-          customSnackBar(
-            title: "Error",
-            message: "Bio and Location are required for Offices.",
-          );
-          return false;
-        }
-        if (commercialRegisterImage.value == null) {
-          customSnackBar(
-            title: "Error",
-            message: "Commercial Register image is required for Offices.",
-          );
-          return false;
-        }
-        break;
-
-      case 'USER':
-      default:
-        break;
-    }
-
-    return true;
+    return false;
   }
 
   @override
