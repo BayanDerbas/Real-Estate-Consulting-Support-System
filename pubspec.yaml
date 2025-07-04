@@ -23,7 +23,7 @@ dependencies:
   dartz: ^0.10.1
   json_serializable: ^6.9.5
   build_runner: ^2.4.15
-  json_annotation: ^4.9.
+  json_annotation: ^4.9.0
   shared_preferences: ^2.5.3
   firebase_core: ^3.13.1
   firebase_messaging: ^15.2.6

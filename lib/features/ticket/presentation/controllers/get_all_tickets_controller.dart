@@ -12,7 +12,7 @@ class GetAllTicketsController extends GetxController {
 
   final RxInt currentPage = 0.obs;
   final RxInt totalPages = 1.obs;
-  final int pageSize = 10;
+  final int pageSize = 5;
 
   GetAllTicketsController(this._ticketRepository);
 

@@ -22,6 +22,7 @@ import 'core/utils/shard_prefs.dart';
 import 'features/Auth/presentation/pages/login_screen.dart';
 import 'features/Auth/presentation/pages/otp_page.dart';
 import 'features/Auth/presentation/pages/sign_up_screen.dart';
+import 'features/ticket/presentation/pages/base_tickets_page.dart';
 import 'firebase_options.dart';
 
 void main() async {

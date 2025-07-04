@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/constants/colors.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/my_ticket_card.dart';
@@ -103,7 +105,7 @@ class TicketsPage extends StatelessWidget {
               onPressed: () {
                 controller.fetchTickets(page: index);
               },
-              backgroundColor: isActive ? Colors.orange : Colors.white,
+              backgroundColor: isActive ? AppColors.deepNavy : Colors.white,
               textColor: isActive ? Colors.white : Colors.black,
               width: 40,
               height: 40,
@@ -125,6 +127,6 @@ class TicketsPage extends StatelessWidget {
           height: 40,
         ),
       ],
-    );
+    ).scrollDirection(Axis.horizontal);
   }
 }
