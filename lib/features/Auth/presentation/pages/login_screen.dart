@@ -4,6 +4,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/functions/validate_input.dart';
 import 'package:graduation_project/core/routes/routes.dart';
+import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 import '../../../../core/constants/Fonts.dart';
@@ -58,7 +59,13 @@ class LoginScreen extends StatelessWidget {
                     backgroundColor: AppColors.deepNavy,
                     borderRadius: 10,
                     width: width * 0.8,
-                    onPressed: () {
+                    onPressed: () async {
+                      final SecureStorage st = SecureStorage();
+
+                      print(
+                        'lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll',
+                      );
+                      print(await st.getToken());
                       bool isValidInput = controller.validateInput();
                       if (isValidInput)
                         controller.userLogin();

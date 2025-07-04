@@ -10,7 +10,7 @@ part of 'auth_service.dart';
 
 class _AuthService implements AuthService {
   _AuthService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'http://195.88.87.77:8000/api/v1';
+    baseUrl ??= 'http://195.88.87.77:8000';
   }
 
   final Dio _dio;
@@ -111,7 +111,7 @@ class _AuthService implements AuthService {
           )
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/api/v1/auth/register',
+            'http://195.88.87.77:8000/auth/register',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -130,7 +130,7 @@ class _AuthService implements AuthService {
   }
 
   @override
-  Future<HttpResponse<LoginResponseModel>> login(
+  Future<HttpResponse<LoginWrapperResponseModel>> login(
     LoginRequestModel request,
   ) async {
     final _extra = <String, dynamic>{};
@@ -138,20 +138,20 @@ class _AuthService implements AuthService {
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _options = _setStreamType<HttpResponse<LoginResponseModel>>(
+    final _options = _setStreamType<HttpResponse<LoginWrapperResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/api/v1/auth/login',
+            'http://195.88.87.77:8000/auth/login',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LoginResponseModel _value;
+    late LoginWrapperResponseModel _value;
     try {
-      _value = LoginResponseModel.fromJson(_result.data!);
+      _value = LoginWrapperResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -173,7 +173,7 @@ class _AuthService implements AuthService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/api/v1/auth/verification',
+            'http://195.88.87.77:8000/auth/verification',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -207,7 +207,7 @@ class _AuthService implements AuthService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/api/v1/auth/change-password',
+            'http://195.88.87.77:8000/auth/change-password',
             queryParameters: queryParameters,
             data: _data,
           )

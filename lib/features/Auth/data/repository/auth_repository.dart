@@ -43,10 +43,18 @@ class AuthRepository {
     }
   }
 
-  Future<Either<Failures, dynamic>> userLogin(LoginRequestModel request) async {
+  Future<Either<Failures, LoginResponseModel>> userLogin(
+    LoginRequestModel request,
+  ) async {
     try {
       final httpResponse = await _authService.login(request);
-      return Right(httpResponse.data);
+      final loginData = httpResponse.data.data;
+
+      if (loginData == null) {
+        return Left(serverFailure("Empty login response"));
+      }
+
+      return Right(loginData);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

@@ -7,6 +7,8 @@ import 'package:graduation_project/features/Book/presentation/pages/Confirm.dart
 import 'package:graduation_project/features/home/presentation/pages/Home.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
 import 'package:graduation_project/features/search/presentation/pages/appointments.dart';
+import 'package:graduation_project/features/search/presentation/pages/property_filter_page.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/publish_ticket.dart';
 import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviderProfile.dart';
 import 'package:graduation_project/features/service%20provider/presentation/widgets/Custom_ServiceProviderProfile.dart';
 import 'package:graduation_project/core/constants/app_theme.dart';
@@ -24,8 +26,9 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DependenceInitializer.dependenceInjection();
+  await DependenceInitializer.dependenceInjection();
   await SharedPrefs.init();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -34,7 +37,7 @@ void main() async {
     "...................................................................\n",
   );
   print("FCM Token: $token");
-
+  print('i will refresh token heeeeeeeeeeeeeeeeeeeere');
   runApp(const MyApp());
 }
 
@@ -57,7 +60,8 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+
+      home: LoginScreen(),
       getPages: AppRoutes.routes_,
     );
   }

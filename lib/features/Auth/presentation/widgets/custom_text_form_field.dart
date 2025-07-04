@@ -6,7 +6,7 @@ import '../../../../core/constants/Fonts.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
-  final IconData icon;
+  final IconData? icon;
   final bool isPassword;
   final double width;
   final int? maxLines;
@@ -17,7 +17,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.hintText,
-    required this.icon,
+    this.icon,
     this.isPassword = false,
     this.controller,
     this.onIconTap,

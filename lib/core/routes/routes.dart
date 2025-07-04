@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
 import 'package:graduation_project/core/di/bindings/verification_binds.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
@@ -18,6 +19,9 @@ import '../../features/posts/presentation/pages/Posts.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
 import '../../features/service provider/presentation/pages/ServiceProviderProfile.dart';
 import '../../features/service provider/presentation/pages/ServiceProviders.dart';
+import '../../features/ticket/presentation/pages/all_tickets.dart';
+import '../../features/ticket/presentation/pages/publish_ticket.dart';
+import '../di/bindings/get_all_tickets_binds.dart';
 
 class AppRoutes {
   static const String home = "/home";
@@ -38,6 +42,8 @@ class AppRoutes {
   static const String discounts = '/discounts';
   static const String continueFillExpertInfo = '/continue_fill_expert_info';
   static const String changePassword = '/change_password';
+  static const String createTicket = "/create_ticket";
+  static const String allTickets = '/all_tickets';
   static List<GetPage> routes_ = [
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -64,5 +70,15 @@ class AppRoutes {
     GetPage(name: uploadDocuments, page: () => UploadDocuments()),
     GetPage(name: continueFillExpertInfo, page: () => ContinueInfoForExpert()),
     GetPage(name: changePassword, page: () => ChangePassword()),
+    GetPage(
+      name: createTicket,
+      page: () => CreateTicketScreen(),
+      binding: TicketBinding(),
+    ),
+    GetPage(
+      name: allTickets,
+      page: () => TicketsPage(),
+      binding: getAllTicketsBinding(),
+    ),
   ];
 }
