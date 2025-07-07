@@ -10,6 +10,9 @@ import 'package:graduation_project/features/ticket/presentation/controllers/crea
 import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
+import '../../features/properties/data/data_source/property_service.dart';
+import '../../features/properties/data/repository/property_repository.dart';
+import '../../features/properties/presentation/controllers/Properties_Controller.dart';
 import '../networks/dio_factory.dart';
 
 class DependenceInitializer {
@@ -26,5 +29,9 @@ class DependenceInitializer {
     Get.lazyPut(() => TicketService(Get.find()));
     Get.lazyPut(() => CreateTicketController(Get.find()));
     Get.lazyPut(() => GetAllTicketsController(Get.find()));
+    //properties
+    Get.lazyPut(() => PropertyService(Get.find()));
+    Get.lazyPut(() => PropertyRepository(Get.find()));
+    Get.lazyPut(() => PropertiesController(Get.find()));
   }
 }

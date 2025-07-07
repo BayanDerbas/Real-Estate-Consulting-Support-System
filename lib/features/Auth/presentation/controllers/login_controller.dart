@@ -5,7 +5,6 @@ import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
-
 import '../../../../core/networks/dio_factory.dart';
 
 class LoginController extends GetxController {
@@ -66,7 +65,7 @@ class LoginController extends GetxController {
           await storage.saveRefreshToken(response.refreshToken!);
         }
         await Future.delayed(Duration(seconds: 2));
-        Get.offNamed(AppRoutes.allTickets);
+        Get.offNamed(AppRoutes.properties);
         final userId = await storage.getUserId();
         print("the user id .............$userId");
       },

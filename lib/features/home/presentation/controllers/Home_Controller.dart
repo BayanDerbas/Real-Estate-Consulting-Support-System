@@ -10,27 +10,6 @@ class HomeController extends GetxController {
   var currentIndex = 0.obs;
   var hasTapped = false.obs;
 
-  // حاليا هي الليست
-  var propertiesList =
-      [
-        {
-          'imagePath': 'assets/images/property1.jpg',
-          'title': 'Show properties 1',
-        },
-        {
-          'imagePath': 'assets/images/property2.jpg',
-          'title': 'Show properties 2',
-        },
-        {
-          'imagePath': 'assets/images/property3.jpg',
-          'title': 'Show properties 3',
-        },
-        {
-          'imagePath': 'assets/images/property4.jpg',
-          'title': 'Show properties 4',
-        },
-      ].obs;
-
   var postsList = [
     {
       'userName' : 'محمد محمد',

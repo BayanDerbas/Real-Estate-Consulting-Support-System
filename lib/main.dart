@@ -5,6 +5,7 @@ import 'package:graduation_project/features/Auth/presentation/pages/change_passw
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Confirm.dart';
 import 'package:graduation_project/features/home/presentation/pages/Home.dart';
+import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
 import 'package:graduation_project/features/search/presentation/pages/appointments.dart';
 import 'package:graduation_project/features/search/presentation/pages/property_filter_page.dart';
@@ -31,13 +32,16 @@ void main() async {
   await SharedPrefs.init();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   String? token = await messaging.getToken();
-  print(
-    "...................................................................\n",
-  );
-  print("FCM Token: $token");
+  if (token != null) {
+    print(
+      "...................................................................\n",
+    );
+    print("FCM Token: $token");
+  } else {
+    print("Failed to get FCM Token.");
+  }
   print('i will refresh token heeeeeeeeeeeeeeeeeeeere');
   runApp(const MyApp());
 }
@@ -62,7 +66,7 @@ class MyApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
 
-      home: LoginScreen(),
+      home: Home(),
       getPages: AppRoutes.routes_,
     );
   }

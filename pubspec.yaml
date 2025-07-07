@@ -47,23 +47,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/property1.jpg
-    - assets/images/property2.jpg
-    - assets/images/property3.jpg
-    - assets/images/property4.jpg
-    - assets/images/sendRequest.png
-    - assets/images/MyAppointement.png
-    - assets/images/PublishTicket.png
-    - assets/images/SearchExperts.png
-    - assets/images/expert.jpg
-    - assets/images/garden.jpg
-    - assets/images/villa.jpg
-    - assets/images/store.jpg
-    - assets/images/balcony.jpg
-    - assets/images/bedroom.jpg
-    - assets/images/livingroom.jpg
-    - assets/images/follow.png
-    - assets/images/user.png
-    - assets/images/communication.png
-    - assets/images/walletBackground.jpg
+    - assets/images/
 

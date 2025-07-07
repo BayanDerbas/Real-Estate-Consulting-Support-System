@@ -1,16 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
+import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
+import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
+import '../../../properties/data/data_source/property_service.dart';
 import '../widgets/Custom_BottomBar.dart';
 import '../widgets/Custom_ExpertCard.dart';
 import '../../../../core/widgets/Custom_IconButton.dart';
-import '../widgets/Custom_Card.dart';
 import '../widgets/Custom_QuickAccess.dart';
 import '../controllers/Home_Controller.dart';
 
@@ -21,13 +24,15 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomeController controller = Get.put(HomeController());
     final CustomDrawerController drawerController = Get.put(CustomDrawerController());
+    final repository = PropertyRepository(PropertyService(Dio()));
+    final PropertiesController propertiesController = Get.put(PropertiesController(repository));
 
     return Scaffold(
       drawer: CustomDrawer(
         userName: drawerController.userName.value,
         email: drawerController.email.value,
         userImage: drawerController.userImage.value,
-        userType: 'عقارات', // نوع المستخدم
+        userType: 'عقارات',
       ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
@@ -127,25 +132,42 @@ class Home extends StatelessWidget {
               ],
             ).scrollDirection(Axis.horizontal),
           ),
-          SizedBox(height: 10,),
-          SizedBox(
-            height: 250,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.propertiesList.length,
-              itemBuilder: (context, index) {
-                final Map<String, dynamic> property = controller.propertiesList[index];
-                return CustomCard(
-                  onTap: () {
-                    print("..........................");
-                  },
-                  imagePath: property['imagePath'],
-                  title: property['title'],
-                  icon: Icons.north_east,
-                );
-              },
-            ),
-          ),
+          SizedBox(height: 10),
+          Obx(() {
+            if (propertiesController.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final propertyWidgets = propertiesController.propertiesList.take(4).toList();
+            return SizedBox(
+              height: 270,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: propertyWidgets.length + 1,
+                itemBuilder: (context, index) {
+                  if (index < propertyWidgets.length) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: propertyWidgets[index],
+                    );
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: GestureDetector(
+                        onTap: () => Get.toNamed('/properties'),
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 30,
+                          color: AppColors.deepNavy,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            );
+          }),
+
           const SizedBox(height: 5),
           Text(
             "Quick Access",
@@ -201,6 +223,46 @@ class Home extends StatelessWidget {
             children: [
               Text(
                 "Experts",
+                style: Fonts.itim.copyWith(
+                  color: AppColors.black,
+                  fontSize: 24,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  print("...............................");
+                },
+                child: Text(
+                  "See all",
+                  style: Fonts.itim.copyWith(
+                    color: AppColors.lavender,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ],
+          ).padding(const EdgeInsets.all(8)),
+          Obx(
+                () => CustomExpertCard(
+              name: 'محمد محمد',
+              jobTitle: 'محامي',
+              rating: 4.9,
+              experienceYears: 7,
+              successfulCases: 20,
+              appointmentDate: '10-25',
+              appointmentTime: '5:00 م',
+              imagePath: AppImages.expert,
+              isFavorite: controller.isFavorite.value,
+              onFavoriteToggle: () {
+                controller.isFavorite.toggle();
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Officers",
                 style: Fonts.itim.copyWith(
                   color: AppColors.black,
                   fontSize: 24,

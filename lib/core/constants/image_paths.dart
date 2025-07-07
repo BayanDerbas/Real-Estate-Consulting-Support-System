@@ -21,4 +21,5 @@ class AppImages {
   static const String user = '$basePath/user.png';
   static const String book = '$basePath/communication.png';
   static const String walletBackground = '$basePath/walletBackground.jpg';
+  static const String noImage = '$basePath/noImage.jpg';
 }

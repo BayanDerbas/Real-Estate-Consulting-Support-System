@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 
 class CustomPropertyDetails extends StatelessWidget {
   final List<String> images;
@@ -57,16 +58,22 @@ class CustomPropertyDetails extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(35),
-                    child: Image.asset(
+                    child: Image.network(
                       allImages[selectedIndex],
                       width: double.infinity,
                       height: 400,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        AppImages.noImage,
+                        width: double.infinity,
+                        height: 400,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
                 Positioned(
-                  top: 10,
+                  top: 30,
                   left: 10,
                   child: IconButton(
                     icon: const Icon(
@@ -78,7 +85,7 @@ class CustomPropertyDetails extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 10,
+                  top: 30,
                   right: 10,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -121,10 +128,6 @@ class CustomPropertyDetails extends StatelessWidget {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage(allImages[index]),
-                        fit: BoxFit.cover,
-                      ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.5),
@@ -132,6 +135,17 @@ class CustomPropertyDetails extends StatelessWidget {
                           offset: Offset(0, 2),
                         ),
                       ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        allImages[index],
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Image.asset(
+                          AppImages.noImage,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -141,7 +155,7 @@ class CustomPropertyDetails extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             title,
-            style: Fonts.itim.copyWith(color: AppColors.black, fontSize: 26),
+            style: Fonts.itim.copyWith(color: AppColors.black, fontSize: 24),
           ).padding(EdgeInsets.symmetric(horizontal: 16)),
           const SizedBox(height: 5),
           Row(
@@ -154,16 +168,17 @@ class CustomPropertyDetails extends StatelessWidget {
               ),
             ],
           ).padding(EdgeInsets.symmetric(horizontal: 16)),
-
           const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildInfoCard(Icons.aspect_ratio, area),
+              SizedBox(width: 5),
               _buildInfoCard(Icons.bed, '$beds beds'),
+              SizedBox(width: 5),
               _buildInfoCard(Icons.bathtub, '$baths baths'),
             ],
-          ).padding(EdgeInsets.symmetric(horizontal: 16)),
+          ).padding(EdgeInsets.symmetric(horizontal: 10)).scrollDirection(Axis.horizontal),
           const SizedBox(height: 20),
           Text(
             'Details',
@@ -174,7 +189,6 @@ class CustomPropertyDetails extends StatelessWidget {
             details,
             style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 16),
           ).padding(EdgeInsets.symmetric(horizontal: 16)),
-
           const SizedBox(height: 30),
         ],
       ),
@@ -183,20 +197,20 @@ class CustomPropertyDetails extends StatelessWidget {
 
   Widget _buildInfoCard(IconData icon, String text) {
     return Container(
-      width: 100,
-      height: 50,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: AppColors.lightGrey,
         boxShadow: [
           BoxShadow(
             color: AppColors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+            blurRadius: 2,
+            offset: Offset(0, 2),
           ),
         ],
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, size: 20, color: AppColors.darkGray),
