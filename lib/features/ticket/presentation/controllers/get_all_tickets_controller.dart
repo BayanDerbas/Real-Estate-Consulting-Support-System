@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import '../../../../core/networks/failures.dart';
@@ -44,12 +43,8 @@ class GetAllTicketsController extends GetxController {
       (List<Ticket> fetchedTickets) {
         tickets.assignAll(fetchedTickets);
         currentPage.value = page;
-
-        if (fetchedTickets.length < pageSize) {
-          totalPages.value = page + 1;
-        } else {
-          totalPages.value = page + 3;
-        }
+        totalPages.value =
+            (fetchedTickets.length < pageSize) ? page + 1 : page + 2;
       },
     );
   }

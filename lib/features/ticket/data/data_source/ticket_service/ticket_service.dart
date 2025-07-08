@@ -22,7 +22,7 @@ abstract class TicketService {
     @Query("page") int page,
     @Query("size") int size,
   );
-  @GET("${ApiConstant.getMyTickets}/{clientId}")
+  @GET("${ApiConstant.getMyTickets}")
   Future<HttpResponse<TicketResponse>> getMyTickets(
     @Path("clientId") int clientId,
     @Query("page") int page,

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/core/constants/colors.dart';
-import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
-import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/my_ticket_card.dart';
 
-import '../../../../core/widgets/Custom_Button.dart';
+import '../../../../core/widgets/Custom_PaginationBar.dart';
 
 class MyTickets extends StatelessWidget {
   const MyTickets({super.key});
@@ -71,63 +68,17 @@ class MyTickets extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(() => buildPagination(controller)),
+            Obx(
+              () => CustomPaginationBar(
+                totalPages: controller.totalPages.value,
+                currentPage: controller.currentPage.value,
+                onPageSelected: (page) => controller.fetchTickets(page: page),
+              ),
+            ),
             const SizedBox(height: 12),
           ],
         );
       }),
     );
-  }
-
-  Widget buildPagination(MyTicketsController controller) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomButton(
-          text: '<',
-          onPressed:
-              controller.currentPage.value > 0
-                  ? () => controller.fetchTickets(
-                    page: controller.currentPage.value - 1,
-                  )
-                  : null,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          width: 40,
-          height: 40,
-        ),
-        const SizedBox(width: 8),
-        ...List.generate(controller.totalPages.value, (index) {
-          final isActive = controller.currentPage.value == index;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: CustomButton(
-              text: '${index + 1}',
-              onPressed: () {
-                controller.fetchTickets(page: index);
-              },
-              backgroundColor: isActive ? AppColors.deepNavy : Colors.white,
-              textColor: isActive ? Colors.white : Colors.black,
-              width: 40,
-              height: 40,
-            ),
-          );
-        }),
-        const SizedBox(width: 8),
-        CustomButton(
-          text: '>',
-          onPressed:
-              controller.currentPage.value < controller.totalPages.value - 1
-                  ? () => controller.fetchTickets(
-                    page: controller.currentPage.value + 1,
-                  )
-                  : null,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          width: 40,
-          height: 40,
-        ),
-      ],
-    ).scrollDirection(Axis.horizontal);
   }
 }

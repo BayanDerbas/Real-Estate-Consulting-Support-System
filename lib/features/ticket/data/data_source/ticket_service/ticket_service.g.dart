@@ -92,7 +92,7 @@ class _TicketService implements TicketService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/tickets/${clientId}',
+            'http://195.88.87.77:8000/tickets',
             queryParameters: queryParameters,
             data: _data,
           )

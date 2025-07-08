@@ -55,16 +55,9 @@ class TicketRepositoryImpl {
         size,
       );
 
-      final content = httpResponse.data.data.content;
+      final tickets = httpResponse.data.data.content;
 
-      final tickets =
-          (content is List)
-              ? content
-                  ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
-                  .toList()
-              : <Ticket>[];
-
-      return Right(tickets!);
+      return Right(tickets);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

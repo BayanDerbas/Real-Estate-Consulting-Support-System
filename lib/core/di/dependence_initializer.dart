@@ -8,6 +8,7 @@ import 'package:graduation_project/features/ticket/data/data_source/ticket_servi
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
 import '../../features/properties/data/data_source/property_service.dart';
@@ -31,6 +32,7 @@ class DependenceInitializer {
     Get.lazyPut(() => CreateTicketController(Get.find()));
     Get.lazyPut(() => GetAllTicketsController(Get.find()));
     Get.lazyPut(() => FilteredTicketsController(Get.find()));
+    Get.lazyPut(() => MyTicketsController(Get.find()));
     //properties
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));

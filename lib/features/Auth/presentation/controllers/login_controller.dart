@@ -65,7 +65,7 @@ class LoginController extends GetxController {
           await storage.saveRefreshToken(response.refreshToken!);
         }
         await Future.delayed(Duration(seconds: 2));
-        Get.offNamed(AppRoutes.filteredTickets);
+        Get.offNamed(AppRoutes.baseTicketsPage);
         final userId = await storage.getUserId();
         print("the user id .............$userId");
       },

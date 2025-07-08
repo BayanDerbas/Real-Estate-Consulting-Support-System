@@ -16,6 +16,7 @@ class MyTicketsController extends GetxController {
 
   MyTicketsController(this._ticketRepository);
   final SecureStorage _storage = SecureStorage();
+
   @override
   void onInit() {
     super.onInit();
@@ -24,8 +25,10 @@ class MyTicketsController extends GetxController {
 
   Future<void> fetchTickets({required int page}) async {
     if (isLoading.value) return;
+
     final userIdStr = await _storage.getUserId();
     final userIdInt = int.parse(userIdStr!);
+
     isLoading.value = true;
     errorMessage.value = '';
     myTickets.clear();
@@ -40,19 +43,13 @@ class MyTicketsController extends GetxController {
 
     result.fold(
       (Failures failure) {
-        print('${userIdInt} failure >>>>>>>>>>>>>>>>');
         errorMessage.value = failure.err_message;
       },
       (List<Ticket>? fetchedTickets) {
-        print('${fetchedTickets} success >>>>>>>>>>>>>>>>');
         myTickets.assignAll(fetchedTickets!);
         currentPage.value = page;
-
-        if (fetchedTickets.length < pageSize) {
-          totalPages.value = page + 1;
-        } else {
-          totalPages.value = page + 3;
-        }
+        totalPages.value =
+            (fetchedTickets.length < pageSize) ? page + 1 : page + 2;
       },
     );
   }
