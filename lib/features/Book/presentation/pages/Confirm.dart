@@ -26,7 +26,8 @@ class Confirm extends StatelessWidget {
           cardNumberController: paymentController.cardNumberController,
           expiryDateController: paymentController.expiryDateController,
           cvcController: paymentController.cvcController,
-          countryOrRegionController: paymentController.countryOrRegionController,
+          countryOrRegionController:
+              paymentController.countryOrRegionController,
           zipCodeController: paymentController.zipCodeController,
           finalPrice: "30.00",
           onClose: () {
@@ -51,7 +52,7 @@ class Confirm extends StatelessWidget {
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Confirm your reservation ",
-          icon: Icons.notifications,
+          icon: Icon(Icons.notifications),
           iconColor: AppColors.pureWhite,
         ),
       ),

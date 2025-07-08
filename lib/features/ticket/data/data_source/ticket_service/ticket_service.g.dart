@@ -78,6 +78,82 @@ class _TicketService implements TicketService {
     return httpResponse;
   }
 
+  @override
+  Future<HttpResponse<TicketResponse>> getMyTickets(
+    int clientId,
+    int page,
+    int size,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page, r'size': size};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<HttpResponse<TicketResponse>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://195.88.87.77:8000/tickets/${clientId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TicketResponse _value;
+    try {
+      _value = TicketResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<FilterTicketsResponseModel> getFilteredTickets({
+    double? lowPrice,
+    double? highPrice,
+    String? serviceType,
+    String? houseType,
+    String? lowArea,
+    String? highArea,
+    String? location,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'lowPrice': lowPrice,
+      r'highPrice': highPrice,
+      r'serviceType': serviceType,
+      r'houseType': houseType,
+      r'lowArea': lowArea,
+      r'highArea': highArea,
+      r'location': location,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<FilterTicketsResponseModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://195.88.87.77:8000/tickets/filters',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late FilterTicketsResponseModel _value;
+    try {
+      _value = FilterTicketsResponseModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

@@ -11,7 +11,8 @@ class ApiConstant {
   //tickets
   static const String createTicket = "$baseUrl/tickets";
   static const String getAllTickets = "$baseUrl/tickets";
-
+  static const String getMyTickets = "$baseUrl/tickets";
+  static const String filterTickets = "$baseUrl/tickets/filters";
   //properties
   static const String getAllProperties = "$baseUrl/properties";
 }

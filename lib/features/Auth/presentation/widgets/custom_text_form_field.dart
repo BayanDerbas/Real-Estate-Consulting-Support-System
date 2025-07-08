@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 
 import '../../../../core/constants/Fonts.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String hintText;
   final IconData? icon;
   final bool isPassword;
@@ -14,7 +15,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final void Function()? onIconTap;
   final String? Function(String?)? validator;
-  const CustomTextFormField({
+  const CustomTextField({
     super.key,
     required this.hintText,
     this.icon,
@@ -53,6 +54,6 @@ class CustomTextFormField extends StatelessWidget {
         ),
         style: Fonts.contentTextFieldStyle,
       ),
-    ).paddingSymmetric(vertical: 7);
+    ).paddingSymmetric(vertical: 7).onTap(() => onIconTap);
   }
 }

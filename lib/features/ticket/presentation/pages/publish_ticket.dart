@@ -41,7 +41,7 @@ class CreateTicketScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                CustomTextFormField(
+                CustomTextField(
                   hintText: 'Description',
                   icon: Icons.description,
                   width: double.infinity,
@@ -60,7 +60,7 @@ class CreateTicketScreen extends StatelessWidget {
                   item: controller.serviceType,
                   onChanged: (val) => controller.serviceType.value = val ?? '',
                 ),
-                CustomTextFormField(
+                CustomTextField(
                   hintText: 'Location',
                   icon: Icons.location_on,
                   width: double.infinity,
@@ -68,7 +68,7 @@ class CreateTicketScreen extends StatelessWidget {
                   validator:
                       (val) => val == null || val.isEmpty ? 'Required' : null,
                 ),
-                CustomTextFormField(
+                CustomTextField(
                   hintText: 'Direction',
                   icon: Icons.explore,
                   width: double.infinity,
@@ -77,7 +77,7 @@ class CreateTicketScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomTextFormField(
+                      child: CustomTextField(
                         hintText: 'Low Price',
                         icon: Icons.price_change,
                         width: double.infinity,
@@ -87,7 +87,7 @@ class CreateTicketScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomTextFormField(
+                      child: CustomTextField(
                         hintText: 'High Price',
                         icon: Icons.price_check,
                         width: double.infinity,
@@ -97,7 +97,7 @@ class CreateTicketScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                CustomTextFormField(
+                CustomTextField(
                   hintText: 'Area (m²)',
                   icon: Icons.square_foot,
                   width: double.infinity,
@@ -107,7 +107,7 @@ class CreateTicketScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomTextFormField(
+                      child: CustomTextField(
                         hintText: 'Beds',
                         //  icon: Icons.bed,
                         width: double.infinity,
@@ -117,7 +117,7 @@ class CreateTicketScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomTextFormField(
+                      child: CustomTextField(
                         hintText: 'Rooms',
                         //  icon: Icons.room_preferences,
                         width: double.infinity,
@@ -127,7 +127,7 @@ class CreateTicketScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CustomTextFormField(
+                      child: CustomTextField(
                         hintText: 'Bathrooms',
                         // icon: Icons.bathroom,
                         width: double.infinity,
@@ -151,17 +151,6 @@ class CreateTicketScreen extends StatelessWidget {
                               controller.submitTicket();
                             },
                           ),
-                  // : ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(
-                  //     backgroundColor: AppColors.babySky,
-                  //     padding: const EdgeInsets.symmetric(
-                  //       horizontal: 50,
-                  //       vertical: 15,
-                  //     ),
-                  //   ),
-                  //   onPressed: controller.submitTicket,
-                  //   child: Text('Submit Ticket', style: Fonts.itim),
-                  // ),
                 ),
               ],
             ),

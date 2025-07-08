@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:graduation_project/core/di/bindings/base_tickets_binds.dart';
 import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
+import 'package:graduation_project/core/di/bindings/my_tickets_binds.dart';
 import 'package:graduation_project/core/di/bindings/verification_binds.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
@@ -11,6 +13,9 @@ import 'package:graduation_project/features/properties/presentation/pages/proper
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/base_tickets_page.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/my_tickets.dart';
 import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
@@ -44,6 +49,9 @@ class AppRoutes {
   static const String changePassword = '/change_password';
   static const String createTicket = "/create_ticket";
   static const String allTickets = '/all_tickets';
+  static const String myTickets = '/my_tickets';
+  static const String filteredTickets = '/filtered_tickets';
+  static const String baseTicketsPage = '/base_tickets_page';
   static List<GetPage> routes_ = [
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -78,7 +86,18 @@ class AppRoutes {
     GetPage(
       name: allTickets,
       page: () => TicketsPage(),
-      binding: getAllTicketsBinding(),
+      binding: GetAllTicketsBinding(),
     ),
+    GetPage(
+      name: baseTicketsPage,
+      page: () => BaseTicketsPage(),
+      binding: BaseTicketsBinds(),
+    ),
+    GetPage(
+      name: myTickets,
+      page: () => MyTickets(),
+      binding: MyTicketsBinds(),
+    ),
+    GetPage(name: filteredTickets, page: () => FilteredTicketPage()),
   ];
 }

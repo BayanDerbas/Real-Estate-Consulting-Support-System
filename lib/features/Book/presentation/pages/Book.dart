@@ -19,7 +19,7 @@ class Book extends StatelessWidget {
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
           text: "appointement",
-          icon: Icons.notifications,
+          icon: Icon(Icons.notifications),
           iconColor: AppColors.pureWhite,
         ),
       ),
@@ -50,20 +50,27 @@ class Book extends StatelessWidget {
               selectedCallType: controller.selectedCallType.value,
               onCallTypeSelected: controller.selectCallType,
               appointmentHours: [
-                "11:00AM", "12:00AM", "1:00AM", "2:00AM", "3:00AM", "4:00AM", "5:00AM", "6:00AM"
+                "11:00AM",
+                "12:00AM",
+                "1:00AM",
+                "2:00AM",
+                "3:00AM",
+                "4:00AM",
+                "5:00AM",
+                "6:00AM",
               ],
               isBooked: [true, false, false, true, false, true, false, false],
               selectedHourIndex: controller.selectedHourIndex.value,
               onHourSelected: controller.selectHour,
             ),
             CustomButton(
-                text: "حجز موعد",
-                backgroundColor: AppColors.deepNavy,
-                textColor: AppColors.softWhite,
-                width: double.infinity,
+              text: "حجز موعد",
+              backgroundColor: AppColors.deepNavy,
+              textColor: AppColors.softWhite,
+              width: double.infinity,
               onPressed: () {
-                  print("................................................");
-                  Get.toNamed('/confirm');
+                print("................................................");
+                Get.toNamed('/confirm');
               },
             ).padding(EdgeInsets.all(15)),
           ],

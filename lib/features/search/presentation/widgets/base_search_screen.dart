@@ -28,14 +28,12 @@ class BaseSearchScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(130),
           child: CustomAppbar(
             text: appBarTitle.toString(),
-            icon: Icons.notifications,
+            icon: Icon(Icons.notifications),
             iconColor: Colors.white,
           ),
         ),
 
-        body: Center(
-          child:widget ,
-        ),
+        body: Center(child: widget),
       ),
     );
   }

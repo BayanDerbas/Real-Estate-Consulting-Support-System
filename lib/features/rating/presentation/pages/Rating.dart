@@ -21,9 +21,9 @@ class Rating extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
-            text: "Rating",
-            icon: Icons.notifications,
-            iconColor: AppColors.pureWhite
+          text: "Rating",
+          icon: Icon(Icons.notifications),
+          iconColor: AppColors.pureWhite,
         ),
       ),
       body: Obx(() {
@@ -34,22 +34,24 @@ class Rating extends StatelessWidget {
               name: "محمد محمد",
               job: "محامي",
               rating: controller.rating.value,
-              onRatingChanged:controller.updateRating,
+              onRatingChanged: controller.updateRating,
             ),
             CustomButton(
               text: "تقييم",
               backgroundColor: AppColors.deepNavy,
               textColor: AppColors.pureWhite,
               width: double.infinity,
-              onPressed: (){
+              onPressed: () {
                 print("object");
               },
             ).padding(EdgeInsets.all(18)),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             CustomTextbutton(
               text: "ارسال تقرير عن سوء الخدمة",
               Textcolor: AppColors.grey,
-              onTap: () { print("object"); },
+              onTap: () {
+                print("object");
+              },
             ),
           ],
         );

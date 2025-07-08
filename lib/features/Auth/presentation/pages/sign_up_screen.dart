@@ -22,7 +22,7 @@ class SignUpScreen extends StatelessWidget {
         key: controller.formKey,
         child: Column(
           children: [
-            CustomTextFormField(
+            CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
               hintText: "first name",
@@ -32,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
                 return validateInput(val!, 2, 30, 'username');
               },
             ).paddingOnly(left: 15, right: 15, top: 40),
-            CustomTextFormField(
+            CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
               hintText: "last name",
@@ -42,7 +42,7 @@ class SignUpScreen extends StatelessWidget {
                 return validateInput(val!, 2, 30, 'username');
               },
             ).paddingSymmetric(horizontal: 15),
-            CustomTextFormField(
+            CustomTextField(
               keyboardType: TextInputType.emailAddress,
               width: width * 0.8,
               hintText: "email",
@@ -52,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                 return validateInput(val!, 2, 30, 'email');
               },
             ).paddingSymmetric(horizontal: 15),
-            CustomTextFormField(
+            CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
               hintText: "password",
@@ -62,7 +62,7 @@ class SignUpScreen extends StatelessWidget {
                 return validateInput(val!, 2, 30, 'password');
               },
             ).paddingSymmetric(horizontal: 15),
-            CustomTextFormField(
+            CustomTextField(
               keyboardType: TextInputType.phone,
               width: width * 0.8,
               hintText: "phone",

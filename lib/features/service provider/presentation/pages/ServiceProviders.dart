@@ -19,12 +19,12 @@ class ServiceProviders extends StatelessWidget {
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "service provider",
-          icon: Icons.notifications,
+          icon: Icon(Icons.notifications),
           iconColor: AppColors.pureWhite,
         ),
       ),
       body: Obx(
-            () => Column(
+        () => Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,16 +61,15 @@ class ServiceProviders extends StatelessWidget {
                     onTap: () {
                       print("تم الضغط على زر احجز الآن لـ ${provider['name']}");
                     },
-                    onCardTap: (){
-                      Get.toNamed('/profile',arguments: provider);
+                    onCardTap: () {
+                      Get.toNamed('/profile', arguments: provider);
                     },
                     pricre: provider['price'],
-                    textProvider:provider['textProvider'],
+                    textProvider: provider['textProvider'],
                   );
                 },
               ),
             ),
-
           ],
         ),
       ),

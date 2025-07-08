@@ -25,7 +25,7 @@ class ChangePassword extends StatelessWidget {
         key: controller.formKey,
         child: Column(
           children: [
-            CustomTextFormField(
+            CustomTextField(
               width: width * 0.8,
               hintText: "email",
               icon: Icons.email_outlined,
@@ -34,7 +34,7 @@ class ChangePassword extends StatelessWidget {
                 return validateInput(val!, 11, 50, 'email');
               },
             ).paddingOnly(left: 15, right: 15, top: 40),
-            CustomTextFormField(
+            CustomTextField(
               width: width * 0.8,
               hintText: "password",
               icon: Icons.password,

@@ -7,10 +7,10 @@ import '../constants/colors.dart';
 class CustomAppbar extends StatelessWidget {
   final String text;
   final Color textColor;
-  final IconData icon;
+  final Widget icon;
   final Color iconColor;
   final Color appbarColor;
-
+  final void Function()? onPressed;
   const CustomAppbar({
     super.key,
     required this.text,
@@ -18,6 +18,7 @@ class CustomAppbar extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     this.appbarColor = AppColors.deepNavy,
+    this.onPressed,
   });
 
   @override
@@ -35,7 +36,8 @@ class CustomAppbar extends StatelessWidget {
                   text,
                   style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
                 ),
-                Icon(icon, color: iconColor, size: 30),
+
+                IconButton(onPressed: onPressed, icon: icon, color: iconColor),
               ],
             )
             .paddingOnly(bottom: 30, left: 20, right: 20, top: 20)

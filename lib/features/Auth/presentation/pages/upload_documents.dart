@@ -27,7 +27,7 @@ class UploadDocuments extends StatelessWidget {
               controller.onChangeType(value);
             },
           ).paddingOnly(top: 100),
-          CustomTextFormField(
+          CustomTextField(
             width: width * 0.8,
             hintText: "attach documents",
             icon: Icons.password,

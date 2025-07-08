@@ -11,15 +11,16 @@ class Serviceproviderprofile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ServiceProviderProfileController controller =
-    Get.put(ServiceProviderProfileController());
+    final ServiceProviderProfileController controller = Get.put(
+      ServiceProviderProfileController(),
+    );
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Service Provider Profile",
-          icon: Icons.notifications,
+          icon: Icon(Icons.notifications),
           iconColor: AppColors.pureWhite,
         ),
       ),
@@ -42,12 +43,9 @@ class Serviceproviderprofile extends StatelessWidget {
             Get.toNamed('/Book');
           },
           onMessage: () {},
-          followerImages: [
-            AppImages.expert,
-            AppImages.user,
-          ],
+          followerImages: [AppImages.expert, AppImages.user],
           description:
-          "this is my first description ton this provider , i am a lawyer to this app ,provide consultations to users who wants help in real estate",
+              "this is my first description ton this provider , i am a lawyer to this app ,provide consultations to users who wants help in real estate",
           postImages: controller.postImages,
           realEstateImages: controller.realEstateImages,
           discounts: controller.discounts,

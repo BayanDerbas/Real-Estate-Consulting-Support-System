@@ -18,9 +18,11 @@ class Posts extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostsController controller = Get.put(PostsController());
     final HomeController homeController = Get.put(HomeController());
-    final CustomDrawerController drawerController = Get.put(CustomDrawerController());
+    final CustomDrawerController drawerController = Get.put(
+      CustomDrawerController(),
+    );
     return Scaffold(
-      drawer:CustomDrawer(
+      drawer: CustomDrawer(
         userName: drawerController.userName.value,
         email: drawerController.email.value,
         userImage: drawerController.userImage.value,
@@ -30,7 +32,7 @@ class Posts extends StatelessWidget {
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
           text: "Welcome Home",
-          icon: Icons.notifications,
+          icon: Icon(Icons.notifications),
           iconColor: AppColors.pureWhite,
         ),
       ),
@@ -124,7 +126,7 @@ class Posts extends StatelessWidget {
               ],
             ).scrollDirection(Axis.horizontal),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 10),
           Obx(
             () => Column(
               children: List.generate(controller.postsList.length, (index) {
@@ -136,20 +138,27 @@ class Posts extends StatelessWidget {
                   postText: post['postText']?.toString() ?? '',
                   postingTime: post['postingTime']?.toString() ?? '',
                   postImage: post['postImage']?.toString() ?? '',
-                  isLiked: post['isLiked'] is RxBool ? post['isLiked'] as RxBool : false.obs,
-                  isDisLiked: post['isDisLiked'] is RxBool ? post['isDisLiked'] as RxBool : false.obs,
+                  isLiked:
+                      post['isLiked'] is RxBool
+                          ? post['isLiked'] as RxBool
+                          : false.obs,
+                  isDisLiked:
+                      post['isDisLiked'] is RxBool
+                          ? post['isDisLiked'] as RxBool
+                          : false.obs,
                   onLike: () {
                     if ((post['isDisLiked'] as RxBool).value) {
                       (post['isDisLiked'] as RxBool).value = false;
                     }
-                    (post['isLiked'] as RxBool).value = !(post['isLiked'] as RxBool).value;
+                    (post['isLiked'] as RxBool).value =
+                        !(post['isLiked'] as RxBool).value;
                   },
                   onDisLike: () {
                     if ((post['isLiked'] as RxBool).value) {
                       (post['isLiked'] as RxBool).value = false;
                     }
                     (post['isDisLiked'] as RxBool).value =
-                    !(post['isDisLiked'] as RxBool).value;
+                        !(post['isDisLiked'] as RxBool).value;
                   },
                 );
               }),

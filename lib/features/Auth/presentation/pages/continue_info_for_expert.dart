@@ -201,7 +201,7 @@ class ContinueInfoForExpert extends StatelessWidget {
                   }),
                 ).paddingOnly(bottom: 20),
 
-                CustomTextFormField(
+                CustomTextField(
                   keyboardType: TextInputType.text,
                   width: width * 0.8,
                   hintText: "Profession",
@@ -209,7 +209,7 @@ class ContinueInfoForExpert extends StatelessWidget {
                   controller: controller.profession,
                 ).paddingSymmetric(horizontal: 15),
 
-                CustomTextFormField(
+                CustomTextField(
                   keyboardType: TextInputType.text,
                   width: width * 0.8,
                   hintText: "Experience",
@@ -219,7 +219,7 @@ class ContinueInfoForExpert extends StatelessWidget {
               ],
 
               if (controller.selectedRole.value != 'USER') ...[
-                CustomTextFormField(
+                CustomTextField(
                   keyboardType: TextInputType.text,
                   width: width * 0.8,
                   hintText: "Location",
@@ -227,7 +227,7 @@ class ContinueInfoForExpert extends StatelessWidget {
                   controller: controller.location,
                 ).paddingSymmetric(horizontal: 15),
 
-                CustomTextFormField(
+                CustomTextField(
                   keyboardType: TextInputType.text,
                   width: width * 0.8,
                   hintText: "Bio",

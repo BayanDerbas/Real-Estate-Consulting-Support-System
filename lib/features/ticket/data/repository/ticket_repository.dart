@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:graduation_project/features/ticket/data/model/filter_tickets_request_model.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_request_model.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_response_model.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
+import 'package:graduation_project/features/ticket/data/model/ticket_data_model.dart';
 import '../../../../core/networks/failures.dart';
+import '../model/filter_tickets_response_model.dart';
 import '../model/ticket_model.dart';
 
 class TicketRepositoryImpl {
@@ -33,6 +36,57 @@ class TicketRepositoryImpl {
       final tickets = httpResponse.data.data.content;
 
       return Right(tickets);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, List<Ticket>>> getMyTickets({
+    required int page,
+    required int size,
+    required int userId,
+  }) async {
+    try {
+      final httpResponse = await _ticketService.getMyTickets(
+        userId,
+        page,
+        size,
+      );
+
+      final content = httpResponse.data.data.content;
+
+      final tickets =
+          (content is List)
+              ? content
+                  ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
+                  .toList()
+              : <Ticket>[];
+
+      return Right(tickets!);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, List<TicketDataModel>>> getFilteredTickets({
+    required FilterTicketsModel filter,
+  }) async {
+    try {
+      final FilterTicketsResponseModel httpResponse = await _ticketService
+          .getFilteredTickets(
+            lowPrice: filter.lowPrice,
+            highPrice: filter.highPrice,
+            serviceType: filter.serviceType,
+            houseType: filter.houseType,
+            lowArea: filter.lowArea,
+            highArea: filter.highArea,
+            location: filter.location,
+          );
+      return Right(httpResponse.data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

@@ -23,9 +23,13 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.put(HomeController());
-    final CustomDrawerController drawerController = Get.put(CustomDrawerController());
+    final CustomDrawerController drawerController = Get.put(
+      CustomDrawerController(),
+    );
     final repository = PropertyRepository(PropertyService(Dio()));
-    final PropertiesController propertiesController = Get.put(PropertiesController(repository));
+    final PropertiesController propertiesController = Get.put(
+      PropertiesController(repository),
+    );
 
     return Scaffold(
       drawer: CustomDrawer(
@@ -38,7 +42,7 @@ class Home extends StatelessWidget {
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Welcome Home",
-          icon: Icons.notifications,
+          icon: Icon(Icons.notifications),
           iconColor: AppColors.pureWhite,
         ),
       ),
@@ -46,7 +50,7 @@ class Home extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Obx(
-                () => Row(
+            () => Row(
               children: [
                 CustomIconButton(
                   icon: Icons.wallet_outlined,
@@ -138,7 +142,8 @@ class Home extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final propertyWidgets = propertiesController.propertiesList.take(4).toList();
+            final propertyWidgets =
+                propertiesController.propertiesList.take(4).toList();
             return SizedBox(
               height: 270,
               child: ListView.builder(
@@ -171,10 +176,7 @@ class Home extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             "Quick Access",
-            style: Fonts.itim.copyWith(
-              color: AppColors.deepNavy,
-              fontSize: 24,
-            ),
+            style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 24),
           ).padding(const EdgeInsets.all(8)),
           GridView.count(
             crossAxisCount: 2,
@@ -189,7 +191,9 @@ class Home extends StatelessWidget {
                 imagePath: AppImages.sendRequest,
                 backgroundColor: AppColors.blushRose,
                 onPressed: () {
-                  print('Send Request Pressed.........................................');
+                  print(
+                    'Send Request Pressed.........................................',
+                  );
                 },
               ).makeSafeArea(),
               CustomQuickAccessCard(
@@ -243,7 +247,7 @@ class Home extends StatelessWidget {
             ],
           ).padding(const EdgeInsets.all(8)),
           Obx(
-                () => CustomExpertCard(
+            () => CustomExpertCard(
               name: 'محمد محمد',
               jobTitle: 'محامي',
               rating: 4.9,
@@ -283,7 +287,7 @@ class Home extends StatelessWidget {
             ],
           ).padding(const EdgeInsets.all(8)),
           Obx(
-                () => CustomExpertCard(
+            () => CustomExpertCard(
               name: 'محمد محمد',
               jobTitle: 'محامي',
               rating: 4.9,
@@ -313,13 +317,15 @@ class Home extends StatelessWidget {
                   if ((post['isDisLiked'] as RxBool).value) {
                     (post['isDisLiked'] as RxBool).value = false;
                   }
-                  (post['isLiked'] as RxBool).value = !(post['isLiked'] as RxBool).value;
+                  (post['isLiked'] as RxBool).value =
+                      !(post['isLiked'] as RxBool).value;
                 },
                 onDisLike: () {
                   if ((post['isLiked'] as RxBool).value) {
                     (post['isLiked'] as RxBool).value = false;
                   }
-                  (post['isDisLiked'] as RxBool).value = !(post['isDisLiked'] as RxBool).value;
+                  (post['isDisLiked'] as RxBool).value =
+                      !(post['isDisLiked'] as RxBool).value;
                 },
                 onFollow: controller.toggleFollow,
               );

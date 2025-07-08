@@ -4,19 +4,18 @@ import 'package:graduation_project/features/ticket/data/model/ticket_model.dart'
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import '../../../../core/networks/failures.dart';
 
-class GetAllTicketsController extends GetxController {
+class MyTicketsController extends GetxController {
   final TicketRepositoryImpl _ticketRepository;
 
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
-  final RxList<Ticket> tickets = <Ticket>[].obs;
   final RxList<Ticket> myTickets = <Ticket>[].obs;
   final RxInt currentPage = 0.obs;
   final RxInt totalPages = 1.obs;
   final int pageSize = 5;
 
-  GetAllTicketsController(this._ticketRepository);
-
+  MyTicketsController(this._ticketRepository);
+  final SecureStorage _storage = SecureStorage();
   @override
   void onInit() {
     super.onInit();
@@ -25,24 +24,28 @@ class GetAllTicketsController extends GetxController {
 
   Future<void> fetchTickets({required int page}) async {
     if (isLoading.value) return;
-
+    final userIdStr = await _storage.getUserId();
+    final userIdInt = int.parse(userIdStr!);
     isLoading.value = true;
     errorMessage.value = '';
-    tickets.clear();
+    myTickets.clear();
 
-    final result = await _ticketRepository.getAllTickets(
+    final result = await _ticketRepository.getMyTickets(
       page: page,
       size: pageSize,
+      userId: userIdInt,
     );
 
     isLoading.value = false;
 
     result.fold(
       (Failures failure) {
+        print('${userIdInt} failure >>>>>>>>>>>>>>>>');
         errorMessage.value = failure.err_message;
       },
-      (List<Ticket> fetchedTickets) {
-        tickets.assignAll(fetchedTickets);
+      (List<Ticket>? fetchedTickets) {
+        print('${fetchedTickets} success >>>>>>>>>>>>>>>>');
+        myTickets.assignAll(fetchedTickets!);
         currentPage.value = page;
 
         if (fetchedTickets.length < pageSize) {

@@ -14,14 +14,16 @@ class Properties extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(PropertiesController(Get.find<PropertyRepository>()));
+    final controller = Get.put(
+      PropertiesController(Get.find<PropertyRepository>()),
+    );
     return Obx(() {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(150),
           child: CustomAppbar(
             text: "Properties",
-            icon: Icons.notifications,
+            icon: Icon(Icons.notifications),
             iconColor: AppColors.pureWhite,
           ),
         ),
@@ -33,7 +35,11 @@ class Properties extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.home_outlined, color: AppColors.darkGray, size: 30),
+                      Icon(
+                        Icons.home_outlined,
+                        color: AppColors.darkGray,
+                        size: 30,
+                      ),
                       SizedBox(width: 3),
                       Text(
                         "200 +",
@@ -46,7 +52,10 @@ class Properties extends StatelessWidget {
                   ),
                   Text(
                     "available properties",
-                    style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.grey,
+                      fontSize: 18,
+                    ),
                   ).padding(EdgeInsets.only(bottom: 5)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -79,32 +88,34 @@ class Properties extends StatelessWidget {
                   ).scrollDirection(Axis.horizontal),
                   controller.isLoading.value
                       ? Padding(
-                    padding: const EdgeInsets.only(top: 100),
-                    child: Center(child: CircularProgressIndicator()),
-                  )
+                        padding: const EdgeInsets.only(top: 100),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
                       : controller.properties.isEmpty
                       ? Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 200),
-                        Text(
-                          controller.failureMessage.value.isNotEmpty
-                              ? controller.failureMessage.value
-                              : "No properties available.",
-                          style: Fonts.itim.copyWith(
-                              fontSize: 16,
-                              color: AppColors.deepNavy,
-                              fontWeight: FontWeight.bold),
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 200),
+                            Text(
+                              controller.failureMessage.value.isNotEmpty
+                                  ? controller.failureMessage.value
+                                  : "No properties available.",
+                              style: Fonts.itim.copyWith(
+                                fontSize: 16,
+                                color: AppColors.deepNavy,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )
+                      )
                       : Column(
-                    children: controller.propertiesList
-                        .map((property) => property)
-                        .toList(),
-                  ).padding(EdgeInsets.only(top: 5)),
+                        children:
+                            controller.propertiesList
+                                .map((property) => property)
+                                .toList(),
+                      ).padding(EdgeInsets.only(top: 5)),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Align(

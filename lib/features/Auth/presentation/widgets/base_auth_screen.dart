@@ -34,7 +34,7 @@ class BaseAuthScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(130),
           child: CustomAppbar(
             text: appBarTitle.toString(),
-            icon: Icons.notifications,
+            icon: Icon(Icons.notification_add),
             iconColor: Colors.white,
           ),
         ),

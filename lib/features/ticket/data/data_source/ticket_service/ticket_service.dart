@@ -3,6 +3,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_response_model.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_request_model.dart';
 import '../../../../../core/networks/api_constant.dart';
+import '../../model/filter_tickets_response_model.dart';
 import '../../model/ticket_model.dart';
 import '../../model/ticket_response.dart';
 
@@ -21,4 +22,21 @@ abstract class TicketService {
     @Query("page") int page,
     @Query("size") int size,
   );
+  @GET("${ApiConstant.getMyTickets}/{clientId}")
+  Future<HttpResponse<TicketResponse>> getMyTickets(
+    @Path("clientId") int clientId,
+    @Query("page") int page,
+    @Query("size") int size,
+  );
+
+  @GET(ApiConstant.filterTickets)
+  Future<FilterTicketsResponseModel> getFilteredTickets({
+    @Query("lowPrice") double? lowPrice,
+    @Query("highPrice") double? highPrice,
+    @Query("serviceType") String? serviceType,
+    @Query("houseType") String? houseType,
+    @Query("lowArea") String? lowArea,
+    @Query("highArea") String? highArea,
+    @Query("location") String? location,
+  });
 }
