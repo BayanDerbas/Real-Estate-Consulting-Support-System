@@ -7,51 +7,73 @@ import 'package:graduation_project/features/ticket/presentation/controllers/get_
 import 'package:graduation_project/features/ticket/presentation/widgets/my_ticket_card.dart';
 
 import '../../../../core/widgets/Custom_PaginationBar.dart';
+import '../../../../core/constants/fonts.dart';
 
-class TicketsPage extends StatelessWidget {
+class TicketsPage extends GetView<GetAllTicketsController> {
   const TicketsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<GetAllTicketsController>();
-    final screenWidth = MediaQuery.of(context).size.width;
-
+    final currentWidth = MediaQuery.of(context).size.width;
+    final currentHeight = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: AppColors.softWhite,
       appBar: AppBar(
-        title: const Text(
+        backgroundColor: AppColors.purple,
+        title: Text(
           "كل الطلبات",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: Fonts.itim.copyWith(
+            color: AppColors.pureWhite,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
-        elevation: 0,
+        elevation: 4,
+        shadowColor: AppColors.deepNavy.withOpacity(0.3),
       ),
       body: Obx(() {
         if (controller.isLoading.value && controller.tickets.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.purple),
+          );
         }
 
         if (controller.errorMessage.isNotEmpty) {
           return Center(
             child: Text(
               controller.errorMessage.value,
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(
+                color: AppColors.red,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           );
         }
 
         if (controller.tickets.isEmpty) {
-          return const Center(child: Text("لا يوجد طلبات حالياً"));
+          return Center(
+            child: Text(
+              "لا يوجد طلبات حالياً",
+              style: Fonts.taj.copyWith(
+                color: AppColors.deepNavy.withOpacity(0.6),
+              ),
+            ),
+          );
         }
 
         return Column(
           children: [
             Expanded(
               child: RefreshIndicator(
+                color: AppColors.purple,
                 onRefresh: () async => controller.refreshTickets(),
                 child: ListView.separated(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   itemCount: controller.tickets.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, __) => const SizedBox(height: 16),
                   itemBuilder: (context, index) {
                     final Ticket ticket = controller.tickets[index];
                     final user = ticket.client.user;
@@ -63,7 +85,7 @@ class TicketsPage extends StatelessWidget {
                       location: ticket.location,
                       description: ticket.description,
                       priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',
-                      width: screenWidth,
+                      width: currentWidth,
                       height: 200,
                     );
                   },
@@ -71,13 +93,20 @@ class TicketsPage extends StatelessWidget {
               ),
             ),
             Obx(
-              () => CustomPaginationBar(
-                totalPages: controller.totalPages.value,
-                currentPage: controller.currentPage.value,
-                onPageSelected: (page) => controller.fetchTickets(page: page),
+              () => Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 16,
+                ),
+                child: CustomPaginationBar(
+                  totalPages: controller.totalPages.value,
+                  currentPage: controller.currentPage.value,
+                  // selectedColor: AppColors.purple,
+                  // unselectedColor: AppColors.grey2,
+                  onPageSelected: (page) => controller.fetchTickets(page: page),
+                ),
               ),
             ),
-            const SizedBox(height: 12),
           ],
         );
       }),

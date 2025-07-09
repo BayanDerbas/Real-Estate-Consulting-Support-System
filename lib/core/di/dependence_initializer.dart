@@ -30,9 +30,7 @@ class DependenceInitializer {
     Get.lazyPut(() => TicketRepositoryImpl(Get.find()));
     Get.lazyPut(() => TicketService(Get.find()));
     Get.lazyPut(() => CreateTicketController(Get.find()));
-    Get.lazyPut(() => GetAllTicketsController(Get.find()));
     Get.lazyPut(() => FilteredTicketsController(Get.find()));
-    Get.lazyPut(() => MyTicketsController(Get.find()));
     //properties
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));

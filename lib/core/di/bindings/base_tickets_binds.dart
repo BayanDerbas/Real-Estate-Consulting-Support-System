@@ -4,6 +4,6 @@ import 'package:graduation_project/features/ticket/presentation/controllers/page
 class BaseTicketsBinds extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => PageTicketController());
+    Get.lazyPut(() => PageTicketController(), fenix: true);
   }
 }

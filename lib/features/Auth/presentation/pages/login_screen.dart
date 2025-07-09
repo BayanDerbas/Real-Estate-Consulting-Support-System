@@ -62,9 +62,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () async {
                       final SecureStorage st = SecureStorage();
 
-                      print(
-                        'lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll',
-                      );
+                      print('hello i\'m a programmer not Engineer 😥');
                       print(await st.getToken());
                       bool isValidInput = controller.validateInput();
                       if (isValidInput)
@@ -81,8 +79,8 @@ class LoginScreen extends StatelessWidget {
       appBarTitle: "Welcome Back",
       bodyText: "Don't have an account?",
       clickableText: "Sign Up",
-      footerText:
-          "By clicking login you agree to Tradinos Terms & Conditions. Capital at risk: Before any thing, Please read the Key Risks.",
+      footerText: '',
+      // "By clicking login you agree to Tradinos Terms & Conditions. Capital at risk: Before any thing, Please read the Key Risks.",
       onTap: () {
         Get.toNamed(AppRoutes.signup);
       },

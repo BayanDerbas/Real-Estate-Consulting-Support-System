@@ -91,7 +91,7 @@ class AppRoutes {
     GetPage(
       name: baseTicketsPage,
       page: () => BaseTicketsPage(),
-      binding: BaseTicketsBinds(),
+      bindings: [BaseTicketsBinds(), GetAllTicketsBinding(), MyTicketsBinds()],
     ),
     GetPage(
       name: myTickets,

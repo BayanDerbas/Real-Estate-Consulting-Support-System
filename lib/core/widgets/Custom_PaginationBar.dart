@@ -48,10 +48,7 @@ class CustomPaginationBar extends StatelessWidget {
       pages.add(_buildPageButton(totalPages - 1));
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: pages,
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: pages);
   }
 
   Widget _buildPageButton(int pageIndex) {

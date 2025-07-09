@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
+import 'package:graduation_project/core/routes/routes.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String userName;
@@ -42,9 +43,11 @@ class CustomDrawer extends StatelessWidget {
                   CircleAvatar(
                     radius: 40,
                     backgroundColor: AppColors.pureWhite,
-                    backgroundImage: controller.userImage.value.startsWith('http')
-                        ? NetworkImage(controller.userImage.value)
-                        : AssetImage(controller.userImage.value) as ImageProvider,
+                    backgroundImage:
+                        controller.userImage.value.startsWith('http')
+                            ? NetworkImage(controller.userImage.value)
+                            : AssetImage(controller.userImage.value)
+                                as ImageProvider,
                   ),
                   const SizedBox(width: 12),
                   Column(
@@ -74,7 +77,7 @@ class CustomDrawer extends StatelessWidget {
               icon: Icons.confirmation_number,
               title: 'my tickets',
               onTap: () {
-                Get.toNamed('/home');
+                Get.toNamed(AppRoutes.myTickets);
               },
             ),
             DrawerItem(
@@ -156,17 +159,10 @@ class DrawerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color: AppColors.grey,
-        size: 25,
-      ),
+      leading: Icon(icon, color: AppColors.grey, size: 25),
       title: Text(
         title,
-        style: Fonts.itim.copyWith(
-          color: AppColors.grey,
-          fontSize: 18,
-        ),
+        style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
       ),
       onTap: onTap,
     );
@@ -180,12 +176,7 @@ class CustomDrawerController extends GetxController {
   var userType = ''.obs;
   VoidCallback? onTap;
 
-  void setData(
-      String name,
-      String emailVal,
-      String image,
-      String type,
-      ) {
+  void setData(String name, String emailVal, String image, String type) {
     userName.value = "name";
     email.value = "emailVal";
     userImage.value = AppImages.user;

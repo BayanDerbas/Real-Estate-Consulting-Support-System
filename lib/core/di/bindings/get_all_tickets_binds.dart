@@ -8,6 +8,7 @@ class GetAllTicketsBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<GetAllTicketsController>(
       () => GetAllTicketsController(Get.find<TicketRepositoryImpl>()),
+      fenix: true,
     );
   }
 }

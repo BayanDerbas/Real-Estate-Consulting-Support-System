@@ -5,6 +5,6 @@ import '../../../features/ticket/presentation/controllers/my_tickets_controller.
 class MyTicketsBinds extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => MyTicketsController(Get.find()));
+    Get.lazyPut(() => MyTicketsController(Get.find()), fenix: true);
   }
 }

@@ -6,12 +6,11 @@ import 'package:graduation_project/features/ticket/presentation/widgets/my_ticke
 
 import '../../../../core/widgets/Custom_PaginationBar.dart';
 
-class MyTickets extends StatelessWidget {
+class MyTickets extends GetView<MyTicketsController> {
   const MyTickets({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<MyTicketsController>();
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(

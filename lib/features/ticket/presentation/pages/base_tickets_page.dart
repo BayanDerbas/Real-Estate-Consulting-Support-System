@@ -7,10 +7,8 @@ import '../controllers/page_controller.dart';
 import 'all_tickets.dart';
 import 'my_tickets.dart'; // replace with your actual widget files
 
-class BaseTicketsPage extends StatelessWidget {
+class BaseTicketsPage extends GetView<PageTicketController> {
   BaseTicketsPage({super.key});
-
-  final PageTicketController controller = Get.put(PageTicketController());
 
   @override
   Widget build(BuildContext context) {
