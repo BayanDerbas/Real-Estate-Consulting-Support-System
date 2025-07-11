@@ -43,14 +43,26 @@ class serverFailure extends Failures {
   }
 
   factory serverFailure.fromResponse(int statusCode, dynamic response) {
-    if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
-      return serverFailure(response.toString());
+    if (statusCode == 400) {
+      return serverFailure(
+        'Bad request. Please check your input and try again.',
+      );
+    } else if (statusCode == 401) {
+      return serverFailure('Unauthorized. Please log in again.');
+    } else if (statusCode == 403) {
+      return serverFailure(
+        'Forbidden. You do not have permission to access this resource.',
+      );
     } else if (statusCode == 404) {
-      return serverFailure('Your request is not found .');
+      return serverFailure(
+        'Request not found. Please check the URL or resource.',
+      );
     } else if (statusCode == 500) {
-      return serverFailure(response.toString());
+      return serverFailure('Internal server error. Please try again later.');
     } else {
-      return serverFailure('Opps !! , there was an error , please try again .');
+      return serverFailure(
+        'Oops! An unexpected error occurred. Please try again.',
+      );
     }
   }
 }

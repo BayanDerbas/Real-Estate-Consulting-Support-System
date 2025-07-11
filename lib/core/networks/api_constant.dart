@@ -6,6 +6,7 @@ class ApiConstant {
   static const String registerPath = "$auth/register";
   static const String verificationCode = "$auth/verification";
   static const String refresh = "$auth/refresh";
+  static const String sendCode = "$auth/send-code";
   static const String changePassword = "$auth/change-password";
 
   //tickets

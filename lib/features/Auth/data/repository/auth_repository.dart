@@ -90,4 +90,15 @@ class AuthRepository {
       return Left(serverFailure(e.toString()));
     }
   }
+
+  Future<Either<Failures, dynamic>> sendCode(String? email) async {
+    try {
+      final httpResponse = await _authService.sendCode(email!);
+      return Right(httpResponse.data);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
 }

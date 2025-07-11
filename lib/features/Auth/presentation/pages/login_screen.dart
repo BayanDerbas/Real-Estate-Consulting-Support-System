@@ -65,9 +65,9 @@ class LoginScreen extends StatelessWidget {
                       print('hello i\'m a programmer not Engineer 😥');
                       print(await st.getToken());
                       bool isValidInput = controller.validateInput();
-                      if (isValidInput)
+                      if (isValidInput) {
                         controller.userLogin();
-                      else {
+                      } else {
                         return;
                       }
                     },

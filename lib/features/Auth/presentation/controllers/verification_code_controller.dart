@@ -17,12 +17,12 @@ class VerificationCodeController extends GetxController {
 
   late Timer _timer;
   var canResend = false.obs;
-  var countdown = 60.obs;
+  var countdown = 20.obs;
 
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments != null && Get.arguments is String) {
+    if (Get.arguments is String) {
       email.text = Get.arguments;
     }
     startResendTimer();
@@ -30,32 +30,52 @@ class VerificationCodeController extends GetxController {
 
   void startResendTimer() {
     canResend(false);
-    countdown.value = 60;
+    countdown.value = 20;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (countdown.value > 0) {
         countdown.value--;
       } else {
-        _timer.cancel();
+        timer.cancel();
         canResend(true);
       }
     });
   }
 
-  Future<void> resendCode() async {
-    print("Resending code to ${email.text}...");
-    startResendTimer();
-  }
-
-  @override
-  void onClose() {
-    _timer.cancel();
-    super.onClose();
+  Future<void> sendCode() async {
+    isLoading(true);
+    final data = await _authRepository.sendCode(email.text);
+    isLoading(false);
+    data.fold(
+      (l) {
+        errMessage(l.err_message);
+        AwesomeDialog(
+          context: Get.context!,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          title: "Sending Failed",
+          desc: errMessage.value,
+          btnOkOnPress: () {},
+        ).show();
+      },
+      (r) async {
+        code.clear();
+        await AwesomeDialog(
+          context: Get.context!,
+          dialogType: DialogType.success,
+          animType: AnimType.scale,
+          title: "Success",
+          desc: "New code sent successfully",
+          btnOkOnPress: () {},
+          autoHide: const Duration(seconds: 2),
+        ).show();
+        startResendTimer();
+      },
+    );
   }
 
   Future<void> verificationCode() async {
-    if (code.text.trim().isEmpty) {
-      return;
-    }
+    if (code.text.trim().isEmpty) return;
+
     isLoading(true);
     errMessage("");
 
@@ -85,11 +105,17 @@ class VerificationCodeController extends GetxController {
           title: "Success",
           desc: "Account created successfully",
           btnOkOnPress: () {},
-          autoHide: Duration(seconds: 2),
+          autoHide: const Duration(seconds: 2),
         ).show();
         _timer.cancel();
-        Get.offNamed(AppRoutes.home);
+        Get.offNamed(AppRoutes.login);
       },
     );
+  }
+
+  @override
+  void onClose() {
+    _timer.cancel();
+    super.onClose();
   }
 }

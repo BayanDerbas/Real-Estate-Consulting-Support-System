@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' hide Headers;
+import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/model/login_wrapper_model.dart';
 import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
@@ -48,4 +49,6 @@ abstract class AuthService {
     @Query("email") String email,
     @Query("password") String password,
   );
+  @POST(ApiConstant.sendCode)
+  Future<HttpResponse<dynamic>> sendCode(@Query("email") String email);
 }

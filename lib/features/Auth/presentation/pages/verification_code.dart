@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/styles.dart';
+import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
 import '../../../../core/widgets/custom_otp.dart';
 
@@ -31,16 +32,18 @@ class OtpPage extends StatelessWidget {
             children: [
               Text(
                 'Verification Code',
+                textAlign: TextAlign.center,
                 style: setTextStyle(
                   GoogleFonts.michroma,
-                  30,
+                  25,
                   AppColors.pureWhite,
                   FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
-                'Enter the 6-digit code sent to',
+                'Please enter the verification code we sent to your email address',
+                textAlign: TextAlign.center,
                 style: setTextStyle(
                   GoogleFonts.poppins,
                   16,
@@ -58,17 +61,7 @@ class OtpPage extends StatelessWidget {
                   FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 4),
-              GestureDetector(
-                onTap: () => Get.back(),
-                child: Text(
-                  'Wrong email address?',
-                  style: TextStyle(
-                    color: AppColors.babySky,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
+
               const SizedBox(height: 40),
               OTPInput(
                 onCompleted: (code) {
@@ -78,41 +71,33 @@ class OtpPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Obx(() {
-                if (controller.errMessage.value.isNotEmpty) {
-                  return Text(
-                    controller.errMessage.value,
-                    style: const TextStyle(color: Colors.red, fontSize: 14),
-                    textAlign: TextAlign.center,
-                  );
-                }
-                return const SizedBox.shrink();
+                return controller.errMessage.value.isNotEmpty
+                    ? Text(
+                      controller.errMessage.value,
+                      style: const TextStyle(color: Colors.red, fontSize: 14),
+                      textAlign: TextAlign.center,
+                    )
+                    : const SizedBox.shrink();
               }),
               const SizedBox(height: 20),
               Obx(() {
-                if (controller.canResend.value) {
-                  return GestureDetector(
-                    onTap: controller.resendCode,
-                    child: Text(
-                      'Resend Code',
+                return controller.canResend.value
+                    ? CustomButton(
+                      text: 'Resend Code',
+                      backgroundColor: AppColors.deepNavy,
+                      textColor: AppColors.pureWhite,
+                      width: 150,
+                      onPressed: controller.sendCode,
+                    )
+                    : Text(
+                      'Resend code in 0:${controller.countdown.value.toString().padLeft(2, '0')}',
                       style: setTextStyle(
                         GoogleFonts.poppins,
                         16,
-                        AppColors.babySky,
-                        FontWeight.w600,
+                        AppColors.pureWhite.withOpacity(0.6),
+                        FontWeight.w500,
                       ),
-                    ),
-                  );
-                } else {
-                  return Text(
-                    'Resend code in 0:${controller.countdown.value.toString().padLeft(2, '0')}',
-                    style: setTextStyle(
-                      GoogleFonts.poppins,
-                      16,
-                      AppColors.pureWhite.withOpacity(0.6),
-                      FontWeight.w500,
-                    ),
-                  );
-                }
+                    );
               }),
             ],
           ),

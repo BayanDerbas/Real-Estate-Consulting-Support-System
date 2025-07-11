@@ -6,7 +6,7 @@ import 'package:graduation_project/core/di/bindings/verification_binds.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
-import 'package:graduation_project/features/Auth/presentation/pages/otp_page.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/verification_code.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
