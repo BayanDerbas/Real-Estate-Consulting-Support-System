@@ -13,7 +13,7 @@ customSnackBar({
   Get.closeCurrentSnackbar();
   return Get.showSnackbar(
     GetSnackBar(
-      duration: withDuration ? const Duration(milliseconds: 1500) : null,
+      duration: withDuration ? const Duration(milliseconds: 10000) : null,
       isDismissible: isDismissible,
       title: title,
       message: message,

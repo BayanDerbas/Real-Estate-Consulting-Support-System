@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 abstract class Failures {
   final String err_message;
-
   Failures(this.err_message);
 }
 
@@ -36,13 +34,28 @@ class serverFailure extends Failures {
           dioException.response!.statusCode!,
           dioException.response!.data,
         );
-
       default:
         return serverFailure('unknown error');
     }
   }
 
   factory serverFailure.fromResponse(int statusCode, dynamic response) {
+    try {
+      if (response is Map<String, dynamic>) {
+        if (response.containsKey('errors') &&
+            response['errors'] is List &&
+            response['errors'].isNotEmpty) {
+          final errorMessage = response['errors'][0]['message'];
+          if (errorMessage != null && errorMessage.toString().isNotEmpty) {
+            return serverFailure(errorMessage.toString());
+          }
+        }
+        if (response.containsKey('message') && response['message'] is String) {
+          return serverFailure(response['message']);
+        }
+      }
+    } catch (e) {}
+
     if (statusCode == 400) {
       return serverFailure(
         'Bad request. Please check your input and try again.',

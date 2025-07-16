@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
 
-      home: Home(),
+      home: LoginScreen(),
       getPages: AppRoutes.routes_,
     );
   }
