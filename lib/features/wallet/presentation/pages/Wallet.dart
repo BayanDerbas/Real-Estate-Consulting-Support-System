@@ -19,7 +19,7 @@ class Wallet extends StatelessWidget {
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Wallet",
-          icon: Icon(Icons.search),
+          icon: Icon(Icons.notifications), 
           iconColor: AppColors.pureWhite,
         ),
       ),

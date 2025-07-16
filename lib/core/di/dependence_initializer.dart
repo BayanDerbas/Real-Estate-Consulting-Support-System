@@ -11,6 +11,9 @@ import 'package:graduation_project/features/ticket/presentation/controllers/get_
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
+import '../../features/officers/data/data_source/office_service.dart';
+import '../../features/officers/data/repository/OfficeRepository.dart';
+import '../../features/officers/presentation/controllers/OfficeController.dart';
 import '../../features/properties/data/data_source/property_service.dart';
 import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
@@ -35,5 +38,10 @@ class DependenceInitializer {
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));
     Get.lazyPut(() => PropertiesController(Get.find()));
+    //offices
+    Get.lazyPut(() => OfficeService(Get.find()));
+    Get.lazyPut(() => OfficeRepository(Get.find()));
+    Get.lazyPut(() => OfficeController(Get.find()));
+
   }
 }

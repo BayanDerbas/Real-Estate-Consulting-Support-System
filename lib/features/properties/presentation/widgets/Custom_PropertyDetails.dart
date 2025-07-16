@@ -14,6 +14,7 @@ class CustomPropertyDetails extends StatelessWidget {
   final String beds;
   final String baths;
   final String details;
+  final String serviceType;
   final int selectedIndex;
   final Function(int index) onImageTap;
   final Function(DragEndDetails details) onSwipe;
@@ -28,6 +29,7 @@ class CustomPropertyDetails extends StatelessWidget {
     required this.beds,
     required this.baths,
     required this.details,
+    required this.serviceType,
     required this.images,
     required this.selectedIndex,
     required this.onImageTap,
@@ -164,6 +166,16 @@ class CustomPropertyDetails extends StatelessWidget {
               const SizedBox(width: 5),
               Text(
                 location,
+                style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
+              ),
+            ],
+          ).padding(EdgeInsets.symmetric(horizontal: 16)),
+          Row(
+            children: [
+              const Icon(Icons.real_estate_agent, size: 22, color: AppColors.grey),
+              const SizedBox(width: 5),
+              Text(
+                serviceType,
                 style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
               ),
             ],

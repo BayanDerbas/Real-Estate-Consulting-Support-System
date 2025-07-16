@@ -11,12 +11,13 @@ class CustomAppbar extends StatelessWidget {
   final Color iconColor;
   final Color appbarColor;
   final void Function()? onPressed;
+
   const CustomAppbar({
     super.key,
     required this.text,
     this.textColor = AppColors.pureWhite,
     required this.icon,
-    required this.iconColor,
+    this.iconColor = AppColors.pureWhite,
     this.appbarColor = AppColors.deepNavy,
     this.onPressed,
   });
@@ -30,16 +31,19 @@ class CustomAppbar extends StatelessWidget {
         height: 140,
         color: appbarColor,
         child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  text,
-                  style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
-                ),
-
-                IconButton(onPressed: onPressed, icon: icon, color: iconColor),
-              ],
-            )
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              text,
+              style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
+            ),
+            IconButton(
+              onPressed: onPressed,
+              icon: icon,
+              color: AppColors.pureWhite,
+            ),
+          ],
+        )
             .paddingOnly(bottom: 30, left: 20, right: 20, top: 20)
             .marginOnly(bottom: 0),
       ),
@@ -54,7 +58,6 @@ class SlantedClipper extends CustomClipper<Path> {
     path.lineTo(0, 0);
     path.lineTo(size.width, 0);
     path.lineTo(size.width, size.height - 40);
-
     path.lineTo(0, size.height);
     path.close();
     return path;

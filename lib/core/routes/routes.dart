@@ -20,6 +20,7 @@ import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dar
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
 import '../../features/home/presentation/pages/Home.dart';
+import '../../features/officers/presentation/pages/offices.dart';
 import '../../features/posts/presentation/pages/Posts.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
 import '../../features/service provider/presentation/pages/ServiceProviderProfile.dart';
@@ -37,6 +38,7 @@ class AppRoutes {
   static const String properties = '/properties';
   static const String propertyDetails = '/propertyDetails';
   static const String serviceProviders = '/serviceProviders';
+  static const String offices = '/offices';
   static const String posts = '/posts';
   static const String rating = '/rating';
   static const String serviceProvider_profile = '/serviceProvider_profile';
@@ -52,6 +54,7 @@ class AppRoutes {
   static const String myTickets = '/my_tickets';
   static const String filteredTickets = '/filtered_tickets';
   static const String baseTicketsPage = '/base_tickets_page';
+
   static List<GetPage> routes_ = [
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -68,6 +71,7 @@ class AppRoutes {
     GetPage(name: propertyDetails, page: () => PropertyDetails()),
     GetPage(name: properties, page: () => Properties()),
     GetPage(name: home, page: () => Home()),
+    GetPage(name: offices, page: () => Offices()),
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(
       name: verificationCode,
@@ -86,12 +90,12 @@ class AppRoutes {
     GetPage(
       name: allTickets,
       page: () => TicketsPage(),
-      binding: GetAllTicketsBinding(),
+      //binding: GetAllTicketsBinding(),
     ),
     GetPage(
       name: baseTicketsPage,
       page: () => BaseTicketsPage(),
-      bindings: [BaseTicketsBinds(), GetAllTicketsBinding(), MyTicketsBinds()],
+     // bindings: [BaseTicketsBinds(), GetAllTicketsBinding(), MyTicketsBinds()],
     ),
     GetPage(
       name: myTickets,

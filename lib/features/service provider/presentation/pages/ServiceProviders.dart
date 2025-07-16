@@ -59,13 +59,20 @@ class ServiceProviders extends StatelessWidget {
                     onFavoriteToggle: () => controller.toggleFavorite(index),
                     onToggleExpand: () => controller.toggleExpanded(index),
                     onTap: () {
-                      print("تم الضغط على زر احجز الآن لـ ${provider['name']}");
+                      print(
+                        "تم الضغط على زر احجز الآن لـ ${provider['name'] ?? 'بدون اسم'}",
+                      );
                     },
                     onCardTap: () {
-                      Get.toNamed('/profile', arguments: provider);
+                      print("object");
+                      //Get.toNamed('/profile', arguments: provider);
                     },
-                    pricre: provider['price'],
-                    textProvider: provider['textProvider'],
+                    price: (provider['price'] as String?) ?? 'غير محدد',
+                    textProvider:
+                        provider['textProvider']?.toString() ?? 'لا يوجد وصف',
+                    isFavorite: false,
+                    isFollowing: false,
+                    onFollowToggle: () {},
                   );
                 },
               ),

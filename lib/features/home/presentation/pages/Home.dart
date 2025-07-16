@@ -4,13 +4,16 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
+import 'package:graduation_project/features/home/presentation/widgets/Custom_OfficeCard.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
+import '../../../officers/presentation/controllers/OfficeController.dart';
 import '../../../properties/data/data_source/property_service.dart';
+import '../../../service provider/presentation/controllers/ServiceProvidersControllers.dart';
 import '../widgets/Custom_BottomBar.dart';
 import '../widgets/Custom_ExpertCard.dart';
 import '../../../../core/widgets/Custom_IconButton.dart';
@@ -22,6 +25,9 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ServiceProviders_Controller expertController = Get.put(
+      ServiceProviders_Controller(),
+    );
     final HomeController controller = Get.put(HomeController());
     final CustomDrawerController drawerController = Get.put(
       CustomDrawerController(),
@@ -30,6 +36,7 @@ class Home extends StatelessWidget {
     final PropertiesController propertiesController = Get.put(
       PropertiesController(repository),
     );
+    final OfficeController officeController = Get.find();
 
     return Scaffold(
       drawer: CustomDrawer(
@@ -234,7 +241,7 @@ class Home extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  print("...............................");
+                  Get.toNamed("/serviceProviders");
                 },
                 child: Text(
                   "See all",
@@ -246,27 +253,41 @@ class Home extends StatelessWidget {
               ),
             ],
           ).padding(const EdgeInsets.all(8)),
-          Obx(
-            () => CustomExpertCard(
-              name: 'محمد محمد',
-              jobTitle: 'محامي',
-              rating: 4.9,
-              experienceYears: 7,
-              successfulCases: 20,
-              appointmentDate: '10-25',
-              appointmentTime: '5:00 م',
-              imagePath: AppImages.expert,
-              isFavorite: controller.isFavorite.value,
+          Obx(() {
+            if (expertController.serviceProviders.isEmpty) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            final expert = expertController.serviceProviders.first;
+
+            return CustomExpertCard(
+              name: expert['name'],
+              jobTitle: expert['jobTitle'],
+              rating: expert['rating'],
+              experienceYears:
+                  int.tryParse(expert['experienceYears'].toString()) ?? 0,
+              successfulCases: expert['rateCount'],
+              appointmentDate: 'غير محدد',
+              appointmentTime: 'غير محدد',
+              imagePath: expert['imagePath'],
+              isFavorite: expert['isFavorite'],
               onFavoriteToggle: () {
-                controller.isFavorite.toggle();
+                final index = expertController.serviceProviders.indexOf(expert);
+                expertController.toggleFavorite(index);
               },
-            ),
-          ),
+              onProfileTap: () {},
+              onFollowToggle: () {
+                final index = expertController.serviceProviders.indexOf(expert);
+                expertController.toggleFollowing(index);
+              },
+              isFollowing: expert['isFollowing'],
+            );
+          }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Officers",
+                "Offices",
                 style: Fonts.itim.copyWith(
                   color: AppColors.black,
                   fontSize: 24,
@@ -274,6 +295,7 @@ class Home extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
+                  Get.toNamed('/offices');
                   print("...............................");
                 },
                 child: Text(
@@ -286,22 +308,37 @@ class Home extends StatelessWidget {
               ),
             ],
           ).padding(const EdgeInsets.all(8)),
-          Obx(
-            () => CustomExpertCard(
-              name: 'محمد محمد',
-              jobTitle: 'محامي',
-              rating: 4.9,
-              experienceYears: 7,
-              successfulCases: 20,
-              appointmentDate: '10-25',
-              appointmentTime: '5:00 م',
-              imagePath: AppImages.expert,
-              isFavorite: controller.isFavorite.value,
+          Obx(() {
+            if (officeController.isLoading.value ||
+                officeController.officesList.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final office = officeController.officesList.first;
+            final index = officeController.officesList.indexOf(office);
+            final state = officeController.officeStates[index] ?? {
+              "isFavorite": false,
+              "isFollowing": false,
+            };
+
+             return CustomOfficeCard(
+              name: '${office.user.firstName} ${office.user.lastName}',
+              bio: office.bio,
+              location: office.location,
+              imageUrl: office.user.imageUrl,
+              isFavorite: state["isFavorite"]!,
+              isFollowing: state["isFollowing"]!,
               onFavoriteToggle: () {
-                controller.isFavorite.toggle();
+                officeController.toggleFavorite(index);
               },
-            ),
-          ),
+              onFollowToggle: () {
+                officeController.toggleFollow(index);
+              },
+              onProfileTap: () {
+                // Get.toNamed("/officeDetails", arguments: office);
+              },
+            );
+          }),
           Column(
             children: List.generate(controller.postsList.length, (index) {
               final post = controller.postsList[index];

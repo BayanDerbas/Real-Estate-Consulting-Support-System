@@ -11,8 +11,11 @@ class Customserviceprovidercard extends StatelessWidget {
   final VoidCallback? onToggleExpand;
   final VoidCallback? onTap;
   final VoidCallback? onCardTap;
-  final String pricre;
+  final String? price;
   final String textProvider;
+  final bool isFavorite;
+  final bool isFollowing;
+  final VoidCallback onFollowToggle;
 
   const Customserviceprovidercard({
     super.key,
@@ -21,9 +24,12 @@ class Customserviceprovidercard extends StatelessWidget {
     required this.onFavoriteToggle,
     required this.onToggleExpand,
     required this.onTap,
-    required this.pricre,
+    required this.price,
     required this.textProvider,
     required this.onCardTap,
+    required this.isFavorite,
+    required this.isFollowing,
+    required this.onFollowToggle,
   });
 
   @override
@@ -47,117 +53,138 @@ class Customserviceprovidercard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Stack(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.asset(
-                        provider['imagePath'],
-                        width: 80,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  provider['name'],
-                                  style: Fonts.itim.copyWith(fontSize: 18, color: AppColors.black),
-                                ),
-                                const SizedBox(width: 15),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.grey2,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      provider['jobTitle'],
-                                      style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.darkGray),
-                                    ).padding(EdgeInsets.all(5)),
-                                  ),
-                                ).expanded(flex: 3),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                const Icon(Icons.star, color: Colors.amber, size: 18),
-                                const SizedBox(width: 4),
-                                Text(
-                                  provider['rating'].toString(),
-                                  style: Fonts.itim.copyWith(fontSize: 14),
-                                ),
-                                const SizedBox(width: 8),
-                                Flexible(
-                                  child: Text(
-                                    '${provider['experienceYears']} سنوات من الخبرة',
-                                    style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                const Icon(Icons.brightness_1, color: AppColors.skyBlue, size: 10),
-                                const SizedBox(width: 4),
-                                Flexible(
-                                  child: Text(
-                                    '${provider['successfulCases']} تجربة ناجحة',
-                                    style: Fonts.itim.copyWith(fontSize: 14),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              children: [
-                                Text("أقرب موعد يوم: ", style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey)),
-                                Text(provider['appointmentDate'], style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender)),
-                              ],
-                            ),
-                            Wrap(
-                              children: [
-                                Text(" الساعة: ", style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey)),
-                                Text(provider['appointmentTime'], style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender)),
-                              ],
-                            ),
-                          ],
+            Container(height: 150,
+              child: Stack(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        child: Image.asset(
+                          provider['imagePath'],
+                          width: 80,
+                          height: 100,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  bottom: 3,
-                  left: 0,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: AppColors.deepNavy,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        provider['isFavorite'] ? Icons.favorite : Icons.favorite_border,
-                        color: provider['isFavorite'] ? AppColors.lavender : AppColors.pureWhite,
-                        size: 28,
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    provider['name'],
+                                    style: Fonts.itim.copyWith(fontSize: 18, color: AppColors.black),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.grey2,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        provider['jobTitle'],
+                                        style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.darkGray),
+                                      ).padding(EdgeInsets.all(5)),
+                                    ),
+                                  ).expanded(flex: 3),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    provider['rating'].toString(),
+                                    style: Fonts.itim.copyWith(fontSize: 14),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Flexible(
+                                    child: Text(
+                                      '${provider['experienceYears']} سنوات من الخبرة',
+                                      style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                              Row(
+                                children: [
+                                  const Icon(Icons.brightness_1, color: AppColors.skyBlue, size: 10),
+                                  const SizedBox(width: 4),
+                                  Flexible(
+                                    child: Text(
+                                      '${provider['rateCount']} تجربة ناجحة',
+                                      style: Fonts.itim.copyWith(fontSize: 14),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // const SizedBox(height: 8),
+                              // Wrap(
+                              //   children: [
+                              //     Text("أقرب موعد يوم: ", style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey)),
+                              //     Text(provider['appointmentDate'], style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender)),
+                              //   ],
+                              // ),
+                              // Wrap(
+                              //   children: [
+                              //     Text(" الساعة: ", style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey)),
+                              //     Text(provider['appointmentTime'], style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender)),
+                              //   ],
+                              // ),
+                            ],
+                          ),
+                        ),
                       ),
-                      onPressed: onFavoriteToggle,
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    left: 0,
+                    child: Row(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.deepNavy,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              provider['isFavorite'] ? Icons.favorite : Icons.favorite_border,
+                              color: provider['isFavorite'] ? AppColors.lavender : AppColors.pureWhite,
+                              size: 28,
+                            ),
+                            onPressed: onFavoriteToggle,
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.deepNavy,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              isFollowing ? Icons.person_remove : Icons.person_add,
+                              color: AppColors.pureWhite,
+                              size: 24,
+                            ),
+                            onPressed: onFollowToggle,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             Align(
@@ -183,6 +210,8 @@ class Customserviceprovidercard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
+                      Icon(Icons.timelapse,color: AppColors.deepNavy,),
+                      SizedBox(width: 5,),
                       Text(
                         "سعر الدقيقة : ",
                         style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),

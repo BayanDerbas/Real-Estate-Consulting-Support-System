@@ -24,6 +24,7 @@ class PropertyDetails extends StatelessWidget {
         price: property.price.toString(),
         title: property.houseType,
         location: property.location,
+        serviceType: property.serviceType,
         area: property.area.toString(),
         beds: property.numberOfBed.toString(),
         baths: property.numberOfBathrooms.toString(),

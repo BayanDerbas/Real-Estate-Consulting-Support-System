@@ -19,6 +19,7 @@ import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dar
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'; // استيراد مكتبة firebase_messaging
 import 'core/di/dependence_initializer.dart';
+import 'core/networks/dio_factory.dart';
 import 'core/utils/shard_prefs.dart';
 import 'features/Auth/presentation/pages/login_screen.dart';
 import 'features/Auth/presentation/pages/verification_code.dart';
@@ -30,6 +31,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DependenceInitializer.dependenceInjection();
   await SharedPrefs.init();
+  await DioFactory.loadToken();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
       ],
       debugShowCheckedModeBanner: false,
 
-      home: LoginScreen(),
+      home: Home(),
       getPages: AppRoutes.routes_,
     );
   }
