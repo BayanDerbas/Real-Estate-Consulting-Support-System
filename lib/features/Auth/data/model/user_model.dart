@@ -20,10 +20,10 @@ class UserModel {
     this.lastName,
     this.email,
     this.phone,
-    this.enabled,
+    this.enabled = false,
     this.role,
     this.status,
-    this.imageUrl,
+    this.imageUrl = '',
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

@@ -16,9 +16,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final currentHeight = MediaQuery.of(context).size.height;
     final controller = Get.find<LoginController>();
 
     return BaseAuthScreen(
+      componentHeight: currentHeight * 0.5,
       widget: Form(
         key: controller.formKey,
         child: Column(

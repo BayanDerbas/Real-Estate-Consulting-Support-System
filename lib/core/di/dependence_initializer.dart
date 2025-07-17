@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/change_password_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/keyboard_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
+import 'package:graduation_project/features/Auth/presentation/controllers/refresh_token_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
+import 'package:graduation_project/features/chats/data/chat_service/chat_service.dart';
+import 'package:graduation_project/features/chats/data/repository/chat_repository.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
@@ -14,6 +17,7 @@ import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
 import '../../features/Auth/presentation/controllers/send_code_controller.dart';
 import '../../features/Auth/presentation/controllers/verifiy_email_controller.dart';
+import '../../features/chats/presentation/controllers/chat_controller.dart';
 import '../../features/officers/data/data_source/office_service.dart';
 import '../../features/officers/data/repository/OfficeRepository.dart';
 import '../../features/officers/presentation/controllers/OfficeController.dart';
@@ -35,11 +39,12 @@ class DependenceInitializer {
     Get.put(KeyboardController());
     Get.lazyPut(() => TicketRepositoryImpl(Get.find()));
     Get.lazyPut(() => TicketService(Get.find()));
-    Get.lazyPut(() => SendCodeController(Get.find()));
-    Get.lazyPut(() => VerificationCodeController(Get.find()));
-    Get.lazyPut(() => VerifyEmailController(Get.find()));
-    Get.lazyPut(() => CreateTicketController(Get.find()));
-    Get.lazyPut(() => FilteredTicketsController(Get.find()));
+    Get.lazyPut(() => SendCodeController(Get.find()), fenix: true);
+    Get.lazyPut(() => VerificationCodeController(Get.find()), fenix: true);
+    Get.lazyPut(() => VerifyEmailController(Get.find()), fenix: true);
+    Get.lazyPut(() => CreateTicketController(Get.find()), fenix: true);
+    Get.lazyPut(() => FilteredTicketsController(Get.find()), fenix: true);
+    Get.lazyPut(() => RefreshTokenController(Get.find()), fenix: true);
     //properties
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));
@@ -48,5 +53,8 @@ class DependenceInitializer {
     Get.lazyPut(() => OfficeService(Get.find()));
     Get.lazyPut(() => OfficeRepository(Get.find()));
     Get.lazyPut(() => OfficeController(Get.find()));
+    //chats
+    Get.lazyPut(() => ChatService(Get.find()));
+    Get.lazyPut(() => ChatRepository(Get.find()));
   }
 }

@@ -162,6 +162,7 @@ class OtpPage extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 controller.email.text,
+                textAlign: TextAlign.center,
                 style: setTextStyle(
                   GoogleFonts.poppins,
                   16,

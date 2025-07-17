@@ -2,29 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
-import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
-import 'package:graduation_project/features/Book/presentation/pages/Confirm.dart';
-import 'package:graduation_project/features/home/presentation/pages/Home.dart';
-import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
-import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
-import 'package:graduation_project/features/search/presentation/pages/appointments.dart';
-import 'package:graduation_project/features/search/presentation/pages/property_filter_page.dart';
-import 'package:graduation_project/features/ticket/presentation/pages/publish_ticket.dart';
-import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviderProfile.dart';
-import 'package:graduation_project/features/service%20provider/presentation/widgets/Custom_ServiceProviderProfile.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/splash_screen.dart';
+
 import 'package:graduation_project/core/constants/app_theme.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/features/Discounts/presentation/pages/Discounts.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
 import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart'; // استيراد مكتبة firebase_messaging
 import 'core/di/dependence_initializer.dart';
 import 'core/networks/dio_factory.dart';
 import 'core/utils/shard_prefs.dart';
+
 import 'features/Auth/presentation/pages/login_screen.dart';
-import 'features/Auth/presentation/pages/verification_code.dart';
-import 'features/Auth/presentation/pages/sign_up_screen.dart';
-import 'features/ticket/presentation/pages/base_tickets_page.dart';
 import 'firebase_options.dart';
 
 void main() async {

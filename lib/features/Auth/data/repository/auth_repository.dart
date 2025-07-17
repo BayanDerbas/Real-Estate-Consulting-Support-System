@@ -8,6 +8,7 @@ import 'package:graduation_project/features/Auth/data/model/change_password_mode
 import 'package:graduation_project/features/Auth/data/model/verificationcode_model.dart';
 
 import '../data_source/auth_service/auth_service.dart';
+import '../model/refresh_token_model.dart';
 
 class AuthRepository {
   final AuthService _authService;
@@ -55,6 +56,23 @@ class AuthRepository {
       }
 
       return Right(loginData);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, RefreshResponseModel>> refreshToken(
+    RefreshRequestModel request,
+  ) async {
+    try {
+      final httpResponse = await _authService.refreshToken(request);
+      final data = httpResponse.data.data;
+      if (data == null) {
+        return Left(serverFailure("Invalid response"));
+      }
+      return Right(data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

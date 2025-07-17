@@ -16,13 +16,15 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final currentHeight = MediaQuery.of(context).size.height;
     final controller = Get.find<RegisterController>();
 
     return BaseAuthScreen(
+      // componentHeight: currentHeight * 0.7,
       widget: Form(
         key: controller.formKey,
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Allow column to shrink wrap content
+          mainAxisSize: MainAxisSize.min,
           children: [
             CustomTextField(
               keyboardType: TextInputType.name,
@@ -101,8 +103,7 @@ class SignUpScreen extends StatelessWidget {
       appBarTitle: "Create Account",
       bodyText: "Have an account?",
       clickableText: "Sign in",
-      footerText:
-          "By clicking sign up, you agree to the Terms & Conditions and Privacy Policy.",
+      footerText: "",
       onTap: () {
         Get.toNamed(AppRoutes.login);
       },

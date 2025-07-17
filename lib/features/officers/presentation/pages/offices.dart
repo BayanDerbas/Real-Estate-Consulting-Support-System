@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/routes/routes.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
 import '../controllers/OfficeController.dart';
@@ -47,7 +48,10 @@ class Offices extends StatelessWidget {
                 onFollowToggle: () => controller.toggleFollow(index),
                 onToggleExpand: () => controller.toggleExpand(index),
                 onTap: () {
-                  print("زيارة ملف المكتب: ${office.user.id}");
+                  print("oooooooooooooooooooooooooo");
+                  Get.toNamed(AppRoutes.chatPage, arguments: office.user);
+                  //open chat with this office
+                  print("زيارة ملف المكتب: ${office.user.toJson()}");
                 },
               );
             });

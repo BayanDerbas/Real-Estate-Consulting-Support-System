@@ -36,7 +36,10 @@ class BaseAuthScreen extends StatelessWidget {
           preferredSize: const Size.fromHeight(130),
           child: CustomAppbar(
             text: appBarTitle ?? '',
-            icon: const Icon(Icons.notification_add),
+            icon: const Icon(
+              Icons.notification_add,
+              color: AppColors.pureWhite,
+            ),
             iconColor: Colors.white,
           ),
         ),
@@ -44,6 +47,7 @@ class BaseAuthScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
+                height: componentHeight,
                 width: width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),

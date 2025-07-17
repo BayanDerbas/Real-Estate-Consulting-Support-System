@@ -20,10 +20,11 @@ class VerifyEmailPage extends StatelessWidget {
     final controller = Get.find<VerifyEmailController>();
 
     return BaseAuthScreen(
-      componentHeight: height * 0.5,
+      componentHeight: height * 0.4,
       widget: Form(
         key: controller.formKey,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             CustomTextField(
               width: width * 0.8,
@@ -47,9 +48,9 @@ class VerifyEmailPage extends StatelessWidget {
           ],
         ),
       ),
-      appBarTitle: "Forgot Password",
+      appBarTitle: "Verify Email",
       bodyText: "",
-      clickableText: "",
+      clickableText: "Remember password ?",
       footerText: '',
       onTap: () {
         Get.toNamed(AppRoutes.login);

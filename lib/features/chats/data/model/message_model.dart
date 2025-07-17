@@ -1,25 +1,24 @@
-import 'package:graduation_project/features/chats/data/model/sender_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-class MessageModel {
-  final SenderModel? sender;
-  final int? roomId;
-  final String? content;
+import '../../../Auth/data/model/user_model.dart';
 
-  MessageModel({this.sender, this.content, this.roomId});
+part 'message_model.g.dart';
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) {
-    return MessageModel(
-      sender: SenderModel.fromJson(json["sender"]),
-      content: json["content"],
-      roomId: json["roomId"],
-    );
-  }
+@JsonSerializable()
+class Message {
+  final int id;
+  final UserModel sender;
+  final String content;
+  final String createdAt;
 
-  Map<String, dynamic> toJson() {
-    return {
-      "senderId": sender!.id ?? 1,
-      "content": content ?? "",
-      "roomId": roomId,
-    };
-  }
+  Message({
+    required this.id,
+    required this.sender,
+    required this.content,
+    required this.createdAt,
+  });
+
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      _$MessageFromJson(json);
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
 }

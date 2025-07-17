@@ -3,6 +3,7 @@ import 'package:graduation_project/core/di/bindings/base_tickets_binds.dart';
 import 'package:graduation_project/core/di/bindings/change_password_bind.dart';
 import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
 import 'package:graduation_project/core/di/bindings/my_tickets_binds.dart';
+import 'package:graduation_project/core/di/bindings/user_chat_binding.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
@@ -10,6 +11,7 @@ import 'package:graduation_project/features/Auth/presentation/pages/verification
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
+import 'package:graduation_project/features/chats/presentation/pages/chat_page.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
@@ -31,6 +33,7 @@ import '../../features/ticket/presentation/pages/publish_ticket.dart';
 import '../di/bindings/get_all_tickets_binds.dart';
 
 class AppRoutes {
+  static const String splashScreen = "/";
   static const String home = "/home";
   static const String login = '/login';
   static const String signup = '/signup';
@@ -57,7 +60,7 @@ class AppRoutes {
   static const String myTickets = '/my_tickets';
   static const String filteredTickets = '/filtered_tickets';
   static const String baseTicketsPage = '/base_tickets_page';
-
+  static const String chatPage = '/chat_page';
   static List<GetPage> routes_ = [
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -103,6 +106,11 @@ class AppRoutes {
       name: resetPassword,
       page: () => ResetPassword(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: chatPage,
+      page: () => UserChatPage(),
+      binding: UserChatBinding(),
     ),
   ];
 }

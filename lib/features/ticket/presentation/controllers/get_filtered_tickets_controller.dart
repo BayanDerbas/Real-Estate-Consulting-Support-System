@@ -38,7 +38,7 @@ class FilteredTicketsController extends GetxController {
         tickets.clear();
       },
       (filteredData) {
-        print('/////////////////sucesss');
+        print('/////////////////sucesss${filteredData}');
         tickets.assignAll(filteredData);
       },
     );
