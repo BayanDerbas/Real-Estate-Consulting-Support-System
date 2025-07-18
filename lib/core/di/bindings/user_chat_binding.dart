@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
+import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 
-import '../../../features/ticket/presentation/controllers/my_tickets_controller.dart';
-
-class UserChatBinding extends Bindings {
+class ChatFeatureBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ChatController(Get.find()), fenix: true);
+    Get.lazyPut(() => ChatController(Get.find()));
+    Get.lazyPut(() => RoomController(Get.find()));
   }
 }

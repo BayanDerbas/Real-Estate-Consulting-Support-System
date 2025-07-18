@@ -20,28 +20,28 @@ class _ChatService implements ChatService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<ChatRoomModel>> createRoom(
-    Map<String, dynamic> body,
+  Future<HttpResponse<CreateRoomResponseModel>> createRoom(
+    CreateRoomRequestModel body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(body);
-    final _options = _setStreamType<HttpResponse<ChatRoomModel>>(
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<HttpResponse<CreateRoomResponseModel>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms/{roomId}/{page}/{size}',
+            'http://195.88.87.77:8000/auth/api/v1/rooms',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ChatRoomModel _value;
+    late CreateRoomResponseModel _value;
     try {
-      _value = ChatRoomModel.fromJson(_result.data!);
+      _value = CreateRoomResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -86,7 +86,7 @@ class _ChatService implements ChatService {
   }
 
   @override
-  Future<List<RoomsOfCurrentUser>> getRoomsOfCurrentUser(int userId) async {
+  Future<List<RoomsOfCurrentUser>> getRoomsOfCurrentUser(int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -95,7 +95,7 @@ class _ChatService implements ChatService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms/user/${userId}',
+            'http://195.88.87.77:8000/auth/api/v1/rooms/user/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -119,25 +119,25 @@ class _ChatService implements ChatService {
   }
 
   @override
-  Future<HttpResponse<ChatRoomModel>> getRoom(int roomId) async {
+  Future<HttpResponse<CreateRoomResponseModel>> getRoom(int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ChatRoomModel>>(
+    final _options = _setStreamType<HttpResponse<CreateRoomResponseModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms/${roomId}',
+            'http://195.88.87.77:8000/auth/api/v1/rooms/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ChatRoomModel _value;
+    late CreateRoomResponseModel _value;
     try {
-      _value = ChatRoomModel.fromJson(_result.data!);
+      _value = CreateRoomResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

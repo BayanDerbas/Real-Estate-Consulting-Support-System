@@ -1,3 +1,4 @@
+import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../Auth/data/model/user_model.dart';

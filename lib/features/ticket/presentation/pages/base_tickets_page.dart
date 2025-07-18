@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import '../controllers/page_controller.dart';
 import 'all_tickets.dart';
@@ -15,6 +16,11 @@ class BaseTicketsPage extends GetView<PageTicketController> {
     final double currentWidth = Get.width;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.offNamed(AppRoutes.createTicket);
+        },
+      ),
       body: SafeArea(
         child: Column(
           children: [

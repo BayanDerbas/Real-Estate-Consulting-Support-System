@@ -38,9 +38,11 @@ class GetAllTicketsController extends GetxController {
 
     result.fold(
       (Failures failure) {
+        print('>>>>>>>ff>>>>>>>>');
         errorMessage.value = failure.err_message;
       },
       (List<Ticket> fetchedTickets) {
+        print('>>>>>>>sss>>>>>>>>');
         tickets.assignAll(fetchedTickets);
         currentPage.value = page;
         totalPages.value =

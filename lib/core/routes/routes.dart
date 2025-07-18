@@ -109,8 +109,8 @@ class AppRoutes {
     ),
     GetPage(
       name: chatPage,
-      page: () => UserChatPage(),
-      binding: UserChatBinding(),
+      page: () => ChatPage(),
+      binding: ChatFeatureBinding(),
     ),
   ];
 }

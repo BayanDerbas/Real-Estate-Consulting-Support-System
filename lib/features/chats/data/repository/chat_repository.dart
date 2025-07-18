@@ -6,8 +6,9 @@ import 'package:dartz/dartz.dart';
 import 'package:graduation_project/core/networks/failures.dart';
 
 import '../chat_service/chat_service.dart';
+import '../model/create_room_request_model.dart';
 import '../model/message_model.dart';
-import '../model/room_model.dart';
+import '../model/create_room_response_model.dart';
 import '../model/rooms_of_current_user.dart';
 
 class ChatRepository {
@@ -15,14 +16,17 @@ class ChatRepository {
 
   ChatRepository(this._chatService);
 
-  Future<Either<Failures, ChatRoomModel>> createRoom(
+  Future<Either<Failures, CreateRoomResponseModel>> createRoom(
     int userId1,
     int userId2,
   ) async {
     try {
-      final requestBody = {"userId1": userId1, "userId2": userId2};
+      final request = CreateRoomRequestModel(
+        userId1: userId1,
+        userId2: userId2,
+      );
 
-      final httpResponse = await _chatService.createRoom(requestBody);
+      final httpResponse = await _chatService.createRoom(request);
       final newRoom = httpResponse.data;
 
       if (newRoom == null) {
@@ -30,12 +34,11 @@ class ChatRepository {
           serverFailure("Received an empty response from the server."),
         );
       }
-
+      print('................request create ........');
+      print(request.toJson());
       return Right(newRoom);
-    } on DioException catch (e) {
-      return Left(serverFailure.fromDioError(e));
     } catch (e) {
-      return Left(serverFailure(e.toString()));
+      return Left(serverFailure("Failed to create chat room: $e"));
     }
   }
 
@@ -68,7 +71,7 @@ class ChatRepository {
     }
   }
 
-  Future<Either<Failures, ChatRoomModel>> getRoomById({
+  Future<Either<Failures, CreateRoomResponseModel>> getRoomById({
     required int roomId,
   }) async {
     try {

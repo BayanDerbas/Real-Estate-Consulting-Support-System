@@ -149,6 +149,7 @@ class CreateTicketScreen extends StatelessWidget {
                             width: width * 0.6,
                             onPressed: () {
                               controller.submitTicket();
+                              print(controller.clientId);
                             },
                           ),
                 ),

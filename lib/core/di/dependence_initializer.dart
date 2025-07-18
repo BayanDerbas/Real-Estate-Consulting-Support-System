@@ -19,6 +19,7 @@ import '../../features/Auth/data/repository/auth_repository.dart';
 import '../../features/Auth/presentation/controllers/send_code_controller.dart';
 import '../../features/Auth/presentation/controllers/verifiy_email_controller.dart';
 import '../../features/chats/presentation/controllers/chat_controller.dart';
+import '../../features/chats/presentation/controllers/room_controller.dart';
 import '../../features/officers/data/data_source/office_service.dart';
 import '../../features/officers/data/repository/OfficeRepository.dart';
 import '../../features/officers/presentation/controllers/OfficeController.dart';
@@ -61,5 +62,7 @@ class DependenceInitializer {
     //chats
     Get.lazyPut(() => ChatService(Get.find()));
     Get.lazyPut(() => ChatRepository(Get.find()));
+
+    Get.lazyPut(() => RoomController(Get.find()));
   }
 }

@@ -58,7 +58,7 @@ class serverFailure extends Failures {
 
     if (statusCode == 400) {
       return serverFailure(
-        'Bad request. Please check your input and try again.',
+        'Bad request. Please check your input and try again.$response',
       );
     } else if (statusCode == 401) {
       return serverFailure('Unauthorized. Please log in again.');

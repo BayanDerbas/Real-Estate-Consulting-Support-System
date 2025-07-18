@@ -12,8 +12,8 @@ class ApiConstant {
   static const String chat = "$auth/api/v1/rooms";
   static const String getAllRoomsForCurrentUser = "$chat/user/{id}";
   static const String getRoomMessages = "$chat/{roomId}/messages";
-  static const String createRoom = "$chat/{roomId}/{page}/{size}";
-  static const String getRoomById = "$chat/{roomId}";
+  static const String createRoom = chat;
+  static const String getRoomById = "$chat/{id}";
   //tickets
   static const String createTicket = "$baseUrl/tickets";
   static const String getAllTickets = "$baseUrl/tickets";

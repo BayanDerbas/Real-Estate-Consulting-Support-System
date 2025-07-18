@@ -316,12 +316,11 @@ class Home extends StatelessWidget {
 
             final office = officeController.officesList.first;
             final index = officeController.officesList.indexOf(office);
-            final state = officeController.officeStates[index] ?? {
-              "isFavorite": false,
-              "isFollowing": false,
-            };
+            final state =
+                officeController.officeStates[index] ??
+                {"isFavorite": false, "isFollowing": false};
 
-             return CustomOfficeCard(
+            return CustomOfficeCard(
               name: '${office.user.firstName} ${office.user.lastName}',
               bio: office.bio,
               location: office.location,
@@ -334,9 +333,7 @@ class Home extends StatelessWidget {
               onFollowToggle: () {
                 officeController.toggleFollow(index);
               },
-              onProfileTap: () {
-                // Get.toNamed("/officeDetails", arguments: office);
-              },
+              onProfileTap: () {},
             );
           }),
           Column(
