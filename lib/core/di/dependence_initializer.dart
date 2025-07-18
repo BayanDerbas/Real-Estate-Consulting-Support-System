@@ -13,6 +13,7 @@ import 'package:graduation_project/features/ticket/data/repository/ticket_reposi
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/page_controller.dart';
 import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
 import '../../features/Auth/presentation/controllers/send_code_controller.dart';
@@ -42,9 +43,13 @@ class DependenceInitializer {
     Get.lazyPut(() => SendCodeController(Get.find()), fenix: true);
     Get.lazyPut(() => VerificationCodeController(Get.find()), fenix: true);
     Get.lazyPut(() => VerifyEmailController(Get.find()), fenix: true);
+
+    Get.lazyPut(() => PageTicketController(), fenix: true);
     Get.lazyPut(() => CreateTicketController(Get.find()), fenix: true);
     Get.lazyPut(() => FilteredTicketsController(Get.find()), fenix: true);
     Get.lazyPut(() => RefreshTokenController(Get.find()), fenix: true);
+    Get.lazyPut(() => GetAllTicketsController(Get.find()), fenix: true);
+    Get.lazyPut(() => MyTicketsController(Get.find()), fenix: true);
     //properties
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));

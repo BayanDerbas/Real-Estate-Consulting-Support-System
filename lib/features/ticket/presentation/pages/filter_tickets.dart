@@ -191,8 +191,9 @@ class FilteredTicketPage extends StatelessWidget {
                               ? locationController.text
                               : null,
                     );
+                    print(filterModel.toJson());
                     controller.fetchFilteredTickets(filterModel);
-                    onApply(); // Will call Navigator.pop and trigger onFilterApply
+                    onApply();
                   },
                   child: const Text("Apply Filters"),
                 ),

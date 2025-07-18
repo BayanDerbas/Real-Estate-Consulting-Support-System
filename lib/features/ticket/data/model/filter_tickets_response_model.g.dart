@@ -12,7 +12,7 @@ FilterTicketsResponseModel _$FilterTicketsResponseModelFromJson(
   status: json['status'] as String,
   data:
       (json['data'] as List<dynamic>)
-          .map((e) => TicketDataModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => Ticket.fromJson(e as Map<String, dynamic>))
           .toList(),
 );
 

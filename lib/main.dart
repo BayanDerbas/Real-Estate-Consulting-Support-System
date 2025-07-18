@@ -7,6 +7,8 @@ import 'package:graduation_project/features/Auth/presentation/pages/splash_scree
 import 'package:graduation_project/core/constants/app_theme.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/features/Discounts/presentation/pages/Discounts.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/all_tickets.dart';
+import 'package:graduation_project/features/ticket/presentation/pages/base_tickets_page.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
 import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
 import 'package:firebase_core/firebase_core.dart';

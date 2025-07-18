@@ -1,5 +1,3 @@
-// file: lib/features/ticket/data/model/filter_tickets_request_model.dart
-
 import 'package:json_annotation/json_annotation.dart';
 part 'filter_tickets_request_model.g.dart';
 
