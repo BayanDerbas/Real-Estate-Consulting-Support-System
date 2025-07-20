@@ -34,7 +34,6 @@ class CustomQuickAccessCard extends StatelessWidget {
               Align(
                 alignment: Alignment.topLeft,
                 child: Image.asset(
-                  //  fit: BoxFit.fill,
                   imagePath,
                   height: 100,
                   width: 100,

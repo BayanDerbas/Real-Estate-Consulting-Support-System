@@ -317,15 +317,8 @@ class Home extends StatelessWidget {
 
             final office = officeController.officesList.first;
             final index = officeController.officesList.indexOf(office);
-<<<<<<< HEAD
             final isFavorite = officeController.isFavoriteList[index]?.value ?? false;
             final isFollowing = officeController.isFollowingList[index]?.value ?? false;
-=======
-            final state =
-                officeController.officeStates[index] ??
-                {"isFavorite": false, "isFollowing": false};
-
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
             return CustomOfficeCard(
               name: '${office.user.firstName} ${office.user.lastName}',
               bio: office.bio,
@@ -339,7 +332,6 @@ class Home extends StatelessWidget {
               onFollowToggle: () {
                 officeController.toggleFollow(index);
               },
-<<<<<<< HEAD
               onProfileTap: () {
                 print("\n press on office");
                 Get.toNamed('/serviceProvider_profile', arguments: {
@@ -347,9 +339,6 @@ class Home extends StatelessWidget {
                   'role': 'OFFICE',
                 });
               },
-=======
-              onProfileTap: () {},
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
             );
 
           }),

@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-<<<<<<< HEAD
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-=======
-import 'package:graduation_project/core/routes/routes.dart';
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
-<<<<<<< HEAD
 import '../../../../core/widgets/Custom_PaginationBar.dart';
-=======
-import '../../../Auth/data/model/user_model.dart';
-import '../../../chats/presentation/controllers/room_controller.dart';
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
 import '../controllers/OfficeController.dart';
 import '../widgets/CustomOffices.dart';
 
 class Offices extends StatelessWidget {
   final OfficeController controller = Get.find();
-  final RoomController roomController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +27,6 @@ class Offices extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-<<<<<<< HEAD
         if (controller.officesList.isEmpty) {
           return const Center(child: Text("لا توجد مكاتب متاحة"));
         }
@@ -82,33 +71,6 @@ class Offices extends StatelessWidget {
                       imageUrl: office.commercialRegisterImage ?? '',
                     );
                   });
-=======
-              return Customoffices(
-                office:
-                    office.user.firstName +
-                    office.user.lastName, // ملاحظة: عدلتها من lastname+lastname
-                location: office.location ?? '',
-                bio: "الوصف : ${office.bio ?? ''}",
-                imageUrl: office.user.imageUrl ?? '',
-                isFavorite: state["isFavorite"]!,
-                isFollowing: state["isFollowing"]!,
-                isExpanded: state["isExpanded"]!,
-                onFavoriteToggle: () => controller.toggleFavorite(index),
-                onFollowToggle: () => controller.toggleFollow(index),
-                onToggleExpand: () => controller.toggleExpand(index),
-                onTap: () {
-                  final userToChatWith = UserModel(
-                    id: office.user.id,
-                    firstName: office.user.firstName,
-                    lastName: office.user.lastName,
-                    email: office.user.email,
-                    phone: office.user.phone,
-                  );
-
-                  roomController.createOrGoToChat(userToChatWith);
-                  //open chat with this office
-                  print("زيارة ملف المكتب: ${office.user.toJson()}");
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
                 },
               ),
             ),

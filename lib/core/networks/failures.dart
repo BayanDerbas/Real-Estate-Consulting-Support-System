@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 
 abstract class Failures {
   final String err_message;
+
   Failures(this.err_message);
 }
 
@@ -52,7 +53,6 @@ class serverFailure extends Failures {
     }
   }
 
-<<<<<<< HEAD
   factory serverFailure.fromResponse(
       int statusCode,
       dynamic response, {
@@ -62,29 +62,6 @@ class serverFailure extends Failures {
 
     if (statusCode == 400) {
       message = "Bad request. Please check your input.";
-=======
-  factory serverFailure.fromResponse(int statusCode, dynamic response) {
-    try {
-      if (response is Map<String, dynamic>) {
-        if (response.containsKey('errors') &&
-            response['errors'] is List &&
-            response['errors'].isNotEmpty) {
-          final errorMessage = response['errors'][0]['message'];
-          if (errorMessage != null && errorMessage.toString().isNotEmpty) {
-            return serverFailure(errorMessage.toString());
-          }
-        }
-        if (response.containsKey('message') && response['message'] is String) {
-          return serverFailure(response['message']);
-        }
-      }
-    } catch (e) {}
-
-    if (statusCode == 400) {
-      return serverFailure(
-        'Bad request. Please check your input and try again.$response',
-      );
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
     } else if (statusCode == 401) {
       message = "Unauthorized. Please log in again.";
     } else if (statusCode == 403) {

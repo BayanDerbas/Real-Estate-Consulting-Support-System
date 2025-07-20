@@ -1,25 +1,12 @@
 import 'package:get/get.dart';
-<<<<<<< HEAD
 import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
 import 'package:graduation_project/core/di/bindings/my_tickets_binds.dart';
-=======
-import 'package:graduation_project/core/di/bindings/base_tickets_binds.dart';
-import 'package:graduation_project/core/di/bindings/change_password_bind.dart';
-import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
-import 'package:graduation_project/core/di/bindings/my_tickets_binds.dart';
-import 'package:graduation_project/core/di/bindings/user_chat_binding.dart';
-import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verification_code.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
-<<<<<<< HEAD
-=======
-import 'package:graduation_project/features/chats/presentation/pages/chat_page.dart';
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
@@ -116,18 +103,10 @@ class AppRoutes {
       page: () => ResetPassword(),
       binding: ResetPasswordBinding(),
     ),
-<<<<<<< HEAD
     // GetPage(
     //   name: chatPage,
     //   page: () => ChatPage(),
     //   binding: ChatFeatureBinding(),
     // ),
-=======
-    GetPage(
-      name: chatPage,
-      page: () => ChatPage(),
-      binding: ChatFeatureBinding(),
-    ),
->>>>>>> c7d731dd450c376d00dc6594eb046f0831d21a99
   ];
 }
