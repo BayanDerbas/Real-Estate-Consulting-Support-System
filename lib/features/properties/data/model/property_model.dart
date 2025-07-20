@@ -20,10 +20,13 @@ class PropertyModel {
   final int numberOfBathrooms;
   final double latitude;
   final double longitude;
+  final int? officeId;
+
   @JsonKey(name: 'propertyImageList')
   final List<PropertyImageModel> propertyImageList;
 
   PropertyModel({
+    required this.officeId,
     required this.id,
     required this.description,
     required this.houseType,

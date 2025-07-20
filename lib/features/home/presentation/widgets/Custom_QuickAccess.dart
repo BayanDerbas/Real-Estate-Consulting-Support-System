@@ -48,7 +48,7 @@ class CustomQuickAccessCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ).scrollDirection(Axis.vertical),
         ),
       ),
     ).padding(EdgeInsets.all(8));

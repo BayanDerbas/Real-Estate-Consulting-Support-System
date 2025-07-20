@@ -60,7 +60,43 @@ class CustomServiceproviderprofile extends StatelessWidget {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  CircleAvatar(backgroundImage: AssetImage(image), radius: 50),
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 40,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(40),
+                      child: Image.network(
+                        image,
+                        width: 80,
+                        height: 100,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return SizedBox(
+                            width: 80,
+                            height: 100,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                    : null,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            AppImages.noImage,
+                            width: 80,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                   Positioned(
                     bottom: 0,
                     left: 0,
@@ -273,20 +309,24 @@ class CustomServiceproviderprofile extends StatelessWidget {
             color: AppColors.grey2,
           ).padding(EdgeInsets.symmetric(vertical: 15)),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                "Description",
-                style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Description",
+                  style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
+                ),
               ),
-              Text(
-                description,
-                textDirection: TextDirection.ltr,
-                textAlign: TextAlign.left,
-                style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 15),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  description,
+                  textAlign: TextAlign.left,
+                  style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 15),
+                ),
               ),
             ],
-          ),
+          ).padding(EdgeInsets.only(left: 10)),
           Divider(
             thickness: 1,
             color: AppColors.grey2,

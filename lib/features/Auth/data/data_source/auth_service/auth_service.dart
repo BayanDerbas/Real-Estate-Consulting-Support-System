@@ -8,6 +8,8 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../../../../core/networks/api_constant.dart';
 import 'dart:io';
+
+import '../../model/refresh_token_model.dart';
 part 'auth_service.g.dart';
 
 @RestApi(baseUrl: ApiConstant.baseUrl)
@@ -39,6 +41,11 @@ abstract class AuthService {
   Future<HttpResponse<LoginWrapperResponseModel>> login(
     @Body() LoginRequestModel request,
   );
+  @POST(ApiConstant.refresh)
+  Future<HttpResponse<RefreshWrappedResponse>> refreshToken(
+    @Body() RefreshRequestModel request,
+  );
+
   @POST(ApiConstant.verificationCode)
   Future<HttpResponse<VerificationCodeModel>> verificationCode(
     @Body() VerificationCodeModel request,

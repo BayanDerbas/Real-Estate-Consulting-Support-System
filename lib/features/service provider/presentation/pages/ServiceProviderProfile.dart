@@ -11,41 +11,49 @@ class Serviceproviderprofile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ServiceProviderProfileController controller = Get.put(
-      ServiceProviderProfileController(),
-    );
+    final args = Get.arguments as Map<String, dynamic>;
+    final String id = args['id'].toString();
+    final String role = args['role'].toString();
+
+    final controller = Get.put(ServiceProviderProfileController(id, role));
 
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Service Provider Profile",
-          icon: Icon(Icons.notifications),
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),
       body: Obx(() {
-        final job = "عقارات";
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.serviceProvider.isEmpty) {
+          return const Center(child: Text("لم يتم العثور على مزود الخدمة."));
+        }
+
+        final provider = controller.serviceProvider;
+
         return CustomServiceproviderprofile(
-          image: AppImages.expert,
-          name: "محمد محمد",
-          job: job,
-          rating: "5",
-          experience: "10",
-          successCount: "20",
+          image: controller.getValidImageUrl(provider),
+          name: provider['name'] ?? "بدون اسم",
+          job: provider['jobTitle'] ?? "غير معروف",
+          rating: provider['rating']?.toString() ?? "0",
+          experience: provider['experienceYears']?.toString() ?? "0",
+          successCount: provider['rateCount']?.toString() ?? "0",
           followerNum: controller.followers.value.toString(),
           followers: controller.followersText,
           onFavourite: controller.toggleFavourite,
           isFavourite: controller.isFavourite.value,
           isFollow: controller.isFollowing.value,
           onFollow: controller.toggleFollow,
-          onBook: () {
-            Get.toNamed('/Book');
-          },
+          onBook: () => Get.toNamed('/Book'),
           onMessage: () {},
           followerImages: [AppImages.expert, AppImages.user],
-          description:
-              "this is my first description ton this provider , i am a lawyer to this app ,provide consultations to users who wants help in real estate",
+          description: provider['textProvider'] ?? "لا يوجد وصف",
           postImages: controller.postImages,
           realEstateImages: controller.realEstateImages,
           discounts: controller.discounts,

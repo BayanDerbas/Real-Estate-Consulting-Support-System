@@ -19,7 +19,7 @@ class Book extends StatelessWidget {
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
           text: "appointement",
-          icon: Icon(Icons.notifications),
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),

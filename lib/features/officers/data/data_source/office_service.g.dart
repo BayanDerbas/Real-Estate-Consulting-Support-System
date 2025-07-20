@@ -17,7 +17,6 @@ class _OfficeService implements OfficeService {
 
   String? baseUrl;
 
-
   @override
   Future<OfficesResponse> getAllOffices({int page = 0, int size = 10}) async {
     final _extra = <String, dynamic>{};
@@ -38,7 +37,7 @@ class _OfficeService implements OfficeService {
     late OfficesResponse _value;
     try {
       _value = OfficesResponse.fromJson(_result.data!);
-    } on Object catch (e) {
+    } on Object catch (e, s) {
       rethrow;
     }
     return _value;

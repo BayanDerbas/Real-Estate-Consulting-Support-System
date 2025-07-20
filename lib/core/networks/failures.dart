@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 
 abstract class Failures {
@@ -9,60 +8,76 @@ abstract class Failures {
 }
 
 class serverFailure extends Failures {
-  serverFailure(super.err_message);
+  final int? statusCode;
+  final dynamic exception;
+
+  serverFailure(
+      String message, {
+        this.statusCode,
+        this.exception,
+      }) : super(message);
 
   factory serverFailure.fromDioError(DioException dioException) {
     switch (dioException.type) {
       case DioExceptionType.connectionTimeout:
-        return serverFailure("Connection TimeOut with ApiServer");
+        return serverFailure("Connection Timeout with API Server");
       case DioExceptionType.sendTimeout:
-        return serverFailure("Send TimeOut with ApiServer");
+        return serverFailure("Send Timeout with API Server");
       case DioExceptionType.receiveTimeout:
-        return serverFailure("Recieve TimeOut with ApiServer");
+        return serverFailure("Receive Timeout with API Server");
       case DioExceptionType.badCertificate:
         return serverFailure("Bad Certificate Exception");
       case DioExceptionType.cancel:
-        return serverFailure("Cancel Operation");
+        return serverFailure("Operation Cancelled");
       case DioExceptionType.connectionError:
         return serverFailure("Error in the connection");
       case DioExceptionType.unknown:
         if (dioException.message?.contains("SocketException") ?? false) {
-          return serverFailure('No Internet Connection');
+          return serverFailure("No Internet Connection");
         }
-        return serverFailure(dioException.error.toString());
-      case DioExceptionType.badResponse:
-        log("Status code : ${dioException.response!.statusCode!}");
-        return serverFailure.fromResponse(
-          dioException.response!.statusCode!,
-          dioException.response!.data,
+        return serverFailure(
+          dioException.message ?? 'Unknown Error',
+          exception: dioException.error,
         );
-
+      case DioExceptionType.badResponse:
+        final statusCode = dioException.response?.statusCode;
+        final data = dioException.response?.data;
+        log("Status code : $statusCode");
+        return serverFailure.fromResponse(
+          statusCode ?? 0,
+          data,
+          exception: dioException,
+        );
       default:
-        return serverFailure('unknown error');
+        return serverFailure("Unknown error", exception: dioException);
     }
   }
 
-  factory serverFailure.fromResponse(int statusCode, dynamic response) {
+  factory serverFailure.fromResponse(
+      int statusCode,
+      dynamic response, {
+        dynamic exception,
+      }) {
+    String message;
+
     if (statusCode == 400) {
-      return serverFailure(
-        'Bad request. Please check your input and try again.',
-      );
+      message = "Bad request. Please check your input.";
     } else if (statusCode == 401) {
-      return serverFailure('Unauthorized. Please log in again.');
+      message = "Unauthorized. Please log in again.";
     } else if (statusCode == 403) {
-      return serverFailure(
-        'Forbidden. You do not have permission to access this resource.',
-      );
+      message = "Forbidden. You don't have permission.";
     } else if (statusCode == 404) {
-      return serverFailure(
-        'Request not found. Please check the URL or resource.',
-      );
+      message = "Resource not found.";
     } else if (statusCode == 500) {
-      return serverFailure('Internal server error. Please try again later.');
+      message = "Internal server error. Please try again later.";
     } else {
-      return serverFailure(
-        'Oops! An unexpected error occurred. Please try again.',
-      );
+      message = "Unexpected error (code $statusCode)";
     }
+
+    return serverFailure(
+      message,
+      statusCode: statusCode,
+      exception: exception,
+    );
   }
 }

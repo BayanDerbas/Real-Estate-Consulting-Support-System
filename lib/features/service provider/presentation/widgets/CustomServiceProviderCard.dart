@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 
 class Customserviceprovidercard extends StatelessWidget {
   final int index;
-  final Map < String , dynamic > provider;
+  final Map<String, dynamic> provider;
   final VoidCallback? onFavoriteToggle;
   final VoidCallback? onToggleExpand;
   final VoidCallback? onTap;
@@ -15,6 +15,8 @@ class Customserviceprovidercard extends StatelessWidget {
   final String textProvider;
   final bool isFavorite;
   final bool isFollowing;
+  final bool isExpanded;
+  final String imageUrl;
   final VoidCallback onFollowToggle;
 
   const Customserviceprovidercard({
@@ -30,11 +32,12 @@ class Customserviceprovidercard extends StatelessWidget {
     required this.isFavorite,
     required this.isFollowing,
     required this.onFollowToggle,
+    required this.isExpanded,
+    required this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bool isExpanded = provider['isExpanded'] ?? false;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -53,19 +56,48 @@ class Customserviceprovidercard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Container(height: 150,
+            Container(
+              height: 150,
               child: Stack(
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
+                        backgroundColor: Colors.transparent,
                         radius: 40,
-                        child: Image.asset(
-                          provider['imagePath'],
-                          width: 80,
-                          height: 100,
-                          fit: BoxFit.cover,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(40),
+                          child: Image.network(
+                            provider['idCardImage'],
+                            width: 80,
+                            height: 100,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return SizedBox(
+                                width: 80,
+                                height: 100,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                        : null,
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                AppImages.noImage,
+                                width: 80,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -79,7 +111,10 @@ class Customserviceprovidercard extends StatelessWidget {
                                 children: [
                                   Text(
                                     provider['name'],
-                                    style: Fonts.itim.copyWith(fontSize: 18, color: AppColors.black),
+                                    style: Fonts.itim.copyWith(
+                                      fontSize: 18,
+                                      color: AppColors.black,
+                                    ),
                                   ),
                                   const SizedBox(width: 15),
                                   Container(
@@ -90,7 +125,10 @@ class Customserviceprovidercard extends StatelessWidget {
                                     child: Center(
                                       child: Text(
                                         provider['jobTitle'],
-                                        style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.darkGray),
+                                        style: Fonts.itim.copyWith(
+                                          fontSize: 14,
+                                          color: AppColors.darkGray,
+                                        ),
                                       ).padding(EdgeInsets.all(5)),
                                     ),
                                   ).expanded(flex: 3),
@@ -99,7 +137,11 @@ class Customserviceprovidercard extends StatelessWidget {
                               const SizedBox(height: 20),
                               Row(
                                 children: [
-                                  const Icon(Icons.star, color: Colors.amber, size: 18),
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 18,
+                                  ),
                                   const SizedBox(width: 4),
                                   Text(
                                     provider['rating'].toString(),
@@ -109,7 +151,10 @@ class Customserviceprovidercard extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       '${provider['experienceYears']} سنوات من الخبرة',
-                                      style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
+                                      style: Fonts.itim.copyWith(
+                                        fontSize: 14,
+                                        color: AppColors.grey,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -117,7 +162,11 @@ class Customserviceprovidercard extends StatelessWidget {
                               const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  const Icon(Icons.brightness_1, color: AppColors.skyBlue, size: 10),
+                                  const Icon(
+                                    Icons.brightness_1,
+                                    color: AppColors.skyBlue,
+                                    size: 10,
+                                  ),
                                   const SizedBox(width: 4),
                                   Flexible(
                                     child: Text(
@@ -127,19 +176,6 @@ class Customserviceprovidercard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              // const SizedBox(height: 8),
-                              // Wrap(
-                              //   children: [
-                              //     Text("أقرب موعد يوم: ", style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey)),
-                              //     Text(provider['appointmentDate'], style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender)),
-                              //   ],
-                              // ),
-                              // Wrap(
-                              //   children: [
-                              //     Text(" الساعة: ", style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey)),
-                              //     Text(provider['appointmentTime'], style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender)),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),
@@ -158,14 +194,14 @@ class Customserviceprovidercard extends StatelessWidget {
                           ),
                           child: IconButton(
                             icon: Icon(
-                              provider['isFavorite'] ? Icons.favorite : Icons.favorite_border,
-                              color: provider['isFavorite'] ? AppColors.lavender : AppColors.pureWhite,
+                              isFavorite ? Icons.favorite : Icons.favorite_border,
+                              color: isFavorite ? AppColors.lavender : AppColors.pureWhite,
                               size: 28,
                             ),
                             onPressed: onFavoriteToggle,
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(width: 5),
                         Container(
                           decoration: BoxDecoration(
                             color: AppColors.deepNavy,
@@ -205,20 +241,29 @@ class Customserviceprovidercard extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                     textProvider,
-                    style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.black),
+                    style: Fonts.itim.copyWith(
+                      fontSize: 14,
+                      color: AppColors.black,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(Icons.timelapse,color: AppColors.deepNavy,),
-                      SizedBox(width: 5,),
+                      Icon(Icons.timelapse, color: AppColors.deepNavy),
+                      SizedBox(width: 5),
                       Text(
                         "سعر الدقيقة : ",
-                        style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.grey),
+                        style: Fonts.itim.copyWith(
+                          fontSize: 14,
+                          color: AppColors.grey,
+                        ),
                       ),
                       Text(
-                        "${provider['price']}",
-                        style: Fonts.itim.copyWith(fontSize: 14, color: AppColors.lavender),
+                        price ?? "غير محدد",
+                        style: Fonts.itim.copyWith(
+                          fontSize: 14,
+                          color: AppColors.lavender,
+                        ),
                       ),
                     ],
                   ),
@@ -234,11 +279,17 @@ class Customserviceprovidercard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 12,
+                    ),
                   ),
                   child: Text(
                     "حجز",
-                    style: Fonts.itim.copyWith(fontSize: 16, color: Colors.white),
+                    style: Fonts.itim.copyWith(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

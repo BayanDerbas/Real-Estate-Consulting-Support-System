@@ -32,7 +32,7 @@ class Posts extends StatelessWidget {
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
           text: "Welcome Home",
-          icon: Icon(Icons.notifications),
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),

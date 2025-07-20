@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-import 'package:graduation_project/core/constants/colors.dart';
-
 import '../../../../core/constants/Fonts.dart';
+import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
 
 class BaseAuthScreen extends StatelessWidget {
@@ -17,6 +16,7 @@ class BaseAuthScreen extends StatelessWidget {
     this.onTap,
     this.componentHeight,
   });
+
   final Widget widget;
   final String? appBarTitle;
   final String? bodyText;
@@ -24,70 +24,80 @@ class BaseAuthScreen extends StatelessWidget {
   final String? footerText;
   final double? componentHeight;
   final void Function()? onTap;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(130),
+          preferredSize: const Size.fromHeight(130),
           child: CustomAppbar(
-            text: appBarTitle.toString(),
-            icon: Icon(Icons.notification_add),
+            text: appBarTitle ?? '',
+            icon: Icons.notification_add,
             iconColor: Colors.white,
           ),
         ),
-        body: Column(
-          children: [
-            Container(
-              height: componentHeight ?? height * 0.6,
-              width: width * 0.9,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.skyBlue,
-                    AppColors.lightBulishGray,
-                    AppColors.softPink2,
-                  ],
-                  begin: Alignment.topLeft,
-                  stops: [0.0, 0.38, 0.75],
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: componentHeight,
+                width: width * 0.9,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.skyBlue,
+                      AppColors.lightBulishGray,
+                      AppColors.softPink2,
+                    ],
+                    begin: Alignment.topLeft,
+                    stops: const [0.0, 0.38, 0.75],
+                  ),
                 ),
-              ),
-              child: Center(child: widget),
-            ).paddingOnly(top: 70, left: 20, right: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  bodyText!,
-                  style: Fonts.itim.copyWith(
-                    color: AppColors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                child: Center(child: widget),
+              ).paddingOnly(top: 50, left: 20, right: 20, bottom: 20),
+              if (bodyText != null && clickableText != null && onTap != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      bodyText!,
+                      textAlign: TextAlign.center,
+                      style: Fonts.itim.copyWith(
+                        color: AppColors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ).paddingOnly(right: 4),
+                    Text(
+                      clickableText!,
+                      style: Fonts.itim.copyWith(
+                        color: AppColors.black,
+                        fontSize: 15,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ).onTap(onTap!),
+                  ],
+                ).paddingSymmetric(horizontal: 15, vertical: 5),
+              if (footerText != null)
+                Container(
+                  constraints: BoxConstraints(maxWidth: width * 0.9),
+                  child: Text(
+                    footerText!,
+                    textAlign: TextAlign.center,
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.grey,
+                      fontSize: 17,
+                    ),
                   ),
-                ).paddingOnly(right: 4),
-                Text(
-                  clickableText!,
-                  style: Fonts.itim.copyWith(
-                    color: AppColors.black,
-                    fontSize: 15,
-                    decoration: TextDecoration.underline,
-                  ),
-                ).onTap(onTap!),
-              ],
-            ).paddingAll(15),
-            Container(
-              constraints: BoxConstraints(maxWidth: width * 0.9),
-              child: Text(
-                footerText!,
-                textAlign: TextAlign.center,
-                style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 17),
-              ),
-            ),
-          ],
-        ).scrollDirection(Axis.vertical),
+                ).paddingOnly(bottom: 20),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -7,9 +7,12 @@ class OfficeRepository {
 
   OfficeRepository(this.service);
 
-  Future<Either<String, OfficesResponse>> getAllOffices() async {
+  Future<Either<String, OfficesResponse>> getAllOffices({
+    int page = 0,
+    int size = 10,
+  }) async {
     try {
-      final response = await service.getAllOffices();
+      final response = await service.getAllOffices(page: page, size: size);
       return Right(response);
     } catch (e) {
       return Left("Failed to fetch offices: $e");

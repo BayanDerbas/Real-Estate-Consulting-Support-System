@@ -60,14 +60,47 @@ class Customoffices extends StatelessWidget {
                     CircleAvatar(
                       radius: 40,
                       backgroundColor: Colors.grey[200],
-                      backgroundImage: _isValidUrl(imageUrl)
-                          ? NetworkImage(imageUrl)
-                          : const AssetImage(AppImages.noImage) as ImageProvider,
-                      onBackgroundImageError: (_, __) {
-                        debugPrint("⚠️ فشل تحميل الصورة من الرابط: $imageUrl");
-                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(40),
+                        child: _isValidUrl(imageUrl)
+                            ? Image.network(
+                          imageUrl,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return SizedBox(
+                              width: 80,
+                              height: 80,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              AppImages.noImage,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                            : Image.asset(
+                          AppImages.noImage,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-
                     const SizedBox(width: 10),
                     Expanded(
                       child: Padding(
@@ -94,7 +127,7 @@ class Customoffices extends StatelessWidget {
                                 ),
                                 SizedBox(width: 4),
                                 Text(
-                                  location,
+                                  " الموقع :$location",
                                   style: Fonts.itim.copyWith(
                                     fontSize: 14,
                                     color: AppColors.grey,
@@ -174,7 +207,7 @@ class Customoffices extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      bio.isNotEmpty ? bio : "نبذة عن المكتب سيتم عرضها هنا.",
+                      "الوصف : ${bio.isNotEmpty ? bio :' نبذة عن المكتب سيتم عرضها هنا'}",
                       style: Fonts.itim.copyWith(
                         fontSize: 14,
                         color: AppColors.black,

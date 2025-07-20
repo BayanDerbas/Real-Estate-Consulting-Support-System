@@ -19,7 +19,7 @@ class Scheduletime extends StatelessWidget {
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: 'Availble time',
-          icon: Icon(Icons.notifications),
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),

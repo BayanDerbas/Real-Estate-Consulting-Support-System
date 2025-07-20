@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../../../core/constants/Fonts.dart';
 import '../../../../../../core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 
 class CustomOfficeCard extends StatelessWidget {
   final String name;
@@ -50,23 +52,40 @@ class CustomOfficeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.transparent,
                   radius: 40,
-                  child: Image.network(
-                    imageUrl,
-                    width: 80,
-                    height: 100,
-                    fit: BoxFit.cover,
-                    errorBuilder:
-                        (context, error, stackTrace) => Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: Image.network(
+                      imageUrl,
+                      width: 80,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return SizedBox(
                           width: 80,
                           height: 100,
-                          color: Colors.grey[300],
-                          child: Icon(
-                            Icons.image,
-                            size: 40,
-                            color: AppColors.grey,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                                  : null,
+                              strokeWidth: 2,
+                            ),
                           ),
-                        ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          AppImages.noImage,
+                          width: 80,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -178,7 +197,7 @@ class CustomOfficeCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).onTap(onProfileTap),
     );
   }
 }

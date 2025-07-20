@@ -18,12 +18,16 @@ class VerificationCodeController extends GetxController {
   late Timer _timer;
   var canResend = false.obs;
   var countdown = 20.obs;
+  late String nextRoute;
 
   @override
   void onInit() {
     super.onInit();
-    if (Get.arguments is String) {
-      email.text = Get.arguments;
+    if (Get.arguments is Map) {
+      email.text = Get.arguments['email'] ?? '';
+      nextRoute = Get.arguments['nextRoute'] ?? AppRoutes.login;
+    } else {
+      nextRoute = AppRoutes.login;
     }
     startResendTimer();
   }
@@ -98,17 +102,8 @@ class VerificationCodeController extends GetxController {
         ).show();
       },
       (r) async {
-        await AwesomeDialog(
-          context: Get.context!,
-          dialogType: DialogType.success,
-          animType: AnimType.scale,
-          title: "Success",
-          desc: "Account created successfully",
-          btnOkOnPress: () {},
-          autoHide: const Duration(seconds: 2),
-        ).show();
         _timer.cancel();
-        Get.offNamed(AppRoutes.login);
+        Get.offNamed(nextRoute, arguments: {'email': email.text});
       },
     );
   }

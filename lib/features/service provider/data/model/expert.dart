@@ -12,8 +12,8 @@ class Expert {
   final double rating;
   final double rateCount;
   final String? bio;
-  final String idCardImage;
-  final String degreeCertificateImage;
+  final String? idCardImage;
+  final String? degreeCertificateImage;
   final double? perMinuteVideo;
   final double? perMinuteAudio;
 

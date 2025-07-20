@@ -94,7 +94,10 @@ class RegisterController extends GetxController {
           autoHide: const Duration(seconds: 2),
         ).show();
 
-        Get.offAllNamed(AppRoutes.verificationCode, arguments: email.text);
+        Get.offAllNamed(
+          AppRoutes.verificationCode,
+          arguments: {'nextRoute': AppRoutes.login, 'email': email.text},
+        );
       },
     );
   }

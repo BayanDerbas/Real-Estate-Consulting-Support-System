@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import '../controllers/ConfirmController.dart';
 import '../controllers/PayementController.dart';
 import '../widgets/Custom_Confirm.dart';
 import '../widgets/Custom_PaymentBottomSheet.dart';
@@ -11,7 +10,6 @@ import '../widgets/Custom_PaymentBottomSheet.dart';
 class Confirm extends StatelessWidget {
   Confirm({super.key});
 
-  final ConfirmController confirmController = Get.put(ConfirmController());
   final PaymentController paymentController = Get.put(PaymentController());
 
   void _showPaymentBottomSheet(BuildContext context) {
@@ -51,8 +49,8 @@ class Confirm extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
-          text: "Confirm your reservation ",
-          icon: Icon(Icons.notifications),
+          text: "Welcome Home",
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),

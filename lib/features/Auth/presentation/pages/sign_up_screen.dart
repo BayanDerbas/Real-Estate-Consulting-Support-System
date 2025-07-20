@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:graduation_project/core/functions/validate_input.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
+import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
+import 'package:graduation_project/features/Auth/presentation/widgets/base_auth_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/widgets/custom_drop_down_with_field.dart';
-import '../../../../core/functions/validate_input.dart';
-import '../controllers/signup_controller.dart';
-import '../widgets/base_auth_screen.dart';
-import '../widgets/custom_text_form_field.dart';
+import 'package:graduation_project/features/Auth/presentation/widgets/custom_text_form_field.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -16,31 +16,31 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final currentHeight = MediaQuery.of(context).size.height;
     final controller = Get.find<RegisterController>();
+
     return BaseAuthScreen(
+      // componentHeight: currentHeight * 0.7,
       widget: Form(
         key: controller.formKey,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
               hintText: "first name",
-              icon: Icons.email_outlined,
+              icon: Icons.person_outline,
               controller: controller.firstName,
-              validator: (val) {
-                return validateInput(val!, 2, 30, 'username');
-              },
+              validator: (val) => validateInput(val!, 2, 30, 'username'),
             ).paddingOnly(left: 15, right: 15, top: 40),
             CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
               hintText: "last name",
-              icon: Icons.password,
+              icon: Icons.person_outline,
               controller: controller.lastName,
-              validator: (val) {
-                return validateInput(val!, 2, 30, 'username');
-              },
+              validator: (val) => validateInput(val!, 2, 30, 'username'),
             ).paddingSymmetric(horizontal: 15),
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
@@ -48,19 +48,15 @@ class SignUpScreen extends StatelessWidget {
               hintText: "email",
               icon: Icons.email,
               controller: controller.email,
-              validator: (val) {
-                return validateInput(val!, 2, 30, 'email');
-              },
+              validator: (val) => validateInput(val!, 2, 30, 'email'),
             ).paddingSymmetric(horizontal: 15),
             CustomTextField(
-              keyboardType: TextInputType.name,
+              keyboardType: TextInputType.visiblePassword,
               width: width * 0.8,
               hintText: "password",
-              icon: Icons.password,
+              icon: Icons.lock_outline,
               controller: controller.password,
-              validator: (val) {
-                return validateInput(val!, 2, 30, 'password');
-              },
+              validator: (val) => validateInput(val!, 8, 30, 'password'),
             ).paddingSymmetric(horizontal: 15),
             CustomTextField(
               keyboardType: TextInputType.phone,
@@ -68,17 +64,13 @@ class SignUpScreen extends StatelessWidget {
               hintText: "phone",
               icon: Icons.phone,
               controller: controller.phone,
-              validator: (val) {
-                return validateInput(val!, 10, 10, 'phonenumber');
-              },
+              validator: (val) => validateInput(val!, 10, 10, 'phonenumber'),
             ).paddingSymmetric(horizontal: 15),
             CustomDropDownWithField(
               width: width * 0.8,
               list: controller.roles,
               item: controller.selectedRole,
-              onChanged: (newVal) {
-                controller.onChangeRole(newVal);
-              },
+              onChanged: controller.onChangeRole,
             ),
             Obx(() {
               if (controller.isLoading.value) {
@@ -86,41 +78,32 @@ class SignUpScreen extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 ).paddingOnly(top: 20);
               }
-
-              return controller.selectedRole.value == 'USER'
-                  ? CustomButton(
-                    text: 'register',
-                    textColor: AppColors.pureWhite,
-                    backgroundColor: AppColors.deepNavy,
-                    borderRadius: 10,
-                    width: width * 0.8,
-                    onPressed: () {
-                      bool isValidInput = controller.validateInput();
-                      isValidInput ? controller.userRegister() : false;
-                    },
-                  ).paddingOnly(top: 10)
-                  : CustomButton(
-                    text: 'continue fill info',
-                    textColor: AppColors.pureWhite,
-                    backgroundColor: AppColors.deepNavy,
-                    borderRadius: 10,
-                    width: width * 0.8,
-                    onPressed: () {
-                      bool isValidInput = controller.validateInput();
-                      isValidInput
-                          ? Get.toNamed(AppRoutes.continueFillExpertInfo)
-                          : false;
-                    },
-                  ).paddingOnly(top: 10);
+              final buttonText =
+                  controller.selectedRole.value == 'USER'
+                      ? 'register'
+                      : 'continue fill info';
+              return CustomButton(
+                text: buttonText,
+                textColor: AppColors.pureWhite,
+                backgroundColor: AppColors.deepNavy,
+                borderRadius: 10,
+                width: width * 0.8,
+                onPressed: () {
+                  final valid = controller.validateInput();
+                  if (!valid) return;
+                  controller.selectedRole.value == 'USER'
+                      ? controller.userRegister()
+                      : Get.toNamed(AppRoutes.continueFillExpertInfo);
+                },
+              ).paddingOnly(top: 10, bottom: 20);
             }),
           ],
-        ).scrollDirection(Axis.vertical),
+        ),
       ),
-      appBarTitle: "Welcome Back",
-      bodyText: " have an account?",
+      appBarTitle: "Create Account",
+      bodyText: "Have an account?",
       clickableText: "Sign in",
-      footerText:
-          "By clicking login you agree to Tradinos Terms & Conditions. Capital at risk: Before any thing, Please read the Key Risks.",
+      footerText: "",
       onTap: () {
         Get.toNamed(AppRoutes.login);
       },

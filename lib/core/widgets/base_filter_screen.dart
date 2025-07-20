@@ -35,7 +35,7 @@ class BaseFilteredScreen extends StatelessWidget {
           preferredSize: const Size.fromHeight(130),
           child: CustomAppbar(
             text: appBarTitle ?? '',
-            icon: Icon(Icons.filter_alt_outlined),
+            icon: Icons.filter_alt_outlined,
             iconColor: Colors.white,
             onPressed: () => _showFilterSheet(context),
           ),

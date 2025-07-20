@@ -7,8 +7,13 @@ class OfficeController extends GetxController {
 
   var isLoading = true.obs;
   var officesList = <Office>[].obs;
+  var currentPage = 0.obs;
+  var totalPages = 10.obs;
+  var pageSize = 10;
 
-  var officeStates = <int, Map<String, bool>>{}.obs;
+  var isFavoriteList = <int, RxBool>{}.obs;
+  var isFollowingList = <int, RxBool>{}.obs;
+  var isExpandedList = <int, RxBool>{}.obs;
 
   OfficeController(this.repository);
 
@@ -18,42 +23,91 @@ class OfficeController extends GetxController {
     fetchOffices();
   }
 
-  void fetchOffices() async {
+  void fetchOffices({int page = 0}) async {
     isLoading(true);
-    final result = await repository.getAllOffices();
-    result.fold(
-          (failure) => print(" فشل في جلب المكاتب: $failure"),
-          (data) {
-        print(" تم جلب المكاتب: ${data.data.content.length}");
-        officesList.value = data.data.content;
+    try {
+      final result = await repository.getAllOffices(page: page, size: pageSize);
+      result.fold(
+        (failure) {
+          print("فشل في جلب المكاتب: $failure");
+          officesList.clear();
+          isFavoriteList.clear();
+          isFollowingList.clear();
+          isExpandedList.clear();
+        },
+        (data) {
+          print("تم جلب المكاتب: ${data.data.content.length}");
+          print("Raw Office Data: ${data.data.content}");
+          officesList.value = data.data.content;
+          currentPage.value = data.data.pageable.pageNumber;
+          totalPages.value = data.data.totalPages;
 
-        for (int i = 0; i < officesList.length; i++) {
-          officeStates[i] = {
-            "isFavorite": false,
-            "isFollowing": false,
-            "isExpanded": false,
-          };
-        }
-      },
-    );
-    isLoading(false);
+          for (var office in officesList) {
+            print(
+              "Office: ${office.user.firstName} ${office.user.lastName},"
+                  " commercialRegisterImage: ${office.commercialRegisterImage}",
+            );
+          }
+
+          isFavoriteList.clear();
+          isFollowingList.clear();
+          isExpandedList.clear();
+          for (int i = 0; i < officesList.length; i++) {
+            isFavoriteList[i] = false.obs;
+            isFollowingList[i] = false.obs;
+            isExpandedList[i] = false.obs;
+          }
+          print("isFavoriteList: ${isFavoriteList.value}");
+          print("isFollowingList: ${isFollowingList.value}");
+          print("isExpandedList: ${isExpandedList.value}");
+        },
+      );
+    } catch (e, stackTrace) {
+      print("خطأ في جلب المكاتب: $e");
+      print("Stack Trace: $stackTrace");
+      officesList.clear();
+      isFavoriteList.clear();
+      isFollowingList.clear();
+      isExpandedList.clear();
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void changePage(int newPage) {
+    fetchOffices(page: newPage);
   }
 
   void toggleFavorite(int index) {
-    final current = officeStates[index]?["isFavorite"] ?? false;
-    officeStates[index]?["isFavorite"] = !current;
-    officeStates.refresh();
+    if (isFavoriteList.containsKey(index)) {
+      isFavoriteList[index]!.value = !isFavoriteList[index]!.value;
+      print(
+        "toggleFavorite: index=$index, isFavorite=${isFavoriteList[index]!.value}",
+      );
+    } else {
+      print("Error: isFavoriteList does not contain index $index");
+    }
   }
 
   void toggleFollow(int index) {
-    final current = officeStates[index]?["isFollowing"] ?? false;
-    officeStates[index]?["isFollowing"] = !current;
-    officeStates.refresh();
+    if (isFollowingList.containsKey(index)) {
+      isFollowingList[index]!.value = !isFollowingList[index]!.value;
+      print(
+        "toggleFollow: index=$index, isFollowing=${isFollowingList[index]!.value}",
+      );
+    } else {
+      print("Error: isFollowingList does not contain index $index");
+    }
   }
 
   void toggleExpand(int index) {
-    final current = officeStates[index]?["isExpanded"] ?? false;
-    officeStates[index]?["isExpanded"] = !current;
-    officeStates.refresh();
+    if (isExpandedList.containsKey(index)) {
+      isExpandedList[index]!.value = !isExpandedList[index]!.value;
+      print(
+        "toggleExpand: index=$index, isExpanded=${isExpandedList[index]!.value}",
+      );
+    } else {
+      print("Error: isExpandedList does not contain index $index");
+    }
   }
 }

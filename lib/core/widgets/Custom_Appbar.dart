@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
-import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:get/get.dart';
 import '../constants/Fonts.dart';
 import '../constants/colors.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String text;
   final Color textColor;
-  final Widget icon;
+  final IconData icon;
   final Color iconColor;
   final Color appbarColor;
   final void Function()? onPressed;
@@ -39,8 +38,7 @@ class CustomAppbar extends StatelessWidget {
             ),
             IconButton(
               onPressed: onPressed,
-              icon: icon,
-              color: AppColors.pureWhite,
+              icon: Icon(icon, color: iconColor), // ✅ هذا هو الصح
             ),
           ],
         )
@@ -64,7 +62,5 @@ class SlantedClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

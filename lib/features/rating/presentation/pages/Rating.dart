@@ -22,7 +22,7 @@ class Rating extends StatelessWidget {
         preferredSize: Size.fromHeight(150),
         child: CustomAppbar(
           text: "Rating",
-          icon: Icon(Icons.notifications),
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),

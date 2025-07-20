@@ -14,4 +14,8 @@ abstract class ExpertService {
     @Query("page") required int page,
     @Query("size") required int size,
   });
+
+  @GET("${ApiConstant.getAllExperts}/{id}")
+  Future<ExpertByIdResponse> getExpertById(@Path("id") String expertId);
+
 }

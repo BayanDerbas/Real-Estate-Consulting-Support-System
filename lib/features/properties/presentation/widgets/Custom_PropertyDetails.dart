@@ -12,6 +12,8 @@ class CustomPropertyDetails extends StatelessWidget {
   final String location;
   final String area;
   final String beds;
+  final String priceInMonth;
+  final String room;
   final String baths;
   final String details;
   final String serviceType;
@@ -34,6 +36,8 @@ class CustomPropertyDetails extends StatelessWidget {
     required this.selectedIndex,
     required this.onImageTap,
     required this.onSwipe,
+    required this.priceInMonth,
+    required this.room,
   });
 
   @override
@@ -65,12 +69,13 @@ class CustomPropertyDetails extends StatelessWidget {
                       width: double.infinity,
                       height: 400,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(
-                        AppImages.noImage,
-                        width: double.infinity,
-                        height: 400,
-                        fit: BoxFit.cover,
-                      ),
+                      errorBuilder:
+                          (context, error, stackTrace) => Image.asset(
+                            AppImages.noImage,
+                            width: double.infinity,
+                            height: 400,
+                            fit: BoxFit.cover,
+                          ),
                     ),
                   ),
                 ),
@@ -143,10 +148,11 @@ class CustomPropertyDetails extends StatelessWidget {
                       child: Image.network(
                         allImages[index],
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Image.asset(
-                          AppImages.noImage,
-                          fit: BoxFit.cover,
-                        ),
+                        errorBuilder:
+                            (context, error, stackTrace) => Image.asset(
+                              AppImages.noImage,
+                              fit: BoxFit.cover,
+                            ),
                       ),
                     ),
                   ),
@@ -172,7 +178,11 @@ class CustomPropertyDetails extends StatelessWidget {
           ).padding(EdgeInsets.symmetric(horizontal: 16)),
           Row(
             children: [
-              const Icon(Icons.real_estate_agent, size: 22, color: AppColors.grey),
+              const Icon(
+                Icons.real_estate_agent,
+                size: 22,
+                color: AppColors.grey,
+              ),
               const SizedBox(width: 5),
               Text(
                 serviceType,
@@ -182,15 +192,17 @@ class CustomPropertyDetails extends StatelessWidget {
           ).padding(EdgeInsets.symmetric(horizontal: 16)),
           const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildInfoCard(Icons.aspect_ratio, area),
-              SizedBox(width: 5),
-              _buildInfoCard(Icons.bed, '$beds beds'),
-              SizedBox(width: 5),
-              _buildInfoCard(Icons.bathtub, '$baths baths'),
-            ],
-          ).padding(EdgeInsets.symmetric(horizontal: 10)).scrollDirection(Axis.horizontal),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildInfoCard(Icons.aspect_ratio, area),
+                  SizedBox(width: 5),
+                  _buildInfoCard(Icons.bed, '$beds beds'),
+                  SizedBox(width: 5),
+                  _buildInfoCard(Icons.bathtub, '$baths baths'),
+                ],
+              )
+              .padding(EdgeInsets.symmetric(horizontal: 10))
+              .scrollDirection(Axis.horizontal),
           const SizedBox(height: 20),
           Text(
             'Details',

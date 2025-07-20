@@ -14,8 +14,8 @@ Expert _$ExpertFromJson(Map<String, dynamic> json) => Expert(
   rating: (json['rating'] as num).toDouble(),
   rateCount: (json['rateCount'] as num).toDouble(),
   bio: json['bio'] as String?,
-  idCardImage: json['idCardImage'] as String,
-  degreeCertificateImage: json['degreeCertificateImage'] as String,
+  idCardImage: json['idCardImage'] as String?,
+  degreeCertificateImage: json['degreeCertificateImage'] as String?,
   perMinuteVideo: (json['perMinuteVideo'] as num?)?.toDouble(),
   perMinuteAudio: (json['perMinuteAudio'] as num?)?.toDouble(),
 );

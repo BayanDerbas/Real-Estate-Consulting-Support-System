@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../../../core/constants/Fonts.dart';
 import '../../../../../../core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 
 class CustomExpertCard extends StatelessWidget {
   final String name;
@@ -59,12 +60,40 @@ class CustomExpertCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.transparent,
                   radius: 40,
-                  child: Image.asset(
-                    imagePath,
-                    width: 80,
-                    height: 100,
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(40),
+                    child: Image.network(
+                      imagePath,
+                      width: 80,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return SizedBox(
+                          width: 80,
+                          height: 100,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                                  : null,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          AppImages.noImage,
+                          width: 80,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(width: 10),
@@ -85,7 +114,7 @@ class CustomExpertCard extends StatelessWidget {
                                   fontSize: 18,
                                   color: AppColors.black,
                                 ),
-                                maxLines: 2, // أو أكثر إذا بدك تسمح بعدة أسطر
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 softWrap: true,
                               ),
@@ -98,7 +127,7 @@ class CustomExpertCard extends StatelessWidget {
                                   horizontal: 15,
                                   vertical: 5,
                                 ),
-                                height: null, // خلّيه auto
+                                height: null,
                                 decoration: BoxDecoration(
                                   color: Colors.grey[300],
                                   borderRadius: BorderRadius.circular(8),
@@ -279,7 +308,7 @@ class CustomExpertCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ).onTap(onProfileTap),
     );
   }
 }

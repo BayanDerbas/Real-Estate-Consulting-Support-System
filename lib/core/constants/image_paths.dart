@@ -23,4 +23,5 @@ class AppImages {
   static const String walletBackground = '$basePath/walletBackground.jpg';
   static const String noImage = '$basePath/noImage.jpg';
   static const String noData = '$basePath/no-data.jpg';
+  static const String appLogo = '$basePath/aqqar_link2.png';
 }

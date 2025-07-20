@@ -23,7 +23,7 @@ class Properties extends StatelessWidget {
           preferredSize: Size.fromHeight(150),
           child: CustomAppbar(
             text: "Properties",
-            icon: Icon(Icons.notifications),
+            icon: Icons.notifications,
             iconColor: AppColors.pureWhite,
           ),
         ),
