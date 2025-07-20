@@ -30,7 +30,7 @@ abstract class TicketService {
   );
 
   @GET(ApiConstant.filterTickets)
-  Future<FilterTicketsResponseModel> getFilteredTickets({
+  Future<HttpResponse<FilterTicketsResponseModel>> getFilteredTickets({
     @Query("lowPrice") double? lowPrice,
     @Query("highPrice") double? highPrice,
     @Query("serviceType") String? serviceType,

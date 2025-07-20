@@ -1,5 +1,6 @@
-import 'package:graduation_project/features/Auth/data/model/client_model.dart'; // Make sure this path is correct
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../Auth/data/model/client_model.dart';
 
 part 'ticket_data_model.g.dart';
 

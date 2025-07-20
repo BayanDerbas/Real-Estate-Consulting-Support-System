@@ -65,21 +65,23 @@ class TicketRepositoryImpl {
     }
   }
 
-  Future<Either<Failures, List<TicketDataModel>>> getFilteredTickets({
+  // In your TicketRepositoryImpl class
+
+  Future<Either<Failures, List<Ticket>>> getFilteredTickets({
     required FilterTicketsModel filter,
   }) async {
     try {
-      final FilterTicketsResponseModel httpResponse = await _ticketService
-          .getFilteredTickets(
-            lowPrice: filter.lowPrice,
-            highPrice: filter.highPrice,
-            serviceType: filter.serviceType,
-            houseType: filter.houseType,
-            lowArea: filter.lowArea,
-            highArea: filter.highArea,
-            location: filter.location,
-          );
-      return Right(httpResponse.data);
+      final httpResponse = await _ticketService.getFilteredTickets(
+        lowPrice: filter.lowPrice,
+        highPrice: filter.highPrice,
+        serviceType: filter.serviceType,
+        houseType: filter.houseType,
+        lowArea: filter.lowArea,
+        highArea: filter.highArea,
+        location: filter.location,
+      );
+      final tickets = httpResponse.data.data;
+      return Right(tickets);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

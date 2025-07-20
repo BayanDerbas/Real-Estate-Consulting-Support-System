@@ -111,7 +111,7 @@ class _TicketService implements TicketService {
   }
 
   @override
-  Future<FilterTicketsResponseModel> getFilteredTickets({
+  Future<HttpResponse<FilterTicketsResponseModel>> getFilteredTickets({
     double? lowPrice,
     double? highPrice,
     String? serviceType,
@@ -133,7 +133,7 @@ class _TicketService implements TicketService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<FilterTicketsResponseModel>(
+    final _options = _setStreamType<HttpResponse<FilterTicketsResponseModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -151,7 +151,8 @@ class _TicketService implements TicketService {
       errorLogger?.logError(e, s, _options);
       rethrow;
     }
-    return _value;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

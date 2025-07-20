@@ -60,6 +60,8 @@ class CreateTicketController extends GetxController {
 
     result.fold(
       (failure) {
+        print(request.toJson());
+        print('/////////////////////////////////////////////////////failure');
         errorMessage.value = failure.err_message;
         AwesomeDialog(
           context: context,
@@ -70,6 +72,7 @@ class CreateTicketController extends GetxController {
         ).show();
       },
       (response) async {
+        print(request.toJson());
         print('/////////////////////////////////////////////////////success');
         AwesomeDialog(
           context: context,

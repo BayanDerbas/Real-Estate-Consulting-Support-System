@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:graduation_project/core/networks/failures.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_data_model.dart';
+import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/data/model/filter_tickets_request_model.dart'
     as filter;
@@ -12,7 +13,7 @@ class FilteredTicketsController extends GetxController {
 
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
-  final RxList<TicketDataModel> tickets = <TicketDataModel>[].obs;
+  final RxList<Ticket> tickets = <Ticket>[].obs;
 
   filter.FilterTicketsModel? currentFilter;
 
