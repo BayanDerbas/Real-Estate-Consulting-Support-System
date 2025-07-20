@@ -34,6 +34,8 @@ dependencies:
   web_socket_channel: ^3.0.3
   flutter_native_splash: ^2.4.6
   flutter_localization: ^0.3.3
+  zego_uikit_prebuilt_call: ^4.17.7
+  zego_uikit_signaling_plugin: ^2.8.15
 
 dev_dependencies:
   flutter_test:

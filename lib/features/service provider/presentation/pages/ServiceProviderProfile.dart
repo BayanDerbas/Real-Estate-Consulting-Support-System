@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/features/calls/send_zego_button_request.dart';
+import 'package:zego_uikit/zego_uikit.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart'; // Make sure this is imported
+
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
@@ -57,6 +61,47 @@ class Serviceproviderprofile extends StatelessWidget {
           postImages: controller.postImages,
           realEstateImages: controller.realEstateImages,
           discounts: controller.discounts,
+          onCall: () {
+            // Get user ID and Name to call
+            final String targetUserId = provider['id'].toString();
+            final String targetUserName =
+                provider['name'] ?? 'Service Provider';
+
+            showDialog(
+              context: context,
+              builder:
+                  (context) => AlertDialog(
+                    title: const Text("Start a Call?"),
+                    content: Text(
+                      "Do you want to start a video call with $targetUserName?",
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Cancel"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context); // Close the dialog
+
+                          // *** THE FIX IS HERE ***
+                          ZegoCallButton(
+                            isVideoCall: true,
+                            invitees: [
+                              ZegoUIKitUser(
+                                id: targetUserId,
+                                name: targetUserName,
+                              ),
+                            ],
+                            resourceID: 'realEstateCons',
+                          );
+                        },
+                        child: const Text("Call"),
+                      ),
+                    ],
+                  ),
+            );
+          },
         );
       }),
     );

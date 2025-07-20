@@ -5,6 +5,7 @@ class SecureStorage {
   final _tokenKey = 'accessToken';
   final _refreshTokenKey = 'refreshToken';
   final _userId = 'userId';
+  final _userName = 'userName';
   Future<void> saveToken(String token) async {
     await _storage.write(key: _tokenKey, value: token);
   }
@@ -13,12 +14,20 @@ class SecureStorage {
     await _storage.write(key: _refreshTokenKey, value: refreshToken);
   }
 
+  Future<void> saveUserName(String userName) async {
+    await _storage.write(key: _userName, value: userName);
+  }
+
   Future<void> saveUserId(String userId) async {
     await _storage.write(key: _userId, value: userId);
   }
 
   Future<String?> getToken() async {
     return await _storage.read(key: _tokenKey);
+  }
+
+  Future<String?> getUserName() async {
+    return await _storage.read(key: _userName);
   }
 
   Future<String?> getRefreshToken() async {

@@ -6,6 +6,7 @@ import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 import '../../../../core/networks/dio_factory.dart';
+import '../../../calls/calls_service.dart';
 
 class LoginController extends GetxController {
   final TextEditingController password = TextEditingController();
@@ -60,6 +61,13 @@ class LoginController extends GetxController {
           print(await storage.getUserId());
           DioFactory.setToken(response.token!);
           await storage.saveUserId(response.user!.id.toString());
+          await storage.saveUserName(response.user!.firstName.toString());
+          final currentUserName = await storage.getUserName();
+          final currentUserId = await storage.getUserId();
+          //void onUserLogout() {
+          //   ZegoUIKitPrebuiltCallInvitationService().uninit();
+          // }أبو عصام كشف راس الحريييم
+          onUserLogin(currentUserId.toString(), currentUserName.toString());
         }
         if (response.refreshToken != null) {
           await storage.saveRefreshToken(response.refreshToken!);

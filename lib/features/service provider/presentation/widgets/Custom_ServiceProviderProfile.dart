@@ -17,6 +17,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
   final bool isFollow;
   final VoidCallback? onFollow;
   final VoidCallback? onBook;
+  final VoidCallback? onCall;
   final VoidCallback? onMessage;
   final List<String> followerImages;
   final String followers;
@@ -46,6 +47,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
     required this.postImages,
     required this.realEstateImages,
     required this.discounts,
+    this.onCall,
   });
 
   @override
@@ -77,10 +79,12 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             height: 100,
                             child: Center(
                               child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                    : null,
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
                                 strokeWidth: 2,
                               ),
                             ),
@@ -253,6 +257,26 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
+                onPressed: onCall,
+                style: ElevatedButton.styleFrom(
+                  elevation: 5.0,
+                  backgroundColor: AppColors.grey2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(AppImages.callIcon, scale: 11),
+                    SizedBox(width: 5),
+                    Text(
+                      "Call",
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
                 onPressed: onFollow,
                 style: ElevatedButton.styleFrom(
                   elevation: 5.0,
@@ -267,7 +291,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ),
               ),
             ],
-          ).padding(EdgeInsets.all(20)),
+          ).padding(EdgeInsets.all(20)).scrollDirection(Axis.horizontal),
           Divider(
             thickness: 1,
             color: AppColors.grey2,
@@ -314,7 +338,10 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Text(
                   "Description",
-                  style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 18),
+                  style: Fonts.itim.copyWith(
+                    color: AppColors.grey,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               Align(
@@ -322,7 +349,10 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 child: Text(
                   description,
                   textAlign: TextAlign.left,
-                  style: Fonts.itim.copyWith(color: AppColors.grey, fontSize: 15),
+                  style: Fonts.itim.copyWith(
+                    color: AppColors.grey,
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ],

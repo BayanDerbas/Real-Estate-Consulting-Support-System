@@ -39,11 +39,15 @@ class Offices extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final office = controller.officesList[index];
                   return Obx(() {
-                    final isFavorite = controller.isFavoriteList[index]?.value ?? false;
-                    final isFollowing = controller.isFollowingList[index]?.value ?? false;
-                    final isExpanded = controller.isExpandedList[index]?.value ?? false;
+                    final isFavorite =
+                        controller.isFavoriteList[index]?.value ?? false;
+                    final isFollowing =
+                        controller.isFollowingList[index]?.value ?? false;
+                    final isExpanded =
+                        controller.isExpandedList[index]?.value ?? false;
                     return Customoffices(
-                      office: '${office.user.firstName} ${office.user.lastName}',
+                      office:
+                          '${office.user.firstName} ${office.user.lastName}',
                       location: office.location ?? 'غير محدد',
                       bio: office.bio ?? 'لا يوجد وصف',
                       isFavorite: isFavorite,
@@ -63,10 +67,10 @@ class Offices extends StatelessWidget {
                       },
                       onTap: () {
                         print("زيارة ملف المكتب: ${office.user.id}");
-                        Get.toNamed('/serviceProvider_profile', arguments: {
-                          'id': office.id,
-                          'role': 'OFFICE',
-                        });
+                        Get.toNamed(
+                          '/serviceProvider_profile',
+                          arguments: {'id': office.id, 'role': 'OFFICE'},
+                        );
                       },
                       imageUrl: office.commercialRegisterImage ?? '',
                     );
