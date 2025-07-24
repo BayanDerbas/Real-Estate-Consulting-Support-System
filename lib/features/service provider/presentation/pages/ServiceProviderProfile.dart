@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/features/Auth/data/model/user_model.dart';
 import 'package:graduation_project/features/calls/send_zego_button_request.dart';
+import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
+import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart'; // Make sure this is imported
 
@@ -18,9 +21,9 @@ class Serviceproviderprofile extends StatelessWidget {
     final args = Get.arguments as Map<String, dynamic>;
     final String id = args['id'].toString();
     final String role = args['role'].toString();
-
+    final UserOffice user = args['user'];
     final controller = Get.put(ServiceProviderProfileController(id, role));
-
+    final roomController = Get.find<RoomController>();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
@@ -55,7 +58,14 @@ class Serviceproviderprofile extends StatelessWidget {
           isFollow: controller.isFollowing.value,
           onFollow: controller.toggleFollow,
           onBook: () => Get.toNamed('/Book'),
-          onMessage: () {},
+          onMessage: () {
+            UserModel userModel = UserModel(
+              id: user.id,
+              firstName: user.firstName,
+            );
+            roomController.createOrGoToChat(userModel);
+
+          },
           followerImages: [AppImages.expert, AppImages.user],
           description: provider['textProvider'] ?? "لا يوجد وصف",
           postImages: controller.postImages,
@@ -84,7 +94,6 @@ class Serviceproviderprofile extends StatelessWidget {
                         onPressed: () {
                           Navigator.pop(context); // Close the dialog
 
-                          // *** THE FIX IS HERE ***
                           ZegoCallButton(
                             isVideoCall: true,
                             invitees: [

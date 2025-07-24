@@ -1,5 +1,8 @@
 class ApiConstant {
   static const String baseUrl = "http://195.88.87.77:8000";
+  //
+  //static const String baseUrl = "http://192.168.1.11:8080";
+
   //Auth
   static const String auth = "$baseUrl/auth";
   static const String loginPath = "$auth/login";
@@ -9,7 +12,7 @@ class ApiConstant {
   static const String sendCode = "$auth/send-code";
   static const String changePassword = "$auth/change-password";
   //chats
-  static const String chat = "$auth/api/v1/rooms";
+  static const String chat = "/api/v1/rooms";
   static const String getAllRoomsForCurrentUser = "$chat/user/{id}";
   static const String getRoomMessages = "$chat/{roomId}/messages";
   static const String createRoom = chat;

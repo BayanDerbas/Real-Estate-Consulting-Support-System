@@ -6,16 +6,17 @@ part 'create_room_response_model.g.dart';
 
 @JsonSerializable()
 class CreateRoomResponseModel {
-  final UserModel user1;
-  final UserModel user2;
-  final String roomKey;
-  final String createdAt;
-
+  final UserModel? user1;
+  final UserModel? user2;
+  final int? id;
+  final String? status;
+  final String? createdAt;
   CreateRoomResponseModel({
     required this.user1,
     required this.user2,
-    required this.roomKey,
+    required this.id,
     required this.createdAt,
+    required this.status,
   });
 
   factory CreateRoomResponseModel.fromJson(Map<String, dynamic> json) =>

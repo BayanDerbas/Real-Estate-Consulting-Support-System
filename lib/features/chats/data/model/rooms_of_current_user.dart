@@ -6,13 +6,13 @@ part 'rooms_of_current_user.g.dart';
 
 @JsonSerializable()
 class RoomsOfCurrentUser {
-  final UserModel otherUser;
-  final String roomKey;
-  final String createdAt;
+  final UserModel? otherUser;
+  final int? id;
+  final String? createdAt;
 
   RoomsOfCurrentUser({
     required this.otherUser,
-    required this.roomKey,
+    required this.id,
     required this.createdAt,
   });
 

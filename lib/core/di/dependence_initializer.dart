@@ -5,6 +5,8 @@ import 'package:graduation_project/features/Auth/presentation/controllers/login_
 import 'package:graduation_project/features/Auth/presentation/controllers/refresh_token_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
+import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
+import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
@@ -41,14 +43,15 @@ class DependenceInitializer {
     Get.lazyPut(() => SendCodeController(Get.find()), fenix: true);
     Get.lazyPut(() => VerificationCodeController(Get.find()), fenix: true);
     Get.lazyPut(() => VerifyEmailController(Get.find()), fenix: true);
-
+    Get.lazyPut(() => RefreshTokenController(Get.find()), fenix: true);
     //chats
     Get.lazyPut(() => ChatService(Get.find()));
     Get.lazyPut(() => ChatRepository(Get.find()));
     Get.lazyPut(() => PageTicketController(), fenix: true);
+    Get.lazyPut(() => RoomController(Get.find()), fenix: true);
     Get.lazyPut(() => CreateTicketController(Get.find()), fenix: true);
     Get.lazyPut(() => FilteredTicketsController(Get.find()), fenix: true);
-    Get.lazyPut(() => RefreshTokenController(Get.find()), fenix: true);
+
     Get.lazyPut(() => GetAllTicketsController(Get.find()), fenix: true);
     Get.lazyPut(() => MyTicketsController(Get.find()), fenix: true);
     //properties

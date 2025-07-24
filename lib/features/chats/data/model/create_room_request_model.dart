@@ -4,8 +4,8 @@ part 'create_room_request_model.g.dart';
 
 @JsonSerializable()
 class CreateRoomRequestModel {
-  final int userId1;
-  final int userId2;
+  final int? userId1;
+  final int? userId2;
 
   CreateRoomRequestModel({required this.userId1, required this.userId2});
 

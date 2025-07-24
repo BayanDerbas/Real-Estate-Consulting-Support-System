@@ -8,14 +8,17 @@ part of 'rooms_of_current_user.dart';
 
 RoomsOfCurrentUser _$RoomsOfCurrentUserFromJson(Map<String, dynamic> json) =>
     RoomsOfCurrentUser(
-      otherUser: UserModel.fromJson(json['otherUser'] as Map<String, dynamic>),
-      roomKey: json['roomKey'] as String,
-      createdAt: json['createdAt'] as String,
+      otherUser:
+          json['otherUser'] == null
+              ? null
+              : UserModel.fromJson(json['otherUser'] as Map<String, dynamic>),
+      id: (json['id'] as num?)?.toInt(),
+      createdAt: json['createdAt'] as String?,
     );
 
 Map<String, dynamic> _$RoomsOfCurrentUserToJson(RoomsOfCurrentUser instance) =>
     <String, dynamic>{
       'otherUser': instance.otherUser,
-      'roomKey': instance.roomKey,
+      'id': instance.id,
       'createdAt': instance.createdAt,
     };

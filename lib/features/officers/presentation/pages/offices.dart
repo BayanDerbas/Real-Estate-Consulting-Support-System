@@ -69,7 +69,11 @@ class Offices extends StatelessWidget {
                         print("زيارة ملف المكتب: ${office.user.id}");
                         Get.toNamed(
                           '/serviceProvider_profile',
-                          arguments: {'id': office.id, 'role': 'OFFICE'},
+                          arguments: {
+                            'id': office.id,
+                            'role': 'OFFICE',
+                            'user': office.user,
+                          },
                         );
                       },
                       imageUrl: office.commercialRegisterImage ?? '',

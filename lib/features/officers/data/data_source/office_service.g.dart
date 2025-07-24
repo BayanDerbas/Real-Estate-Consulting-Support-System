@@ -9,13 +9,15 @@ part of 'office_service.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element,unnecessary_string_interpolations
 
 class _OfficeService implements OfficeService {
-  _OfficeService(this._dio, {this.baseUrl}) {
+  _OfficeService(this._dio, {this.baseUrl, this.errorLogger}) {
     baseUrl ??= 'http://195.88.87.77:8000';
   }
 
   final Dio _dio;
 
   String? baseUrl;
+
+  final ParseErrorLogger? errorLogger;
 
   @override
   Future<OfficesResponse> getAllOffices({int page = 0, int size = 10}) async {
@@ -38,6 +40,7 @@ class _OfficeService implements OfficeService {
     try {
       _value = OfficesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
       rethrow;
     }
     return _value;

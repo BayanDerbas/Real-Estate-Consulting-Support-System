@@ -11,11 +11,8 @@ class serverFailure extends Failures {
   final int? statusCode;
   final dynamic exception;
 
-  serverFailure(
-      String message, {
-        this.statusCode,
-        this.exception,
-      }) : super(message);
+  serverFailure(String message, {this.statusCode, this.exception})
+    : super(message);
 
   factory serverFailure.fromDioError(DioException dioException) {
     switch (dioException.type) {
@@ -54,10 +51,10 @@ class serverFailure extends Failures {
   }
 
   factory serverFailure.fromResponse(
-      int statusCode,
-      dynamic response, {
-        dynamic exception,
-      }) {
+    int statusCode,
+    dynamic response, {
+    dynamic exception,
+  }) {
     String message;
 
     if (statusCode == 400) {
@@ -69,15 +66,11 @@ class serverFailure extends Failures {
     } else if (statusCode == 404) {
       message = "Resource not found.";
     } else if (statusCode == 500) {
-      message = "Internal server error. Please try again later.";
+      message = "Internal server error. Please try again later.$response";
     } else {
       message = "Unexpected error (code $statusCode)";
     }
 
-    return serverFailure(
-      message,
-      statusCode: statusCode,
-      exception: exception,
-    );
+    return serverFailure(message, statusCode: statusCode, exception: exception);
   }
 }

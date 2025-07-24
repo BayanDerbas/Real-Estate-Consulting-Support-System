@@ -19,7 +19,7 @@ abstract class ChatService {
 
   @GET(ApiConstant.getRoomMessages)
   Future<HttpResponse<List<Message>>> getRoomMessages(
-    @Path("roomId") int roomId,
+    @Path("id") int id,
     @Query("page") int page,
     @Query("size") int size,
   );

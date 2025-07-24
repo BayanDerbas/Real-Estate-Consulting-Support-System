@@ -9,8 +9,8 @@ part of 'create_room_request_model.dart';
 CreateRoomRequestModel _$CreateRoomRequestModelFromJson(
   Map<String, dynamic> json,
 ) => CreateRoomRequestModel(
-  userId1: (json['userId1'] as num).toInt(),
-  userId2: (json['userId2'] as num).toInt(),
+  userId1: (json['userId1'] as num?)?.toInt(),
+  userId2: (json['userId2'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$CreateRoomRequestModelToJson(

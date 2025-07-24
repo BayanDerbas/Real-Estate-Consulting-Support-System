@@ -7,17 +7,12 @@ part 'message_model.g.dart';
 
 @JsonSerializable()
 class Message {
-  final int id;
-  final UserModel sender;
-  final String content;
-  final String createdAt;
+  final int? id;
+  final UserModel? sender;
+  final String? content;
+  final String? createdAt;
 
-  Message({
-    required this.id,
-    required this.sender,
-    required this.content,
-    required this.createdAt,
-  });
+  Message({this.id, this.sender, this.content, this.createdAt});
 
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);

@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networks/api_constant.dart';
 import 'package:retrofit/http.dart';
+import 'package:retrofit/retrofit.dart';
 import '../model/offices_response.dart';
 
 part 'office_service.g.dart';
 
 @RestApi(baseUrl: ApiConstant.baseUrl)
 abstract class OfficeService {
-  factory OfficeService(Dio dio, {String baseUrl}) = _OfficeService;
+  factory OfficeService(Dio dio) = _OfficeService;
 
   @GET(ApiConstant.getAllOffices)
   Future<OfficesResponse> getAllOffices({

@@ -18,6 +18,7 @@ import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dar
 import '../../features/Auth/presentation/pages/reset_password.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
+import '../../features/chats/presentation/pages/chat_page.dart';
 import '../../features/home/presentation/pages/Home.dart';
 import '../../features/officers/presentation/pages/offices.dart';
 import '../../features/posts/presentation/pages/Posts.dart';
@@ -103,10 +104,6 @@ class AppRoutes {
       page: () => ResetPassword(),
       binding: ResetPasswordBinding(),
     ),
-    // GetPage(
-    //   name: chatPage,
-    //   page: () => ChatPage(),
-    //   binding: ChatFeatureBinding(),
-    // ),
+    GetPage(name: chatPage, page: () => ChatPage()),
   ];
 }

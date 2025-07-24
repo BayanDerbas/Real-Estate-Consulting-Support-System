@@ -32,7 +32,7 @@ class _ChatService implements ChatService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms',
+            '/api/v1/rooms',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -52,7 +52,7 @@ class _ChatService implements ChatService {
 
   @override
   Future<HttpResponse<List<Message>>> getRoomMessages(
-    int roomId,
+    int id,
     int page,
     int size,
   ) async {
@@ -64,7 +64,7 @@ class _ChatService implements ChatService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms/${roomId}/messages',
+            '/api/v1/rooms/{roomId}/messages',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -95,7 +95,7 @@ class _ChatService implements ChatService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms/user/${id}',
+            '/api/v1/rooms/user/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -128,7 +128,7 @@ class _ChatService implements ChatService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/auth/api/v1/rooms/${id}',
+            '/api/v1/rooms/${id}',
             queryParameters: queryParameters,
             data: _data,
           )

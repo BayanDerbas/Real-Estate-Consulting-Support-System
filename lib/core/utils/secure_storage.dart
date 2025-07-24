@@ -10,6 +10,24 @@ class SecureStorage {
     await _storage.write(key: _tokenKey, value: token);
   }
 
+  ///////////////test////////////////////////
+  Future<void> saveIdCall(String id) async {
+    await _storage.write(key: 'callId', value: id);
+  }
+
+  Future<void> saveNameCall(String name) async {
+    await _storage.write(key: 'callName', value: name);
+  }
+
+  Future<String?> getCallName() async {
+    return await _storage.read(key: 'callName');
+  }
+
+  Future<String?> getCallId() async {
+    return await _storage.read(key: 'callId');
+  }
+
+  ///////////////test//////////////////////////
   Future<void> saveRefreshToken(String refreshToken) async {
     await _storage.write(key: _refreshTokenKey, value: refreshToken);
   }

@@ -67,7 +67,7 @@ class LoginController extends GetxController {
           //void onUserLogout() {
           //   ZegoUIKitPrebuiltCallInvitationService().uninit();
           // }أبو عصام كشف راس الحريييم
-          onUserLogin(currentUserId.toString(), currentUserName.toString());
+          // onUserLogin(currentUserId.toString(), currentUserName.toString());
         }
         if (response.refreshToken != null) {
           await storage.saveRefreshToken(response.refreshToken!);

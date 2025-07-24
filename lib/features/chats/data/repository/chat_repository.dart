@@ -43,12 +43,12 @@ class ChatRepository {
   }
 
   Future<Either<Failures, List<Message>>> getMessagesForCurrentRoom({
-    required int roomId,
+    required int id,
     required int page,
     required int size,
   }) async {
     try {
-      final response = await _chatService.getRoomMessages(roomId, page, size);
+      final response = await _chatService.getRoomMessages(id, page, size);
       return Right(response.data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));

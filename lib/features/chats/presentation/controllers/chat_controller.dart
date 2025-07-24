@@ -28,52 +28,59 @@ class ChatController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _extractArguments();
+    // _extractArguments();
+    _fetchInitialMessages();
   }
 
-  void _extractArguments() {
-    if (Get.arguments is Map<String, dynamic>) {
-      final args = Get.arguments as Map<String, dynamic>;
-      roomId = args['roomId'];
-      otherUser = args['otherUser'];
-    } else {
-      Get.back();
-      Get.snackbar('Error', 'Failed to load chat data.');
-    }
-  }
+  // void _extractArguments() {
+  //   if (Get.arguments is Map<String, dynamic>) {
+  //     final args = Get.arguments as Map<String, dynamic>;
+  //     roomId = args['roomId'];
+  //     otherUser = args['otherUser'];
+  //   } else {
+  //     Get.back();
+  //     Get.snackbar('Error', 'Failed to load chat data.');
+  //   }
+  // }
 
   @override
   void onReady() {
     super.onReady();
-    _initializeChat();
+    initializeChat();
   }
 
-  Future<void> _initializeChat() async {
+  Future<void> initializeChat() async {
     isLoading.value = true;
     try {
       final storedId = await storage.getUserId();
       if (storedId == null) {
-        throw Exception('Authentication error: User not found.');
+        throw Exception('User ID not found in storage.');
       }
-      currentUserId = int.tryParse(storedId);
+
+      final parsedId = int.tryParse(storedId);
+      if (parsedId == null) {
+        throw Exception('Stored user ID is not a valid integer.');
+      }
+
+      currentUserId = parsedId;
 
       await _fetchInitialMessages();
       _connectAndSubscribe();
     } catch (e) {
       log("Initialization failed: $e");
-      Get.snackbar('Error', 'An unexpected error occurred during chat setup.');
+      Get.snackbar('Error', 'Chat setup failed: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
   Future<void> _fetchInitialMessages() async {
-    final messagesResult = await chatRepository.getMessagesForCurrentRoom(
-      roomId: roomId,
+    final result = await chatRepository.getMessagesForCurrentRoom(
+      id: roomId,
       page: 0,
       size: 50,
     );
-    messagesResult.fold(
+    result.fold(
       (failure) {
         log("Failed to fetch initial messages: ${failure.err_message}");
         Get.snackbar('Error', 'Could not load previous messages.');
@@ -85,41 +92,41 @@ class ChatController extends GetxController {
   }
 
   void _connectAndSubscribe() async {
-    final userToken = await storage.getToken();
+    final token = await storage.getToken();
 
     stompClient = StompClient(
       config: StompConfig(
-        url: 'ws://192.168.43.58:8080/chat',
+        url: 'ws://195.88.87.77:8000/chat',
         onConnect: (frame) {
           isConnected.value = true;
-          log("STOMP client connected");
           stompClient.subscribe(
             destination: "/topic/room/$roomId",
             callback: (frame) {
-              if (frame.body != null) {
+              final body = frame.body;
+              if (body != null) {
                 try {
-                  final newMessage = Message.fromJson(jsonDecode(frame.body!));
+                  final newMessage = Message.fromJson(jsonDecode(body));
                   messages.insert(0, newMessage);
                 } catch (e) {
-                  log("Error parsing message: $e");
+                  log("Message parse error: $e");
                 }
               }
             },
           );
         },
-        onDisconnect: (frame) => isConnected.value = false,
-        onWebSocketError: (error) => isConnected.value = false,
+        onDisconnect: (_) => isConnected.value = false,
+        onWebSocketError: (_) => isConnected.value = false,
         heartbeatIncoming: Duration(seconds: 0),
         heartbeatOutgoing: Duration(seconds: 0),
-        stompConnectHeaders: {'Authorization': userToken ?? ''},
-        //webSocketConnectHeaders: {'Authorization': userToken ?? ''},
+        stompConnectHeaders: {'Authorization': token ?? ''},
       ),
     );
+
     stompClient.activate();
   }
 
   void sendMessage() {
-    if (content.text.isEmpty || !isConnected.value) {
+    if (content.text.isEmpty || !isConnected.value || currentUserId == null) {
       return;
     }
 
@@ -141,13 +148,13 @@ class ChatController extends GetxController {
       content: content.text,
       createdAt: DateTime.now().toIso8601String(),
     );
+
     messages.insert(0, optimisticMessage);
     content.clear();
   }
 
   @override
   void onClose() {
-    log("Deactivating STOMP client for room $roomId");
     stompClient.deactivate();
     content.dispose();
     super.onClose();

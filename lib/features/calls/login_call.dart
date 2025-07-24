@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:graduation_project/core/utils/secure_storage.dart';
+import 'package:graduation_project/features/calls/call_page.dart';
+import 'package:graduation_project/features/calls/calls_service.dart';
 
 class LoginPage2 extends StatefulWidget {
   @override
@@ -6,16 +10,26 @@ class LoginPage2 extends StatefulWidget {
 }
 
 class _LoginPage2State extends State<LoginPage2> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final SecureStorage storage = SecureStorage();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _id = TextEditingController();
 
-  void _handleLogin() {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
+  void _handleLogin() async {
+    final trimmedId = _id.text.trim();
+    final trimmedName = _name.text.trim();
 
-    // For now, just print. Replace with auth logic.
-    print('Email: $email');
-    print('Password: $password');
+    if (trimmedId.isEmpty || trimmedName.isEmpty) {
+      Get.snackbar('Error', 'Please enter both name and ID');
+      return;
+    }
+
+    await storage.saveIdCall(trimmedId);
+    await storage.saveNameCall(trimmedName);
+
+    CallServices services = CallServices();
+    services.onUserLogin(trimmedId, trimmedName);
+
+    Get.to(() => const CallPage());
   }
 
   @override
@@ -26,31 +40,25 @@ class _LoginPage2State extends State<LoginPage2> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            // Email TextField
             TextField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
+              controller: _name,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
+                labelText: 'Name',
+                prefixIcon: Icon(Icons.person),
                 border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 20),
-
-            // Password TextField
             TextField(
-              controller: _passwordController,
-              obscureText: true,
+              controller: _id,
               decoration: InputDecoration(
-                labelText: 'Password',
-                prefixIcon: Icon(Icons.lock),
+                labelText: 'ID',
+                prefixIcon: Icon(Icons.perm_identity),
                 border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 30),
-
-            // Login Button
             ElevatedButton(
               onPressed: _handleLogin,
               child: Text('Login'),
