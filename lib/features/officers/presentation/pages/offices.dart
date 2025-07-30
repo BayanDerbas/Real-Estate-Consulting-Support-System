@@ -47,7 +47,7 @@ class Offices extends StatelessWidget {
                         controller.isExpandedList[index]?.value ?? false;
                     return Customoffices(
                       office:
-                          '${office.user.firstName} ${office.user.lastName}',
+                          '${office.user?.firstName} ${office.user?.lastName}',
                       location: office.location ?? 'غير محدد',
                       bio: office.bio ?? 'لا يوجد وصف',
                       isFavorite: isFavorite,
@@ -66,7 +66,7 @@ class Offices extends StatelessWidget {
                         print("onToggleExpand called for index: $index");
                       },
                       onTap: () {
-                        print("زيارة ملف المكتب: ${office.user.id}");
+                        print("زيارة ملف المكتب: ${office.user?.id}");
                         Get.toNamed(
                           '/serviceProvider_profile',
                           arguments: {

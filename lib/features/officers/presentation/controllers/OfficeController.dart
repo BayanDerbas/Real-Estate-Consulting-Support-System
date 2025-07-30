@@ -36,16 +36,16 @@ class OfficeController extends GetxController {
           isExpandedList.clear();
         },
         (data) {
-          print("تم جلب المكاتب: ${data.data.content.length}");
-          print("Raw Office Data: ${data.data.content}");
-          officesList.value = data.data.content;
-          currentPage.value = data.data.pageable.pageNumber;
-          totalPages.value = data.data.totalPages;
+          print("تم جلب المكاتب: ${data.data?.content?.length}");
+          print("Raw Office Data: ${data.data?.content}");
+          officesList.value = data.data!.content!;
+          currentPage.value = data.data!.pageable!.pageNumber!;
+          totalPages.value = data.data!.totalPages!;
 
           for (var office in officesList) {
             print(
-              "Office: ${office.user.firstName} ${office.user.lastName},"
-                  " commercialRegisterImage: ${office.commercialRegisterImage}",
+              "Office: ${office.user?.firstName} ${office.user?.lastName},"
+              " commercialRegisterImage: ${office.commercialRegisterImage}",
             );
           }
 

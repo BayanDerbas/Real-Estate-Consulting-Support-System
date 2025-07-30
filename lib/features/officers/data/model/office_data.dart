@@ -5,15 +5,11 @@ part 'office_data.g.dart';
 
 @JsonSerializable()
 class OfficeData {
-  final List<Office> content;
-  final Pageable pageable;
-  final int totalPages;
+  final List<Office>? content;
+  final Pageable? pageable;
+  final int? totalPages;
 
-  OfficeData({
-    required this.content,
-    required this.pageable,
-    required this.totalPages,
-  });
+  OfficeData({this.content, this.pageable, this.totalPages});
 
   factory OfficeData.fromJson(Map<String, dynamic> json) =>
       _$OfficeDataFromJson(json);
@@ -22,11 +18,9 @@ class OfficeData {
 
 @JsonSerializable()
 class Pageable {
-  final int pageNumber;
+  final int? pageNumber;
 
-  Pageable({
-    required this.pageNumber,
-  });
+  Pageable({this.pageNumber});
 
   factory Pageable.fromJson(Map<String, dynamic> json) =>
       _$PageableFromJson(json);

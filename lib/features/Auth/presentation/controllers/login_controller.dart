@@ -16,7 +16,7 @@ class LoginController extends GetxController {
   final AuthRepository _authRepository;
   final SecureStorage storage = SecureStorage();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+  CallServices callServices = CallServices();
   LoginController(this._authRepository);
 
   Future<void> userLogin() async {
@@ -64,10 +64,7 @@ class LoginController extends GetxController {
           await storage.saveUserName(response.user!.firstName.toString());
           final currentUserName = await storage.getUserName();
           final currentUserId = await storage.getUserId();
-          //void onUserLogout() {
-          //   ZegoUIKitPrebuiltCallInvitationService().uninit();
-          // }أبو عصام كشف راس الحريييم
-          // onUserLogin(currentUserId.toString(), currentUserName.toString());
+          callServices.onUserLogin(currentUserId!, currentUserName!);
         }
         if (response.refreshToken != null) {
           await storage.saveRefreshToken(response.refreshToken!);

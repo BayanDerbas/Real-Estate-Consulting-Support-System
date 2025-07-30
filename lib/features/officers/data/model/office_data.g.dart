@@ -8,11 +8,14 @@ part of 'office_data.dart';
 
 OfficeData _$OfficeDataFromJson(Map<String, dynamic> json) => OfficeData(
   content:
-      (json['content'] as List<dynamic>)
-          .map((e) => Office.fromJson(e as Map<String, dynamic>))
+      (json['content'] as List<dynamic>?)
+          ?.map((e) => Office.fromJson(e as Map<String, dynamic>))
           .toList(),
-  pageable: Pageable.fromJson(json['pageable'] as Map<String, dynamic>),
-  totalPages: (json['totalPages'] as num).toInt(),
+  pageable:
+      json['pageable'] == null
+          ? null
+          : Pageable.fromJson(json['pageable'] as Map<String, dynamic>),
+  totalPages: (json['totalPages'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$OfficeDataToJson(OfficeData instance) =>
@@ -23,7 +26,7 @@ Map<String, dynamic> _$OfficeDataToJson(OfficeData instance) =>
     };
 
 Pageable _$PageableFromJson(Map<String, dynamic> json) =>
-    Pageable(pageNumber: (json['pageNumber'] as num).toInt());
+    Pageable(pageNumber: (json['pageNumber'] as num?)?.toInt());
 
 Map<String, dynamic> _$PageableToJson(Pageable instance) => <String, dynamic>{
   'pageNumber': instance.pageNumber,

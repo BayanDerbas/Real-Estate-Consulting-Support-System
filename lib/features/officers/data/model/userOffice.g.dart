@@ -7,16 +7,16 @@ part of 'userOffice.dart';
 // **************************************************************************
 
 UserOffice _$UserOfficeFromJson(Map<String, dynamic> json) => UserOffice(
-  id: (json['id'] as num).toInt(),
-  firstName: json['firstName'] as String,
-  lastName: json['lastName'] as String,
-  email: json['email'] as String,
-  phone: json['phone'] as String,
+  id: (json['id'] as num?)?.toInt(),
+  firstName: json['firstName'] as String?,
+  lastName: json['lastName'] as String?,
+  email: json['email'] as String?,
+  phone: json['phone'] as String?,
   fcmToken: json['fcmToken'] as String?,
-  enabled: json['enabled'] as bool,
-  role: json['role'] as String,
-  status: json['status'] as String,
-  imageUrl: json['imageUrl'] as String,
+  enabled: json['enabled'] as bool?,
+  role: json['role'] as String?,
+  status: json['status'] as String?,
+  imageUrl: json['imageUrl'] as String?,
 );
 
 Map<String, dynamic> _$UserOfficeToJson(UserOffice instance) =>

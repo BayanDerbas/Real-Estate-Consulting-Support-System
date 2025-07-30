@@ -126,41 +126,51 @@ class ServiceProviderProfileController extends GetxController {
         }
 
         serviceProvider.value = {
-          "name": "${expert.user.firstName} ${expert.user.lastName}".trim().isEmpty
-              ? "بدون اسم"
-              : "${expert.user.firstName} ${expert.user.lastName}".trim(),
+          "name":
+              "${expert.user?.firstName} ${expert.user?.lastName}"
+                      .trim()
+                      .isEmpty
+                  ? "بدون اسم"
+                  : "${expert.user?.firstName} ${expert.user?.lastName}".trim(),
           "jobTitle": expert.profession,
           "rating": expert.rating,
-          "experienceYears": int.tryParse(expert.experience) ?? 0,
-          "idCardImage": expert.idCardImage?.isNotEmpty == true
-              ? expert.idCardImage!
-              : AppImages.noImage,
+          "experienceYears": int.tryParse(expert.experience!) ?? 0,
+          "idCardImage":
+              expert.idCardImage?.isNotEmpty == true
+                  ? expert.idCardImage!
+                  : AppImages.noImage,
           "textProvider": expert.bio ?? "لا يوجد وصف",
-          "price": expert.perMinuteVideo != null
-              ? "${expert.perMinuteVideo!.toInt()} S.P"
-              : "غير محدد",
+          "price":
+              expert.perMinuteVideo != null
+                  ? "${expert.perMinuteVideo!.toInt()} S.P"
+                  : "غير محدد",
           "rateCount": expert.rateCount,
           "role": "EXPERT",
         };
       } else if (role == "OFFICE") {
         final officeService = OfficeService(dio);
         final response = await officeService.getAllOffices(page: 0, size: 50);
-        final office = response.data.content.firstWhere(
-              (e) => e.id.toString() == id,
+        final office = response.data?.content?.firstWhere(
+          (e) => e.id.toString() == id,
           orElse: () => throw Exception('لم يتم العثور على المكتب'),
         );
 
         serviceProvider.value = {
-          "name": "${office.user.firstName} ${office.user.lastName}".trim().isEmpty
-              ? "بدون اسم"
-              : "${office.user.firstName} ${office.user.lastName}".trim(),
+          "name":
+              "${office?.user?.firstName} ${office?.user?.lastName}"
+                      .trim()
+                      .isEmpty
+                  ? "بدون اسم"
+                  : "${office?.user?.firstName} ${office?.user?.lastName}"
+                      .trim(),
           "jobTitle": "OFFICE",
           "rating": "4.5",
           "experienceYears": 0,
-          "idCardImage": office.commercialRegisterImage?.isNotEmpty == true
-              ? office.commercialRegisterImage!
-              : AppImages.noImage,
-          "textProvider": office.bio ?? "لا يوجد وصف",
+          "idCardImage":
+              office?.commercialRegisterImage?.isNotEmpty == true
+                  ? office?.commercialRegisterImage
+                  : AppImages.noImage,
+          "textProvider": office?.bio ?? "لا يوجد وصف",
           "price": "غير محدد",
           "rateCount": 0,
           "role": "OFFICE",

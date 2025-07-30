@@ -5,12 +5,12 @@ part 'expert.g.dart';
 
 @JsonSerializable()
 class Expert {
-  final int id;
-  final User user;
-  final String profession;
-  final String experience;
-  final double rating;
-  final double rateCount;
+  final int? id;
+  final User? user;
+  final String? profession;
+  final String? experience;
+  final double? rating;
+  final double? rateCount;
   final String? bio;
   final String? idCardImage;
   final String? degreeCertificateImage;
@@ -18,20 +18,19 @@ class Expert {
   final double? perMinuteAudio;
 
   Expert({
-    required this.id,
-    required this.user,
-    required this.profession,
-    required this.experience,
-    required this.rating,
-    required this.rateCount,
+    this.id,
+    this.user,
+    this.profession,
+    this.experience,
+    this.rating,
+    this.rateCount,
     this.bio,
-    required this.idCardImage,
-    required this.degreeCertificateImage,
+    this.idCardImage,
+    this.degreeCertificateImage,
     this.perMinuteVideo,
     this.perMinuteAudio,
   });
 
-  factory Expert.fromJson(Map<String, dynamic> json) =>
-      _$ExpertFromJson(json);
+  factory Expert.fromJson(Map<String, dynamic> json) => _$ExpertFromJson(json);
   Map<String, dynamic> toJson() => _$ExpertToJson(this);
 }

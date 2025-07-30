@@ -8,8 +8,11 @@ part of 'expert_response.dart';
 
 ExpertResponse _$ExpertResponseFromJson(Map<String, dynamic> json) =>
     ExpertResponse(
-      status: json['status'] as String,
-      data: ExpertData.fromJson(json['data'] as Map<String, dynamic>),
+      status: json['status'] as String?,
+      data:
+          json['data'] == null
+              ? null
+              : ExpertData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ExpertResponseToJson(ExpertResponse instance) =>

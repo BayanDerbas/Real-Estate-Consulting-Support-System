@@ -5,10 +5,10 @@ part 'expert_response.g.dart';
 
 @JsonSerializable()
 class ExpertResponse {
-  final String status;
-  final ExpertData data;
+  final String? status;
+  final ExpertData? data;
 
-  ExpertResponse({required this.status, required this.data});
+  ExpertResponse({this.status, this.data});
 
   factory ExpertResponse.fromJson(Map<String, dynamic> json) =>
       _$ExpertResponseFromJson(json);
@@ -28,7 +28,6 @@ class ExpertByIdResponse {
   Map<String, dynamic> toJson() => _$ExpertByIdResponseToJson(this);
 }
 
-
 @JsonSerializable()
 class ExpertData {
   final List<Expert>? content;
@@ -37,9 +36,10 @@ class ExpertData {
 
   factory ExpertData.fromJson(Map<String, dynamic> json) {
     return ExpertData(
-      content: (json['content'] as List<dynamic>?)
-          ?.map((e) => Expert.fromJson(e as Map<String, dynamic>))
-          .toList() ??
+      content:
+          (json['content'] as List<dynamic>?)
+              ?.map((e) => Expert.fromJson(e as Map<String, dynamic>))
+              .toList() ??
           [],
     );
   }

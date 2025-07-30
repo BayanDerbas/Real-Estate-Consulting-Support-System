@@ -49,7 +49,7 @@ class Home extends StatelessWidget {
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
           text: "Welcome Home",
-          icon:Icons.notifications,
+          icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),
@@ -260,14 +260,17 @@ class Home extends StatelessWidget {
 
             final expert = expertController.serviceProviders.first;
             final index = expertController.serviceProviders.indexOf(expert);
-            final isFavorite = expertController.isFavoriteList[index] ?? false.obs;
-            final isFollowing = expertController.isFollowingList[index] ?? false.obs;
+            final isFavorite =
+                expertController.isFavoriteList[index] ?? false.obs;
+            final isFollowing =
+                expertController.isFollowingList[index] ?? false.obs;
 
             return CustomExpertCard(
               name: expert['name'],
               jobTitle: expert['jobTitle'],
               rating: expert['rating'],
-              experienceYears: int.tryParse(expert['experienceYears'].toString()) ?? 0,
+              experienceYears:
+                  int.tryParse(expert['experienceYears'].toString()) ?? 0,
               successfulCases: expert['rateCount'],
               appointmentDate: 'غير محدد',
               appointmentTime: 'غير محدد',
@@ -275,10 +278,10 @@ class Home extends StatelessWidget {
               isFavorite: isFavorite.value,
               onFavoriteToggle: () => expertController.toggleFavorite(index),
               onProfileTap: () {
-                Get.toNamed('/serviceProvider_profile', arguments: {
-                  'id': expert['id'].toString(),
-                  'role': 'EXPERT',
-                });
+                Get.toNamed(
+                  '/serviceProvider_profile',
+                  arguments: {'id': expert['id'].toString(), 'role': 'EXPERT'},
+                );
               },
               onFollowToggle: () => expertController.toggleFollowing(index),
               isFollowing: isFollowing.value,
@@ -317,13 +320,15 @@ class Home extends StatelessWidget {
 
             final office = officeController.officesList.first;
             final index = officeController.officesList.indexOf(office);
-            final isFavorite = officeController.isFavoriteList[index]?.value ?? false;
-            final isFollowing = officeController.isFollowingList[index]?.value ?? false;
+            final isFavorite =
+                officeController.isFavoriteList[index]?.value ?? false;
+            final isFollowing =
+                officeController.isFollowingList[index]?.value ?? false;
             return CustomOfficeCard(
-              name: '${office.user.firstName} ${office.user.lastName}',
-              bio: office.bio,
-              location: office.location,
-              imageUrl: office.commercialRegisterImage,
+              name: '${office.user?.firstName} ${office.user?.lastName}',
+              bio: office.bio!,
+              location: office.location!,
+              imageUrl: office.commercialRegisterImage!,
               isFavorite: isFavorite,
               isFollowing: isFollowing,
               onFavoriteToggle: () {
@@ -334,13 +339,12 @@ class Home extends StatelessWidget {
               },
               onProfileTap: () {
                 print("\n press on office");
-                Get.toNamed('/serviceProvider_profile', arguments: {
-                  'id': office.id.toString(),
-                  'role': 'OFFICE',
-                });
+                Get.toNamed(
+                  '/serviceProvider_profile',
+                  arguments: {'id': office.id.toString(), 'role': 'OFFICE'},
+                );
               },
             );
-
           }),
           Column(
             children: List.generate(controller.postsList.length, (index) {

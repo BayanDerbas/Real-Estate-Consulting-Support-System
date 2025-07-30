@@ -29,35 +29,36 @@ class ServiceProviders_Controller extends GetxController {
       final service = ExpertService(dio);
       final response = await service.getExperts(page: page, size: pageSize);
 
-      serviceProviders.value = response.data.content!.asMap().entries.map((entry) {
-        final index = entry.key;
-        final expert = entry.value;
-        isFavoriteList[index] = false.obs;
-        isFollowingList[index] = false.obs;
-        isExpandedList[index] = false.obs;
+      serviceProviders.value =
+          response.data!.content!.asMap().entries.map((entry) {
+            final index = entry.key;
+            final expert = entry.value;
+            isFavoriteList[index] = false.obs;
+            isFollowingList[index] = false.obs;
+            isExpandedList[index] = false.obs;
 
-        return {
-          "id": expert.id,
-          "name": "${expert.user.firstName} ${expert.user.lastName}",
-          "jobTitle": expert.profession,
-          "rating": expert.rating,
-          "experienceYears": expert.experience,
-          "idCardImage": expert.idCardImage,
-          "isFavorite": false,
-          "isFollowing": false,
-          "isExpanded": false,
-          "text": expert.bio ?? "",
-          "price": expert.perMinuteVideo != null
-              ? "${expert.perMinuteVideo!.toInt()} S.P"
-              : "غير محدد",
-          "textProvider": expert.bio ?? "لا يوجد وصف",
-          "rateCount": expert.rateCount,
-        };
-      }).toList();
+            return {
+              "id": expert.id,
+              "name": "${expert.user?.firstName} ${expert.user?.lastName}",
+              "jobTitle": expert.profession,
+              "rating": expert.rating,
+              "experienceYears": expert.experience,
+              "idCardImage": expert.idCardImage,
+              "isFavorite": false,
+              "isFollowing": false,
+              "isExpanded": false,
+              "text": expert.bio ?? "",
+              "price":
+                  expert.perMinuteVideo != null
+                      ? "${expert.perMinuteVideo!.toInt()} S.P"
+                      : "غير محدد",
+              "textProvider": expert.bio ?? "لا يوجد وصف",
+              "rateCount": expert.rateCount,
+            };
+          }).toList();
 
       // totalPages.value = response.data.totalPages;
       // currentPage.value = response.data.pageable.pageNumber;
-
     } catch (e) {
       print("خطأ في جلب الخبراء: $e");
     } finally {

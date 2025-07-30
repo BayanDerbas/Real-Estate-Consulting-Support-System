@@ -5,25 +5,24 @@ part 'office.g.dart';
 
 @JsonSerializable()
 class Office {
-  final int id;
-  final UserOffice user;
-  final String bio;
-  final String location;
-  final double latitude;
-  final double longitude;
-  final String commercialRegisterImage;
+  final int? id;
+  final UserOffice? user;
+  final String? bio;
+  final String? location;
+  final double? latitude;
+  final double? longitude;
+  final String? commercialRegisterImage;
 
   Office({
-    required this.id,
-    required this.user,
-    required this.bio,
-    required this.location,
-    required this.latitude,
-    required this.longitude,
-    required this.commercialRegisterImage,
+    this.id,
+    this.user,
+    this.bio,
+    this.location,
+    this.latitude,
+    this.longitude,
+    this.commercialRegisterImage,
   });
 
-  factory Office.fromJson(Map<String, dynamic> json) =>
-      _$OfficeFromJson(json);
+  factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);
   Map<String, dynamic> toJson() => _$OfficeToJson(this);
 }

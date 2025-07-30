@@ -8,8 +8,11 @@ part of 'offices_response.dart';
 
 OfficesResponse _$OfficesResponseFromJson(Map<String, dynamic> json) =>
     OfficesResponse(
-      status: json['status'] as String,
-      data: OfficeData.fromJson(json['data'] as Map<String, dynamic>),
+      status: json['status'] as String?,
+      data:
+          json['data'] == null
+              ? null
+              : OfficeData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$OfficesResponseToJson(OfficesResponse instance) =>
