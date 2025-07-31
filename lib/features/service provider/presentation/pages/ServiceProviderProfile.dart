@@ -24,6 +24,16 @@ class Serviceproviderprofile extends StatelessWidget {
     final controller = Get.put(ServiceProviderProfileController(id, role));
     final roomController = Get.find<RoomController>();
     return Scaffold(
+      floatingActionButton: ZegoSendCallInvitationButton(
+        isVideoCall: false,
+        resourceID: "realEstateCons",
+        invitees: [
+          ZegoUIKitUser(
+            id: user.id.toString(),
+            name: user.firstName.toString(),
+          ),
+        ],
+      ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
@@ -69,13 +79,7 @@ class Serviceproviderprofile extends StatelessWidget {
           postImages: controller.postImages,
           realEstateImages: controller.realEstateImages,
           discounts: controller.discounts,
-          onCall: () async {
-            await ZegoUIKitPrebuiltCallInvitationService().send(
-              isVideoCall: false,
-              resourceID: 'realEstateCons',
-              invitees: [ZegoCallUser(user.id.toString(), user.firstName!)],
-            );
-          },
+          onCall: () {},
         );
       }),
     );

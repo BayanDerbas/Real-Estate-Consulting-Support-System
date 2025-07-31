@@ -64,7 +64,9 @@ class LoginController extends GetxController {
           await storage.saveUserName(response.user!.firstName.toString());
           final currentUserName = await storage.getUserName();
           final currentUserId = await storage.getUserId();
-          callServices.onUserLogin(currentUserId!, currentUserName!);
+          if (currentUserId != null && currentUserName != null) {
+            await callServices.onUserLogin(currentUserId, currentUserName);
+          }
         }
         if (response.refreshToken != null) {
           await storage.saveRefreshToken(response.refreshToken!);

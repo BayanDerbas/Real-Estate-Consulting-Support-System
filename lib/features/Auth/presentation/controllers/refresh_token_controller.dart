@@ -20,6 +20,7 @@ class RefreshTokenController extends GetxController {
     final refreshToken = await storage.getRefreshToken();
     if (refreshToken == null || refreshToken.isEmpty) {
       isLoading.value = false;
+      log("Refresh Token is missing, cannot refresh.");
       return false;
     }
 
@@ -35,11 +36,15 @@ class RefreshTokenController extends GetxController {
         log("Refresh failed: ${l.err_message}");
       },
       (r) async {
-        await storage.saveRefreshToken(r.refreshToken!);
-        await storage.saveToken(r.token!);
-        DioFactory.setToken(r.token!);
-        log("Token refreshed successfully");
-        success = true;
+        if (r.refreshToken != null && r.token != null) {
+          await storage.saveRefreshToken(r.refreshToken!);
+          await storage.saveToken(r.token!);
+          DioFactory.setToken(r.token!);
+          log("Token refreshed successfully");
+          success = true;
+        } else {
+          log("Refresh token response did not contain new tokens.");
+        }
       },
     );
 
