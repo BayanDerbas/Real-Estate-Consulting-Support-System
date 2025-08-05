@@ -24,7 +24,10 @@ class LoginController extends GetxController {
     errMessage.value = '';
 
     final result = await _authRepository.userLogin(
-      LoginRequestModel(email: email.text, password: password.text),
+      LoginRequestModel(
+        email: email.text.trim(),
+        password: password.text.trim(),
+      ),
     );
 
     isLoading.value = false;
@@ -72,7 +75,7 @@ class LoginController extends GetxController {
           await storage.saveRefreshToken(response.refreshToken!);
         }
         await Future.delayed(Duration(seconds: 2));
-        Get.offNamed(AppRoutes.home);
+        Get.offNamed(AppRoutes.baseTicketsPage);
         final userId = await storage.getUserId();
         print("the user id .............$userId");
       },

@@ -12,7 +12,7 @@ class ChatPage extends GetView<ChatController> {
     ChatController controller = Get.put(ChatController(Get.find()));
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => Text(controller.otherUser.firstName!)),
+        title: Obx(() => Text(controller.otherUser?.firstName ?? '')),
         centerTitle: true,
       ),
       body: Obx(() {
@@ -29,7 +29,10 @@ class ChatPage extends GetView<ChatController> {
                   itemBuilder: (context, index) {
                     final message = controller.messages[index];
                     final isMe = message.sender?.id == controller.currentUserId;
-                    return MessageBubble(message: message.content!, isMe: isMe);
+                    return MessageBubble(
+                      message: message.content ?? '',
+                      isMe: isMe,
+                    );
                   },
                 ),
               ),

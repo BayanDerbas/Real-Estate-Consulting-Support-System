@@ -18,8 +18,8 @@ CreateRoomResponseModel _$CreateRoomResponseModelFromJson(
           ? null
           : UserModel.fromJson(json['user2'] as Map<String, dynamic>),
   id: (json['id'] as num?)?.toInt(),
-  createdAt: json['createdAt'] as String?,
   status: json['status'] as String?,
+  createdAt: json['createdAt'] as String?,
 );
 
 Map<String, dynamic> _$CreateRoomResponseModelToJson(
@@ -31,3 +31,19 @@ Map<String, dynamic> _$CreateRoomResponseModelToJson(
   'status': instance.status,
   'createdAt': instance.createdAt,
 };
+
+CreateRoomApiResponse _$CreateRoomApiResponseFromJson(
+  Map<String, dynamic> json,
+) => CreateRoomApiResponse(
+  status: json['status'] as String?,
+  data:
+      json['data'] == null
+          ? null
+          : CreateRoomResponseModel.fromJson(
+            json['data'] as Map<String, dynamic>,
+          ),
+);
+
+Map<String, dynamic> _$CreateRoomApiResponseToJson(
+  CreateRoomApiResponse instance,
+) => <String, dynamic>{'status': instance.status, 'data': instance.data};

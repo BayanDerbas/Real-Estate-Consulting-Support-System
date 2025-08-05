@@ -5,6 +5,7 @@ import '../../../../core/networks/api_constant.dart';
 import '../model/create_room_request_model.dart';
 import '../model/message_model.dart';
 import '../model/create_room_response_model.dart';
+import '../model/messages_of_current_room_response.dart';
 import '../model/rooms_of_current_user.dart';
 
 part 'chat_service.g.dart';
@@ -13,13 +14,13 @@ part 'chat_service.g.dart';
 abstract class ChatService {
   factory ChatService(Dio dio, {String baseUrl}) = _ChatService;
   @POST(ApiConstant.createRoom)
-  Future<HttpResponse<CreateRoomResponseModel>> createRoom(
+  Future<HttpResponse<CreateRoomApiResponse>> createRoom(
     @Body() CreateRoomRequestModel body,
   );
 
   @GET(ApiConstant.getRoomMessages)
-  Future<HttpResponse<List<Message>>> getRoomMessages(
-    @Path("id") int id,
+  Future<HttpResponse<MessagesOfCurrentRoomResponse>> getRoomMessages(
+    @Path("roomId") int roomId,
     @Query("page") int page,
     @Query("size") int size,
   );

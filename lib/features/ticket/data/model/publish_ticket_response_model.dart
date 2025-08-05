@@ -4,10 +4,22 @@ import '../../../Auth/data/model/user_model.dart';
 part 'publish_ticket_response_model.g.dart';
 
 enum HouseType {
+  @JsonValue("HOME")
+  home,
   @JsonValue("UPPER_FLOOR")
   upperFloor,
   @JsonValue("LOWER_FLOOR")
   lowerFloor,
+  @JsonValue("VILLA")
+  villa,
+  @JsonValue("OFFICE")
+  office,
+  @JsonValue("LAND")
+  land,
+  @JsonValue("STORE")
+  store,
+  @JsonValue("OTHER")
+  other,
 }
 
 enum ServiceType {
@@ -32,36 +44,36 @@ class PublishTicketResponseModel {
 
 @JsonSerializable()
 class TicketData {
-  final int id;
-  final String description;
-  final HouseType houseType;
-  final ServiceType serviceType;
-  final String location;
-  final String direction;
-  final double lowPrice;
-  final double highPrice;
-  final double area;
-  final int numberOfBed;
-  final int numberOfRooms;
-  final int numberOfBathrooms;
-  final String dateTime;
-  final Client client;
+  final int? id;
+  final String? description;
+  final HouseType? houseType;
+  final ServiceType? serviceType;
+  final String? location;
+  final String? direction;
+  final double? lowPrice;
+  final double? highPrice;
+  final double? area;
+  final int? numberOfBed;
+  final int? numberOfRooms;
+  final int? numberOfBathrooms;
+  final String? dateTime;
+  final Client? client;
 
   TicketData({
-    required this.id,
-    required this.description,
-    required this.houseType,
-    required this.serviceType,
-    required this.location,
-    required this.direction,
-    required this.lowPrice,
-    required this.highPrice,
-    required this.area,
-    required this.numberOfBed,
-    required this.numberOfRooms,
-    required this.numberOfBathrooms,
-    required this.dateTime,
-    required this.client,
+    this.id,
+    this.description,
+    this.houseType,
+    this.serviceType,
+    this.location,
+    this.direction,
+    this.lowPrice,
+    this.highPrice,
+    this.area,
+    this.numberOfBed,
+    this.numberOfRooms,
+    this.numberOfBathrooms,
+    this.dateTime,
+    this.client,
   });
 
   factory TicketData.fromJson(Map<String, dynamic> json) =>
@@ -72,17 +84,12 @@ class TicketData {
 
 @JsonSerializable()
 class Client {
-  final int id;
-  final UserModel user;
-  final List<dynamic> favorites;
-  final List<dynamic> following;
+  final int? id;
+  final UserModel? user;
+  final List<dynamic>? favorites;
+  final List<dynamic>? following;
 
-  Client({
-    required this.id,
-    required this.user,
-    required this.favorites,
-    required this.following,
-  });
+  Client({this.id, this.user, this.favorites, this.following});
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 

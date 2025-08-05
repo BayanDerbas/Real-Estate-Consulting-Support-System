@@ -1,24 +1,19 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/ticket_details_page.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
 import 'custom_ticket_widget.dart';
 
 class MyTicketCard extends StatelessWidget {
-  final String fullName;
-  final String phone;
-  final String location;
-  final String description;
-  final String priceRange;
-  final double width;
-  final double height;
+  final String fullName, location, description, priceRange;
+  final double width, height;
 
   const MyTicketCard({
     super.key,
     required this.fullName,
-    required this.phone,
+
     required this.location,
     required this.description,
     required this.priceRange,
@@ -29,21 +24,19 @@ class MyTicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder:
-                (context) => TicketDetailsPage(
-                  fullName: fullName,
-                  phone: phone,
-                  location: location,
-                  description: description,
-                  priceRange: priceRange,
-                ),
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (_) => TicketDetailsPage(
+                    fullName: fullName,
+                    location: location,
+                    description: description,
+                    priceRange: priceRange,
+                  ),
+            ),
           ),
-        );
-      },
       child: TicketCard(
         width: width,
         height: height,
@@ -66,7 +59,7 @@ class MyTicketCard extends StatelessWidget {
                   ),
                 ),
                 subtitle: Text(
-                  phone,
+                  location,
                   style: setTextStyle(
                     GoogleFonts.inder,
                     10,
@@ -78,19 +71,17 @@ class MyTicketCard extends StatelessWidget {
               const SizedBox(height: 10),
               const DottedLine(dashColor: AppColors.darkGray),
               const SizedBox(height: 12),
+              _labelValue('الوصف', description),
+              const SizedBox(height: 8),
+              _labelValue('السعر', priceRange),
+              const SizedBox(height: 8),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: _buildLabelValue(label: 'الوصف', value: description),
+                  const Icon(
+                    Icons.location_on,
+                    color: AppColors.darkGray,
+                    size: 18,
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  Icon(Icons.location_on, color: AppColors.darkGray, size: 18),
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
@@ -115,14 +106,9 @@ class MyTicketCard extends StatelessWidget {
     );
   }
 
-  Widget _buildLabelValue({
-    required String label,
-    required String value,
-    bool alignRight = false,
-  }) {
+  Widget _labelValue(String label, String value) {
     return Column(
-      crossAxisAlignment:
-          alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           label,
@@ -141,7 +127,6 @@ class MyTicketCard extends StatelessWidget {
             AppColors.black,
             FontWeight.normal,
           ),
-
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,

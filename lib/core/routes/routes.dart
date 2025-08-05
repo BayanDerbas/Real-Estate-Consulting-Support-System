@@ -25,6 +25,9 @@ import '../../features/posts/presentation/pages/Posts.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
 import '../../features/service provider/presentation/pages/ServiceProviderProfile.dart';
 import '../../features/service provider/presentation/pages/ServiceProviders.dart';
+import '../../features/ticket/data/data_source/ticket_service/ticket_service.dart';
+import '../../features/ticket/data/repository/ticket_repository.dart';
+import '../../features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
 import '../di/bindings/change_password_bind.dart';
@@ -91,7 +94,15 @@ class AppRoutes {
       page: () => TicketsPage(),
       //binding: GetAllTicketsBinding(),
     ),
-    GetPage(name: baseTicketsPage, page: () => BaseTicketsPage()),
+    GetPage(
+      name: baseTicketsPage,
+      page: () => BaseTicketsPage(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => TicketService(Get.find()), fenix: true);
+        Get.lazyPut(() => TicketRepositoryImpl(Get.find()), fenix: true);
+        Get.lazyPut(() => GetAllTicketsController(Get.find()), fenix: true);
+      }),
+    ),
     GetPage(
       name: myTickets,
       page: () => MyTickets(),

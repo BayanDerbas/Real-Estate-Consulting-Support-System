@@ -38,16 +38,17 @@ class DependenceInitializer {
     Get.put(RegisterController(Get.find()));
     Get.put(LoginController(Get.find()));
     // Get.put(KeyboardController());
-    Get.lazyPut(() => TicketRepositoryImpl(Get.find()));
     Get.lazyPut(() => TicketService(Get.find()));
+    Get.lazyPut(() => TicketRepositoryImpl(Get.find()));
     Get.lazyPut(() => SendCodeController(Get.find()), fenix: true);
     Get.lazyPut(() => VerificationCodeController(Get.find()), fenix: true);
     Get.lazyPut(() => VerifyEmailController(Get.find()), fenix: true);
     Get.lazyPut(() => RefreshTokenController(Get.find()), fenix: true);
     //chats
-    Get.lazyPut(() => ChatService(Get.find()));
-    Get.lazyPut(() => ChatRepository(Get.find()));
+    Get.lazyPut(() => ChatService(Get.find()), fenix: true);
+    Get.lazyPut(() => ChatRepository(Get.find()), fenix: true);
     Get.lazyPut(() => PageTicketController(), fenix: true);
+    Get.lazyPut(() => ChatController(Get.find()), fenix: true);
     Get.lazyPut(() => RoomController(Get.find()), fenix: true);
     Get.lazyPut(() => CreateTicketController(Get.find()), fenix: true);
     Get.lazyPut(() => FilteredTicketsController(Get.find()), fenix: true);

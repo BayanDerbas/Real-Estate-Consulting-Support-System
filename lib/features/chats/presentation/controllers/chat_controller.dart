@@ -19,50 +19,22 @@ class ChatController extends GetxController {
   var isLoading = true.obs;
   var isConnected = false.obs;
 
-  late int roomId;
-  late UserModel otherUser;
+  int? roomId;
+  UserModel? otherUser;
   int? currentUserId;
 
   late StompClient stompClient;
-
-  @override
-  void onInit() {
-    super.onInit();
-    // _extractArguments();
-    _fetchInitialMessages();
-  }
-
-  // void _extractArguments() {
-  //   if (Get.arguments is Map<String, dynamic>) {
-  //     final args = Get.arguments as Map<String, dynamic>;
-  //     roomId = args['roomId'];
-  //     otherUser = args['otherUser'];
-  //   } else {
-  //     Get.back();
-  //     Get.snackbar('Error', 'Failed to load chat data.');
-  //   }
-  // }
-
-  @override
-  void onReady() {
-    super.onReady();
-    initializeChat();
-  }
 
   Future<void> initializeChat() async {
     isLoading.value = true;
     try {
       final storedId = await storage.getUserId();
-      if (storedId == null) {
-        throw Exception('User ID not found in storage.');
-      }
+      if (storedId == null) throw Exception('User ID not found.');
+      currentUserId = int.tryParse(storedId);
 
-      final parsedId = int.tryParse(storedId);
-      if (parsedId == null) {
-        throw Exception('Stored user ID is not a valid integer.');
+      if (roomId == null || otherUser == null || currentUserId == null) {
+        throw Exception('Missing required chat data.');
       }
-
-      currentUserId = parsedId;
 
       await _fetchInitialMessages();
       _connectAndSubscribe();
@@ -76,14 +48,14 @@ class ChatController extends GetxController {
 
   Future<void> _fetchInitialMessages() async {
     final result = await chatRepository.getMessagesForCurrentRoom(
-      id: roomId,
+      id: roomId!,
       page: 0,
       size: 50,
     );
     result.fold(
       (failure) {
-        log("Failed to fetch initial messages: ${failure.err_message}");
-        Get.snackbar('Error', 'Could not load previous messages.');
+        log("Fetch failed: ${failure.err_message}");
+        Get.snackbar('Error', 'Could not load messages.');
       },
       (initialMessages) {
         messages.assignAll(initialMessages.reversed);
@@ -116,8 +88,8 @@ class ChatController extends GetxController {
         },
         onDisconnect: (_) => isConnected.value = false,
         onWebSocketError: (_) => isConnected.value = false,
-        heartbeatIncoming: Duration(seconds: 0),
-        heartbeatOutgoing: Duration(seconds: 0),
+        heartbeatIncoming: Duration.zero,
+        heartbeatOutgoing: Duration.zero,
         stompConnectHeaders: {'Authorization': token ?? ''},
       ),
     );
@@ -130,7 +102,6 @@ class ChatController extends GetxController {
       return;
     }
 
-    final sender = UserModel(id: currentUserId!);
     final messageToSend = {
       'senderId': currentUserId,
       'content': content.text,
@@ -144,7 +115,7 @@ class ChatController extends GetxController {
 
     final optimisticMessage = Message(
       id: DateTime.now().millisecondsSinceEpoch,
-      sender: sender,
+      sender: UserModel(id: currentUserId!),
       content: content.text,
       createdAt: DateTime.now().toIso8601String(),
     );

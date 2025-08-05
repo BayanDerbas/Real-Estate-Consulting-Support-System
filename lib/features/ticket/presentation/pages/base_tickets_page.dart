@@ -16,7 +16,10 @@ class BaseTicketsPage extends GetView<PageTicketController> {
     final double currentWidth = Get.width;
 
     return Scaffold(
+      backgroundColor: AppColors.deepNavy,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.deepNavy,
+        child: Icon(Icons.add_home, color: AppColors.pureWhite),
         onPressed: () {
           Get.offNamed(AppRoutes.createTicket);
         },
@@ -55,7 +58,7 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                   ),
                 ],
               ),
-            ).scrollDirection(Axis.horizontal),
+            ).scrollDirection(Axis.horizontal).paddingOnly(top: 50),
             SizedBox(height: currentWidth * 0.1),
             Expanded(
               child: Obx(() {

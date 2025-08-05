@@ -4,6 +4,8 @@ import 'package:graduation_project/features/ticket/data/model/ticket_model.dart'
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/my_ticket_card.dart';
 
+import '../../../../core/constants/Fonts.dart';
+import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_PaginationBar.dart';
 
 class MyTickets extends GetView<MyTicketsController> {
@@ -14,19 +16,17 @@ class MyTickets extends GetView<MyTicketsController> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "طلباتي",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
       body: Obx(() {
-        if (controller.isLoading.value && controller.myTickets.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+        if (controller.myTickets.isEmpty || controller.isLoading.value) {
+          return Center(
+            child: Text(
+              "لا يوجد طلبات حالياً",
+              style: Fonts.itim.copyWith(
+                color: AppColors.deepNavy.withOpacity(0.6),
+              ),
+            ),
+          );
         }
-
         if (controller.errorMessage.isNotEmpty) {
           return Center(
             child: Text(
@@ -51,17 +51,17 @@ class MyTickets extends GetView<MyTicketsController> {
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     final Ticket ticket = controller.myTickets[index];
-                    final user = ticket.client.user;
+                    final user = ticket.client;
 
                     return MyTicketCard(
                       fullName:
-                          '${user?.firstName ?? "بدون"} ${user?.lastName ?? ""}',
-                      phone: user?.phone ?? "رقم غير معروف",
+                          '${user.firstName ?? ""} ${user.lastName ?? ""}',
+
                       location: ticket.location,
                       description: ticket.description,
                       priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',
                       width: screenWidth,
-                      height: 200,
+                      height: 250,
                     );
                   },
                 ),

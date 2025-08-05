@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/core/constants/styles.dart';
 import 'package:ticket_widget/ticket_widget.dart';
-
 
 class TicketCard extends StatelessWidget {
   final double width;
@@ -23,6 +23,7 @@ class TicketCard extends StatelessWidget {
       height: height,
       color: backgroundColor,
       isCornerRounded: true,
+      shadow: customBoxShadow(x: 0, y: 3, blurRadius: 6, spreadRadius: 1),
       child: widget,
     );
   }

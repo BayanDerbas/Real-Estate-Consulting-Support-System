@@ -14,19 +14,7 @@ class TicketsPage extends GetView<GetAllTicketsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.softWhite,
-      appBar: AppBar(
-        backgroundColor: AppColors.purple,
-        title: Text(
-          "كل الطلبات",
-          style: Fonts.itim.copyWith(
-            color: AppColors.pureWhite,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 4,
-        shadowColor: AppColors.deepNavy.withOpacity(0.3),
-      ),
+
       body: Obx(() => _buildBody(context)),
     );
   }
@@ -79,12 +67,10 @@ class TicketsPage extends GetView<GetAllTicketsController> {
               separatorBuilder: (_, __) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
                 final Ticket ticket = controller.tickets[index];
-                final user = ticket.client.user;
+                final user = ticket.client;
 
                 return MyTicketCard(
-                  fullName:
-                      '${user?.firstName ?? "مستخدم"} ${user?.lastName ?? ""}',
-                  phone: user?.phone ?? "رقم غير متاح",
+                  fullName: '${user.firstName}${user.lastName}' ?? "غير معروف",
                   location: ticket.location,
                   description: ticket.description,
                   priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',

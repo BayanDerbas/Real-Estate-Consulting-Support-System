@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/routes/routes.dart';
@@ -8,32 +7,33 @@ import 'package:graduation_project/features/chats/data/repository/chat_repositor
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 
 class RoomController extends GetxController {
-  int currentUserIdInt = 0;
-  @override
-  void onInit() async {
-    String? currentUserStr = await _storage.getUserId();
-    currentUserIdInt = int.parse(currentUserStr!);
-  }
-
   final ChatRepository _chatRepository;
   final SecureStorage _storage = SecureStorage();
 
+  int currentUserIdInt = 0;
+
   RoomController(this._chatRepository);
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    String? currentUserStr = await _storage.getUserId();
+    if (currentUserStr != null) {
+      currentUserIdInt = int.parse(currentUserStr);
+    }
+  }
+
   Future<void> createOrGoToChat(UserModel otherUser) async {
     Get.dialog(
       const Center(child: CircularProgressIndicator()),
       barrierDismissible: false,
     );
+
     try {
-      final currentUserIdStr = await _storage.getUserId();
-      if (currentUserIdStr == null) {
-        throw Exception('Current user ID not found.');
-      }
-
-      print("--- DEBUG: CREATING CHAT ---");
-      print("Current User ID (userId1): $currentUserIdStr");
-      print("Other User ID (userId2): ${otherUser.id}");
-
       final result = await _chatRepository.createRoom(
         currentUserIdInt,
         otherUser.id,
@@ -43,31 +43,25 @@ class RoomController extends GetxController {
 
       result.fold(
         (failure) {
-          print('....................failure in room');
-          print(failure.err_message);
           Get.snackbar(
             'Chat Error',
             'Could not start chat: ${failure.err_message}',
             snackPosition: SnackPosition.BOTTOM,
           );
         },
-        (roomResponse) {
-          print('..................room status ');
-          print(roomResponse.status);
+        (roomResponse) async {
+          print('room has been success ${roomResponse.toJson()}');
           try {
             final chatController = Get.find<ChatController>();
-            chatController.currentUserId = roomResponse.id;
-            chatController.otherUser = roomResponse.user2!;
-            Get.find<ChatController>().initializeChat();
-            Get.toNamed(
-              AppRoutes.chatPage,
+            chatController.roomId = roomResponse.id!;
+            chatController.otherUser = otherUser;
+            await chatController.initializeChat();
 
-              //  arguments: {'roomId': roomResponse.id, 'otherUser': otherUser},
-            );
+            Get.toNamed(AppRoutes.chatPage);
           } catch (e) {
             Get.snackbar(
               'Chat Error',
-              'Invalid room format received from server.',
+              'Chat initialization failed: $e',
               snackPosition: SnackPosition.BOTTOM,
             );
           }
@@ -79,7 +73,7 @@ class RoomController extends GetxController {
       }
       Get.snackbar(
         'Error',
-        'An unexpected error occurred: $e',
+        'Unexpected error: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
     }

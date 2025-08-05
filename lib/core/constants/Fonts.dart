@@ -6,6 +6,7 @@ class Fonts {
   static final TextStyle itim = GoogleFonts.itim(
     fontSize: 18,
     fontWeight: FontWeight.w600,
+    color: AppColors.pureWhite,
   );
 
   static final TextStyle taj = GoogleFonts.tajawal(

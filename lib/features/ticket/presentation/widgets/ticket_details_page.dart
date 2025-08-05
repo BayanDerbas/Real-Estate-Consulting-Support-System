@@ -5,7 +5,7 @@ import '../../../../core/constants/styles.dart';
 
 class TicketDetailsPage extends StatelessWidget {
   final String fullName;
-  final String phone;
+
   final String location;
   final String description;
   final String priceRange;
@@ -13,7 +13,7 @@ class TicketDetailsPage extends StatelessWidget {
   const TicketDetailsPage({
     super.key,
     required this.fullName,
-    required this.phone,
+
     required this.location,
     required this.description,
     required this.priceRange,
@@ -34,12 +34,7 @@ class TicketDetailsPage extends StatelessWidget {
             title: 'الاسم الكامل',
             value: fullName,
           ),
-          const Divider(),
-          _buildDetailRow(
-            icon: Icons.phone_outlined,
-            title: 'رقم الهاتف',
-            value: phone,
-          ),
+
           const Divider(),
           _buildDetailRow(
             icon: Icons.location_on_outlined,

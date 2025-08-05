@@ -23,10 +23,11 @@ class CreateTicketController extends GetxController {
   final TextEditingController numberOfBed = TextEditingController();
   final TextEditingController numberOfRooms = TextEditingController();
   final TextEditingController numberOfBathrooms = TextEditingController();
-  RxString houseType = 'UPPER_FLOOR'.obs;
+  RxString houseType = 'HOME'.obs;
   RxString serviceType = 'BUY'.obs;
   late int clientId;
   SecureStorage storage = SecureStorage();
+
   CreateTicketController(this._ticketRepository);
 
   Future<void> submitTicket() async {
@@ -60,6 +61,7 @@ class CreateTicketController extends GetxController {
 
     result.fold(
       (failure) {
+        print(failure.err_message);
         print(request.toJson());
         print('/////////////////////////////////////////////////////failure');
         errorMessage.value = failure.err_message;
@@ -74,16 +76,31 @@ class CreateTicketController extends GetxController {
       (response) async {
         print(request.toJson());
         print('/////////////////////////////////////////////////////success');
-        AwesomeDialog(
+
+        await AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
           title: "Success",
           desc: "Ticket created successfully",
           autoHide: const Duration(seconds: 2),
         ).show();
-        Get.offNamed(AppRoutes.home);
-        await Future.delayed(Duration(seconds: 2));
+
+        Get.offNamed(AppRoutes.baseTicketsPage);
       },
+
+      // (response) async {
+      //   print(request.toJson());
+      //   print('/////////////////////////////////////////////////////success');
+      //   AwesomeDialog(
+      //     context: context,
+      //     dialogType: DialogType.success,
+      //     title: "Success",
+      //     desc: "Ticket created successfully",
+      //     autoHide: const Duration(seconds: 2),
+      //   ).show();
+      //   Get.offNamed(AppRoutes.baseTicketsPage);
+      //   await Future.delayed(Duration(seconds: 2));
+      // },
     );
   }
 

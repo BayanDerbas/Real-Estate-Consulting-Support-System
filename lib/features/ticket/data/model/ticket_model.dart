@@ -1,4 +1,5 @@
 import 'package:graduation_project/features/Auth/data/model/user_model.dart';
+import 'package:graduation_project/features/service%20provider/data/model/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ticket_model.g.dart';
@@ -18,7 +19,7 @@ class Ticket {
   final int numberOfRooms;
   final int numberOfBathrooms;
   final String dateTime;
-  final Client client;
+  final UserModel client;
 
   Ticket({
     required this.id,
@@ -39,14 +40,4 @@ class Ticket {
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
   Map<String, dynamic> toJson() => _$TicketToJson(this);
-}
-
-@JsonSerializable()
-class Client {
-  final int? id;
-  final UserModel? user;
-
-  Client(this.id, this.user);
-  factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
-  Map<String, dynamic> toJson() => _$ClientToJson(this);
 }

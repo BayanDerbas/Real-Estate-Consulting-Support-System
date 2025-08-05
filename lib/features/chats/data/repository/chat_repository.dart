@@ -27,16 +27,20 @@ class ChatRepository {
       );
 
       final httpResponse = await _chatService.createRoom(request);
-      final newRoom = httpResponse.data;
+      final apiResponse = httpResponse.data;
 
-      if (newRoom == null) {
+      if (apiResponse == null || apiResponse.data == null) {
         return Left(
           serverFailure("Received an empty response from the server."),
         );
       }
+
+      final newRoom = apiResponse.data;
+
       print('................request create ........');
       print(request.toJson());
-      return Right(newRoom);
+
+      return Right(newRoom!);
     } catch (e) {
       return Left(serverFailure("Failed to create chat room: $e"));
     }
@@ -49,7 +53,8 @@ class ChatRepository {
   }) async {
     try {
       final response = await _chatService.getRoomMessages(id, page, size);
-      return Right(response.data);
+
+      return Right(response.data.data!.content);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

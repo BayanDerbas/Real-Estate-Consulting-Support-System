@@ -58,13 +58,13 @@ class serverFailure extends Failures {
     String message;
 
     if (statusCode == 400) {
-      message = "Bad request. Please check your input.";
+      message = "Bad request. Please check your input.$response";
     } else if (statusCode == 401) {
       message = "Unauthorized. Please log in again.";
     } else if (statusCode == 403) {
       message = "Forbidden. You don't have permission.";
     } else if (statusCode == 404) {
-      message = "Resource not found.";
+      message = "Resource not found.$response";
     } else if (statusCode == 500) {
       message = "Internal server error. Please try again later.$response";
     } else {

@@ -20,7 +20,7 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
   numberOfRooms: (json['numberOfRooms'] as num).toInt(),
   numberOfBathrooms: (json['numberOfBathrooms'] as num).toInt(),
   dateTime: json['dateTime'] as String,
-  client: Client.fromJson(json['client'] as Map<String, dynamic>),
+  client: UserModel.fromJson(json['client'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
@@ -38,16 +38,4 @@ Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
   'numberOfBathrooms': instance.numberOfBathrooms,
   'dateTime': instance.dateTime,
   'client': instance.client,
-};
-
-Client _$ClientFromJson(Map<String, dynamic> json) => Client(
-  (json['id'] as num?)?.toInt(),
-  json['user'] == null
-      ? null
-      : UserModel.fromJson(json['user'] as Map<String, dynamic>),
-);
-
-Map<String, dynamic> _$ClientToJson(Client instance) => <String, dynamic>{
-  'id': instance.id,
-  'user': instance.user,
 };
