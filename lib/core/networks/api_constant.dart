@@ -32,4 +32,6 @@ class ApiConstant {
   static const String getAllOffices = "$baseUrl/offices";
   //experts
   static const String getAllExperts = "$baseUrl/experts";
+  // posts
+  static const String addPost = "$baseUrl/posts";
 }

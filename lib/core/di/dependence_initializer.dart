@@ -7,6 +7,10 @@ import 'package:graduation_project/features/Auth/presentation/controllers/signup
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
+import 'package:graduation_project/features/posts/data/data_source/post_service.dart';
+import 'package:graduation_project/features/posts/data/model/post_response_model.dart';
+import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
+import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
@@ -63,5 +67,10 @@ class DependenceInitializer {
     Get.lazyPut(() => OfficeService(Get.find()));
     Get.lazyPut(() => OfficeRepository(Get.find()));
     Get.lazyPut(() => OfficeController(Get.find()));
+
+    //posts
+    Get.lazyPut(() => PostService(Get.find()));
+    Get.lazyPut(() => PostsRepository(Get.find()));
+    Get.lazyPut(() => CreatePostController(Get.find()));
   }
 }

@@ -5,7 +5,6 @@ part 'register_request_model.g.dart';
 
 @JsonSerializable()
 class RegisterModel {
-  // Existing fields (keep them nullable for flexibility)
   final String? firstName;
   final String? lastName;
   final String? email;
@@ -16,14 +15,10 @@ class RegisterModel {
   final String? longitude;
   final String? location;
 
-  // --- NEW PROFESSIONAL FIELDS ---
   final String? profession;
   final String? experience;
   final String? bio;
 
-  // --- NEW FILE FIELDS ---
-  // These are NOT part of the JSON body. They are for multipart uploads.
-  // We must tell json_serializable to ignore them.
   @JsonKey(ignore: true)
   final File? commercialRegisterImage;
 
@@ -34,7 +29,6 @@ class RegisterModel {
   final File? degreeCertificateImage;
 
   RegisterModel({
-    // Required fields
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -42,7 +36,6 @@ class RegisterModel {
     required this.phone,
     required this.role,
 
-    // Optional fields
     this.latitude,
     this.longitude,
     this.location,
@@ -54,7 +47,6 @@ class RegisterModel {
     this.degreeCertificateImage,
   });
 
-  // These methods will now correctly ignore the File fields
   Map<String, dynamic> toJson() => _$RegisterModelToJson(this);
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) =>

@@ -23,6 +23,10 @@ class MyTicketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cuttedDesc =
+        description.length > 15
+            ? description.substring(0, 15) + '........'
+            : description;
     return InkWell(
       onTap:
           () => Navigator.push(
@@ -44,7 +48,7 @@ class MyTicketCard extends StatelessWidget {
         widget: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
                 contentPadding: EdgeInsets.zero,
@@ -53,7 +57,7 @@ class MyTicketCard extends StatelessWidget {
                   fullName,
                   style: setTextStyle(
                     GoogleFonts.inder,
-                    13,
+                    17,
                     AppColors.black,
                     FontWeight.bold,
                   ),
@@ -62,18 +66,18 @@ class MyTicketCard extends StatelessWidget {
                   location,
                   style: setTextStyle(
                     GoogleFonts.inder,
-                    10,
+                    13,
                     AppColors.darkGray,
                     FontWeight.normal,
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              const DottedLine(dashColor: AppColors.darkGray),
+              const DottedLine(dashColor: AppColors.darkGray, lineThickness: 3),
               const SizedBox(height: 12),
-              _labelValue('الوصف', description),
+              _labelValue('Description', cuttedDesc),
               const SizedBox(height: 8),
-              _labelValue('السعر', priceRange),
+              _labelValue('Price', priceRange),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -88,7 +92,7 @@ class MyTicketCard extends StatelessWidget {
                       location,
                       style: setTextStyle(
                         GoogleFonts.inder,
-                        11,
+                        15,
                         AppColors.black,
                         FontWeight.normal,
                       ),
@@ -98,7 +102,7 @@ class MyTicketCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const DottedLine(dashColor: AppColors.darkGray),
+              const DottedLine(dashColor: AppColors.darkGray, lineThickness: 3),
             ],
           ),
         ),
@@ -108,22 +112,22 @@ class MyTicketCard extends StatelessWidget {
 
   Widget _labelValue(String label, String value) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: setTextStyle(
             GoogleFonts.itim,
-            10,
+            15,
             AppColors.purple,
             FontWeight.w500,
           ),
         ),
         Text(
-          value.length > 20 ? value.substring(0, 20) : value,
+          value,
           style: setTextStyle(
             GoogleFonts.itim,
-            11,
+            15,
             AppColors.black,
             FontWeight.normal,
           ),
