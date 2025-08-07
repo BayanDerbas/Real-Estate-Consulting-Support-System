@@ -9,23 +9,23 @@ part of 'property_model.dart';
 PropertyModel _$PropertyModelFromJson(Map<String, dynamic> json) =>
     PropertyModel(
       officeId: (json['officeId'] as num?)?.toInt(),
-      id: (json['id'] as num).toInt(),
-      description: json['description'] as String,
-      houseType: json['houseType'] as String,
-      serviceType: json['serviceType'] as String,
-      location: json['location'] as String,
-      direction: json['direction'] as String,
-      price: (json['price'] as num).toDouble(),
-      priceInMonth: (json['priceInMonth'] as num).toDouble(),
-      area: (json['area'] as num).toDouble(),
-      numberOfBed: (json['numberOfBed'] as num).toInt(),
-      numberOfRooms: (json['numberOfRooms'] as num).toInt(),
-      numberOfBathrooms: (json['numberOfBathrooms'] as num).toInt(),
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
+      id: (json['id'] as num?)?.toInt(),
+      description: json['description'] as String?,
+      houseType: json['houseType'] as String?,
+      serviceType: json['serviceType'] as String?,
+      location: json['location'] as String?,
+      direction: json['direction'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
+      priceInMonth: (json['priceInMonth'] as num?)?.toDouble(),
+      area: (json['area'] as num?)?.toDouble(),
+      numberOfBed: (json['numberOfBed'] as num?)?.toInt(),
+      numberOfRooms: (json['numberOfRooms'] as num?)?.toInt(),
+      numberOfBathrooms: (json['numberOfBathrooms'] as num?)?.toInt(),
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
       propertyImageList:
-          (json['propertyImageList'] as List<dynamic>)
-              .map(
+          (json['propertyImageList'] as List<dynamic>?)
+              ?.map(
                 (e) => PropertyImageModel.fromJson(e as Map<String, dynamic>),
               )
               .toList(),

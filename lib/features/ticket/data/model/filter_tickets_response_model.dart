@@ -7,8 +7,8 @@ part 'filter_tickets_response_model.g.dart';
 
 @JsonSerializable()
 class FilterTicketsResponseModel {
-  final String status;
-  final List<Ticket> data;
+  final String? status;
+  final List<Ticket>? data;
 
   FilterTicketsResponseModel({required this.status, required this.data});
 

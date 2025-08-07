@@ -58,21 +58,23 @@ class PropertiesController extends GetxController {
         type = null;
     }
 
-    final result = await repository.getAllProperties(page: current, size: limit);
-
-    result.fold(
-          (failure) => failureMessage.value = failure.err_message,
-          (data) {
-        properties.value = data;
-        hasNextPage.value = data.length == limit;
-        failureMessage.value = properties.isEmpty
-            ? "No properties available."
-            : "";
-      },
+    final result = await repository.getAllProperties(
+      page: current,
+      size: limit,
     );
+
+    result.fold((failure) => failureMessage.value = failure.err_message, (
+      data,
+    ) {
+      properties.value = data;
+      hasNextPage.value = data.length == limit;
+      failureMessage.value =
+          properties.isEmpty ? "No properties available." : "";
+    });
 
     isLoading.value = false;
   }
+
   void setSelectedIndex(int index) {
     selectedIndex.value = index;
     currentPage.value = 0;
@@ -103,21 +105,28 @@ class PropertiesController extends GetxController {
         type = "";
     }
 
-    properties.value = allProperties.where((property) => property.houseType == type).toList();
+    properties.value =
+        allProperties.where((property) => property.houseType == type).toList();
 
-    failureMessage.value = properties.isEmpty
-        ? "No properties available for this category yet."
-        : "";
+    failureMessage.value =
+        properties.isEmpty
+            ? "No properties available for this category yet."
+            : "";
   }
 
   List<CustomProperties> get propertiesList {
     return properties.map((property) {
+      final hasImages =
+          property.propertyImageList != null &&
+          property.propertyImageList!.isNotEmpty;
+
       return CustomProperties(
-        imagePath: property.propertyImageList.isNotEmpty
-            ? property.propertyImageList[0].imageUrl
-            : AppImages.noImage,
-        place: property.location,
-        propertyType: property.houseType,
+        imagePath:
+            hasImages
+                ? property.propertyImageList![0].imageUrl
+                : AppImages.noImage,
+        place: property.location ?? 'Unknown Location',
+        propertyType: property.houseType ?? 'Unknown Type',
         propertyIcon: Icons.house,
         onTap: () {
           Get.toNamed('/propertyDetails', arguments: property);

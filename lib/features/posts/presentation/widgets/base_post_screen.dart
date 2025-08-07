@@ -7,12 +7,12 @@ class BasePostScreen extends StatelessWidget {
     super.key,
     required this.child,
     this.appBarTitle,
-    this.componentHeight,
+    this.heightOfAppBar,
   });
 
   final Widget child;
   final String? appBarTitle;
-  final double? componentHeight;
+  final double? heightOfAppBar;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class BasePostScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(130),
+          preferredSize: Size.fromHeight(heightOfAppBar!),
           child: CustomAppbar(
             text: appBarTitle ?? '',
             icon: Icons.notification_add,

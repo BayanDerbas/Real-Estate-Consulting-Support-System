@@ -60,13 +60,17 @@ class LoginController extends GetxController {
 
         if (response.token != null) {
           print('if token dosnt null will show : ........');
-          print(await storage.getToken());
-          print(await storage.getUserId());
-          DioFactory.setToken(response.token!);
+          await storage.saveToken(response.token.toString());
           await storage.saveUserId(response.user!.id.toString());
           await storage.saveUserName(response.user!.firstName.toString());
           final currentUserName = await storage.getUserName();
           final currentUserId = await storage.getUserId();
+          final currentUserToken = await storage.getToken();
+          DioFactory.setToken(currentUserToken!);
+          print(response.toJson());
+          print(currentUserId);
+          print(currentUserName);
+          print(currentUserToken);
           if (currentUserId != null && currentUserName != null) {
             await callServices.onUserLogin(currentUserId, currentUserName);
           }
@@ -75,9 +79,7 @@ class LoginController extends GetxController {
           await storage.saveRefreshToken(response.refreshToken!);
         }
         await Future.delayed(Duration(seconds: 2));
-        Get.offNamed(AppRoutes.baseTicketsPage);
-        final userId = await storage.getUserId();
-        print("the user id .............$userId");
+        Get.offNamed(AppRoutes.createProperty);
       },
     );
   }

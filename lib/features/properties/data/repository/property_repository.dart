@@ -1,6 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networks/failures.dart';
+import 'package:graduation_project/features/properties/data/model/create_property_request_model.dart';
+import 'package:graduation_project/features/properties/data/model/create_property_response_model.dart';
+import 'package:graduation_project/features/properties/data/model/propertyResponse_model.dart';
 import '../data_source/property_service.dart';
 import '../model/property_model.dart';
 
@@ -14,7 +17,10 @@ class PropertyRepository {
     int size = 10,
   }) async {
     try {
-      final response = await propertyService.getProperties(page: page, size: size);
+      final response = await propertyService.getProperties(
+        page: page,
+        size: size,
+      );
       print("Raw Response: ${response.response.data}");
       print("Response Data: ${response.data}");
 
@@ -29,10 +35,25 @@ class PropertyRepository {
       print("Error: $e");
       if (e is DioException) {
         print("DioException Details: ${e.response?.data}");
-        return Left(serverFailure(
-          e.response?.data?.toString() ?? e.message ?? 'Unknown error',
-        ));
+        return Left(
+          serverFailure(
+            e.response?.data?.toString() ?? e.message ?? 'Unknown error',
+          ),
+        );
       }
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, CreatePropertyResponseModel>> createProperty(
+    CreatePropertyRequestModel request,
+  ) async {
+    try {
+      final httpResponse = await propertyService.createProperty(request);
+      return Right(httpResponse.data);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
       return Left(serverFailure(e.toString()));
     }
   }

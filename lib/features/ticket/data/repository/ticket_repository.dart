@@ -81,7 +81,7 @@ class TicketRepositoryImpl {
         location: filter.location,
       );
       final tickets = httpResponse.data.data;
-      return Right(tickets);
+      return Right(tickets!);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

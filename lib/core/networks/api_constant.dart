@@ -28,6 +28,7 @@ class ApiConstant {
   static const String filterTickets = "$baseUrl/tickets/filters";
   //properties
   static const String getAllProperties = "$baseUrl/properties";
+  static const String createProperty = "$baseUrl/properties";
   //officers
   static const String getAllOffices = "$baseUrl/offices";
   //experts

@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:graduation_project/features/properties/data/model/create_property_request_model.dart';
+import 'package:graduation_project/features/properties/data/model/create_property_response_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:graduation_project/core/networks/api_constant.dart';
 import '../model/propertyResponse_model.dart';
@@ -15,4 +17,8 @@ abstract class PropertyService {
     @Query("size") required int size,
     @Query("sort") String sort = "price,asc",
   });
+  @POST(ApiConstant.createProperty)
+  Future<HttpResponse<CreatePropertyResponseModel>> createProperty(
+    @Body() CreatePropertyRequestModel request,
+  );
 }

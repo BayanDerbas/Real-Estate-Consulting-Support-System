@@ -11,6 +11,8 @@ import 'package:graduation_project/features/posts/data/data_source/post_service.
 import 'package:graduation_project/features/posts/data/model/post_response_model.dart';
 import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
+import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
+import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
@@ -63,6 +65,8 @@ class DependenceInitializer {
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));
     Get.lazyPut(() => PropertiesController(Get.find()));
+    Get.lazyPut(() => CreatePropertyController(Get.find()));
+    Get.lazyPut(() => AddImagesToPropertyController(Get.find()));
     //offices
     Get.lazyPut(() => OfficeService(Get.find()));
     Get.lazyPut(() => OfficeRepository(Get.find()));

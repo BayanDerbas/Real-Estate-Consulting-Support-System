@@ -9,10 +9,10 @@ part of 'filter_tickets_response_model.dart';
 FilterTicketsResponseModel _$FilterTicketsResponseModelFromJson(
   Map<String, dynamic> json,
 ) => FilterTicketsResponseModel(
-  status: json['status'] as String,
+  status: json['status'] as String?,
   data:
-      (json['data'] as List<dynamic>)
-          .map((e) => Ticket.fromJson(e as Map<String, dynamic>))
+      (json['data'] as List<dynamic>?)
+          ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
           .toList(),
 );
 

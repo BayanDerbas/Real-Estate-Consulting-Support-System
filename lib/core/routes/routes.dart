@@ -8,6 +8,8 @@ import 'package:graduation_project/features/Auth/presentation/pages/sign_up_scre
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
+import 'package:graduation_project/features/properties/presentation/pages/add_images_to_property.dart';
+import 'package:graduation_project/features/properties/presentation/pages/create_property.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
@@ -63,6 +65,8 @@ class AppRoutes {
   static const String baseTicketsPage = '/base_tickets_page';
   static const String chatPage = '/chat_page';
   static const String createPost = '/create_post';
+  static const String createProperty = '/create_property';
+  static const String addImagesToProperty = '/add_images_to_property';
   static List<GetPage> routes_ = [
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -119,5 +123,7 @@ class AppRoutes {
       binding: ResetPasswordBinding(),
     ),
     GetPage(name: chatPage, page: () => ChatPage()),
+    GetPage(name: createProperty, page: () => CreatePropertyScreen()),
+    GetPage(name: addImagesToProperty, page: () => AddImagesToProperty()),
   ];
 }

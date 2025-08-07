@@ -17,9 +17,9 @@ class PropertyDetails extends StatelessWidget {
       propertyDetailsController(),
     );
     final PropertyModel property = Get.arguments as PropertyModel;
-    final List<String> imageList =
+    final List<String>? imageList =
         property.propertyImageList
-            .map((imageModel) => imageModel.imageUrl)
+            ?.map((imageModel) => imageModel.imageUrl)
             .toList();
     return Scaffold(
       body: Obx(
@@ -27,18 +27,18 @@ class PropertyDetails extends StatelessWidget {
           children: [
             CustomPropertyDetails(
               imagePath:
-                  imageList.isNotEmpty ? imageList[0] : AppImages.noImage,
+                  imageList!.isNotEmpty ? imageList[0] : AppImages.noImage,
               images: imageList.length > 1 ? imageList.sublist(1) : [],
               price: property.price.toString(),
               priceInMonth: property.priceInMonth.toString(),
-              title: property.houseType,
-              location: property.location,
-              serviceType: property.serviceType,
+              title: property.houseType!,
+              location: property.location!,
+              serviceType: property.serviceType!,
               area: property.area.toString(),
               room: property.numberOfRooms.toString(),
               beds: property.numberOfBed.toString(),
               baths: property.numberOfBathrooms.toString(),
-              details: property.description,
+              details: property.description!,
               selectedIndex: controller.selectedImageIndex.value,
               onImageTap: (index) => controller.changeImage(index),
               onSwipe: (details) {

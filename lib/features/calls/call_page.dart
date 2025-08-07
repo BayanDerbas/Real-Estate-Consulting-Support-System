@@ -18,7 +18,6 @@ class _CallPageState extends State<CallPage> {
   final SecureStorage storage = SecureStorage();
   final CallServices services = CallServices();
 
-  // These are for the *target* user you're calling
   final TextEditingController _inviteeNameController = TextEditingController();
   final TextEditingController _inviteeIdController = TextEditingController();
 

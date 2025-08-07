@@ -1,12 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'propertyImage_model.dart';
-
-part 'property_model.g.dart';
+part 'create_property_request_model.g.dart';
 
 @JsonSerializable()
-class PropertyModel {
-  final int? id;
+class CreatePropertyRequestModel {
   final String? description;
   final String? houseType;
   final String? serviceType;
@@ -21,13 +18,7 @@ class PropertyModel {
   final double? latitude;
   final double? longitude;
   final int? officeId;
-
-  @JsonKey(name: 'propertyImageList')
-  final List<PropertyImageModel>? propertyImageList;
-
-  PropertyModel({
-    this.officeId,
-    this.id,
+  CreatePropertyRequestModel({
     this.description,
     this.houseType,
     this.serviceType,
@@ -41,11 +32,9 @@ class PropertyModel {
     this.numberOfBathrooms,
     this.latitude,
     this.longitude,
-    this.propertyImageList,
+    this.officeId,
   });
-
-  factory PropertyModel.fromJson(Map<String, dynamic> json) =>
-      _$PropertyModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PropertyModelToJson(this);
+  factory CreatePropertyRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$CreatePropertyRequestModelFromJson(json);
+  Map<String, dynamic> toJson() => _$CreatePropertyRequestModelToJson(this);
 }
