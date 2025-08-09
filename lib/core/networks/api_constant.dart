@@ -31,7 +31,7 @@ class ApiConstant {
   static const String createProperty = "$baseUrl/properties";
 
   //Bayan
-  //properties (done show list and details page 2 api)
+  //properties (done show list and details page 2 api with filter types)
   static const String getAllProperties = "$baseUrl/properties";
   //officers (done show list and details page 2 api)
   static const String getAllOffices = "$baseUrl/offices";
