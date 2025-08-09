@@ -8,8 +8,6 @@ import 'package:graduation_project/features/Auth/presentation/pages/sign_up_scre
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
-import 'package:graduation_project/features/properties/presentation/pages/add_images_to_property.dart';
-import 'package:graduation_project/features/properties/presentation/pages/create_property.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
@@ -23,9 +21,13 @@ import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
 import '../../features/home/presentation/pages/Home.dart';
+import '../../features/myReserve/presentation/pages/MyReserve.dart';
+import '../../features/notification/presentation/pages/notification.dart';
 import '../../features/officers/presentation/pages/offices.dart';
 import '../../features/posts/presentation/pages/Posts.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
+import '../../features/properties/presentation/pages/add_images_to_property.dart';
+import '../../features/properties/presentation/pages/create_property.dart';
 import '../../features/service provider/presentation/pages/ServiceProviderProfile.dart';
 import '../../features/service provider/presentation/pages/ServiceProviders.dart';
 import '../../features/ticket/data/data_source/ticket_service/ticket_service.dart';
@@ -33,7 +35,9 @@ import '../../features/ticket/data/repository/ticket_repository.dart';
 import '../../features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
+import '../di/bindings/booking_bind.dart';
 import '../di/bindings/change_password_bind.dart';
+import '../di/bindings/my_reserve_binds.dart';
 
 class AppRoutes {
   static const String splashScreen = "/";
@@ -65,14 +69,23 @@ class AppRoutes {
   static const String baseTicketsPage = '/base_tickets_page';
   static const String chatPage = '/chat_page';
   static const String createPost = '/create_post';
+  static const String notifications = '/notifications';
+  static const String myReserve = '/myReserve';
+  static const String my_times = '/my_times';
   static const String createProperty = '/create_property';
   static const String addImagesToProperty = '/add_images_to_property';
+
   static List<GetPage> routes_ = [
+    GetPage(
+      name: myReserve,
+      page: () => const MyReserve(),
+      binding: MyReserveBinding(),
+    ),
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
     GetPage(name: wallet, page: () => Wallet()),
     GetPage(name: confirm, page: () => Confirm()),
-    GetPage(name: book, page: () => Book()),
+    GetPage(name: book, page: () => Book(), binding: BookingBinding()),
     GetPage(
       name: serviceProvider_profile,
       page: () => Serviceproviderprofile(),
@@ -90,6 +103,7 @@ class AppRoutes {
     GetPage(name: uploadDocuments, page: () => UploadDocuments()),
     GetPage(name: continueFillExpertInfo, page: () => ContinueInfoForExpert()),
     GetPage(name: changePassword, page: () => ResetPassword()),
+
     GetPage(
       name: createTicket,
       page: () => CreateTicketScreen(),
@@ -123,6 +137,7 @@ class AppRoutes {
       binding: ResetPasswordBinding(),
     ),
     GetPage(name: chatPage, page: () => ChatPage()),
+    GetPage(name: notifications, page: () => NotificationsScreen()),
     GetPage(name: createProperty, page: () => CreatePropertyScreen()),
     GetPage(name: addImagesToProperty, page: () => AddImagesToProperty()),
   ];

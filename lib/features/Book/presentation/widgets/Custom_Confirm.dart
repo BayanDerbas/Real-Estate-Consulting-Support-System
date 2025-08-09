@@ -13,6 +13,7 @@ class CustomConfirm extends StatelessWidget {
   final String sessionPrice;
   final String discountRate;
   final String finalPrice;
+  final TextEditingController controller;
 
   const CustomConfirm({
     super.key,
@@ -24,6 +25,7 @@ class CustomConfirm extends StatelessWidget {
     required this.sessionPrice,
     required this.discountRate,
     required this.finalPrice,
+    required this.controller,
   });
 
   @override
@@ -135,6 +137,7 @@ class CustomConfirm extends StatelessWidget {
               ],
             ),
             child: TextField(
+              controller: controller,
               textDirection: TextDirection.rtl,
               style: Fonts.itim.copyWith(color: Colors.black),
               decoration: InputDecoration(

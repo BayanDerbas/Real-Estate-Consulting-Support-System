@@ -4,35 +4,60 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import 'package:graduation_project/features/Book/presentation/widgets/Custom_Book.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../controllers/BookController.dart';
+import '../widgets/Custom_Book.dart';
 
 class Book extends StatelessWidget {
   const Book({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final BookController controller = Get.put(BookController());
+    final BookController controller = Get.find<BookController>();
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150),
+        preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
-          text: "appointement",
+          text: "حجز موعد",
           icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),
       body: Obx(() {
+        final expert = controller.expert.value;
+        final hours =
+            controller.generatedHours.isNotEmpty
+                ? controller.generatedHours
+                : [
+                  "09:00",
+                  "10:00",
+                  "11:00",
+                  "12:00",
+                  "01:00",
+                  "02:00",
+                  "03:00",
+                ];
+        //controller.generateAppointmentHours();
+        final isBooked = controller.isBookedList;
+        if (hours.length != isBooked.length) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (hours.length != isBooked.length) {
+          return const Center(child: CircularProgressIndicator());
+        }
         return Column(
           children: [
             CustomBook(
-              image: AppImages.expert,
-              name: "محمد محمد",
-              job: "محامي",
-              rating: "5",
-              experience: "10",
-              successCount: "20",
+              image: expert?.idCardImage ?? AppImages.expert,
+              name:
+                  expert != null
+                      ? "${expert.user?.firstName ?? ''} ${expert.user?.lastName ?? ''}"
+                          .trim()
+                      : "بدون اسم",
+              job: expert?.profession ?? "غير معروف",
+              rating: expert?.rating?.toString() ?? "0",
+              experience: expert?.experience ?? "0",
+              successCount: expert?.rateCount?.toString() ?? "0",
               followerNum: "3",
               monthDays: controller.getCurrentMonthDays(),
               selectedDate: controller.selectedDate.value,
@@ -49,33 +74,33 @@ class Book extends StatelessWidget {
               onSessionSelected: controller.selectSession,
               selectedCallType: controller.selectedCallType.value,
               onCallTypeSelected: controller.selectCallType,
-              appointmentHours: [
-                "11:00AM",
-                "12:00AM",
-                "1:00AM",
-                "2:00AM",
-                "3:00AM",
-                "4:00AM",
-                "5:00AM",
-                "6:00AM",
-              ],
-              isBooked: [true, false, false, true, false, true, false, false],
+              appointmentHours: hours,
+              isBooked: isBooked,
               selectedHourIndex: controller.selectedHourIndex.value,
               onHourSelected: controller.selectHour,
             ),
             CustomButton(
               text: "حجز موعد",
-              backgroundColor: AppColors.deepNavy,
+              backgroundColor:
+                  hours.isEmpty || controller.isLoading.value
+                      ? AppColors.grey
+                      : AppColors.deepNavy,
               textColor: AppColors.softWhite,
               width: double.infinity,
-              onPressed: () {
-                print("................................................");
-                Get.toNamed('/confirm');
-              },
-            ).padding(EdgeInsets.all(15)),
+              onPressed:
+                  hours.isEmpty || controller.isLoading.value
+                      ? null
+                      : () async {
+                        final result = await controller.bookAppointment();
+                        result.fold(
+                          (failure) => Get.snackbar('خطأ', failure.err_message),
+                          (response) => null, // Handled in controller
+                        );
+                      },
+            ).padding(const EdgeInsets.all(15)),
           ],
-        );
-      }).scrollDirection(Axis.vertical),
+        ).scrollDirection(Axis.vertical);
+      }),
     );
   }
 }

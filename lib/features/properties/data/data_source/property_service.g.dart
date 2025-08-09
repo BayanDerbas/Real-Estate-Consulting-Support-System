@@ -24,13 +24,16 @@ class _PropertyService implements PropertyService {
     required int page,
     required int size,
     String sort = "price,asc",
+    String? type,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'page': page,
       r'size': size,
       r'sort': sort,
+      r'houseType': type,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<PropertyResponse>>(

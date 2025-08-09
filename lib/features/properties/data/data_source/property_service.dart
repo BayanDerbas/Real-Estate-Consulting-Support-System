@@ -16,6 +16,7 @@ abstract class PropertyService {
     @Query("page") required int page,
     @Query("size") required int size,
     @Query("sort") String sort = "price,asc",
+    @Query("houseType") String? type,
   });
   @POST(ApiConstant.createProperty)
   Future<HttpResponse<CreatePropertyResponseModel>> createProperty(

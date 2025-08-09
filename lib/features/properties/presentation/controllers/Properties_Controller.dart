@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/networks/dio_factory.dart';
+import '../../data/model/propertyImage_model.dart';
 import '../../data/model/property_model.dart';
 import '../../data/repository/property_repository.dart';
 import '../widgets/Custom_Properties.dart';
@@ -17,9 +18,9 @@ class PropertiesController extends GetxController {
   var failureMessage = ''.obs;
   var isLoading = false.obs;
   var currentPage = 0.obs;
-  final int pageSize = 2;
+  final int pageSize = 20;
   var hasNextPage = true.obs;
-  var totalPages = 10.obs;
+  var totalPages = 30.obs;
 
   void goToPage(int index) {
     if (index != currentPage.value) {
@@ -43,34 +44,42 @@ class PropertiesController extends GetxController {
     String? type;
     switch (selectedIndex.value) {
       case 0:
-        type = "Home";
+        type = "HOME";
         break;
       case 1:
-        type = "Apartment";
+        type = "APPARTMENT";
         break;
       case 2:
-        type = "Store";
+        type = "VILLA";
         break;
       case 3:
-        type = "UPPER_FLOOR";
+        type = "LAND";
+        break;
+      case 4:
+        type = "STORE";
+        break;
+      case 5:
+        type = "OFFICE";
+        break;
+      case 6:
+        type = "OTHER";
         break;
       default:
         type = null;
     }
 
-    final result = await repository.getAllProperties(
-      page: current,
-      size: limit,
-    );
+    final result = await repository.getAllProperties(page: current, size: limit, type: type);
 
-    result.fold((failure) => failureMessage.value = failure.err_message, (
-      data,
-    ) {
-      properties.value = data;
-      hasNextPage.value = data.length == limit;
-      failureMessage.value =
-          properties.isEmpty ? "No properties available." : "";
-    });
+    result.fold(
+          (failure) => failureMessage.value = failure.err_message,
+          (data) {
+        properties.value = data.data.content;
+        allProperties = data.data.content;
+        totalPages.value = data.data.totalPages ?? 1;
+        hasNextPage.value = data.data.last != true;
+        failureMessage.value = properties.isEmpty ? "لا توجد عقارات متاحة." : "";
+      },
+    );
 
     isLoading.value = false;
   }
@@ -78,7 +87,13 @@ class PropertiesController extends GetxController {
   void setSelectedIndex(int index) {
     selectedIndex.value = index;
     currentPage.value = 0;
-    fetchProperties(page: 0, size: pageSize);
+
+    if (index == -1) {
+      // All: لا ترسل نوع
+      fetchProperties(page: 0, size: pageSize);
+    } else {
+      fetchProperties(page: 0, size: pageSize);
+    }
   }
 
   void filterProperties() {
@@ -90,48 +105,74 @@ class PropertiesController extends GetxController {
     String type;
     switch (selectedIndex.value) {
       case 0:
-        type = "Home";
+        type = "HOME";
         break;
       case 1:
-        type = "Apartment";
+        type = "APARTMENT";
         break;
       case 2:
-        type = "Store";
+        type = "VILLA";
         break;
       case 3:
-        type = "UPPER_FLOOR";
+        type = "LAND";
+        break;
+      case 4:
+        type = "STORE";
+        break;
+      case 5:
+        type = "OFFICE";
+        break;
+      case 6:
+        type = "OTHER";
         break;
       default:
         type = "";
     }
 
-    properties.value =
-        allProperties.where((property) => property.houseType == type).toList();
+    properties.value = allProperties.where((property) => property.houseType == type).toList();
 
-    failureMessage.value =
-        properties.isEmpty
-            ? "No properties available for this category yet."
-            : "";
+    failureMessage.value = properties.isEmpty ? "لا توجد عقارات متاحة لهذه الفئة بعد." : "";
   }
 
   List<CustomProperties> get propertiesList {
     return properties.map((property) {
-      final hasImages =
-          property.propertyImageList != null &&
-          property.propertyImageList!.isNotEmpty;
+      final mainImage = property.propertyImageList.firstWhere(
+            (image) => image.type == "MAIN",
+        orElse: () => property.propertyImageList.isNotEmpty
+            ? property.propertyImageList[0]
+            : PropertyImageModel(id: 0, imageUrl: AppImages.noImage, type: "MAIN"),
+      );
 
       return CustomProperties(
-        imagePath:
-            hasImages
-                ? property.propertyImageList![0].imageUrl
-                : AppImages.noImage,
-        place: property.location ?? 'Unknown Location',
-        propertyType: property.houseType ?? 'Unknown Type',
-        propertyIcon: Icons.house,
+        imagePath: mainImage.imageUrl,
+        place: property.location,
+        propertyType: property.houseType,
+        propertyIcon: _getIconForType(property.houseType),
         onTap: () {
           Get.toNamed('/propertyDetails', arguments: property);
         },
       );
     }).toList();
+  }
+
+  IconData _getIconForType(String type) {
+    switch (type) {
+      case "HOME":
+        return Icons.house_sharp;
+      case "APARTMENT":
+        return Icons.apartment;
+      case "VILLA":
+        return Icons.villa;
+      case "LAND":
+        return Icons.landscape;
+      case "STORE":
+        return Icons.store;
+      case "OFFICE":
+        return Icons.business;
+      case "OTHER":
+        return Icons.category;
+      default:
+        return Icons.house;
+    }
   }
 }

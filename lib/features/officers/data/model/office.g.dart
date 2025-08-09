@@ -8,6 +8,12 @@ part of 'office.dart';
 
 Office _$OfficeFromJson(Map<String, dynamic> json) => Office(
   id: (json['id'] as num?)?.toInt(),
+  userId: (json['userId'] as num?)?.toInt(),
+  firstName: json['firstName'] as String?,
+  lastName: json['lastName'] as String?,
+  email: json['email'] as String?,
+  phone: json['phone'] as String?,
+  imageUrl: json['imageUrl'] as String?,
   user:
       json['user'] == null
           ? null
@@ -21,6 +27,12 @@ Office _$OfficeFromJson(Map<String, dynamic> json) => Office(
 
 Map<String, dynamic> _$OfficeToJson(Office instance) => <String, dynamic>{
   'id': instance.id,
+  'userId': instance.userId,
+  'firstName': instance.firstName,
+  'lastName': instance.lastName,
+  'email': instance.email,
+  'phone': instance.phone,
+  'imageUrl': instance.imageUrl,
   'user': instance.user,
   'bio': instance.bio,
   'location': instance.location,

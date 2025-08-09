@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (refreshToken != null && refreshToken.isNotEmpty) {
       final success = await controller.refreshToken();
       if (success) {
-        Get.offAllNamed(AppRoutes.createProperty);
+       // Get.offAllNamed(AppRoutes.createProperty);
         return;
       }
     }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:graduation_project/core/stripe/stripe.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/splash_screen.dart';
 import 'package:graduation_project/core/constants/app_theme.dart';
@@ -16,6 +18,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'core/di/dependence_initializer.dart';
 import 'core/networks/dio_factory.dart';
+import 'core/notifications/firebase_messaging_service.dart';
+import 'core/utils/secure_storage.dart';
 import 'core/utils/shard_prefs.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
@@ -28,27 +32,25 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //Stripe.publishableKey = stripePublishableKey;
 
   await DependenceInitializer.dependenceInjection();
   await SharedPrefs.init();
   await DioFactory.loadToken();
+  final storage = SecureStorage();
+  final token = await storage.getToken();
+  print('\nAccess Token: $token\n');
+  print("...........................................................................\n");
+  await StripeService.initStripe();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseMessagingService().init();
 
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
 
   ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI([
     ZegoUIKitSignalingPlugin(),
   ]);
-
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-  String? token = await messaging.getToken();
-  if (token != null) {
-    print("..................................................");
-    print("FCM Token: $token");
-  } else {
-    print("Failed to get FCM Token.");
-  }
 
   runApp(MyApp(navigatorKey: navigatorKey));
 }
@@ -74,7 +76,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: Home(),
       getPages: AppRoutes.routes_,
     );
   }
