@@ -40,7 +40,9 @@ Future<void> main() async {
   final storage = SecureStorage();
   final token = await storage.getToken();
   print('\nAccess Token: $token\n');
-  print("...........................................................................\n");
+  print(
+    "...........................................................................\n",
+  );
   await StripeService.initStripe();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: SplashScreen(),
       getPages: AppRoutes.routes_,
     );
   }

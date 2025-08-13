@@ -10,6 +10,8 @@ import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/features/Auth/presentation/widgets/base_auth_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/widgets/custom_text_form_field.dart';
 
+import '../../../../core/functions/validate_input.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 

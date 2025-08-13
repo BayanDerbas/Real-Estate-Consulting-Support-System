@@ -20,7 +20,6 @@ class SecureStorage {
     await _storage.write(key: _tokenKey, value: token);
   }
 
-  ///////////////test////////////////////////
   Future<void> saveIdCall(String id) async {
     await _storage.write(key: 'callId', value: id);
   }
@@ -53,12 +52,11 @@ class SecureStorage {
     await _storage.write(key: _userName, value: userName);
   }
 
-  Future<void> saveUserType(String userType) async{
+  Future<void> saveUserType(String userType) async {
     await _storage.write(key: _userType, value: userType);
   }
 
   Future<void> saveUserId(String userId) async {
-
     await _storage.write(key: _userId, value: userId);
   }
 
@@ -82,7 +80,7 @@ class SecureStorage {
     return await _storage.read(key: _tokenKey);
   }
 
-  Future<String?> getUserType() async{
+  Future<String?> getUserType() async {
     return await _storage.read(key: _userType);
   }
 
@@ -116,7 +114,7 @@ class SecureStorage {
 
   Future<List<BookingData>> getReservations() async {
     final jsonString = await _storage.read(key: 'reservations');
-    if(jsonString == null) return[];
+    if (jsonString == null) return [];
     final List<dynamic> jsonList = jsonDecode(jsonString);
     return jsonList.map((json) => BookingData.fromJson(json)).toList();
   }
@@ -132,8 +130,8 @@ class SecureStorage {
         await getIdCardImage();
       case 'OFFICE':
         await getCommercialRegisterImage();
-      case 'USER' :
-        default:
+      case 'USER':
+      default:
         await getProfileImage();
     }
   }
@@ -164,5 +162,4 @@ class SecureStorage {
         return await _storage.read(key: 'clientId');
     }
   }
-
 }

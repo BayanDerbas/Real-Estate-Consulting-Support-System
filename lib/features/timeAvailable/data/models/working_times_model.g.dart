@@ -6,7 +6,7 @@ part of 'working_times_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AvailableTime _$WorkingTimeFromJson(Map<String, dynamic> json) =>
+AvailableTime _$AvailableTimeFromJson(Map<String, dynamic> json) =>
     AvailableTime(
       id: (json['id'] as num).toInt(),
       dayOfWeek: json['dayOfWeek'] as String?,
@@ -15,7 +15,7 @@ AvailableTime _$WorkingTimeFromJson(Map<String, dynamic> json) =>
       callType: json['callType'] as String?,
     );
 
-Map<String, dynamic> _$WorkingTimeToJson(AvailableTime instance) =>
+Map<String, dynamic> _$AvailableTimeToJson(AvailableTime instance) =>
     <String, dynamic>{
       'id': instance.id,
       'dayOfWeek': instance.dayOfWeek,

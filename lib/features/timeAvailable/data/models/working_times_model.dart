@@ -18,6 +18,7 @@ class AvailableTime {
     required this.callType,
   });
 
-  factory AvailableTime.fromJson(Map<String,dynamic> json) => _$WorkingTimeFromJson(json);
-  Map<String,dynamic> toJson() => _$WorkingTimeToJson(this);
+  factory AvailableTime.fromJson(Map<String, dynamic> json) =>
+      _$AvailableTimeFromJson(json);
+  Map<String, dynamic> toJson() => _$AvailableTimeToJson(this);
 }

@@ -130,15 +130,13 @@ class _AuthService implements AuthService {
   }
 
   @override
-  Future<HttpResponse<LoginWrapperResponseModel>> login(
-    LoginRequestModel request,
-  ) async {
+  Future<HttpResponse<LoginResponse>> login(LoginRequestModel request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _options = _setStreamType<HttpResponse<LoginWrapperResponseModel>>(
+    final _options = _setStreamType<HttpResponse<LoginResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -149,9 +147,9 @@ class _AuthService implements AuthService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late LoginWrapperResponseModel _value;
+    late LoginResponse _value;
     try {
-      _value = LoginWrapperResponseModel.fromJson(_result.data!);
+      _value = LoginResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

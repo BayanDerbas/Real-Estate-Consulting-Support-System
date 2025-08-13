@@ -44,9 +44,7 @@ class AuthRepository {
     }
   }
 
-  Future<Either<Failures, LoginResponseModel>> userLogin(
-    LoginRequestModel request,
-  ) async {
+  Future<Either<Failures, dynamic>> userLogin(LoginRequestModel request) async {
     try {
       final httpResponse = await _authService.login(request);
       final loginData = httpResponse.data.data;
