@@ -114,7 +114,6 @@ class ChatController extends GetxController {
     );
 
     final optimisticMessage = Message(
-      id: DateTime.now().millisecondsSinceEpoch,
       sender: UserModel(id: currentUserId!),
       content: content.text,
       createdAt: DateTime.now().toIso8601String(),

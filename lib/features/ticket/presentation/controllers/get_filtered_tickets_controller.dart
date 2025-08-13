@@ -34,12 +34,12 @@ class FilteredTicketsController extends GetxController {
 
     result.fold(
       (Failures failure) {
-        print('/////////////////faluuuuuuu');
+        print('/////////////////failure');
         errorMessage.value = failure.err_message;
         tickets.clear();
       },
       (filteredData) {
-        print('/////////////////sucesss');
+        print('/////////////////sucess');
         tickets.assignAll(filteredData);
       },
     );

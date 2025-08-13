@@ -38,7 +38,7 @@ class LoginScreen extends StatelessWidget {
               hintText: "password",
               icon: Icons.lock_outline,
               controller: controller.password,
-              validator: (val) => validateInput(val!, 8, 25, 'password'),
+              validator: (val) => validateInput(val!, 8, 50, 'password'),
             ).paddingSymmetric(horizontal: 15),
             Text("Forgot password?", style: Fonts.underlinedStyle)
                 .onTap(() => Get.toNamed(AppRoutes.forgotPassword))

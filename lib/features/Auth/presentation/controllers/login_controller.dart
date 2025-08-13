@@ -76,6 +76,7 @@ class LoginController extends GetxController {
           }
         }
         if (response.refreshToken != null) {
+          //  Get.toNamed(AppRoutes.login);
           await storage.saveRefreshToken(response.refreshToken!);
         }
         await Future.delayed(Duration(seconds: 2));
