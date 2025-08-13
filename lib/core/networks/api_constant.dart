@@ -26,13 +26,23 @@ class ApiConstant {
   static const String getAllTickets = "$baseUrl/tickets";
   static const String getMyTickets = "$baseUrl/tickets";
   static const String filterTickets = "$baseUrl/tickets/filters";
-  //properties
-  static const String getAllProperties = "$baseUrl/properties";
-  static const String createProperty = "$baseUrl/properties";
-  //officers
-  static const String getAllOffices = "$baseUrl/offices";
-  //experts
-  static const String getAllExperts = "$baseUrl/experts";
   // posts
   static const String addPost = "$baseUrl/posts";
+  static const String createProperty = "$baseUrl/properties";
+
+  //Bayan
+  //properties (done show list and details page 2 api with filter types)
+  static const String getAllProperties = "$baseUrl/properties";
+  //officers (done show list and details page 2 api)
+  static const String getAllOffices = "$baseUrl/offices";
+  //experts (done show list and details page 2 api)
+  static const String getAllExperts = "$baseUrl/experts";
+  //booking (done show list and details 2 api with filter)
+  static const String booking = "$baseUrl/booking";
+  //show the working times experts by id
+  static const String working_times = "$baseUrl/working_times/all/{id}";
+  //the reservation appointement for expert
+  static const String reservation_allready = "$baseUrl//booking/{id}";
+  //show my reservation with status
+  static const String showMyReserve = "$baseUrl/booking/all/{status}";
 }

@@ -36,6 +36,7 @@ dependencies:
   flutter_localization: ^0.3.3
   zego_uikit_prebuilt_call: ^4.17.7
   zego_uikit_signaling_plugin: ^2.8.15
+  flutter_stripe: ^11.5.0
 
 dev_dependencies:
   flutter_test:

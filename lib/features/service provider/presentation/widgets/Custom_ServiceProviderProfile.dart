@@ -80,11 +80,11 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             child: Center(
                               child: CircularProgressIndicator(
                                 value:
-                                    loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
+                                loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress
+                                    .cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                    : null,
                                 strokeWidth: 2,
                               ),
                             ),
@@ -127,17 +127,15 @@ class CustomServiceproviderprofile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Flexible(
-                          child: Text(
-                            name,
-                            style: Fonts.itim.copyWith(
-                              color: AppColors.black,
-                              fontSize: 18,
-                            ),
-                            overflow: TextOverflow.ellipsis, // Prevent overflow
+                        Text(
+                          name,
+                          style: Fonts.itim.copyWith(
+                            color: AppColors.black,
+                            fontSize: 18,
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(width: 10), // Reduce spacing
+                        SizedBox(width: 20,),
                         Flexible(
                           child: Container(
                             decoration: BoxDecoration(
@@ -151,7 +149,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                                 fontSize: 16,
                               ),
                               overflow:
-                                  TextOverflow.ellipsis, // Prevent overflow
+                              TextOverflow.ellipsis,
                             ).padding(EdgeInsets.all(8)),
                           ),
                         ),
@@ -180,7 +178,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                               color: AppColors.grey,
                               fontSize: 16,
                             ),
-                            overflow: TextOverflow.ellipsis, // Prevent overflow
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -196,7 +194,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                               color: AppColors.black,
                               fontSize: 16,
                             ),
-                            overflow: TextOverflow.ellipsis, // Prevent overflow
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         SizedBox(width: 10),
@@ -236,26 +234,32 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 onPressed: onMessage,
                 child: Icon(Icons.mail, color: AppColors.deepNavy, size: 30),
               ),
-              ElevatedButton(
-                onPressed: onBook,
-                style: ElevatedButton.styleFrom(
-                  elevation: 5.0,
-                  backgroundColor: AppColors.grey2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              SizedBox(width: 8),
+
+              if (onBook != null)
+                ElevatedButton(
+                  onPressed: onBook,
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5.0,
+                    backgroundColor: AppColors.grey2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(AppImages.book, scale: 8),
+                      SizedBox(width: 5),
+                      Text(
+                        "Book",
+                        style: Fonts.itim.copyWith(color: AppColors.deepNavy),
+                      ),
+                    ],
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Image.asset(AppImages.book, scale: 8),
-                    SizedBox(width: 5),
-                    Text(
-                      "Book",
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy),
-                    ),
-                  ],
-                ),
-              ),
+
+              SizedBox(width: 8),
+
               ElevatedButton(
                 onPressed: onCall,
                 style: ElevatedButton.styleFrom(
@@ -276,6 +280,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(width: 8),
               ElevatedButton(
                 onPressed: onFollow,
                 style: ElevatedButton.styleFrom(
@@ -291,7 +296,9 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ),
               ),
             ],
-          ).padding(EdgeInsets.all(20)).scrollDirection(Axis.horizontal),
+          )
+              .padding(EdgeInsets.all(20))
+              .scrollDirection(Axis.horizontal),
           Divider(
             thickness: 1,
             color: AppColors.grey2,
@@ -387,24 +394,24 @@ class CustomServiceproviderprofile extends StatelessWidget {
                           crossAxisSpacing: 8,
                           mainAxisSpacing: 8,
                           children:
-                              postImages.asMap().entries.map((entry) {
-                                final index = entry.key;
-                                final imagePath = entry.value;
-                                return GestureDetector(
-                                  onTap: () {
-                                    print(
-                                      "تم الضغط على صورة البوست رقم: $index",
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      imagePath,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                          postImages.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final imagePath = entry.value;
+                            return GestureDetector(
+                              onTap: () {
+                                print(
+                                  "تم الضغط على صورة البوست رقم: $index",
                                 );
-                              }).toList(),
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(
+                                  imagePath,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
 
                         if (job == "عقارات")
@@ -414,24 +421,24 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
                             children:
-                                realEstateImages.asMap().entries.map((entry) {
-                                  final index = entry.key;
-                                  final imagePath = entry.value;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      print(
-                                        "تم الضغط على صورة العقار رقم: $index",
-                                      );
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.asset(
-                                        imagePath,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                            realEstateImages.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final imagePath = entry.value;
+                              return GestureDetector(
+                                onTap: () {
+                                  print(
+                                    "تم الضغط على صورة العقار رقم: $index",
                                   );
-                                }).toList(),
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.asset(
+                                    imagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
 
                         GridView.count(
@@ -439,31 +446,31 @@ class CustomServiceproviderprofile extends StatelessWidget {
                           childAspectRatio: 0.7,
                           padding: const EdgeInsets.all(5),
                           children:
-                              discounts.asMap().entries.map((entry) {
-                                final index = entry.key;
-                                final discount = entry.value;
-                                final colors = [
-                                  AppColors.lavender,
-                                  AppColors.softPink,
-                                  AppColors.babySky,
-                                  AppColors.aquaBlue,
-                                  AppColors.goldenYellow,
-                                  AppColors.purple,
-                                ];
-                                return GestureDetector(
-                                  onTap: () {
-                                    print(
-                                      "تم الضغط على الخصم: ${discount['code']}",
-                                    );
-                                  },
-                                  child: DiscountItem(
-                                    discount: discount['discount']!,
-                                    description: discount['description']!,
-                                    code: discount['code']!,
-                                    color: colors[index % colors.length],
-                                  ),
+                          discounts.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final discount = entry.value;
+                            final colors = [
+                              AppColors.lavender,
+                              AppColors.softPink,
+                              AppColors.babySky,
+                              AppColors.aquaBlue,
+                              AppColors.goldenYellow,
+                              AppColors.purple,
+                            ];
+                            return GestureDetector(
+                              onTap: () {
+                                print(
+                                  "تم الضغط على الخصم: ${discount['code']}",
                                 );
-                              }).toList(),
+                              },
+                              child: DiscountItem(
+                                discount: discount['discount']!,
+                                description: discount['description']!,
+                                code: discount['code']!,
+                                color: colors[index % colors.length],
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ],
                     ),

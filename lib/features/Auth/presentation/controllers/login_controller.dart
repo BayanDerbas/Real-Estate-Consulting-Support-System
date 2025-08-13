@@ -5,6 +5,9 @@ import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
+import 'package:graduation_project/features/officers/data/model/office.dart';
+import 'package:graduation_project/features/service%20provider/data/model/expert.dart';
+import '../../../../core/constants/image_paths.dart';
 import '../../../../core/networks/dio_factory.dart';
 import '../../../calls/calls_service.dart';
 
@@ -36,7 +39,7 @@ class LoginController extends GetxController {
     if (context == null) return;
 
     result.fold(
-      (failure) {
+          (failure) {
         errMessage.value = failure.err_message;
         AwesomeDialog(
           context: context,
@@ -47,7 +50,7 @@ class LoginController extends GetxController {
           btnOkOnPress: () {},
         ).show();
       },
-      (response) async {
+          (response) async {
         AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
@@ -59,18 +62,42 @@ class LoginController extends GetxController {
         ).show();
 
         if (response.token != null) {
-          print('if token dosnt null will show : ........');
-          await storage.saveToken(response.token.toString());
+          await storage.saveToken(response.token!);
           await storage.saveUserId(response.user!.id.toString());
-          await storage.saveUserName(response.user!.firstName.toString());
+          await storage.saveUserIdByRole(
+            response.user!.id.toString(),
+            response.user!.role!,
+          );
+          await storage.saveUserName(
+            "${response.user!.firstName ?? ''} ${response.user!.lastName ?? ''}",
+          );
+          await storage.saveUserType(response.user!.role!);
+          await storage.saveEmail(response.user!.email.toString());
+          final userRole = response.user!.role!;
+          String imageStore = "";
+          switch (userRole) {
+            case "EXPERT":
+              imageStore = response.expert?.idCardImage ?? AppImages.user;
+              await storage.saveIdCardImage(imageStore);
+              break;
+            case "OFFICE":
+              imageStore = response.office?.commercialRegisterImage ?? AppImages.user;
+              await storage.saveCommercialRegisterImage(imageStore);
+              break;
+            case "USER":
+            default:
+              imageStore = response.user?.imageUrl ?? AppImages.user;
+              await storage.saveProfileImage(imageStore);
+              break;
+          }
+
+          print('\nToken has been saved. Now printing it:');
+          print(await storage.getToken());
+          print(await storage.getUserId());
+
+          DioFactory.setToken(response.token!);
           final currentUserName = await storage.getUserName();
           final currentUserId = await storage.getUserId();
-          final currentUserToken = await storage.getToken();
-          DioFactory.setToken(currentUserToken!);
-          print(response.toJson());
-          print(currentUserId);
-          print(currentUserName);
-          print(currentUserToken);
           if (currentUserId != null && currentUserName != null) {
             await callServices.onUserLogin(currentUserId, currentUserName);
           }
@@ -79,8 +106,14 @@ class LoginController extends GetxController {
           //  Get.toNamed(AppRoutes.login);
           await storage.saveRefreshToken(response.refreshToken!);
         }
+
         await Future.delayed(Duration(seconds: 2));
-        Get.offNamed(AppRoutes.createProperty);
+        Get.offNamed(AppRoutes.baseTicketsPage);
+
+        final userId = await storage.getUserId();
+        final currentClientId = await storage.getIdByRole();
+        print("the user id .............$userId\n");
+        print(("the client id ....................................$currentClientId"));
       },
     );
   }

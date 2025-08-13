@@ -55,7 +55,10 @@ class CustomBook extends StatelessWidget {
     required this.selectedHourIndex,
     required this.onHourSelected,
     required this.isBooked,
-  });
+  }) : assert(
+  appointmentHours.length == isBooked.length,
+  'appointmentHours and isBooked must have the same length',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -68,98 +71,115 @@ class CustomBook extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(backgroundImage: AssetImage(image), radius: 50),
-              SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        name,
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.black,
-                          fontSize: 18,
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            name,
+                            style: Fonts.itim.copyWith(
+                              color: AppColors.black,
+                              fontSize: 18,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 20),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.grey2,
-                          borderRadius: BorderRadius.circular(10),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: AppColors.grey2,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            job,
+                            style: Fonts.itim.copyWith(
+                              color: AppColors.grey,
+                              fontSize: 16,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ).padding(const EdgeInsets.all(8)),
                         ),
-                        child: Text(
-                          job,
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.star_rate_rounded,
+                          color: Colors.amber,
+                          size: 25,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          rating,
+                          style: Fonts.itim.copyWith(
+                            color: AppColors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Text(
+                            "$experience سنوات من الخبرة",
+                            style: Fonts.itim.copyWith(
+                              color: AppColors.grey,
+                              fontSize: 16,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.circle,
+                          color: AppColors.babySky,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Text(
+                            "$successCount تجربة ناجحة ",
+                            style: Fonts.itim.copyWith(
+                              color: AppColors.black,
+                              fontSize: 16,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          followerNum,
+                          style: Fonts.itim.copyWith(
+                            color: AppColors.purple,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          "متابع",
                           style: Fonts.itim.copyWith(
                             color: AppColors.grey,
                             fontSize: 16,
                           ),
-                        ).padding(EdgeInsets.all(8)),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star_rate_rounded,
-                        color: Colors.amber,
-                        size: 25,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        rating,
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.black,
-                          fontSize: 16,
                         ),
-                      ),
-                      SizedBox(width: 20),
-                      Text(
-                        "$experience سنوات من الخبرة",
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.grey,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.circle, color: AppColors.babySky, size: 18),
-                      SizedBox(width: 10),
-                      Text(
-                        "$successCount تجربة ناجحة ",
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        followerNum,
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.purple,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        "متابع",
-                        style: Fonts.itim.copyWith(
-                          color: AppColors.grey,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
+          ).padding(const EdgeInsets.symmetric(horizontal: 16)),
         ),
         Divider(
           thickness: 1,
           color: AppColors.grey2,
-        ).padding(EdgeInsets.symmetric(vertical: 15)),
+        ).padding(const EdgeInsets.symmetric(vertical: 15)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
@@ -177,12 +197,12 @@ class CustomBook extends StatelessWidget {
                   if (showResetIcon)
                     GestureDetector(
                       onTap: onResetMonth,
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.only(right: 8.0),
                         child: Icon(Icons.arrow_back_ios),
                       ),
                     ),
-                  Text(monthName, style: Fonts.itim.copyWith(fontSize: 18)),
+                  Text(monthName, style: Fonts.itim.copyWith(fontSize: 18,color: AppColors.black)),
                   GestureDetector(
                     onTap: onNextMonth,
                     child: const Padding(
@@ -216,7 +236,7 @@ class CustomBook extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: isSelected ? AppColors.purple : Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.black12,
                         blurRadius: 4,
@@ -250,7 +270,7 @@ class CustomBook extends StatelessWidget {
                     ],
                   ),
                 ),
-              ).padding(EdgeInsets.only(left: 3, right: 3, bottom: 5));
+              ).padding(const EdgeInsets.only(left: 3, right: 3, bottom: 5));
             },
           ),
         ),
@@ -258,7 +278,7 @@ class CustomBook extends StatelessWidget {
         Text(
           "Session Duration",
           style: Fonts.itim.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
-        ).padding(EdgeInsets.symmetric(horizontal: 16.0)),
+        ).padding(const EdgeInsets.symmetric(horizontal: 16.0)),
         const SizedBox(height: 5),
         SizedBox(
           height: 80,
@@ -278,7 +298,7 @@ class CustomBook extends StatelessWidget {
                         shape: BoxShape.circle,
                         color:
                             isSelected ? AppColors.purple : AppColors.softWhite,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
@@ -326,7 +346,7 @@ class CustomBook extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-        ).padding(EdgeInsets.symmetric(horizontal: 16)),
+        ).padding(const EdgeInsets.symmetric(horizontal: 16)),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -340,7 +360,7 @@ class CustomBook extends StatelessWidget {
                     selectedCallType == 1
                         ? AppColors.purple
                         : AppColors.softWhite,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 4,
@@ -371,7 +391,7 @@ class CustomBook extends StatelessWidget {
                     selectedCallType == 2
                         ? AppColors.purple
                         : AppColors.softWhite,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 4,
@@ -395,13 +415,13 @@ class CustomBook extends StatelessWidget {
           ],
         ),
         Text(
-          "appointement Hours",
+          "Appointment Hours",
           style: Fonts.itim.copyWith(
             color: AppColors.black,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
-        ).padding(EdgeInsets.only(left: 16, top: 13, bottom: 13)),
+        ).padding(const EdgeInsets.only(left: 16, top: 13, bottom: 13)),
         SizedBox(
           height: 130,
           child: GridView.builder(
@@ -433,36 +453,42 @@ class CustomBook extends StatelessWidget {
                 textColor = AppColors.black;
               }
 
-              return GestureDetector(
-                onTap: booked ? null : () => onHourSelected(index),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: bgColor,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      hour,
-                      style: Fonts.itim.copyWith(
-                        fontSize: 16,
-                        color: textColor,
+              return IgnorePointer(
+                ignoring: booked,
+                child: GestureDetector(
+                  onTap: booked ? null : () => onHourSelected(index),
+                  behavior: HitTestBehavior.opaque,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: booked
+                          ? null
+                          : const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        hour,
+                        style: Fonts.itim.copyWith(
+                          fontSize: 16,
+                          color: textColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ).padding(EdgeInsets.only(top: 10));
+              ).padding(const EdgeInsets.only(top: 10));
             },
           ),
         ),
       ],
-    ).padding(EdgeInsets.all(8));
+    ).padding(const EdgeInsets.all(8));
   }
 
   String _getWeekDayAbbreviation(DateTime date) {

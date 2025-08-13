@@ -50,21 +50,24 @@ class PropertyDetails extends StatelessWidget {
               },
             ),
             SizedBox(height: 5),
-            CustomButton(
-              text: "الذهاب للعقار",
-              backgroundColor: AppColors.deepNavy,
-              textColor: AppColors.pureWhite,
-              width: 150,
-              onPressed: () {
-                if (property.officeId != null) {
-                  Get.toNamed(
-                    '/serviceProvider_profile',
-                    arguments: {'id': property.officeId, 'role': 'OFFICE'},
-                  );
-                } else {
-                  Get.snackbar("خطأ", "لا يوجد مكتب مرتبط بهذا العقار.");
-                }
-              },
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: CustomButton(
+                text: "الذهاب للعقار",
+                backgroundColor: AppColors.deepNavy,
+                textColor: AppColors.pureWhite,
+                width: 150,
+                onPressed: () {
+                  if (property.office!.id != null) {
+                    Get.toNamed(
+                      '/serviceProvider_profile',
+                      arguments: {'id': property.office!.id, 'role': 'OFFICE'},
+                    );
+                  } else {
+                    Get.snackbar("خطأ", "لا يوجد مكتب مرتبط بهذا العقار.");
+                  }
+                },
+              ),
             ),
           ],
         ),

@@ -114,10 +114,12 @@ class Customserviceprovidercard extends StatelessWidget {
                                     style: Fonts.itim.copyWith(
                                       fontSize: 18,
                                       color: AppColors.black,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   const SizedBox(width: 15),
                                   Container(
+                                    width: 80,
                                     decoration: BoxDecoration(
                                       color: AppColors.grey2,
                                       borderRadius: BorderRadius.circular(8),
@@ -128,6 +130,7 @@ class Customserviceprovidercard extends StatelessWidget {
                                         style: Fonts.itim.copyWith(
                                           fontSize: 14,
                                           color: AppColors.darkGray,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ).padding(EdgeInsets.all(5)),
                                     ),
@@ -145,7 +148,7 @@ class Customserviceprovidercard extends StatelessWidget {
                                   const SizedBox(width: 4),
                                   Text(
                                     provider['rating'].toString(),
-                                    style: Fonts.itim.copyWith(fontSize: 14),
+                                    style: Fonts.itim.copyWith(fontSize: 14,color: AppColors.grey),
                                   ),
                                   const SizedBox(width: 8),
                                   Flexible(
@@ -171,7 +174,7 @@ class Customserviceprovidercard extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       '${provider['rateCount']} تجربة ناجحة',
-                                      style: Fonts.itim.copyWith(fontSize: 14),
+                                      style: Fonts.itim.copyWith(fontSize: 14,color: AppColors.grey),
                                     ),
                                   ),
                                 ],

@@ -4,13 +4,14 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
-import 'package:graduation_project/features/home/presentation/widgets/Custom_OfficeCard.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/routes/routes.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
+import '../../../officers/data/repository/OfficeRepository.dart';
 import '../../../officers/presentation/controllers/OfficeController.dart';
 import '../../../properties/data/data_source/property_service.dart';
 import '../../../service provider/presentation/controllers/ServiceProvidersControllers.dart';
@@ -36,7 +37,9 @@ class Home extends StatelessWidget {
     final PropertiesController propertiesController = Get.put(
       PropertiesController(repository),
     );
-    final OfficeController officeController = Get.find();
+    final officeController = Get.put(
+      OfficeController(Get.find<OfficeRepository>()),
+    );
 
     return Scaffold(
       drawer: CustomDrawer(
@@ -50,6 +53,9 @@ class Home extends StatelessWidget {
         child: CustomAppbar(
           text: "Welcome Home",
           icon: Icons.notifications,
+          onPressed: () {
+            Get.toNamed(AppRoutes.notifications);
+          },
           iconColor: AppColors.pureWhite,
         ),
       ),
@@ -102,7 +108,6 @@ class Home extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(5);
                       print("Statistics pressed");
-                      // يمكنك إضافة انتقال إلى صفحة الإحصائيات
                       // Get.toNamed("/statistics");
                     },
                   ),
@@ -113,7 +118,6 @@ class Home extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(6);
                       print("Tickets pressed");
-                      // يمكنك إضافة انتقال إلى صفحة التذاكر
                       // Get.toNamed("/tickets");
                     },
                   ),
@@ -124,7 +128,6 @@ class Home extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(7);
                       print("Schedule Time pressed");
-                      // يمكنك إضافة انتقال إلى صفحة الجدولة
                       // Get.toNamed("/schedule_time");
                     },
                   ),
@@ -135,7 +138,6 @@ class Home extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(8);
                       print("Discount pressed");
-                      // يمكنك إضافة انتقال إلى صفحة الخصومات
                       // Get.toNamed("/discounts");
                     },
                   ),
@@ -143,6 +145,7 @@ class Home extends StatelessWidget {
               ],
             ).scrollDirection(Axis.horizontal),
           ),
+          SizedBox(height: 10),
           SizedBox(height: 10),
           Obx(() {
             if (propertiesController.isLoading.value) {
@@ -179,7 +182,6 @@ class Home extends StatelessWidget {
               ),
             );
           }),
-
           const SizedBox(height: 5),
           Text(
             "Quick Access",
@@ -313,35 +315,41 @@ class Home extends StatelessWidget {
             ],
           ).padding(const EdgeInsets.all(8)),
           Obx(() {
-            if (officeController.isLoading.value ||
-                officeController.officesList.isEmpty) {
+            if (officeController.officesList.isEmpty) {
               return const Center(child: CircularProgressIndicator());
             }
 
             final office = officeController.officesList.first;
             final index = officeController.officesList.indexOf(office);
+
             final isFavorite =
                 officeController.isFavoriteList[index]?.value ?? false;
             final isFollowing =
                 officeController.isFollowingList[index]?.value ?? false;
-            return CustomOfficeCard(
-              name: '${office.user?.firstName} ${office.user?.lastName}',
-              bio: office.bio!,
-              location: office.location!,
-              imageUrl: office.commercialRegisterImage!,
+
+            return CustomExpertCard(
+              name:
+                  '${office.user?.firstName ?? ""} ${office.user?.lastName ?? ""}',
+              jobTitle: office.user!.role ?? "غير معروف",
+              rating: 0,
+              experienceYears: 0,
+              successfulCases: 2,
+              appointmentDate: 'غير محدد',
+              appointmentTime: 'غير محدد',
+              imagePath: office.commercialRegisterImage ?? '',
               isFavorite: isFavorite,
               isFollowing: isFollowing,
-              onFavoriteToggle: () {
-                officeController.toggleFavorite(index);
-              },
-              onFollowToggle: () {
-                officeController.toggleFollow(index);
-              },
+              onFavoriteToggle: () => officeController.toggleFavorite(index),
+              onFollowToggle: () => officeController.toggleFollow(index),
               onProfileTap: () {
-                print("\n press on office");
+                print("زيارة ملف المكتب: ${office.user?.id}");
                 Get.toNamed(
                   '/serviceProvider_profile',
-                  arguments: {'id': office.id.toString(), 'role': 'OFFICE'},
+                  arguments: {
+                    'id': office.id,
+                    'role': 'OFFICE',
+                    'user': office.user,
+                  },
                 );
               },
             );

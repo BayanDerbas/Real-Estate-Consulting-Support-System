@@ -23,6 +23,14 @@ LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
           json['user'] == null
               ? null
               : UserModel.fromJson(json['user'] as Map<String, dynamic>),
+      office:
+          json['office'] == null
+              ? null
+              : Office.fromJson(json['office'] as Map<String, dynamic>),
+      expert:
+          json['expert'] == null
+              ? null
+              : Expert.fromJson(json['expert'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) =>
@@ -30,4 +38,6 @@ Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) =>
       'token': instance.token,
       'refreshToken': instance.refreshToken,
       'user': instance.user,
+      'expert': instance.expert,
+      'office': instance.office,
     };

@@ -5,6 +5,7 @@ import 'package:graduation_project/features/Auth/presentation/controllers/login_
 import 'package:graduation_project/features/Auth/presentation/controllers/refresh_token_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
+import 'package:graduation_project/features/Book/data/repository/reservation_repository.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/posts/data/data_source/post_service.dart';
@@ -19,12 +20,22 @@ import 'package:graduation_project/features/ticket/presentation/controllers/crea
 import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/page_controller.dart';
+import 'package:graduation_project/features/timeAvailable/data/data_sources/show_working_times_service.dart';
+import 'package:graduation_project/features/timeAvailable/data/repositories/show_working_times_repository.dart';
 import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
 import '../../features/Auth/presentation/controllers/send_code_controller.dart';
 import '../../features/Auth/presentation/controllers/verifiy_email_controller.dart';
+import '../../features/Book/data/data_source/booking_api_service.dart';
+import '../../features/Book/data/data_source/reservation_service.dart';
+import '../../features/Book/data/repository/booking_repository.dart';
+import '../../features/Book/presentation/controllers/BookController.dart';
 import '../../features/chats/data/chat_service/chat_service.dart';
 import '../../features/chats/data/repository/chat_repository.dart';
+import '../../features/myReserve/data/data_sources/myReserve_api_service.dart';
+import '../../features/myReserve/data/repositories/myReserve_repository.dart';
+import '../../features/myReserve/presentation/controllers/myReserveController.dart';
+import '../../features/notification/presentation/controllers/notification_controller.dart';
 import '../../features/officers/data/data_source/office_service.dart';
 import '../../features/officers/data/repository/OfficeRepository.dart';
 import '../../features/officers/presentation/controllers/OfficeController.dart';
@@ -71,7 +82,32 @@ class DependenceInitializer {
     Get.lazyPut(() => OfficeService(Get.find()));
     Get.lazyPut(() => OfficeRepository(Get.find()));
     Get.lazyPut(() => OfficeController(Get.find()));
-
+    //notifications
+    Get.lazyPut(() => NotificationController(), fenix: true);
+    // show working time
+    Get.lazyPut<show_workingTimes_service>(() => show_workingTimes_service(Get.find()), fenix: true);
+    Get.lazyPut<ShowWorkingTimesRepository>(
+          () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
+      fenix: true,
+    );
+    // Booking dependencies
+    Get.lazyPut<BookingService>(() => BookingService(Get.find<Dio>()), fenix: true);
+    Get.lazyPut<BookingRepository>(() => BookingRepositoryImpl(Get.find<BookingService>()), fenix: true);
+    Get.lazyPut(() => BookController(
+      Get.find<BookingRepository>(),
+      Get.find<ShowWorkingTimesRepository>(),
+    ));
+    // MyReserve dependencies
+    Get.lazyPut<MyReserveService>(() => MyReserveService(Get.find<Dio>()), fenix: true);
+    Get.lazyPut(() => MyReserveRepositoryImpl(Get.find<MyReserveService>()), fenix: true);
+    Get.lazyPut(() => myReserveController(Get.find<MyReserveRepositoryImpl>()), fenix: true);
+    // expert Reservations
+    Get.lazyPut<ReservationService>(() => ReservationService(Get.find()), fenix: true);
+    Get.lazyPut<ReservationRepository>(() => ReservationRepository(Get.find()), fenix: true);
+    //posts
+    Get.lazyPut(() => PostService(Get.find()));
+    Get.lazyPut(() => PostsRepository(Get.find()));
+    Get.lazyPut(() => CreatePostController(Get.find()));
     //posts
     Get.lazyPut(() => PostService(Get.find()));
     Get.lazyPut(() => PostsRepository(Get.find()));
