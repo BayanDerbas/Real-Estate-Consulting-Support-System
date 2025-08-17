@@ -26,7 +26,7 @@ class CreatePropertyScreen extends StatelessWidget {
     'OTHER',
   ];
 
-  final List<String> serviceTypeList = ['BUY', 'RENT', 'INVEST'];
+  final List<String> serviceTypeList = ['BUY', 'RENT'];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class CreatePropertyScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Property", style: Fonts.itim),
+        title: Text("create_property".tr, style: Fonts.itim),
         centerTitle: true,
         backgroundColor: AppColors.deepNavy,
       ),
@@ -65,14 +65,16 @@ class CreatePropertyScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomTextField(
-                        hintText: 'Description',
+                        hintText: 'description'.tr,
                         icon: Icons.description,
                         width: double.infinity,
                         controller: controller.description,
                         maxLines: 3,
                         validator:
                             (val) =>
-                                val == null || val.isEmpty ? 'Required' : null,
+                                val == null || val.isEmpty
+                                    ? 'required'.tr
+                                    : null,
                       ),
                       CustomDropDownWithField(
                         list: houseTypeList,
@@ -87,16 +89,18 @@ class CreatePropertyScreen extends StatelessWidget {
                             (val) => controller.serviceType.value = val ?? '',
                       ),
                       CustomTextField(
-                        hintText: 'Location',
+                        hintText: 'location'.tr,
                         icon: Icons.location_on,
                         width: double.infinity,
                         controller: controller.location,
                         validator:
                             (val) =>
-                                val == null || val.isEmpty ? 'Required' : null,
+                                val == null || val.isEmpty
+                                    ? 'required'.tr
+                                    : null,
                       ),
                       CustomTextField(
-                        hintText: 'Direction',
+                        hintText: 'direction'.tr,
                         icon: Icons.explore,
                         width: double.infinity,
                         controller: controller.direction,
@@ -105,7 +109,7 @@ class CreatePropertyScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomTextField(
-                              hintText: 'Price',
+                              hintText: 'price'.tr,
                               icon: Icons.price_change,
                               width: double.infinity,
                               keyboardType: TextInputType.number,
@@ -115,7 +119,7 @@ class CreatePropertyScreen extends StatelessWidget {
                           const SizedBox(width: 10),
                           Expanded(
                             child: CustomTextField(
-                              hintText: 'price in month',
+                              hintText: 'price_in_month'.tr,
                               icon: Icons.price_check,
                               width: double.infinity,
                               keyboardType: TextInputType.number,
@@ -128,7 +132,7 @@ class CreatePropertyScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomTextField(
-                              hintText: 'Area (m²)',
+                              hintText: 'area'.tr,
                               icon: Icons.square_foot,
                               width: double.infinity,
                               keyboardType: TextInputType.number,
@@ -138,7 +142,7 @@ class CreatePropertyScreen extends StatelessWidget {
                           SizedBox(width: 10),
                           Expanded(
                             child: CustomTextField(
-                              hintText: 'Bathrooms',
+                              hintText: 'bathrooms'.tr,
                               width: double.infinity,
                               keyboardType: TextInputType.number,
                               controller: controller.numberOfBathrooms,
@@ -150,7 +154,7 @@ class CreatePropertyScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: CustomTextField(
-                              hintText: 'Beds',
+                              hintText: 'beds'.tr,
                               width: double.infinity,
                               keyboardType: TextInputType.number,
                               controller: controller.numberOfBed,
@@ -159,7 +163,7 @@ class CreatePropertyScreen extends StatelessWidget {
                           const SizedBox(width: 10),
                           Expanded(
                             child: CustomTextField(
-                              hintText: 'Rooms',
+                              hintText: 'rooms'.tr,
                               width: double.infinity,
                               keyboardType: TextInputType.number,
                               controller: controller.numberOfRooms,
@@ -173,7 +177,7 @@ class CreatePropertyScreen extends StatelessWidget {
                             controller.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : CustomButton(
-                                  text: 'Submit Property',
+                                  text: 'submit_property'.tr,
                                   backgroundColor: AppColors.deepNavy,
                                   textColor: AppColors.pureWhite,
                                   width: width * 0.6,

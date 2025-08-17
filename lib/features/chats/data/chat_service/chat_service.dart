@@ -1,31 +1,35 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../../../core/networks/api_constant.dart';
-import '../model/create_room_request_model.dart';
-import '../model/message_model.dart';
-import '../model/create_room_response_model.dart';
-import '../model/messages_of_current_room_response.dart';
-import '../model/rooms_of_current_user.dart';
+import '../../data/model/create_room_request_model.dart';
+import '../../data/model/create_room_response_model.dart';
+import '../../data/model/messages_of_current_room_response.dart';
+import '../../data/model/rooms_api_response.dart';
+import '../../data/model/rooms_of_current_user.dart';
 
 part 'chat_service.g.dart';
 
-@RestApi(baseUrl: ApiConstant.baseUrl)
+@RestApi(baseUrl: "http://195.88.87.77:8000/api/v1")
 abstract class ChatService {
   factory ChatService(Dio dio, {String baseUrl}) = _ChatService;
-  @POST(ApiConstant.createRoom)
+
+  @POST('/rooms')
   Future<HttpResponse<CreateRoomApiResponse>> createRoom(
     @Body() CreateRoomRequestModel body,
   );
 
-  @GET(ApiConstant.getRoomMessages)
+  @GET('/rooms/{roomId}/messages')
   Future<HttpResponse<MessagesOfCurrentRoomResponse>> getRoomMessages(
     @Path("roomId") int roomId,
     @Query("page") int page,
     @Query("size") int size,
   );
-  @GET(ApiConstant.getAllRoomsForCurrentUser)
-  Future<List<RoomsOfCurrentUser>> getRoomsOfCurrentUser(@Path("id") int id);
-  @GET(ApiConstant.getRoomById)
+
+  @GET('/rooms/user/{id}')
+  Future<HttpResponse<RoomsApiResponse>> getRoomsForCurrentUser(
+    @Path("id") int id,
+  );
+
+  @GET('/rooms/{id}')
   Future<HttpResponse<CreateRoomResponseModel>> getRoom(@Path("id") int id);
 }

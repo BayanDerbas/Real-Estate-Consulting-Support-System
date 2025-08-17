@@ -8,6 +8,8 @@ import 'package:graduation_project/features/Auth/presentation/pages/sign_up_scre
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
+import 'package:graduation_project/features/properties/data/data_source/property_service.dart';
+import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
@@ -16,7 +18,7 @@ import 'package:graduation_project/features/ticket/presentation/pages/base_ticke
 import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/my_tickets.dart';
 import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
-import '../../features/Auth/presentation/pages/reset_password.dart';
+import '../../features/Auth/presentation/pages/change_password.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
@@ -61,7 +63,7 @@ class AppRoutes {
   static const String scheduleTime = '/scheduleTime';
   static const String discounts = '/discounts';
   static const String continueFillExpertInfo = '/continue_fill_expert_info';
-  static const String changePassword = '/change_password';
+  // static const String changePassword = '/change_password';
   static const String createTicket = "/create_ticket";
   static const String allTickets = '/all_tickets';
   static const String myTickets = '/my_tickets';
@@ -95,15 +97,22 @@ class AppRoutes {
     GetPage(name: serviceProviders, page: () => ServiceProviders()),
     GetPage(name: propertyDetails, page: () => PropertyDetails()),
     GetPage(name: properties, page: () => Properties()),
-    GetPage(name: home, page: () => Home()),
+    GetPage(
+      name: home,
+      page: () => Home(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => PropertyService(Get.find()), fenix: true);
+        Get.lazyPut(() => PropertyRepository(Get.find()), fenix: true);
+      }),
+    ),
     GetPage(name: offices, page: () => Offices()),
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: verificationCode, page: () => OtpPage()),
     GetPage(name: signup, page: () => SignUpScreen()),
     GetPage(name: uploadDocuments, page: () => UploadDocuments()),
     GetPage(name: continueFillExpertInfo, page: () => ContinueInfoForExpert()),
-    GetPage(name: changePassword, page: () => ResetPassword()),
 
+    // GetPage(name: changePassword, page: () => ResetPassword()),
     GetPage(
       name: createTicket,
       page: () => CreateTicketScreen(),
@@ -133,12 +142,12 @@ class AppRoutes {
     GetPage(name: forgotPassword, page: () => VerifyEmailPage()),
     GetPage(
       name: resetPassword,
-      page: () => ResetPassword(),
+      page: () => ResetPassword1(),
       binding: ResetPasswordBinding(),
     ),
     GetPage(name: chatPage, page: () => ChatPage()),
     GetPage(name: notifications, page: () => NotificationsScreen()),
     GetPage(name: createProperty, page: () => CreatePropertyScreen()),
-    GetPage(name: addImagesToProperty, page: () => AddImagesToProperty()),
+    GetPage(name: addImagesToProperty, page: () => AddImagesToPropertyScreen()),
   ];
 }

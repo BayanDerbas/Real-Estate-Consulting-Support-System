@@ -18,7 +18,7 @@ class FilteredTicketPage extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return BaseFilteredScreen(
-      appBarTitle: "Filtered Tickets",
+      appBarTitle: "filtered_tickets".tr,
       bodyText: "",
       bodyBuilder:
           (ctx) => Obx(() {
@@ -38,7 +38,7 @@ class FilteredTicketPage extends StatelessWidget {
                       height: height / 4,
                     ),
                     Text(
-                      " No tickets found , Apply a filter to start.",
+                      "no_tickets_found".tr,
                       style: setTextStyle(
                         GoogleFonts.itim,
                         15,
@@ -108,66 +108,67 @@ class FilteredTicketPage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildTextField(
-                  "Low Price",
+                  "low_price".tr,
                   lowPriceController,
                   TextInputType.number,
                 ),
                 _buildTextField(
-                  "High Price",
+                  "high_price".tr,
                   highPriceController,
                   TextInputType.number,
                 ),
                 _buildTextField(
-                  "Low Area",
+                  "low_area".tr,
                   lowAreaController,
                   TextInputType.number,
                 ),
                 _buildTextField(
-                  "High Area",
+                  "high_area".tr,
                   highAreaController,
                   TextInputType.number,
                 ),
                 _buildTextField(
-                  "Location",
+                  "location".tr,
                   locationController,
                   TextInputType.text,
                 ),
+
                 const SizedBox(height: 10),
                 DropdownButtonFormField<String>(
                   value: selectedServiceType,
                   items:
-                      ['BUY', 'RENT']
+                      ['buy', 'rent']
                           .map(
                             (type) => DropdownMenuItem(
-                              value: type,
-                              child: Text(type),
+                              value: type.toUpperCase(),
+                              child: Text(type.tr),
                             ),
                           )
                           .toList(),
                   onChanged:
                       (value) => setState(() => selectedServiceType = value),
-                  decoration: const InputDecoration(
-                    labelText: 'Service Type',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: 'service_type'.tr,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 10),
                 DropdownButtonFormField<String>(
                   value: selectedHouseType,
                   items:
-                      ['UPPER_FLOOR', 'GROUND_FLOOR']
+                      ['upper_floor', 'ground_floor']
                           .map(
                             (type) => DropdownMenuItem(
-                              value: type,
-                              child: Text(type),
+                              value: type.toUpperCase(),
+                              child: Text(type.tr),
                             ),
                           )
                           .toList(),
                   onChanged:
                       (value) => setState(() => selectedHouseType = value),
-                  decoration: const InputDecoration(
-                    labelText: 'House Type',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: 'house_type'.tr,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -195,7 +196,7 @@ class FilteredTicketPage extends StatelessWidget {
                     controller.fetchFilteredTickets(filterModel);
                     onApply();
                   },
-                  child: const Text("Apply Filters"),
+                  child: Text("apply_filters".tr),
                 ),
                 const SizedBox(height: 20),
               ],

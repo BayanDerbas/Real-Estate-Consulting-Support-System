@@ -20,26 +20,40 @@ class ChatController extends GetxController {
   var isConnected = false.obs;
 
   int? roomId;
-  UserModel? otherUser;
+  final Rx<UserModel?> otherUser = Rx<UserModel?>(null);
   int? currentUserId;
 
-  late StompClient stompClient;
+  StompClient? stompClient;
+
+  @override
+  void onClose() {
+    log('--- ChatController onClose: Deactivating STOMP client. ---');
+    stompClient?.deactivate();
+    content.dispose();
+    super.onClose();
+  }
 
   Future<void> initializeChat() async {
+    if (isConnected.value) return;
+
+    log('--- 1. INITIALIZING CHAT ---');
     isLoading.value = true;
     try {
       final storedId = await storage.getUserId();
-      if (storedId == null) throw Exception('User ID not found.');
+      if (storedId == null) throw Exception('User ID not found in storage.');
       currentUserId = int.tryParse(storedId);
 
-      if (roomId == null || otherUser == null || currentUserId == null) {
-        throw Exception('Missing required chat data.');
+      if (roomId == null || otherUser.value == null || currentUserId == null) {
+        throw Exception('Chat data (room, user, etc.) is missing.');
       }
 
+      log('--- 2. Fetching initial messages via HTTP... ---');
       await _fetchInitialMessages();
-      _connectAndSubscribe();
+
+      log('--- 3. Starting WebSocket connection process... ---');
+      _connect();
     } catch (e) {
-      log("Initialization failed: $e");
+      log("---  INITIALIZATION FAILED: $e ---", error: e);
       Get.snackbar('Error', 'Chat setup failed: $e');
     } finally {
       isLoading.value = false;
@@ -53,54 +67,96 @@ class ChatController extends GetxController {
       size: 50,
     );
     result.fold(
-      (failure) {
-        log("Fetch failed: ${failure.err_message}");
-        Get.snackbar('Error', 'Could not load messages.');
-      },
+      (failure) =>
+          log("---  Fetch initial messages failed: ${failure.err_message} ---"),
       (initialMessages) {
+        print('success fetch messages ...........');
         messages.assignAll(initialMessages.reversed);
       },
     );
   }
 
-  void _connectAndSubscribe() async {
-    final token = await storage.getToken();
+  void _connect() async {
+    try {
+      // if (stompClient.connected) {
+      //   stompClient.deactivate();
+      // }
+      final token = await storage.getToken();
+      stompClient = StompClient(
+        config: StompConfig(
+          url: 'ws://195.88.87.77:8000/chat',
+          onConnect: (StompFrame frame) {
+            isConnected.value = true;
+            log("Connected to WebSocket");
 
-    stompClient = StompClient(
-      config: StompConfig(
-        url: 'ws://195.88.87.77:8000/chat',
-        onConnect: (frame) {
-          isConnected.value = true;
-          stompClient.subscribe(
-            destination: "/topic/room/$roomId",
-            callback: (frame) {
-              final body = frame.body;
-              if (body != null) {
-                try {
-                  final newMessage = Message.fromJson(jsonDecode(body));
-                  messages.insert(0, newMessage);
-                } catch (e) {
-                  log("Message parse error: $e");
+            stompClient?.subscribe(
+              destination: "/topic/room/$roomId",
+              callback: (StompFrame frame) {
+                if (frame.body != null) {
+                  try {
+                    log(frame.body.toString());
+                    final newMessage = Message.fromJson(
+                      jsonDecode(frame.body!),
+                    );
+                    messages.add(newMessage);
+                    log("New message received: ${newMessage.content}");
+                  } catch (e) {
+                    log("Error parsing message: $e");
+                  }
                 }
-              }
-            },
-          );
-        },
-        onDisconnect: (_) => isConnected.value = false,
-        onWebSocketError: (_) => isConnected.value = false,
-        heartbeatIncoming: Duration.zero,
-        heartbeatOutgoing: Duration.zero,
-        stompConnectHeaders: {'Authorization': token ?? ''},
-      ),
-    );
+              },
+            );
+          },
+          onDisconnect: (StompFrame frame) {
+            isConnected.value = false;
+            log("Disconnected from WebSocket");
+            _reconnect();
+          },
+          onWebSocketError: (dynamic error) {
+            isConnected.value = false;
+            log("WebSocket error: $error");
+            _reconnect();
+          },
 
-    stompClient.activate();
+          reconnectDelay: const Duration(seconds: 5),
+          heartbeatIncoming: const Duration(seconds: 0),
+          heartbeatOutgoing: const Duration(seconds: 0),
+          stompConnectHeaders: {'Authorization': 'Bearer $token'}, //
+        ),
+      );
+
+      stompClient?.activate();
+    } catch (e) {
+      log("Connection error: $e");
+      isConnected.value = false;
+      _reconnect();
+    }
+  }
+
+  void _reconnect() {
+    Future.delayed(const Duration(seconds: 5), () {
+      log("Attempting to reconnect...");
+      _connect();
+    });
   }
 
   void sendMessage() {
-    if (content.text.isEmpty || !isConnected.value || currentUserId == null) {
-      return;
-    }
+    log(currentUserId.toString() + content.toString());
+    log('--- Sending message... Checking conditions... ---');
+    log('   Is connected? ${isConnected.value}');
+    log('   Is content empty? ${content.text.isEmpty}');
+
+    // // if (content.text.isEmpty || !isConnected.value || currentUserId == null) {
+    //    log('--- ‼ SendMessage aborted. Conditions not met. ---');
+    //    Get.snackbar(
+    //      "Cannot Send Message",
+    //      !isConnected.value
+    //          ? "You are not connected to the chat service."
+    //          : "Message cannot be empty.",
+    //      snackPosition: SnackPosition.BOTTOM,
+    //    );
+    //    return;
+    //  }
 
     final messageToSend = {
       'senderId': currentUserId,
@@ -108,25 +164,25 @@ class ChatController extends GetxController {
       'roomId': roomId,
     };
 
-    stompClient.send(
+    stompClient?.send(
       destination: "/app/chat/send-message",
       body: jsonEncode(messageToSend),
     );
-
-    final optimisticMessage = Message(
-      sender: UserModel(id: currentUserId!),
-      content: content.text,
-      createdAt: DateTime.now().toIso8601String(),
+    log('--- DEBUG: messageToSend map ---');
+    log('senderId: ${messageToSend['senderId']}');
+    log('content: ${messageToSend['content']}');
+    log('roomId: ${messageToSend['roomId']}');
+    log('messageToSend = ${jsonEncode(messageToSend)}');
+    messages.insert(
+      0,
+      Message(
+        sender: UserModel(id: currentUserId!),
+        content: content.text,
+        createdAt: DateTime.now().toIso8601String(),
+      ),
     );
 
-    messages.insert(0, optimisticMessage);
     content.clear();
-  }
-
-  @override
-  void onClose() {
-    stompClient.deactivate();
-    content.dispose();
-    super.onClose();
+    log('--- Message sent and text field cleared. ---');
   }
 }

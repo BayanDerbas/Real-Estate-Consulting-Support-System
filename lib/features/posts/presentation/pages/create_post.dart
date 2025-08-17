@@ -17,7 +17,7 @@ class CreatePostPage extends StatelessWidget {
     return Scaffold(
       body: BasePostScreen(
         heightOfAppBar: 120,
-        appBarTitle: 'create post',
+        appBarTitle: 'create post'.tr,
         child: Obx(() {
           return Stack(
             children: [
@@ -47,14 +47,14 @@ class CreatePostPage extends StatelessWidget {
 
                     CustomPostTextFeild(
                       controller: controller.content,
-                      label: 'content',
+                      label: 'content'.tr,
                       maxLines: 4,
                     ).paddingAll(10),
 
                     const SizedBox(height: 16),
                     CustomButton(
                       onPressed: () => controller.createPost(),
-                      text: 'Post',
+                      text: 'Post'.tr,
                       backgroundColor: AppColors.deepNavy,
                       textColor: AppColors.pureWhite,
                       width: 100,

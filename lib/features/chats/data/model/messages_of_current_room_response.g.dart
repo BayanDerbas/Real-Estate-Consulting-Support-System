@@ -22,8 +22,8 @@ Map<String, dynamic> _$MessagesOfCurrentRoomResponseToJson(
 
 MessagesData _$MessagesDataFromJson(Map<String, dynamic> json) => MessagesData(
   content:
-      (json['content'] as List<dynamic>)
-          .map((e) => Message.fromJson(e as Map<String, dynamic>))
+      (json['content'] as List<dynamic>?)
+          ?.map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
   pageable:
       json['pageable'] == null

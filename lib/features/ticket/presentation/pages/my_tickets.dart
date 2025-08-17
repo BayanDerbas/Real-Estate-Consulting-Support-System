@@ -17,16 +17,12 @@ class MyTickets extends GetView<MyTicketsController> {
 
     return Scaffold(
       body: Obx(() {
-        if (controller.myTickets.isEmpty || controller.isLoading.value) {
+        if (controller.isLoading.value) {
           return Center(
-            child: Text(
-              "لا يوجد طلبات حالياً",
-              style: Fonts.itim.copyWith(
-                color: AppColors.deepNavy.withOpacity(0.6),
-              ),
-            ),
+            child: CircularProgressIndicator(color: AppColors.deepNavy),
           );
         }
+
         if (controller.errorMessage.isNotEmpty) {
           return Center(
             child: Text(
@@ -37,7 +33,14 @@ class MyTickets extends GetView<MyTicketsController> {
         }
 
         if (controller.myTickets.isEmpty) {
-          return const Center(child: Text("لا يوجد طلبات حالياً"));
+          return Center(
+            child: Text(
+              'no_tickets'.tr,
+              style: Fonts.itim.copyWith(
+                color: AppColors.deepNavy.withOpacity(0.6),
+              ),
+            ),
+          );
         }
 
         return Column(
@@ -56,7 +59,6 @@ class MyTickets extends GetView<MyTicketsController> {
                     return MyTicketCard(
                       fullName:
                           '${user.firstName ?? ""} ${user.lastName ?? ""}',
-
                       location: ticket.location,
                       description: ticket.description,
                       priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',

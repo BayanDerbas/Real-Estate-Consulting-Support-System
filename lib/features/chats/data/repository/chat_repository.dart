@@ -1,18 +1,16 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networks/failures.dart';
 
 import '../chat_service/chat_service.dart';
 import '../model/create_room_request_model.dart';
-import '../model/message_model.dart';
 import '../model/create_room_response_model.dart';
+import '../model/message_model.dart';
 import '../model/rooms_of_current_user.dart';
 
 class ChatRepository {
   final ChatService _chatService;
+  final serverFailure serverFailure1 = serverFailure('Server Error');
 
   ChatRepository(this._chatService);
 
@@ -25,7 +23,6 @@ class ChatRepository {
         userId1: userId1,
         userId2: userId2,
       );
-
       final httpResponse = await _chatService.createRoom(request);
       final apiResponse = httpResponse.data;
 
@@ -36,13 +33,11 @@ class ChatRepository {
       }
 
       final newRoom = apiResponse.data;
-
-      print('................request create ........');
-      print(request.toJson());
-
       return Right(newRoom!);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
     } catch (e) {
-      return Left(serverFailure("Failed to create chat room: $e"));
+      return Left(serverFailure(e.toString()));
     }
   }
 
@@ -53,8 +48,10 @@ class ChatRepository {
   }) async {
     try {
       final response = await _chatService.getRoomMessages(id, page, size);
-
-      return Right(response.data.data!.content);
+      if (response.data.data?.content == null) {
+        return Left(serverFailure("No messages found or malformed response."));
+      }
+      return Right(response.data.data!.content!);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {
@@ -66,9 +63,22 @@ class ChatRepository {
     required int userId,
   }) async {
     try {
-      final List<RoomsOfCurrentUser> response = await _chatService
-          .getRoomsOfCurrentUser(userId);
-      return Right(response);
+      final httpResponse = await _chatService.getRoomsForCurrentUser(userId);
+      if (httpResponse.response.statusCode == 200 ||
+          httpResponse.response.statusCode == 201) {
+        final apiResponse = httpResponse.data;
+        if (apiResponse.data != null) {
+          return Right(apiResponse.data!);
+        } else {
+          return Left(serverFailure('No rooms found or malformed response.'));
+        }
+      } else {
+        return Left(
+          serverFailure(
+            'Failed to load rooms. Status code: ${httpResponse.response.statusCode}',
+          ),
+        );
+      }
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {
@@ -81,7 +91,8 @@ class ChatRepository {
   }) async {
     try {
       final response = await _chatService.getRoom(roomId);
-      if (response.response.statusCode == 200) {
+      if (response.response.statusCode == 200 ||
+          response.response.statusCode == 201) {
         return Right(response.data);
       } else {
         return Left(

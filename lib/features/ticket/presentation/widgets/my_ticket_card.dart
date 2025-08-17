@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/ticket_details_page.dart';
@@ -75,9 +76,9 @@ class MyTicketCard extends StatelessWidget {
               const SizedBox(height: 10),
               const DottedLine(dashColor: AppColors.darkGray, lineThickness: 3),
               const SizedBox(height: 12),
-              _labelValue('Description', cuttedDesc),
+              _labelValue('description'.tr, cuttedDesc),
               const SizedBox(height: 8),
-              _labelValue('Price', priceRange),
+              _labelValue('price'.tr, priceRange),
               const SizedBox(height: 8),
               Row(
                 children: [

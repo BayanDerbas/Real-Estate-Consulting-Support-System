@@ -6,7 +6,7 @@ import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import '../controllers/page_controller.dart';
 import 'all_tickets.dart';
-import 'my_tickets.dart'; // replace with your actual widget files
+import 'my_tickets.dart';
 
 class BaseTicketsPage extends GetView<PageTicketController> {
   BaseTicketsPage({super.key});
@@ -32,7 +32,7 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomButton(
-                    text: 'الكل',
+                    text: 'الكل'.tr,
                     backgroundColor: AppColors.pureWhite,
                     textColor: AppColors.deepNavy,
                     width: currentWidth / 3,
@@ -45,7 +45,7 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                   ),
                   SizedBox(width: currentWidth * 0.1),
                   CustomButton(
-                    text: 'طلباتي',
+                    text: 'طلباتي'.tr,
                     backgroundColor: AppColors.pureWhite,
                     textColor: AppColors.deepNavy,
                     width: currentWidth / 3,

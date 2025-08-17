@@ -20,7 +20,6 @@ class SignUpScreen extends StatelessWidget {
     final controller = Get.find<RegisterController>();
 
     return BaseAuthScreen(
-      // componentHeight: currentHeight * 0.7,
       widget: Form(
         key: controller.formKey,
         child: Column(
@@ -29,7 +28,7 @@ class SignUpScreen extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
-              hintText: "first name",
+              hintText: "first name".tr,
               icon: Icons.person_outline,
               controller: controller.firstName,
               validator: (val) => validateInput(val!, 2, 30, 'username'),
@@ -37,7 +36,7 @@ class SignUpScreen extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.name,
               width: width * 0.8,
-              hintText: "last name",
+              hintText: "last name".tr,
               icon: Icons.person_outline,
               controller: controller.lastName,
               validator: (val) => validateInput(val!, 2, 30, 'username'),
@@ -45,7 +44,7 @@ class SignUpScreen extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
               width: width * 0.8,
-              hintText: "email",
+              hintText: "email".tr,
               icon: Icons.email,
               controller: controller.email,
               validator: (val) => validateInput(val!, 2, 30, 'email'),
@@ -53,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.visiblePassword,
               width: width * 0.8,
-              hintText: "password",
+              hintText: "password".tr,
               icon: Icons.lock_outline,
               controller: controller.password,
               validator: (val) => validateInput(val!, 8, 30, 'password'),
@@ -61,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.phone,
               width: width * 0.8,
-              hintText: "phone",
+              hintText: "phone".tr,
               icon: Icons.phone,
               controller: controller.phone,
               validator: (val) => validateInput(val!, 10, 10, 'phonenumber'),
@@ -80,8 +79,8 @@ class SignUpScreen extends StatelessWidget {
               }
               final buttonText =
                   controller.selectedRole.value == 'USER'
-                      ? 'register'
-                      : 'continue fill info';
+                      ? 'register'.tr
+                      : 'continue fill info'.tr;
               return CustomButton(
                 text: buttonText,
                 textColor: AppColors.pureWhite,
@@ -100,9 +99,9 @@ class SignUpScreen extends StatelessWidget {
           ],
         ),
       ),
-      appBarTitle: "Create Account",
-      bodyText: "Have an account?",
-      clickableText: "Sign in",
+      appBarTitle: "Create Account".tr,
+      bodyText: "Have an account?".tr,
+      clickableText: "Sign in".tr,
       footerText: "",
       onTap: () {
         Get.toNamed(AppRoutes.login);

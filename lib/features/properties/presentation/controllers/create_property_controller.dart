@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/properties/data/model/create_property_request_model.dart';
 import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
-import 'package:graduation_project/features/ticket/data/model/publish_ticket_request_model.dart';
-import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 
 class CreatePropertyController extends GetxController {
@@ -31,7 +29,7 @@ class CreatePropertyController extends GetxController {
   CreatePropertyController(this._propertyRepository);
 
   Future<void> submitProperty() async {
-    final userId = await storage.getUserId();
+    final userId = await storage.getOfficeId();
     final userIdInt = int.parse(userId!);
     if (!validateInput()) return;
 
@@ -63,9 +61,6 @@ class CreatePropertyController extends GetxController {
 
     result.fold(
       (failure) {
-        print(failure.err_message);
-        print(request.toJson());
-        print('/////////////////////////////////////////////////////failure');
         errorMessage.value = failure.err_message;
         AwesomeDialog(
           context: context,
@@ -75,22 +70,29 @@ class CreatePropertyController extends GetxController {
           btnOkOnPress: () {},
         ).show();
       },
-      (response) async {
-        final id = await response.data?.id;
-        print(request.toJson());
-        print(
-          '/////////////////////////////////////////////////////success$id',
-        );
+      (response) {
+        final id = response.data?.id;
+        if (id == null) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            title: "Error",
+            desc: "Failed to get property ID after creation.",
+            btnOkOnPress: () {},
+          ).show();
+          return;
+        }
 
-        await AwesomeDialog(
+        AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
           title: "Success",
-          desc: "property created successfully",
-          autoHide: const Duration(seconds: 2),
+          desc: "Property created successfully. Proceed to add images.",
+          btnOkText: "Add Images",
+          btnOkOnPress: () {
+            Get.offNamed(AppRoutes.addImagesToProperty, arguments: id);
+          },
         ).show();
-        Future.delayed(Duration(seconds: 2));
-        Get.offNamed(AppRoutes.addImagesToProperty, arguments: id);
       },
     );
   }

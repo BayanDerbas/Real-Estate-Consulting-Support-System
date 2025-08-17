@@ -19,7 +19,7 @@ class MessagesOfCurrentRoomResponse {
 
 @JsonSerializable()
 class MessagesData {
-  final List<Message> content;
+  final List<Message>? content;
   final Pageable? pageable;
   final bool? last;
   final int? totalElements;
@@ -32,7 +32,7 @@ class MessagesData {
   final bool? empty;
 
   MessagesData({
-    required this.content,
+    this.content,
     this.pageable,
     this.last,
     this.totalElements,

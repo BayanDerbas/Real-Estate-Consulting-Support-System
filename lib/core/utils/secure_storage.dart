@@ -12,12 +12,22 @@ class SecureStorage {
   final _userName = 'userName';
   final _userType = 'role';
   final _email = 'email';
+  final _officeId = 'email';
   final _idCardImage = 'idCardImage';
   final _commercialRegisterImage = 'commercialRegisterImage';
   final _profileImage = 'imageUrl';
+  final _langCode = 'langCode';
 
   Future<void> saveToken(String token) async {
     await _storage.write(key: _tokenKey, value: token);
+  }
+
+  Future<void> saveLangCode(String langKey) async {
+    await _storage.write(key: _langCode, value: langKey);
+  }
+
+  Future<void> saveOfficeId(String officeId) async {
+    await _storage.write(key: _officeId, value: officeId);
   }
 
   Future<void> saveIdCall(String id) async {
@@ -39,8 +49,16 @@ class SecureStorage {
     return await _storage.read(key: 'callName');
   }
 
+  Future<String?> getLangKey() async {
+    return await _storage.read(key: _langCode);
+  }
+
   Future<String?> getCallId() async {
     return await _storage.read(key: 'callId');
+  }
+
+  Future<String?> getOfficeId() async {
+    return await _storage.read(key: _officeId);
   }
 
   ///////////////test//////////////////////////
@@ -78,6 +96,14 @@ class SecureStorage {
 
   Future<String?> getToken() async {
     return await _storage.read(key: _tokenKey);
+  }
+
+  Future<void> deleteToken() async {
+    return await _storage.delete(key: _tokenKey);
+  }
+
+  Future<void> deleteRefreshToken() async {
+    return await _storage.delete(key: _refreshTokenKey);
   }
 
   Future<String?> getUserType() async {

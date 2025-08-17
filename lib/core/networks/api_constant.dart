@@ -29,6 +29,7 @@ class ApiConstant {
   // posts
   static const String addPost = "$baseUrl/posts";
   static const String createProperty = "$baseUrl/properties";
+  static const String addPhotosToProperty = "/property-images";
 
   //Bayan
   //properties (done show list and details page 2 api with filter types)

@@ -10,11 +10,7 @@ class RoomsOfCurrentUser {
   final int? id;
   final String? createdAt;
 
-  RoomsOfCurrentUser({
-    required this.otherUser,
-    required this.id,
-    required this.createdAt,
-  });
+  RoomsOfCurrentUser({this.otherUser, this.id, this.createdAt});
 
   factory RoomsOfCurrentUser.fromJson(Map<String, dynamic> json) =>
       _$RoomsOfCurrentUserFromJson(json);

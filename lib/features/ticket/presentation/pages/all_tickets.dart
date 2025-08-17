@@ -14,7 +14,6 @@ class TicketsPage extends GetView<GetAllTicketsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.softWhite,
-
       body: Obx(() => _buildBody(context)),
     );
   }
@@ -41,7 +40,7 @@ class TicketsPage extends GetView<GetAllTicketsController> {
     if (controller.tickets.isEmpty) {
       return Center(
         child: Text(
-          "لا يوجد طلبات حالياً",
+          "لا يوجد طلبات حالياً".tr,
           style: Fonts.taj.copyWith(color: AppColors.deepNavy.withOpacity(0.6)),
         ),
       );
@@ -70,7 +69,8 @@ class TicketsPage extends GetView<GetAllTicketsController> {
                 final user = ticket.client;
 
                 return MyTicketCard(
-                  fullName: '${user.firstName}${user.lastName}' ?? "غير معروف",
+                  fullName:
+                      '${user.firstName}${user.lastName}' ?? "غير معروف".tr,
                   location: ticket.location,
                   description: ticket.description,
                   priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',

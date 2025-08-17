@@ -90,8 +90,8 @@ import '../controllers/change_password_controller.dart';
 import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_text_form_field.dart';
 
-class ResetPassword extends GetView<ChangePasswordController> {
-  const ResetPassword({super.key});
+class ResetPassword1 extends GetView<ChangePasswordController> {
+  const ResetPassword1({super.key});
 
   @override
   Widget build(BuildContext context) {

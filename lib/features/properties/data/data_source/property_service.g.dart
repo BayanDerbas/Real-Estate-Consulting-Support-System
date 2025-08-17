@@ -89,6 +89,57 @@ class _PropertyService implements PropertyService {
     return httpResponse;
   }
 
+  @override
+  Future<HttpResponse<PropertyImageResponse>> uploadPropertyImage(
+    int propertyId,
+    String type,
+    File? image,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry('propertyId', propertyId.toString()));
+    _data.fields.add(MapEntry('type', type));
+    if (image != null) {
+      _data.files.add(
+        MapEntry(
+          'image',
+          MultipartFile.fromFileSync(
+            image.path,
+            filename: image.path.split(Platform.pathSeparator).last,
+          ),
+        ),
+      );
+    }
+    final _options = _setStreamType<HttpResponse<PropertyImageResponse>>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            '/property-images',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PropertyImageResponse _value;
+    try {
+      _value = PropertyImageResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

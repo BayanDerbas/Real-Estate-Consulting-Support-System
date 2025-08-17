@@ -10,7 +10,7 @@ part of 'chat_service.dart';
 
 class _ChatService implements ChatService {
   _ChatService(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'http://195.88.87.77:8000';
+    baseUrl ??= 'http://195.88.87.77:8000/api/v1';
   }
 
   final Dio _dio;
@@ -32,7 +32,7 @@ class _ChatService implements ChatService {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/rooms',
+            '/rooms',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -65,7 +65,7 @@ class _ChatService implements ChatService {
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                '/api/v1/rooms/${roomId}/messages',
+                '/rooms/${roomId}/messages',
                 queryParameters: queryParameters,
                 data: _data,
               )
@@ -86,36 +86,31 @@ class _ChatService implements ChatService {
   }
 
   @override
-  Future<List<RoomsOfCurrentUser>> getRoomsOfCurrentUser(int id) async {
+  Future<HttpResponse<RoomsApiResponse>> getRoomsForCurrentUser(int id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<RoomsOfCurrentUser>>(
+    final _options = _setStreamType<HttpResponse<RoomsApiResponse>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/rooms/user/${id}',
+            '/rooms/user/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<RoomsOfCurrentUser> _value;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late RoomsApiResponse _value;
     try {
-      _value =
-          _result.data!
-              .map(
-                (dynamic i) =>
-                    RoomsOfCurrentUser.fromJson(i as Map<String, dynamic>),
-              )
-              .toList();
+      _value = RoomsApiResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
     }
-    return _value;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
   }
 
   @override
@@ -128,7 +123,7 @@ class _ChatService implements ChatService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/v1/rooms/${id}',
+            '/rooms/${id}',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -5,6 +5,6 @@ class ResetPasswordBinding extends Bindings {
   @override
   void dependencies() {
     final email = Get.arguments['email'] ?? '';
-    //Get.put(ChangePasswordController(Get.find())..userEmail = email);
+    Get.put(ChangePasswordController(Get.find())..userEmail = email);
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:graduation_project/core/translation/locale_controller.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
@@ -33,6 +34,7 @@ class Home extends StatelessWidget {
     final CustomDrawerController drawerController = Get.put(
       CustomDrawerController(),
     );
+
     final repository = PropertyRepository(PropertyService(Dio()));
     final PropertiesController propertiesController = Get.put(
       PropertiesController(repository),

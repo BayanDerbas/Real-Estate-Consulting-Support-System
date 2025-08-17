@@ -3,6 +3,8 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graduation_project/core/stripe/stripe.dart';
+import 'package:graduation_project/core/translation/locale.dart';
+import 'package:graduation_project/core/translation/locale_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/splash_screen.dart';
 import 'package:graduation_project/core/constants/app_theme.dart';
@@ -26,6 +28,7 @@ import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'features/Auth/presentation/pages/login_screen.dart';
 import 'features/calls/call_page.dart';
+import 'features/properties/presentation/pages/add_images_to_property.dart';
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -37,49 +40,62 @@ Future<void> main() async {
   await DependenceInitializer.dependenceInjection();
   await SharedPrefs.init();
   await DioFactory.loadToken();
+
   final storage = SecureStorage();
   final token = await storage.getToken();
   print('\nAccess Token: $token\n');
   print(
     "...........................................................................\n",
   );
-  await StripeService.initStripe();
 
+  // Inject LanguageController globally
+  final languageController = Get.put(LanguageController());
+
+  await StripeService.initStripe();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseMessagingService().init();
 
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
-
   ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI([
     ZegoUIKitSignalingPlugin(),
   ]);
 
-  runApp(MyApp(navigatorKey: navigatorKey));
+  runApp(
+    MyApp(navigatorKey: navigatorKey, languageController: languageController),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.navigatorKey});
+  const MyApp({
+    super.key,
+    required this.navigatorKey,
+    required this.languageController,
+  });
   final GlobalKey<NavigatorState> navigatorKey;
+  final LanguageController languageController;
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      navigatorKey: navigatorKey,
-      theme: ThemeData(
-        colorScheme: AppTheme.lightScheme(),
-        scaffoldBackgroundColor: AppTheme.lightScheme().onPrimary,
-      ),
-      locale: const Locale('en', 'US'),
-      fallbackLocale: const Locale('en', 'US'),
-      supportedLocales: const [Locale('ar', 'AE'), Locale('en', 'US')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-      getPages: AppRoutes.routes_,
-    );
+    return Obx(() {
+      return GetMaterialApp(
+        navigatorKey: navigatorKey,
+        theme: ThemeData(
+          colorScheme: AppTheme.lightScheme(),
+          scaffoldBackgroundColor: AppTheme.lightScheme().onPrimary,
+        ),
+        translations: MyLocale(),
+        locale: languageController.currentLocale.value,
+        fallbackLocale: const Locale('en', 'US'),
+        supportedLocales: const [Locale('ar', 'AE'), Locale('en', 'US')],
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        debugShowCheckedModeBanner: false,
+        home: LoginScreen(),
+        getPages: AppRoutes.routes_,
+      );
+    });
   }
 }

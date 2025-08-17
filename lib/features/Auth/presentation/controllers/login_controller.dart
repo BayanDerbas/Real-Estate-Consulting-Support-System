@@ -29,6 +29,10 @@ class LoginController extends GetxController {
 
     isLoading.value = true;
     errMessage.value = '';
+    await storage.deleteToken();
+    await storage.deleteRefreshToken();
+    final tok = await storage.getToken();
+    print('...................delete refresh token $tok');
 
     final request = LoginRequestModel(
       email: email.text.trim(),
@@ -53,12 +57,15 @@ class LoginController extends GetxController {
   Future<void> _handleLoginSuccess(BuildContext context, Data loginData) async {
     final userRoleData = loginData.userRoleData;
     LoginUser? user;
-
+    String? id;
     if (userRoleData is LoginClient) {
+      id = userRoleData.id.toString();
       user = userRoleData.user;
     } else if (userRoleData is LoginOffice) {
+      id = userRoleData.id.toString();
       user = userRoleData.user;
     } else if (userRoleData is LoginExpert) {
+      id = userRoleData.id.toString();
       user = userRoleData.user;
     }
 
@@ -86,12 +93,9 @@ class LoginController extends GetxController {
       title: "Success",
       desc: "Logged in successfully!",
       btnOkOnPress: () {
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.createProperty);
       },
     ).show();
-
-    // await Future.delayed(const Duration(seconds: 2));
-    // Get.offAllNamed(AppRoutes.baseTicketsPage);
   }
 
   Future<void> _saveUserData(Data loginData, LoginUser user) async {
@@ -99,6 +103,7 @@ class LoginController extends GetxController {
     if (loginData.refreshToken != null) {
       await storage.saveRefreshToken(loginData.refreshToken!);
     }
+
     await storage.saveUserId(user.id.toString());
     await storage.saveUserName(
       "${user.firstName ?? ''} ${user.lastName ?? ''}".trim(),
@@ -121,6 +126,9 @@ class LoginController extends GetxController {
       }
     } else if (userRoleData is LoginOffice) {
       roleSpecificId = userRoleData.id?.toString();
+      if (roleSpecificId != null) {
+        await storage.saveOfficeId(roleSpecificId);
+      }
       if (userRoleData.commercialRegisterImage != null) {
         await storage.saveCommercialRegisterImage(
           userRoleData.commercialRegisterImage!,

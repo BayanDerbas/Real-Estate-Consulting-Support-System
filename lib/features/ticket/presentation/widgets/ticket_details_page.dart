@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
 
 class TicketDetailsPage extends StatelessWidget {
   final String fullName;
-
   final String location;
   final String description;
   final String priceRange;
@@ -13,7 +13,6 @@ class TicketDetailsPage extends StatelessWidget {
   const TicketDetailsPage({
     super.key,
     required this.fullName,
-
     required this.location,
     required this.description,
     required this.priceRange,
@@ -23,7 +22,7 @@ class TicketDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('تفاصيل الطلب'),
+        title: Text('ticket_details'.tr),
         backgroundColor: AppColors.whiteCard,
       ),
       body: ListView(
@@ -31,20 +30,19 @@ class TicketDetailsPage extends StatelessWidget {
         children: [
           _buildDetailRow(
             icon: Icons.person_outline,
-            title: 'الاسم الكامل',
+            title: 'full_name'.tr,
             value: fullName,
           ),
-
           const Divider(),
           _buildDetailRow(
             icon: Icons.location_on_outlined,
-            title: 'الموقع',
+            title: 'location'.tr,
             value: location,
           ),
           const Divider(),
           _buildDetailRow(
             icon: Icons.attach_money_outlined,
-            title: 'الميزانية التقريبية',
+            title: 'approx_budget'.tr,
             value: priceRange,
           ),
           const Divider(),
@@ -54,7 +52,7 @@ class TicketDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'الوصف الكامل',
+                  'full_description'.tr,
                   style: setTextStyle(
                     GoogleFonts.cairo,
                     16,

@@ -7,7 +7,7 @@ class CreateRoomRequestModel {
   final int? userId1;
   final int? userId2;
 
-  CreateRoomRequestModel({required this.userId1, required this.userId2});
+  CreateRoomRequestModel({this.userId1, this.userId2});
 
   factory CreateRoomRequestModel.fromJson(Map<String, dynamic> json) =>
       _$CreateRoomRequestModelFromJson(json);

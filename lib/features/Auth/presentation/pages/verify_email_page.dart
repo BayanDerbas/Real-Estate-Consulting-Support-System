@@ -28,7 +28,7 @@ class VerifyEmailPage extends StatelessWidget {
           children: [
             CustomTextField(
               width: width * 0.8,
-              hintText: "email",
+              hintText: "email".tr,
               icon: Icons.email_outlined,
               controller: controller.emailController,
               validator: (val) => validateInput(val!, 11, 50, 'email'),
@@ -37,7 +37,7 @@ class VerifyEmailPage extends StatelessWidget {
               return controller.isLoading.value
                   ? const CircularProgressIndicator().paddingOnly(top: 30)
                   : CustomButton(
-                    text: 'Verify',
+                    text: 'Verify'.tr,
                     textColor: AppColors.pureWhite,
                     backgroundColor: AppColors.deepNavy,
                     borderRadius: 10,
@@ -48,9 +48,9 @@ class VerifyEmailPage extends StatelessWidget {
           ],
         ),
       ),
-      appBarTitle: "Verify Email",
+      appBarTitle: "Verify Email".tr,
       bodyText: "",
-      clickableText: "Remember password ?",
+      clickableText: "Remember password ?".tr,
       footerText: '',
       onTap: () {
         Get.toNamed(AppRoutes.login);

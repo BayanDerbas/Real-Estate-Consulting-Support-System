@@ -8,6 +8,8 @@ import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 
+import '../translation/locale_controller.dart'; // ✅ this is your LanguageController
+
 class CustomDrawer extends StatelessWidget {
   final String userName;
   final String email;
@@ -27,6 +29,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageController = Get.find<LanguageController>();
+
     return SizedBox(
       width: 340,
       child: Drawer(
@@ -78,6 +82,7 @@ class CustomDrawer extends StatelessWidget {
                   ],
                 ),
               ),
+
               DrawerItem(
                 icon: Icons.confirmation_number,
                 title: 'my tickets',
@@ -85,13 +90,55 @@ class CustomDrawer extends StatelessWidget {
                   Get.toNamed(AppRoutes.myTickets);
                 },
               ),
+
               DrawerItem(
                 icon: Icons.language,
                 title: 'language',
                 onTap: () {
-                  Get.toNamed('/home');
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ListTile(
+                            title: Text(
+                              'English',
+                              style: Fonts.itim.copyWith(
+                                color: AppColors.grey,
+                                fontSize: 18,
+                              ),
+                            ),
+                            onTap: () {
+                              languageController.changeLanguage('en');
+                              Navigator.pop(context);
+                            },
+                          ),
+                          ListTile(
+                            title: Text(
+                              'العربية',
+                              style: Fonts.itim.copyWith(
+                                color: AppColors.grey,
+                                fontSize: 18,
+                              ),
+                            ),
+                            onTap: () {
+                              languageController.changeLanguage('ar');
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
+
               if (controller.userType.value == "OFFICE") ...[
                 DrawerItem(
                   icon: Icons.home,
@@ -110,7 +157,8 @@ class CustomDrawer extends StatelessWidget {
                   },
                 ),
               ],
-              if(controller.userType.value == "EXPERT") ...[
+
+              if (controller.userType.value == "EXPERT") ...[
                 DrawerItem(
                   icon: Icons.home,
                   title: 'my available times',
@@ -119,7 +167,8 @@ class CustomDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, '/my_times');
                   },
                 ),
-          ],
+              ],
+
               DrawerItem(
                 icon: Icons.add_home,
                 title: 'my reservations',
@@ -195,11 +244,11 @@ class DrawerItem extends StatelessWidget {
 class CustomDrawerController extends GetxController {
   LoginController controller = Get.put(LoginController(Get.find()));
   final SecureStorage _storage = SecureStorage();
+
   var userName = ''.obs;
   var email = ''.obs;
   var userImage = ''.obs;
   var userType = ''.obs;
-  VoidCallback? onTap;
 
   void setData(String name, String emailVal, String image, String type) async {
     userName.value = await _storage.getUserName() ?? name;
@@ -207,9 +256,9 @@ class CustomDrawerController extends GetxController {
     userType.value = await _storage.getUserType() ?? type;
 
     final storedImage = await _storage.getUserImageByRole();
-
-    userImage.value = (storedImage != null && storedImage.isNotEmpty)
-        ? storedImage
-        : AppImages.user;
+    userImage.value =
+        (storedImage != null && storedImage.isNotEmpty)
+            ? storedImage
+            : AppImages.user;
   }
 }

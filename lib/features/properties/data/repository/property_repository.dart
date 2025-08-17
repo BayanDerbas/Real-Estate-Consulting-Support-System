@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:graduation_project/core/networks/failures.dart';
 import '../data_source/property_service.dart';
 import '../model/create_property_request_model.dart';
 import '../model/create_property_response_model.dart';
+import '../model/propertyImage_model.dart';
 import '../model/propertyResponse_model.dart';
 
 class PropertyRepository {
@@ -36,16 +39,19 @@ class PropertyRepository {
       print("Error: $e");
       if (e is DioException) {
         print("DioException Details: ${e.response?.data}");
-        return Left(serverFailure(
-          e.response?.data?.toString() ?? e.message ?? 'Unknown error',
-        ));
+        return Left(
+          serverFailure(
+            e.response?.data?.toString() ?? e.message ?? 'Unknown error',
+          ),
+        );
       }
       return Left(serverFailure(e.toString()));
     }
   }
+
   Future<Either<Failures, CreatePropertyResponseModel>> createProperty(
-      CreatePropertyRequestModel request,
-      ) async {
+    CreatePropertyRequestModel request,
+  ) async {
     try {
       final httpResponse = await propertyService.createProperty(request);
       return Right(httpResponse.data);
@@ -55,4 +61,53 @@ class PropertyRepository {
       return Left(serverFailure(e.toString()));
     }
   }
+
+  Future<Either<Failures, PropertyImageModel>> uploadPropertyImage(
+    int propertyId,
+    String type,
+    File image,
+  ) async {
+    try {
+      final httpResponse = await propertyService.uploadPropertyImage(
+        propertyId,
+        type,
+        image,
+      );
+
+      if (httpResponse.response.statusCode == 201 ||
+          httpResponse.response.statusCode == 200) {
+        return Right(httpResponse.data.data);
+      } else {
+        return Left(
+          serverFailure(
+            'Unexpected status code: ${httpResponse.response.statusCode}',
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  /*
+  Future<Either<Failures, PostResponseModel>> addPost(
+    CreatePostRequestModel request,
+  ) async {
+    try {
+      final httpResponse = await _postService.createPost(
+        request.expertId,
+        request.content,
+        request.image!,
+      );
+
+      return Right(httpResponse.data);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+   */
 }

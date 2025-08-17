@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
-import '../../../../core/constants/colors.dart';
-import '../../../../core/constants/image_paths.dart';
-import '../../../../core/routes/routes.dart';
-import '../../../../core/widgets/Custom_Appbar.dart';
+import 'package:graduation_project/core/constants/colors.dart';
+import 'package:graduation_project/core/constants/image_paths.dart';
+import 'package:graduation_project/core/routes/routes.dart';
+import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import '../controllers/ServiceProviderProfileController.dart';
 import '../widgets/Custom_ServiceProviderProfile.dart';
+import 'package:graduation_project/features/officers/data/model/userOffice.dart';
+import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 
 class Serviceproviderprofile extends StatelessWidget {
   const Serviceproviderprofile({super.key});
@@ -20,20 +21,22 @@ class Serviceproviderprofile extends StatelessWidget {
     final String role = args['role'].toString();
     final UserOffice? user = args['user'];
     final controller = Get.put(ServiceProviderProfileController(id, role));
+    final roomController = Get.find<RoomController>();
 
     return Scaffold(
-      floatingActionButton: user != null
-          ? ZegoSendCallInvitationButton(
-        isVideoCall: false,
-        resourceID: "realEstateCons",
-        invitees: [
-          ZegoUIKitUser(
-            id: user.id.toString(),
-            name: user.firstName.toString(),
-          ),
-        ],
-      )
-          : null,
+      floatingActionButton:
+          user != null
+              ? ZegoSendCallInvitationButton(
+                isVideoCall: true,
+                resourceID: "realEstateCons",
+                invitees: [
+                  ZegoUIKitUser(
+                    id: user.id.toString(),
+                    name: user.firstName.toString(),
+                  ),
+                ],
+              )
+              : null,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
@@ -69,15 +72,24 @@ class Serviceproviderprofile extends StatelessWidget {
           isFavourite: controller.isFavourite.value,
           isFollow: controller.isFollowing.value,
           onFollow: controller.toggleFollow,
-          onBook: role.toLowerCase() != "office"
-              ? () => Get.toNamed(
-            '/Book',
-            arguments: {
-              'id': id,
-              'expert': provider,
-            },
-          )
-              : null,          onMessage: () {},
+          onBook:
+              role.toLowerCase() != "office"
+                  ? () => Get.toNamed(
+                    '/Book',
+                    arguments: {'id': id, 'expert': provider},
+                  )
+                  : null,
+          onMessage: () {
+            if (user != null) {
+              roomController.findOrCreateRoom(user);
+            } else {
+              Get.snackbar(
+                'Error',
+                'User data is missing to start a chat.',
+                snackPosition: SnackPosition.BOTTOM,
+              );
+            }
+          },
           onCall: () {},
           followerImages: [AppImages.expert, AppImages.user],
           description: provider['textProvider'] ?? "لا يوجد وصف",

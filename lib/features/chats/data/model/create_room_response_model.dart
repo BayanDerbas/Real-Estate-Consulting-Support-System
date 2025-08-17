@@ -26,7 +26,6 @@ class CreateRoomResponseModel {
   Map<String, dynamic> toJson() => _$CreateRoomResponseModelToJson(this);
 }
 
-/// Wrapper model for the full API response
 @JsonSerializable()
 class CreateRoomApiResponse {
   final String? status;
