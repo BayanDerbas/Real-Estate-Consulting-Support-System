@@ -207,6 +207,7 @@ class BookController extends GetxController {
         isLoading.value = false;
         return Left(serverFailure('لم يتم العثور على معرف المستخدم'));
       }
+      print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk\n$userId");
       final int clientId = int.parse(userId);
 
       final selectedTime = hours[selectedHourIndex.value];
@@ -247,9 +248,9 @@ class BookController extends GetxController {
           return Left(failure);
         },
             (response) {
-          Get.find<myReserveController>().fetchReservations('PENDING'); // Fixed casing
+          Get.find<myReserveController>().fetchReservations('PENDING');
           Get.snackbar('نجاح', 'تم الحجز بنجاح!');
-          Get.toNamed('/confirm', arguments: {'booking': response.data}); // Pass BookingData
+          Get.toNamed('/confirm', arguments: {'booking': response.data});
           return Right(response);
         },
       );

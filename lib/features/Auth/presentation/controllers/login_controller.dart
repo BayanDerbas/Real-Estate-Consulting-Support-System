@@ -126,18 +126,17 @@ class LoginController extends GetxController {
       }
     } else if (userRoleData is LoginOffice) {
       roleSpecificId = userRoleData.id?.toString();
-      if (roleSpecificId != null) {
-        await storage.saveOfficeId(roleSpecificId);
-      }
       if (userRoleData.commercialRegisterImage != null) {
         await storage.saveCommercialRegisterImage(
           userRoleData.commercialRegisterImage!,
         );
       }
     }
-
-    if (roleSpecificId != null) {}
+    if (roleSpecificId != null && user.role != null) {
+      await storage.saveUserIdByRole(roleSpecificId, user.role!);
+    }
   }
+
 
   void _handleLoginFailure(BuildContext context, Failures failure) {
     errMessage.value = failure.err_message;
