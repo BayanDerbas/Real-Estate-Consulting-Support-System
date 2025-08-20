@@ -151,14 +151,14 @@ class AppRoutes {
     GetPage(name: filteredTickets, page: () => FilteredTicketPage()),
     GetPage(name: createPost, page: () => CreatePostPage()),
     GetPage(name: forgotPassword, page: () => VerifyEmailPage()),
-    GetPage(
-      name: resetPassword,
-      page: () => ResetPassword1(),
-      binding: ResetPasswordBinding(),
-    ),
+    // GetPage(
+    //   name: resetPassword,
+    //   page: () => ResetPassword1(),
+    //   binding: ResetPasswordBinding(),
+    // ),
     GetPage(name: chatPage, page: () => ChatPage()),
     GetPage(name: notifications, page: () => NotificationsScreen()),
     GetPage(name: createProperty, page: () => CreatePropertyScreen()),
-    GetPage(name: addImagesToProperty, page: () => AddImagesToPropertyScreen()),
+    // GetPage(name: addImagesToProperty, page: () => AddImagesToPropertyScreen()),
   ];
 }
