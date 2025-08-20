@@ -49,4 +49,6 @@ class ApiConstant {
   static const String showMyReserve = "$baseUrl/booking/all/{status}";
   //show posts
   static const String showPosts = "$baseUrl/posts";
+  //FAQs Support
+  static const String FAQS = "$baseUrl/FAQs";
 }

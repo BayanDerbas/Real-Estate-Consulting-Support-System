@@ -7,11 +7,10 @@ import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/core/utils/shard_prefs.dart';
-import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
-import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
-
-import '../translation/locale_controller.dart'; // ✅ this is your LanguageController
+import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
+import '../di/bindings/faqs_binding.dart';
+import '../translation/locale_controller.dart';
 
 class CustomDrawer extends StatelessWidget {
   final String userName;
@@ -187,7 +186,8 @@ class CustomDrawer extends StatelessWidget {
                 title: 'FAQ support',
                 onTap: () {
                   Get.back();
-                  Get.toNamed('/faq');
+                  Get.to(() => FAQS_support(), binding: FAQsBinding());
+                  //Get.toNamed('/FAQs');
                 },
               ),
               DrawerItem(

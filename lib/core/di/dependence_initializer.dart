@@ -37,6 +37,10 @@ import '../../features/Book/data/data_source/booking_api_service.dart';
 import '../../features/Book/data/data_source/reservation_service.dart';
 import '../../features/Book/data/repository/booking_repository.dart';
 import '../../features/Book/presentation/controllers/BookController.dart';
+import '../../features/FAQs_Support/data/data_sources/faqs_service.dart';
+import '../../features/FAQs_Support/data/repositories/faqs_repository.dart';
+import '../../features/FAQs_Support/presentation/controllers/faqs_controller.dart';
+import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/data/chat_service/chat_service.dart';
 import '../../features/chats/data/repository/chat_repository.dart';
 import '../../features/myReserve/data/data_sources/myReserve_api_service.dart';
@@ -51,6 +55,7 @@ import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../networks/dio_factory.dart';
+import 'bindings/faqs_binding.dart';
 
 class DependenceInitializer {
   static dependenceInjection() async {

@@ -24,6 +24,7 @@ import '../../features/Auth/presentation/pages/change_password.dart';
 import '../../features/Auth/presentation/pages/refresh_token_page.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
+import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
 import '../../features/home/presentation/pages/Home.dart';
 import '../../features/myReserve/presentation/pages/MyReserve.dart';
@@ -40,6 +41,7 @@ import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
 import '../di/bindings/booking_bind.dart';
 import '../di/bindings/change_password_bind.dart';
+import '../di/bindings/faqs_binding.dart';
 import '../middlewares/my_middleware.dart';
 
 class AppRoutes {
@@ -78,6 +80,7 @@ class AppRoutes {
   static const String myTimes = '/my_times';
   static const String createProperty = '/create_property';
   static const String addImagesToProperty = '/add_images_to_property';
+  static const String FAQs = '/FAQs';
 
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -160,5 +163,10 @@ class AppRoutes {
     GetPage(name: notifications, page: () => NotificationsScreen()),
     GetPage(name: createProperty, page: () => CreatePropertyScreen()),
     // GetPage(name: addImagesToProperty, page: () => AddImagesToPropertyScreen()),
+    GetPage(
+      name: '/FAQs',
+      page: () => const FAQS_support(),
+      binding: FAQsBinding(),
+    ),
   ];
 }
