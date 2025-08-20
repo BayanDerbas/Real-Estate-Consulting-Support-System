@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import '../../../../../core/networks/api_constant.dart';
 import '../model/post_response_model.dart';
+import '../model/posts_response_model.dart';
 
 part 'post_service.g.dart';
 
@@ -18,4 +18,7 @@ abstract class PostService {
     @Part(name: "content") String content,
     @Part(name: "image") File image,
   );
+
+  @GET(ApiConstant.showPosts)
+  Future<HttpResponse<PostsResponseModel>> showPosts();
 }

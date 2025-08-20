@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        // home: SplashScreen(),
+        //home: Home(),
         getPages: AppRoutes.routes_,
       );
     });

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
-import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
@@ -9,6 +8,7 @@ import 'package:graduation_project/core/widgets/Custom_IconButton.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/widgets/CustomPosts.dart';
+import '../../../../core/constants/image_paths.dart';
 import '../../../home/presentation/widgets/Custom_BottomBar.dart';
 
 class Posts extends StatelessWidget {
@@ -16,7 +16,7 @@ class Posts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostsController controller = Get.put(PostsController());
+    final PostsController controller = Get.find<PostsController>();
     final HomeController homeController = Get.put(HomeController());
     final CustomDrawerController drawerController = Get.put(
       CustomDrawerController(),
@@ -85,7 +85,6 @@ class Posts extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(5);
                       print("Statistics pressed");
-                      // يمكنك إضافة انتقال إلى صفحة الإحصائيات
                       // Get.toNamed("/statistics");
                     },
                   ),
@@ -96,7 +95,6 @@ class Posts extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(6);
                       print("Tickets pressed");
-                      // يمكنك إضافة انتقال إلى صفحة التذاكر
                       // Get.toNamed("/tickets");
                     },
                   ),
@@ -107,7 +105,6 @@ class Posts extends StatelessWidget {
                     onTap: () {
                       controller.selectIndex(7);
                       print("Schedule Time pressed");
-                      // يمكنك إضافة انتقال إلى صفحة الجدولة
                       // Get.toNamed("/schedule_time");
                     },
                   ),
@@ -127,45 +124,35 @@ class Posts extends StatelessWidget {
             ).scrollDirection(Axis.horizontal),
           ),
           SizedBox(height: 10),
-          Obx(
-            () => Column(
-              children: List.generate(controller.postsList.length, (index) {
-                final post = controller.postsList[index];
-                return Customposts(
-                  name: post['userName']?.toString() ?? '',
-                  userImage: post['userImage']?.toString() ?? '',
-                  IconFollow: AppImages.follow,
-                  postText: post['postText']?.toString() ?? '',
-                  postingTime: post['postingTime']?.toString() ?? '',
-                  postImage: post['postImage']?.toString() ?? '',
-                  isLiked:
-                      post['isLiked'] is RxBool
-                          ? post['isLiked'] as RxBool
-                          : false.obs,
-                  isDisLiked:
-                      post['isDisLiked'] is RxBool
-                          ? post['isDisLiked'] as RxBool
-                          : false.obs,
-                  onLike: () {
-                    if ((post['isDisLiked'] as RxBool).value) {
-                      (post['isDisLiked'] as RxBool).value = false;
-                    }
-                    (post['isLiked'] as RxBool).value =
-                        !(post['isLiked'] as RxBool).value;
-                  },
-                  onDisLike: () {
-                    if ((post['isLiked'] as RxBool).value) {
-                      (post['isLiked'] as RxBool).value = false;
-                    }
-                    (post['isDisLiked'] as RxBool).value =
-                        !(post['isDisLiked'] as RxBool).value;
-                  },
-                );
-              }),
-            ).padding(EdgeInsets.all(10)),
+          Expanded(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (controller.errorMessage.isNotEmpty) {
+                return Center(child: Text(controller.errorMessage.value));
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.all(10),
+                itemCount: controller.postsList.length,
+                itemBuilder: (context, index) {
+                  final posts = controller.postsList[index];
+                  return Customposts(
+                    name: "${posts.expert?.firstName ?? ""} ${posts.expert?.lastName ?? ""}",
+                    userImage: posts.expert?.imageUrl ?? AppImages.noImage,
+                    postingTime: posts.createdAt ?? '',
+                    postText: posts.content ?? '',
+                    postImage: posts.imageUrl ?? AppImages.noData,
+                    // isLiked: isLiked,
+                    // isDisLiked: isDisLiked,
+                  );
+                },
+              );
+            }),
           ),
         ],
-      ).scrollDirection(Axis.vertical),
+      ),
       bottomNavigationBar: CustomBottomBar(),
     );
   }

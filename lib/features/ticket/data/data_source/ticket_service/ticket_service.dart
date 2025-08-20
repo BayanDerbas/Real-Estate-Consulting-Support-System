@@ -4,7 +4,6 @@ import 'package:graduation_project/features/ticket/data/model/publish_ticket_res
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_request_model.dart';
 import '../../../../../core/networks/api_constant.dart';
 import '../../model/filter_tickets_response_model.dart';
-import '../../model/ticket_model.dart';
 import '../../model/ticket_response.dart';
 
 part 'ticket_service.g.dart';

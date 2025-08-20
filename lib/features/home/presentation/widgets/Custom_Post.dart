@@ -3,18 +3,19 @@ import 'package:get/get.dart'; // نحتاج GetX هنا
 
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 
 class CustomPost extends StatelessWidget {
   final String username;
   final String userImage;
   final String postText;
   final String postImage;
-  final RxBool isFollowing;
-  final RxBool isLiked;
-  final RxBool isDisLiked;
-  final VoidCallback? onFollow;
-  final VoidCallback? onLike;
-  final VoidCallback? onDisLike;
+  //final RxBool isFollowing;
+  // final RxBool isLiked;
+  // final RxBool isDisLiked;
+  //final VoidCallback? onFollow;
+  // final VoidCallback? onLike;
+  // final VoidCallback? onDisLike;
 
   const CustomPost({
     super.key,
@@ -22,12 +23,12 @@ class CustomPost extends StatelessWidget {
     required this.userImage,
     required this.postText,
     required this.postImage,
-    required this.isFollowing,
-    required this.isLiked,
-    required this.isDisLiked,
-    this.onFollow,
-    this.onLike,
-    this.onDisLike,
+    //required this.isFollowing,
+    // required this.isLiked,
+    // required this.isDisLiked,
+    //this.onFollow,
+    // this.onLike,
+    // this.onDisLike,
   });
 
   @override
@@ -46,7 +47,9 @@ class CustomPost extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage(userImage),
+                    backgroundImage: Uri.tryParse(userImage)?.isAbsolute == true
+                        ? NetworkImage(userImage)
+                        : AssetImage(userImage),
                     radius: 20,
                   ),
                   SizedBox(width: 5),
@@ -58,31 +61,31 @@ class CustomPost extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Obx(() {
-                    if (isFollowing.value) {
-                      return IconButton(
-                        onPressed: onFollow,
-                        icon: Icon(Icons.check_circle, color: AppColors.deepNavy, size: 35),
-                      );
-                    } else {
-                      return ElevatedButton(
-                        onPressed: onFollow,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.deepNavy,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: Text(
-                          "Follow",
-                          style: Fonts.itim.copyWith(
-                            color: AppColors.pureWhite,
-                            fontSize: 16,
-                          ),
-                        ),
-                      );
-                    }
-                  }),
+                  // Obx(() {
+                  //   if (isFollowing.value) {
+                  //     return IconButton(
+                  //       onPressed: onFollow,
+                  //       icon: Icon(Icons.check_circle, color: AppColors.deepNavy, size: 35),
+                  //     );
+                  //   } else {
+                  //     return ElevatedButton(
+                  //       onPressed: onFollow,
+                  //       style: ElevatedButton.styleFrom(
+                  //         backgroundColor: AppColors.deepNavy,
+                  //         shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(20),
+                  //         ),
+                  //       ),
+                  //       child: Text(
+                  //         "Follow",
+                  //         style: Fonts.itim.copyWith(
+                  //           color: AppColors.pureWhite,
+                  //           fontSize: 16,
+                  //         ),
+                  //       ),
+                  //     );
+                  //   }
+                  // }),
                 ],
               ),
               SizedBox(height: 10),
@@ -98,28 +101,35 @@ class CustomPost extends StatelessWidget {
               SizedBox(height: 8),
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(postImage),
+                child: Uri.tryParse(postImage)?.isAbsolute == true
+                    ? Image.network(
+                  postImage,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      Image.asset(AppImages.noImage, fit: BoxFit.cover),
+                )
+                    : Image.asset(postImage, fit: BoxFit.cover),
               ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  Spacer(),
-                  Obx(() => IconButton(
-                    onPressed: onLike,
-                    icon: Icon(
-                      Icons.thumb_up,
-                      color: isLiked.value ? AppColors.lavender : AppColors.grey,
-                    ),
-                  )),
-                  Obx(() => IconButton(
-                    onPressed: onDisLike,
-                    icon: Icon(
-                      Icons.thumb_down,
-                      color: isDisLiked.value ? AppColors.lavender : AppColors.grey,
-                    ),
-                  )),
-                ],
-              ),
+              // SizedBox(height: 8),
+              // Row(
+              //   children: [
+              //     Spacer(),
+              //     Obx(() => IconButton(
+              //       onPressed: onLike,
+              //       icon: Icon(
+              //         Icons.thumb_up,
+              //         color: isLiked.value ? AppColors.lavender : AppColors.grey,
+              //       ),
+              //     )),
+              //     Obx(() => IconButton(
+              //       onPressed: onDisLike,
+              //       icon: Icon(
+              //         Icons.thumb_down,
+              //         color: isDisLiked.value ? AppColors.lavender : AppColors.grey,
+              //       ),
+              //     )),
+              //   ],
+              // ),
             ],
           ),
         ),

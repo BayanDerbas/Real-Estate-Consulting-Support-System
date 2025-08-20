@@ -17,7 +17,7 @@ class FirebaseMessagingService {
     await _requestPermission();
 
     final token = await _messaging.getToken();
-    print("\nFCM Token: $token\n");
+    print("\nFCM Token\n: $token\n");
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("Foreground Message: ${message.notification?.title}");

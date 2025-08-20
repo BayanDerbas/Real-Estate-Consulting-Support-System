@@ -13,6 +13,7 @@ import 'package:graduation_project/features/home/presentation/controllers/Home_C
 import 'package:graduation_project/features/posts/data/data_source/post_service.dart';
 import 'package:graduation_project/features/posts/data/model/post_response_model.dart';
 import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
+import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
@@ -126,7 +127,7 @@ class DependenceInitializer {
     Get.lazyPut(() => PostService(Get.find()));
     Get.lazyPut(() => PostsRepository(Get.find()));
     Get.put(CreatePostController(Get.find()));
-
+    Get.put(PostsController(Get.find<PostsRepository>()));
     // last edit
     Get.put(ServiceProviders_Controller());
     Get.put(HomeController());
