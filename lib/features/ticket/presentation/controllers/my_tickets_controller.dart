@@ -17,12 +17,6 @@ class MyTicketsController extends GetxController {
   MyTicketsController(this._ticketRepository);
   final SecureStorage _storage = SecureStorage();
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchTickets(page: 0);
-  }
-
   Future<void> fetchTickets({required int page}) async {
     if (isLoading.value) return;
 

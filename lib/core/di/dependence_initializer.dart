@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/change_password_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/refresh_token_controller.dart';
@@ -8,12 +9,15 @@ import 'package:graduation_project/features/Auth/presentation/controllers/verifi
 import 'package:graduation_project/features/Book/data/repository/reservation_repository.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
+import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 import 'package:graduation_project/features/posts/data/data_source/post_service.dart';
 import 'package:graduation_project/features/posts/data/model/post_response_model.dart';
 import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
+import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
+import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviders.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
@@ -24,7 +28,9 @@ import 'package:graduation_project/features/timeAvailable/data/data_sources/show
 import 'package:graduation_project/features/timeAvailable/data/repositories/show_working_times_repository.dart';
 import '../../features/Auth/data/data_source/auth_service/auth_service.dart';
 import '../../features/Auth/data/repository/auth_repository.dart';
+import '../../features/Auth/presentation/controllers/keyboard_controller.dart';
 import '../../features/Auth/presentation/controllers/send_code_controller.dart';
+import '../../features/Auth/presentation/controllers/splash_controller.dart';
 import '../../features/Auth/presentation/controllers/verifiy_email_controller.dart';
 import '../../features/Book/data/data_source/booking_api_service.dart';
 import '../../features/Book/data/data_source/reservation_service.dart';
@@ -52,91 +58,78 @@ class DependenceInitializer {
     Get.lazyPut(() => AuthService(Get.find()));
     Get.lazyPut(() => AuthRepository(Get.find()));
 
+    Get.put(SplashController());
     Get.put(RegisterController(Get.find()));
     Get.put(LoginController(Get.find()));
-    // Get.put(KeyboardController());
+    Get.put(KeyboardController());
     Get.lazyPut(() => TicketService(Get.find()));
     Get.lazyPut(() => TicketRepositoryImpl(Get.find()));
-    Get.lazyPut(() => SendCodeController(Get.find()), fenix: true);
-    Get.lazyPut(() => VerificationCodeController(Get.find()), fenix: true);
-    Get.lazyPut(() => VerifyEmailController(Get.find()), fenix: true);
-    Get.lazyPut(() => RefreshTokenController(Get.find()), fenix: true);
+    Get.put(SendCodeController(Get.find()));
+    Get.put(VerificationCodeController(Get.find()));
+    Get.put(VerifyEmailController(Get.find()));
+    Get.put(RefreshTokenController(Get.find()));
+
     //chats
     Get.lazyPut(() => ChatService(Get.find()), fenix: true);
     Get.lazyPut(() => ChatRepository(Get.find()), fenix: true);
-    Get.lazyPut(() => PageTicketController(), fenix: true);
-    //Get.lazyPut(() => ChatController(Get.find()), fenix: true);
-    Get.lazyPut(() => RoomController(Get.find()), fenix: true);
-    Get.lazyPut(() => CreateTicketController(Get.find()), fenix: true);
-    Get.lazyPut(() => FilteredTicketsController(Get.find()), fenix: true);
+    Get.put(PageTicketController());
 
-    Get.lazyPut(() => GetAllTicketsController(Get.find()), fenix: true);
-    Get.lazyPut(() => MyTicketsController(Get.find()), fenix: true);
+    //put.lazyPut(() => ChatController(Get.find()), fenix: true);
+    Get.put(RoomController(Get.find()));
+    Get.put(CreateTicketController(Get.find()));
+    Get.put(FilteredTicketsController(Get.find()));
+
+    Get.put(GetAllTicketsController(Get.find()));
+    Get.put(MyTicketsController(Get.find()));
     //properties
     Get.lazyPut(() => PropertyService(Get.find()));
     Get.lazyPut(() => PropertyRepository(Get.find()));
-    Get.lazyPut(() => PropertiesController(Get.find()));
-    Get.lazyPut(() => CreatePropertyController(Get.find()));
-    Get.lazyPut(() => AddImagesToPropertyController(Get.find()));
+    Get.put(PropertiesController(Get.find()));
+    Get.put(CreatePropertyController(Get.find()));
+    Get.put(AddImagesToPropertyController(Get.find()));
     //offices
     Get.lazyPut(() => OfficeService(Get.find()));
     Get.lazyPut(() => OfficeRepository(Get.find()));
-    Get.lazyPut(() => OfficeController(Get.find()));
+    Get.put(OfficeController(Get.find()));
     //notifications
-    Get.lazyPut(() => NotificationController(), fenix: true);
+    Get.put(NotificationController());
     // show working time
     Get.lazyPut<show_workingTimes_service>(
       () => show_workingTimes_service(Get.find()),
-      fenix: true,
     );
     Get.lazyPut<ShowWorkingTimesRepository>(
       () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
-      fenix: true,
     );
     // Booking dependencies
-    Get.lazyPut<BookingService>(
-      () => BookingService(Get.find<Dio>()),
-      fenix: true,
-    );
+    Get.lazyPut<BookingService>(() => BookingService(Get.find<Dio>()));
     Get.lazyPut<BookingRepository>(
       () => BookingRepositoryImpl(Get.find<BookingService>()),
-      fenix: true,
     );
-    Get.lazyPut(
-      () => BookController(
+    Get.put(
+      BookController(
         Get.find<BookingRepository>(),
         Get.find<ShowWorkingTimesRepository>(),
       ),
     );
     // MyReserve dependencies
-    Get.lazyPut<MyReserveService>(
-      () => MyReserveService(Get.find<Dio>()),
-      fenix: true,
-    );
-    Get.lazyPut(
-      () => MyReserveRepositoryImpl(Get.find<MyReserveService>()),
-      fenix: true,
-    );
-    Get.lazyPut(
-      () => myReserveController(Get.find<MyReserveRepositoryImpl>()),
-      fenix: true,
-    );
+    Get.lazyPut<MyReserveService>(() => MyReserveService(Get.find<Dio>()));
+    Get.lazyPut(() => MyReserveRepositoryImpl(Get.find<MyReserveService>()));
+    Get.put(myReserveController(Get.find<MyReserveRepositoryImpl>()));
     // expert Reservations
-    Get.lazyPut<ReservationService>(
-      () => ReservationService(Get.find()),
-      fenix: true,
-    );
-    Get.lazyPut<ReservationRepository>(
-      () => ReservationRepository(Get.find()),
-      fenix: true,
-    );
+    Get.lazyPut<ReservationService>(() => ReservationService(Get.find()));
+    Get.lazyPut<ReservationRepository>(() => ReservationRepository(Get.find()));
     //posts
     Get.lazyPut(() => PostService(Get.find()));
     Get.lazyPut(() => PostsRepository(Get.find()));
-    Get.lazyPut(() => CreatePostController(Get.find()));
+    Get.put(CreatePostController(Get.find()));
     //posts
     Get.lazyPut(() => PostService(Get.find()));
     Get.lazyPut(() => PostsRepository(Get.find()));
-    Get.lazyPut(() => CreatePostController(Get.find()));
+    Get.put(CreatePostController(Get.find()));
+
+    // last edit
+    Get.put(ServiceProviders_Controller());
+    Get.put(HomeController());
+    Get.put(CustomDrawerController());
   }
 }

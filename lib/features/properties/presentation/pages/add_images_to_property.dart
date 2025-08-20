@@ -11,6 +11,14 @@ class AddImagesToPropertyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AddImagesToPropertyController>();
+
+    if (Get.arguments is int) {
+      controller.propertyId = Get.arguments as int;
+    } else {
+      Get.snackbar("Error", "Property ID not found. Please go back.");
+      if (Get.isDialogOpen!) Get.back();
+    }
+
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(

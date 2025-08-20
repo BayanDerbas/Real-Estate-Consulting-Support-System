@@ -11,6 +11,7 @@ class ApiConstant {
   static const String refresh = "$auth/refresh";
   static const String sendCode = "$auth/send-code";
   static const String changePassword = "$auth/change-password";
+  static const String checkStatus = "$auth/check-status/{userId}";
   //chats
   static const String chat = "/api/v1/rooms";
   static const String getAllRoomsForCurrentUser = "$chat/user/{id}";

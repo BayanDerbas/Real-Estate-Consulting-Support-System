@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/constants/app_keys.dart';
+import 'package:graduation_project/core/utils/shard_prefs.dart';
 import 'package:graduation_project/features/Auth/data/model/verificationcode_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 import '../../../../core/routes/routes.dart';
@@ -103,6 +105,11 @@ class VerificationCodeController extends GetxController {
       },
       (r) async {
         _timer.cancel();
+
+        // TODO add logic to go to check status page
+        // SharedPrefs.saveString(AppKeys.toRoute, "/check-status-page");
+        // Get.offAllNamed("/check-status-page")
+
         Get.offNamed(nextRoute, arguments: {'email': email.text});
       },
     );

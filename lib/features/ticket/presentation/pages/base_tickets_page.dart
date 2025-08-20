@@ -9,7 +9,7 @@ import 'all_tickets.dart';
 import 'my_tickets.dart';
 
 class BaseTicketsPage extends GetView<PageTicketController> {
-  BaseTicketsPage({super.key});
+  const BaseTicketsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

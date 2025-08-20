@@ -5,6 +5,7 @@ import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/functions/validate_input.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
+import 'package:graduation_project/features/Auth/presentation/controllers/keyboard_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/widgets/base_auth_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/widgets/custom_drop_down_with_field.dart';
@@ -18,7 +19,6 @@ class SignUpScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
     final controller = Get.find<RegisterController>();
-
     return BaseAuthScreen(
       widget: Form(
         key: controller.formKey,

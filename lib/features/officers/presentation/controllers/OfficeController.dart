@@ -17,12 +17,6 @@ class OfficeController extends GetxController {
 
   OfficeController(this.repository);
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchOffices();
-  }
-
   void fetchOffices({int page = 0}) async {
     isLoading(true);
     try {

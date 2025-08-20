@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -16,11 +18,12 @@ class DioFactory {
         ..options.receiveTimeout = const Duration(seconds: 15);
       dio!.options.headers = {'Accept': 'application/json'};
     }
-    dio?.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    // dio?.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     return dio!;
   }
 
   static Future<void> setToken(String token) async {
+    log("Token: $token");
     await _secureStorage.write(key: 'access_token', value: token);
     dio?.options.headers = {'Authorization': 'Bearer $token'};
   }
@@ -28,6 +31,7 @@ class DioFactory {
   static Future<void> loadToken() async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token != null) {
+      log("Token: $token");
       dio?.options.headers['Authorization'] = 'Bearer $token';
     }
   }

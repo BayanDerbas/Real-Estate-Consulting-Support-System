@@ -28,4 +28,24 @@ class SharedPrefs {
   static Future<void> clearToken() async {
     await _prefs?.remove(_tokenKey);
   }
+
+  static Future<void> saveString(String key, String value) async {
+    await _prefs?.setString(key, value);
+  }
+
+  static Future<void> saveInt(String key, int value) async {
+    await _prefs?.setInt(key, value);
+  }
+
+  static String? getString(String key) {
+    return _prefs?.getString(key);
+  }
+
+  static int? getInt(String key) {
+    return _prefs?.getInt(key);
+  }
+
+  static void removeKey(String key) async {
+    await _prefs?.remove(key);
+  }
 }

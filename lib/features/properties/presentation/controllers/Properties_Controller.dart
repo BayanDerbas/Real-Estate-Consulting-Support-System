@@ -29,12 +29,6 @@ class PropertiesController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchProperties(page: currentPage.value, size: pageSize);
-  }
-
   void fetchProperties({int? page, int? size}) async {
     isLoading.value = true;
     await DioFactory.loadToken();
@@ -68,18 +62,21 @@ class PropertiesController extends GetxController {
         type = null;
     }
 
-    final result = await repository.getAllProperties(page: current, size: limit, type: type);
-
-    result.fold(
-          (failure) => failureMessage.value = failure.err_message,
-          (data) {
-        properties.value = data.data.content;
-        allProperties = data.data.content;
-        totalPages.value = data.data.totalPages ?? 1;
-        hasNextPage.value = data.data.last != true;
-        failureMessage.value = properties.isEmpty ? "لا توجد عقارات متاحة." : "";
-      },
+    final result = await repository.getAllProperties(
+      page: current,
+      size: limit,
+      type: type,
     );
+
+    result.fold((failure) => failureMessage.value = failure.err_message, (
+      data,
+    ) {
+      properties.value = data.data.content;
+      allProperties = data.data.content;
+      totalPages.value = data.data.totalPages ?? 1;
+      hasNextPage.value = data.data.last != true;
+      failureMessage.value = properties.isEmpty ? "لا توجد عقارات متاحة." : "";
+    });
 
     isLoading.value = false;
   }
@@ -129,18 +126,26 @@ class PropertiesController extends GetxController {
         type = "";
     }
 
-    properties.value = allProperties.where((property) => property.houseType == type).toList();
+    properties.value =
+        allProperties.where((property) => property.houseType == type).toList();
 
-    failureMessage.value = properties.isEmpty ? "لا توجد عقارات متاحة لهذه الفئة بعد." : "";
+    failureMessage.value =
+        properties.isEmpty ? "لا توجد عقارات متاحة لهذه الفئة بعد." : "";
   }
 
   List<CustomProperties> get propertiesList {
     return properties.map((property) {
       final mainImage = property.propertyImageList.firstWhere(
-            (image) => image.type == "MAIN",
-        orElse: () => property.propertyImageList.isNotEmpty
-            ? property.propertyImageList[0]
-            : PropertyImageModel(id: 0, imageUrl: AppImages.noImage, type: "MAIN"),
+        (image) => image.type == "MAIN",
+        orElse:
+            () =>
+                property.propertyImageList.isNotEmpty
+                    ? property.propertyImageList[0]
+                    : PropertyImageModel(
+                      id: 0,
+                      imageUrl: AppImages.noImage,
+                      type: "MAIN",
+                    ),
       );
 
       return CustomProperties(

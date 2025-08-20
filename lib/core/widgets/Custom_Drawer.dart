@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/Fonts.dart';
+import 'package:graduation_project/core/constants/app_keys.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
+import 'package:graduation_project/core/utils/shard_prefs.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 
 import '../translation/locale_controller.dart'; // ✅ this is your LanguageController
 
@@ -87,6 +90,7 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.confirmation_number,
                 title: 'my tickets',
                 onTap: () {
+                  Get.find<MyTicketsController>().fetchTickets(page: 0);
                   Get.toNamed(AppRoutes.myTickets);
                 },
               ),
@@ -116,7 +120,7 @@ class CustomDrawer extends StatelessWidget {
                             ),
                             onTap: () {
                               languageController.changeLanguage('en');
-                              Navigator.pop(context);
+                              Get.back();
                             },
                           ),
                           ListTile(
@@ -129,7 +133,7 @@ class CustomDrawer extends StatelessWidget {
                             ),
                             onTap: () {
                               languageController.changeLanguage('ar');
-                              Navigator.pop(context);
+                              Get.back();
                             },
                           ),
                         ],
@@ -144,16 +148,17 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icons.home,
                   title: 'my property',
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/my_property');
+                    Get.offAllNamed(AppRoutes.filteredTickets);
+                    // Get.back(
+                    // Get.toNamed('/my_property');
                   },
                 ),
                 DrawerItem(
                   icon: Icons.add_home,
                   title: 'add new property',
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/add_new_property');
+                    Get.back();
+                    Get.toNamed('/add_new_property');
                   },
                 ),
               ],
@@ -163,8 +168,8 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icons.home,
                   title: 'my available times',
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/my_times');
+                    Get.back();
+                    Get.toNamed(AppRoutes.myTimes);
                   },
                 ),
               ],
@@ -173,38 +178,42 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.add_home,
                 title: 'my reservations',
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/myReserve');
+                  Get.back();
+                  Get.toNamed(AppRoutes.myReserve);
                 },
               ),
               DrawerItem(
                 icon: Icons.settings,
                 title: 'FAQ support',
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/faq');
+                  Get.back();
+                  Get.toNamed('/faq');
                 },
               ),
               DrawerItem(
                 icon: Icons.info,
                 title: 'about us',
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/about');
+                  Get.back();
+                  Get.toNamed('/about');
                 },
               ),
               DrawerItem(
                 icon: Icons.policy,
                 title: 'condition & terms',
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/terms');
+                  Get.back();
+                  Get.toNamed('/terms');
                 },
               ),
               DrawerItem(
                 icon: Icons.logout,
                 title: 'log out',
                 onTap: () {
+                  SharedPrefs.removeKey(AppKeys.toRoute);
+                  SecureStorage().deleteToken();
+                  SecureStorage().deleteRefreshToken();
+                  Get.offAllNamed(AppRoutes.login);
                   print("Logout....");
                 },
               ),
@@ -242,7 +251,6 @@ class DrawerItem extends StatelessWidget {
 }
 
 class CustomDrawerController extends GetxController {
-  LoginController controller = Get.put(LoginController(Get.find()));
   final SecureStorage _storage = SecureStorage();
 
   var userName = ''.obs;

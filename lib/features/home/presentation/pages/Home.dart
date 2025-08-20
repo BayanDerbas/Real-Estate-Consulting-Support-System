@@ -8,6 +8,7 @@ import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
+import 'package:graduation_project/features/properties/presentation/controllers/PropertyDetails_Controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/routes/routes.dart';
@@ -23,25 +24,15 @@ import '../widgets/Custom_QuickAccess.dart';
 import '../controllers/Home_Controller.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ServiceProviders_Controller expertController = Get.put(
-      ServiceProviders_Controller(),
-    );
-    final HomeController controller = Get.put(HomeController());
-    final CustomDrawerController drawerController = Get.put(
-      CustomDrawerController(),
-    );
-
-    final repository = PropertyRepository(PropertyService(Dio()));
-    final PropertiesController propertiesController = Get.put(
-      PropertiesController(repository),
-    );
-    final officeController = Get.put(
-      OfficeController(Get.find<OfficeRepository>()),
-    );
+    final controller = Get.find<HomeController>();
+    final expertController = Get.find<ServiceProviders_Controller>();
+    final drawerController = Get.find<CustomDrawerController>();
+    final propertiesController = Get.find<PropertiesController>();
+    final officeController = Get.find<OfficeController>();
 
     return Scaffold(
       drawer: CustomDrawer(

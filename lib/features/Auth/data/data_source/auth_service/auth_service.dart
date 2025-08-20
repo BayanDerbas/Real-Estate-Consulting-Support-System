@@ -56,4 +56,7 @@ abstract class AuthService {
   );
   @POST(ApiConstant.sendCode)
   Future<HttpResponse<dynamic>> sendCode(@Query("email") String email);
+
+  @GET(ApiConstant.checkStatus)
+  Future<HttpResponse<dynamic>> checkStatus(@Query("userId") int userId);
 }

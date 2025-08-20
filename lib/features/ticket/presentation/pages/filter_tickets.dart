@@ -92,7 +92,7 @@ class FilteredTicketPage extends StatelessWidget {
     final locationController = TextEditingController();
 
     String? selectedServiceType = "BUY";
-    String? selectedHouseType = "UPPER_FLOOR";
+    String? selectedHouseType = "HOME";
 
     return StatefulBuilder(
       builder: (ctx, setState) {
@@ -156,7 +156,15 @@ class FilteredTicketPage extends StatelessWidget {
                 DropdownButtonFormField<String>(
                   value: selectedHouseType,
                   items:
-                      ['upper_floor', 'ground_floor']
+                      [
+                            'HOME',
+                            'UPPER_FLOOR',
+                            'VILLA',
+                            'OFFICE',
+                            'LAND',
+                            'STORE',
+                            'OTHER',
+                          ]
                           .map(
                             (type) => DropdownMenuItem(
                               value: type.toUpperCase(),

@@ -16,12 +16,6 @@ class GetAllTicketsController extends GetxController {
 
   GetAllTicketsController(this._ticketRepository);
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchTickets(page: 0);
-  }
-
   Future<void> fetchTickets({required int page}) async {
     if (isLoading.value) return;
 

@@ -63,7 +63,7 @@ class MyTickets extends GetView<MyTicketsController> {
                       description: ticket.description,
                       priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',
                       width: screenWidth,
-                      height: 250,
+                      height: context.height / 3,
                     );
                   },
                 ),

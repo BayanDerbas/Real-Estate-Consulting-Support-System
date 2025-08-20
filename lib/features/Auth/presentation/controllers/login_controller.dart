@@ -1,8 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/constants/app_keys.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
+import 'package:graduation_project/core/utils/shard_prefs.dart';
 import 'package:graduation_project/features/Auth/data/model/login_response_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 import '../../../../core/constants/image_paths.dart';
@@ -29,10 +31,9 @@ class LoginController extends GetxController {
 
     isLoading.value = true;
     errMessage.value = '';
+
     await storage.deleteToken();
     await storage.deleteRefreshToken();
-    final tok = await storage.getToken();
-    print('...................delete refresh token $tok');
 
     final request = LoginRequestModel(
       email: email.text.trim(),
@@ -93,7 +94,8 @@ class LoginController extends GetxController {
       title: "Success",
       desc: "Logged in successfully!",
       btnOkOnPress: () {
-        Get.offAllNamed(AppRoutes.createProperty);
+        SharedPrefs.saveString(AppKeys.toRoute, AppRoutes.refreshToken);
+        Get.offAllNamed(AppRoutes.home);
       },
     ).show();
   }
@@ -136,7 +138,9 @@ class LoginController extends GetxController {
       }
     }
 
-    if (roleSpecificId != null) {}
+    if (roleSpecificId != null && user.role != null) {
+      await storage.saveUserIdByRole(roleSpecificId, user.role!);
+    }
   }
 
   void _handleLoginFailure(BuildContext context, Failures failure) {

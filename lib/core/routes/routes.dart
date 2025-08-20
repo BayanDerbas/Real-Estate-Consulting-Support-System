@@ -1,24 +1,27 @@
 import 'package:get/get.dart';
 import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
-import 'package:graduation_project/core/di/bindings/my_tickets_binds.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/splash_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verification_code.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
+import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
+import 'package:graduation_project/features/officers/presentation/controllers/OfficeController.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
-import 'package:graduation_project/features/properties/data/data_source/property_service.dart';
-import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
+import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
+import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/base_tickets_page.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/my_tickets.dart';
 import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
 import '../../features/Auth/presentation/pages/change_password.dart';
+import '../../features/Auth/presentation/pages/refresh_token_page.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/Discounts.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
@@ -32,14 +35,12 @@ import '../../features/properties/presentation/pages/add_images_to_property.dart
 import '../../features/properties/presentation/pages/create_property.dart';
 import '../../features/service provider/presentation/pages/ServiceProviderProfile.dart';
 import '../../features/service provider/presentation/pages/ServiceProviders.dart';
-import '../../features/ticket/data/data_source/ticket_service/ticket_service.dart';
-import '../../features/ticket/data/repository/ticket_repository.dart';
 import '../../features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
 import '../di/bindings/booking_bind.dart';
 import '../di/bindings/change_password_bind.dart';
-import '../di/bindings/my_reserve_binds.dart';
+import '../middlewares/my_middleware.dart';
 
 class AppRoutes {
   static const String splashScreen = "/";
@@ -49,6 +50,7 @@ class AppRoutes {
   static const String forgotPassword = '/email_verify';
   static const String resetPassword = '/reset_password';
   static const String verificationCode = '/verification_code';
+  static const String refreshToken = '/refresh_token';
   static const String uploadDocuments = '/upload_documents';
   static const String properties = '/properties';
   static const String propertyDetails = '/propertyDetails';
@@ -73,15 +75,21 @@ class AppRoutes {
   static const String createPost = '/create_post';
   static const String notifications = '/notifications';
   static const String myReserve = '/myReserve';
-  static const String my_times = '/my_times';
+  static const String myTimes = '/my_times';
   static const String createProperty = '/create_property';
   static const String addImagesToProperty = '/add_images_to_property';
 
   static List<GetPage> routes_ = [
+    GetPage(name: splashScreen, page: () => SplashScreen()),
+    GetPage(name: refreshToken, page: () => RefreshTokenPage()),
     GetPage(
       name: myReserve,
       page: () => const MyReserve(),
-      binding: MyReserveBinding(),
+      binding: BindingsBuilder(() {
+        final controller = Get.find<myReserveController>();
+        controller.loadCashedReservations();
+        controller.fetchReservations(controller.selectedStatus.value);
+      }),
     ),
     GetPage(name: discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
@@ -101,12 +109,17 @@ class AppRoutes {
       name: home,
       page: () => Home(),
       binding: BindingsBuilder(() {
-        Get.lazyPut(() => PropertyService(Get.find()), fenix: true);
-        Get.lazyPut(() => PropertyRepository(Get.find()), fenix: true);
+        Get.find<PropertiesController>().fetchProperties();
+        Get.find<OfficeController>().fetchOffices();
+        Get.find<ServiceProviders_Controller>().fetchExperts();
       }),
     ),
     GetPage(name: offices, page: () => Offices()),
-    GetPage(name: login, page: () => LoginScreen()),
+    GetPage(
+      name: login,
+      page: () => LoginScreen(),
+      middlewares: [MyMiddleware()],
+    ),
     GetPage(name: verificationCode, page: () => OtpPage()),
     GetPage(name: signup, page: () => SignUpScreen()),
     GetPage(name: uploadDocuments, page: () => UploadDocuments()),
@@ -127,15 +140,13 @@ class AppRoutes {
       name: baseTicketsPage,
       page: () => BaseTicketsPage(),
       binding: BindingsBuilder(() {
-        Get.lazyPut(() => TicketService(Get.find()), fenix: true);
-        Get.lazyPut(() => TicketRepositoryImpl(Get.find()), fenix: true);
-        Get.lazyPut(() => GetAllTicketsController(Get.find()), fenix: true);
+        Get.find<GetAllTicketsController>().fetchTickets(page: 0);
       }),
     ),
     GetPage(
       name: myTickets,
       page: () => MyTickets(),
-      binding: MyTicketsBinds(),
+      // binding: MyTicketsBinds(),
     ),
     GetPage(name: filteredTickets, page: () => FilteredTicketPage()),
     GetPage(name: createPost, page: () => CreatePostPage()),

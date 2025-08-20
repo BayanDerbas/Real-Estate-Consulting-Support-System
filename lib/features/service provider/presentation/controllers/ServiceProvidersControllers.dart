@@ -16,12 +16,6 @@ class ServiceProviders_Controller extends GetxController {
   var totalPages = 1.obs;
   final int pageSize = 10;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchExperts();
-  }
-
   void fetchExperts({int page = 0}) async {
     isLoading(true);
     try {

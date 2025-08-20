@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:graduation_project/features/Auth/data/model/check_status_model.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
 import 'package:graduation_project/core/networks/failures.dart';
@@ -110,6 +111,17 @@ class AuthRepository {
   Future<Either<Failures, dynamic>> sendCode(String? email) async {
     try {
       final httpResponse = await _authService.sendCode(email!);
+      return Right(httpResponse.data);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, CheckStatusModel>> checkStatus(int userId) async {
+    try {
+      final httpResponse = await _authService.checkStatus(userId);
       return Right(httpResponse.data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));

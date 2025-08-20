@@ -18,16 +18,16 @@ class AddImagesToPropertyController extends GetxController {
 
   AddImagesToPropertyController(this._propertyRepository);
 
-  @override
-  void onInit() {
-    super.onInit();
-    if (Get.arguments is int) {
-      propertyId = Get.arguments as int;
-    } else {
-      Get.snackbar("Error", "Property ID not found. Please go back.");
-      if (Get.isDialogOpen!) Get.back();
-    }
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   if (Get.arguments is int) {
+  //     propertyId = Get.arguments as int;
+  //   } else {
+  //     Get.snackbar("Error", "Property ID not found. Please go back.");
+  //     if (Get.isDialogOpen!) Get.back();
+  //   }
+  // }
 
   Future<void> pickMainImage() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.gallery);

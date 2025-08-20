@@ -4,6 +4,7 @@ import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
+import '../controllers/keyboard_controller.dart';
 
 class BaseAuthScreen extends StatelessWidget {
   const BaseAuthScreen({
@@ -28,17 +29,21 @@ class BaseAuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    final keyController = Get.find<KeyboardController>();
 
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(130),
-          child: CustomAppbar(
-            text: appBarTitle ?? '',
-            icon: Icons.notification_add,
-            iconColor: Colors.white,
-          ),
+          child:
+              !keyController.isOpen.value
+                  ? CustomAppbar(
+                    text: appBarTitle ?? '',
+                    icon: Icons.notification_add,
+                    iconColor: Colors.white,
+                  )
+                  : SizedBox(),
         ),
         body: SingleChildScrollView(
           child: Column(

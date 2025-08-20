@@ -20,10 +20,10 @@ class TicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return TicketWidget(
       width: width,
-      height: height,
+      height: height!,
       color: backgroundColor,
       isCornerRounded: true,
-      shadow: customBoxShadow(x: 0, y: 3, blurRadius: 6, spreadRadius: 1),
+      // shadow: customBoxShadow(x: 0, y: 3, blurRadius: 6, spreadRadius: 1),
       child: widget,
     );
   }
