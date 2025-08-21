@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:graduation_project/features/FAQs_Support/presentation/widgtes/custom_faqs.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/widgets/Custom_Appbar.dart';
 import '../controllers/faqs_controller.dart';
 
 class FAQS_support extends StatelessWidget {
@@ -12,16 +13,16 @@ class FAQS_support extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<FAQsController>();
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.deepNavy,
-        centerTitle: true,
-        title: Text(
-          "FAQs الدعم",
-          style: Fonts.itim.copyWith(color: Colors.white, fontSize: 20),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(150),
+        child: CustomAppbar(
+          text: "Faqs Support",
+          icon: Icons.notifications,
+          iconColor: AppColors.pureWhite,
         ),
       ),
       body: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: TextDirection.ltr,
         child: Obx(() {
           if (controller.isLoading.value && controller.items.isEmpty) {
             return const Center(child: CircularProgressIndicator());
@@ -50,7 +51,6 @@ class FAQS_support extends StatelessWidget {
                     (controller.isLastPage.value ? 0 : 1),
                 itemBuilder: (context, index) {
                   if (index >= controller.items.length) {
-                    // loader at bottom for next page
                     return const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: Center(child: CircularProgressIndicator()),

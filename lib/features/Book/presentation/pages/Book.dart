@@ -18,7 +18,7 @@ class Book extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
-          text: "حجز موعد",
+          text: "Book Appointement",
           icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),

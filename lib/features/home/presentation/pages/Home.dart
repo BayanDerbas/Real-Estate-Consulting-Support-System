@@ -339,6 +339,10 @@ class Home extends StatelessWidget {
               );
             }),
             SizedBox(height: 15,),
+            Text(
+              "Posts",
+              style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 24),
+            ).padding(const EdgeInsets.all(8)),
             Obx(() {
               if (_controller.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());

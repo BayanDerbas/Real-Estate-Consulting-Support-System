@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 
 class propertyDetailsController extends GetxController{
@@ -19,5 +18,4 @@ class propertyDetailsController extends GetxController{
       selectedImageIndex--;
     }
   }
-
 }

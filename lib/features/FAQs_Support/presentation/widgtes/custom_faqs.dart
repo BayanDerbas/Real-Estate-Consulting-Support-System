@@ -60,7 +60,7 @@ class CustomFaqs extends StatelessWidget {
           ),
           children: [
             Align(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.centerLeft,
               child: Text(
                 answer,
                 textAlign: TextAlign.start,

@@ -23,7 +23,7 @@ import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dar
 import '../../features/Auth/presentation/pages/change_password.dart';
 import '../../features/Auth/presentation/pages/refresh_token_page.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
-import '../../features/Discounts/presentation/pages/Discounts.dart';
+import '../../features/Discounts/presentation/pages/create_discounts.dart';
 import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
 import '../../features/home/presentation/pages/Home.dart';

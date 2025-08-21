@@ -5,19 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graduation_project/core/stripe/stripe.dart';
 import 'package:graduation_project/core/translation/locale.dart';
 import 'package:graduation_project/core/translation/locale_controller.dart';
-import 'package:graduation_project/features/Auth/presentation/pages/change_password.dart';
-import 'package:graduation_project/features/Auth/presentation/pages/splash_screen.dart';
 import 'package:graduation_project/core/constants/app_theme.dart';
 import 'package:graduation_project/core/routes/routes.dart';
-import 'package:graduation_project/features/Discounts/presentation/pages/Discounts.dart';
-import 'package:graduation_project/features/calls/login_call.dart';
-import 'package:graduation_project/features/home/presentation/pages/Home.dart';
-import 'package:graduation_project/features/ticket/presentation/pages/all_tickets.dart';
-import 'package:graduation_project/features/ticket/presentation/pages/base_tickets_page.dart';
-import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
-import 'package:graduation_project/features/wallet/presentation/pages/Wallet.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'core/di/dependence_initializer.dart';
 import 'core/networks/dio_factory.dart';
 import 'core/notifications/firebase_messaging_service.dart';
@@ -25,10 +15,6 @@ import 'core/utils/secure_storage.dart';
 import 'core/utils/shard_prefs.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-
-import 'features/Auth/presentation/pages/login_screen.dart';
-import 'features/calls/call_page.dart';
-import 'features/properties/presentation/pages/add_images_to_property.dart';
 import 'firebase_options.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -93,7 +79,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        //home: Home(),
+        //home: FAQS_support(),
         getPages: AppRoutes.routes_,
       );
     });

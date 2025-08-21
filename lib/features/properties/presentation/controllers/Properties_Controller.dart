@@ -86,7 +86,6 @@ class PropertiesController extends GetxController {
     currentPage.value = 0;
 
     if (index == -1) {
-      // All: لا ترسل نوع
       fetchProperties(page: 0, size: pageSize);
     } else {
       fetchProperties(page: 0, size: pageSize);
@@ -135,19 +134,18 @@ class PropertiesController extends GetxController {
 
   List<CustomProperties> get propertiesList {
     return properties.map((property) {
-      final mainImage = property.propertyImageList.firstWhere(
-        (image) => image.type == "MAIN",
-        orElse:
-            () =>
-                property.propertyImageList.isNotEmpty
-                    ? property.propertyImageList[0]
-                    : PropertyImageModel(
-                      id: 0,
-                      imageUrl: AppImages.noImage,
-                      type: "MAIN",
-                    ),
-      );
-
+      final sortedImages = [
+        ...property.propertyImageList.where((img) => img.type == "MAIN"),
+        ...property.propertyImageList.where((img) => img.type == "SUB"),
+      ];
+      final mainImage =
+          sortedImages.isNotEmpty
+              ? sortedImages[0]
+              : PropertyImageModel(
+                id: 0,
+                imageUrl: AppImages.noImage,
+                type: "MAIN",
+              );
       return CustomProperties(
         imagePath: mainImage.imageUrl,
         place: property.location,
