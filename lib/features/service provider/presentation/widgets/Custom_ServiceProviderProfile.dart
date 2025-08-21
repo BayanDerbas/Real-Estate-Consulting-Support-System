@@ -80,11 +80,11 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             child: Center(
                               child: CircularProgressIndicator(
                                 value:
-                                loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress
-                                    .cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                    : null,
+                                    loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
                                 strokeWidth: 2,
                               ),
                             ),
@@ -135,7 +135,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(width: 20,),
+                        SizedBox(width: 20),
                         Flexible(
                           child: Container(
                             decoration: BoxDecoration(
@@ -148,8 +148,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                                 color: AppColors.grey,
                                 fontSize: 16,
                               ),
-                              overflow:
-                              TextOverflow.ellipsis,
+                              overflow: TextOverflow.ellipsis,
                             ).padding(EdgeInsets.all(8)),
                           ),
                         ),
@@ -296,9 +295,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ),
               ),
             ],
-          )
-              .padding(EdgeInsets.all(20))
-              .scrollDirection(Axis.horizontal),
+          ).padding(EdgeInsets.all(20)).scrollDirection(Axis.horizontal),
           Divider(
             thickness: 1,
             color: AppColors.grey2,
@@ -394,24 +391,24 @@ class CustomServiceproviderprofile extends StatelessWidget {
                           crossAxisSpacing: 8,
                           mainAxisSpacing: 8,
                           children:
-                          postImages.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final imagePath = entry.value;
-                            return GestureDetector(
-                              onTap: () {
-                                print(
-                                  "تم الضغط على صورة البوست رقم: $index",
+                              postImages.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final imagePath = entry.value;
+                                return GestureDetector(
+                                  onTap: () {
+                                    print(
+                                      "تم الضغط على صورة البوست رقم: $index",
+                                    );
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.asset(
+                                      imagePath,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 );
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.asset(
-                                  imagePath,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                              }).toList(),
                         ),
 
                         if (job == "عقارات")
@@ -421,24 +418,24 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
                             children:
-                            realEstateImages.asMap().entries.map((entry) {
-                              final index = entry.key;
-                              final imagePath = entry.value;
-                              return GestureDetector(
-                                onTap: () {
-                                  print(
-                                    "تم الضغط على صورة العقار رقم: $index",
+                                realEstateImages.asMap().entries.map((entry) {
+                                  final index = entry.key;
+                                  final imagePath = entry.value;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      print(
+                                        "تم الضغط على صورة العقار رقم: $index",
+                                      );
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.asset(
+                                        imagePath,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   );
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.asset(
-                                    imagePath,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                                }).toList(),
                           ),
 
                         GridView.count(
@@ -446,31 +443,31 @@ class CustomServiceproviderprofile extends StatelessWidget {
                           childAspectRatio: 0.7,
                           padding: const EdgeInsets.all(5),
                           children:
-                          discounts.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final discount = entry.value;
-                            final colors = [
-                              AppColors.lavender,
-                              AppColors.softPink,
-                              AppColors.babySky,
-                              AppColors.aquaBlue,
-                              AppColors.goldenYellow,
-                              AppColors.purple,
-                            ];
-                            return GestureDetector(
-                              onTap: () {
-                                print(
-                                  "تم الضغط على الخصم: ${discount['code']}",
+                              discounts.asMap().entries.map((entry) {
+                                final index = entry.key;
+                                final discount = entry.value;
+                                final colors = [
+                                  AppColors.lavender,
+                                  AppColors.softPink,
+                                  AppColors.babySky,
+                                  AppColors.aquaBlue,
+                                  AppColors.goldenYellow,
+                                  AppColors.purple,
+                                ];
+                                return GestureDetector(
+                                  onTap: () {
+                                    print(
+                                      "تم الضغط على الخصم: ${discount['code']}",
+                                    );
+                                  },
+                                  child: DiscountItem(
+                                    discount: discount['discount']!,
+                                    description: discount['description']!,
+                                    code: discount['code']!,
+                                    color: colors[index % colors.length],
+                                  ),
                                 );
-                              },
-                              child: DiscountItem(
-                                discount: discount['discount']!,
-                                description: discount['description']!,
-                                code: discount['code']!,
-                                color: colors[index % colors.length],
-                              ),
-                            );
-                          }).toList(),
+                              }).toList(),
                         ),
                       ],
                     ),

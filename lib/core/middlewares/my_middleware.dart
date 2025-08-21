@@ -11,12 +11,12 @@ class MyMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     // fot test
-    //return RouteSettings(name: AppRoutes.home);
+    //return RouteSettings(name: AppRoutes.login);
 
     // if (SharedPrefs.getString(AppKeys.toRoute) == "/check-status-page") {
     //   return RouteSettings(name:"/check-status-page");
     // }
-
+    //important
     //important
     if (SharedPrefs.getString(AppKeys.toRoute) == AppRoutes.refreshToken) {
       return RouteSettings(name: AppRoutes.refreshToken);

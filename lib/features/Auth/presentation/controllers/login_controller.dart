@@ -83,10 +83,11 @@ class LoginController extends GetxController {
     }
 
     await _saveUserData(loginData, user);
+    final currentId = await storage.getUserId();
+
     DioFactory.setToken(loginData.token!);
     final userName = "${user.firstName ?? ''} ${user.lastName ?? ''}".trim();
-    await callServices.onUserLogin(user.id.toString(), userName);
-
+    await callServices.onUserLogin(currentId.toString(), userName);
     AwesomeDialog(
       context: context,
       dialogType: DialogType.success,
@@ -169,5 +170,11 @@ class LoginController extends GetxController {
       return true;
     }
     return false;
+  }
+
+  @override
+  void onClose() {
+    email.dispose();
+    password.dispose();
   }
 }

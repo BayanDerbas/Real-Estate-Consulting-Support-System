@@ -38,7 +38,10 @@ class RoomController extends GetxController {
       final roomsResult = await _chatRepository.getRoomsOfCurrentUser(
         userId: currentUserIdInt,
       );
-
+      print('...........current room info');
+      print(currentUserIdInt);
+      print('...........other user id info');
+      print(otherUser.id);
       await roomsResult.fold(
         (failure) async {
           await _createRoomAndNavigate(otherUser);
@@ -85,6 +88,7 @@ class RoomController extends GetxController {
         );
       },
       (roomResponse) async {
+        print('.............room response..............$roomResponse');
         await _navigateToChat(roomResponse.id!, otherUser);
       },
     );

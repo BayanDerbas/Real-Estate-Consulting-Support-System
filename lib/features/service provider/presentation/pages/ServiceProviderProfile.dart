@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:zego_uikit/zego_uikit.dart';
+import 'package:get/get.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
@@ -28,7 +28,8 @@ class Serviceproviderprofile extends StatelessWidget {
           user != null
               ? ZegoSendCallInvitationButton(
                 isVideoCall: true,
-                resourceID: "realEstateCons",
+                resourceID: 'real_cons',
+                // resourceID: "realEstateCons",
                 invitees: [
                   ZegoUIKitUser(
                     id: user.id.toString(),

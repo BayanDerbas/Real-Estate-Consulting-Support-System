@@ -132,7 +132,7 @@ class DependenceInitializer {
     Get.lazyPut(() => PostService(Get.find()));
     Get.lazyPut(() => PostsRepository(Get.find()));
     Get.put(CreatePostController(Get.find()));
-    Get.put(PostsController(Get.find<PostsRepository>()));
+    Get.put(PostsController(Get.find()));
     // last edit
     Get.put(ServiceProviders_Controller());
     Get.put(HomeController());

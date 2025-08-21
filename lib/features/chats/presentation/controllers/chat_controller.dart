@@ -22,7 +22,6 @@ class ChatController extends GetxController {
   int? roomId;
   final Rx<UserModel?> otherUser = Rx<UserModel?>(null);
   int? currentUserId;
-
   StompClient? stompClient;
 
   @override

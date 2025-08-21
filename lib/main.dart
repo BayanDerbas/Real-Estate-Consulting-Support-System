@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:zego_uikit/zego_uikit.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graduation_project/core/stripe/stripe.dart';
 import 'package:graduation_project/core/translation/locale.dart';
@@ -34,7 +36,6 @@ Future<void> main() async {
     "...........................................................................\n",
   );
 
-  // Inject LanguageController globally
   final languageController = Get.put(LanguageController());
 
   await StripeService.initStripe();
@@ -42,13 +43,15 @@ Future<void> main() async {
   await FirebaseMessagingService().init();
 
   ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
-  ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI([
-    ZegoUIKitSignalingPlugin(),
-  ]);
+  ZegoUIKit().initLog().then((value) {
+    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI([
+      ZegoUIKitSignalingPlugin(),
+    ]);
 
-  runApp(
-    MyApp(navigatorKey: navigatorKey, languageController: languageController),
-  );
+    runApp(
+      MyApp(navigatorKey: navigatorKey, languageController: languageController),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {
