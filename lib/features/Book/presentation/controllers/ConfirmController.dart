@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/features/Book/data/model/booking_request_model.dart';
+import 'package:intl/intl.dart';
 import '../../data/model/booking_response.dart';
 import '../../data/repository/booking_repository.dart';
 
@@ -17,7 +18,16 @@ class ConfirmController extends GetxController {
     discountCodeController.dispose();
     super.onClose();
   }
-
+  String formatDate(String? dateTime) {
+    if (dateTime == null || dateTime.isEmpty) return "";
+    try {
+      final parsed = DateTime.parse(dateTime);
+      return formatDate("yyyy-MM-dd HH:mm");
+    } catch (e) {
+      print("❌ Date parse error in UI: $e");
+      return dateTime;
+    }
+  }
   Future<void> confirmBooking(
     int expertId,
     int clientId,
@@ -37,19 +47,19 @@ class ConfirmController extends GetxController {
         clientId: clientId,
         callType: callType,
         duration: duration,
-        startDate: startDate,
+        startDate: formatDate(startDate),
         couponCode: coupon,
         clientSecret: clientSecret,
       );
       final result = await bookingRepository.createBooking(request);
-      result.fold((failure) => Get.snackbar('Error', failure.err_message), (
-        response,
-      ) {
+      result.fold(
+              (failure) => print(failure.err_message),
+              (response) {
         bookingResponse.value = response;
         print(
           "///////////////// Response Booking /////////////////\n$response",
         );
-        Get.snackbar('Success', 'Booking created successfully');
+        print('Booking created successfully');
       });
     } catch (e) {
       print(e);
@@ -58,22 +68,3 @@ class ConfirmController extends GetxController {
     }
   }
 }
-
-// class ConfirmController extends GetxController {
-//   final discountCodeController = TextEditingController();
-//
-//   @override
-//   void onClose() {
-//     discountCodeController.dispose();
-//     super.onClose();
-//   }
-//
-//   void confirmBooking() {
-//     final code = discountCodeController.text.trim();
-//     if (code.isNotEmpty) {
-//       Get.snackbar("تم", "تم استخدام الكود: $code");
-//     } else {
-//       Get.snackbar("تنبيه", "الرجاء إدخال كود الخصم إذا وُجد");
-//     }
-//   }
-// }
