@@ -20,7 +20,7 @@ class _ReservationService implements ReservationService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<ReservationResponse> getReservation(int expertId) async {
+  Future<ReservationResponse> getReservations(int expertId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _ReservationService implements ReservationService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/booking/${expertId}',
+            'http://195.88.87.77:8000//booking/${expertId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -39,6 +39,33 @@ class _ReservationService implements ReservationService {
     late ReservationResponse _value;
     try {
       _value = ReservationResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<WorkingTimesResponse> getWorkingTimes(int expertId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<WorkingTimesResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://195.88.87.77:8000/working_times/all/${expertId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late WorkingTimesResponse _value;
+    try {
+      _value = WorkingTimesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

@@ -32,7 +32,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final languageController = Get.find<LanguageController>();
-
+    print("Name : ${controller.userName} ${controller.userType}");
     return SizedBox(
       width: 340,
       child: Drawer(

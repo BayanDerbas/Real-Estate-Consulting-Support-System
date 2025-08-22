@@ -4,7 +4,8 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
-import '../../../../core/constants/image_paths.dart';
+import '../../data/repository/booking_repository.dart';
+import '../../data/repository/reservation_repository.dart';
 import '../controllers/BookController.dart';
 import '../widgets/Custom_Book.dart';
 
@@ -13,93 +14,124 @@ class Book extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BookController controller = Get.find<BookController>();
+    final args = Get.arguments as Map<String, dynamic>?;
+
+    final int expertId = int.tryParse(args?['id']?.toString() ?? '0') ?? 0;
+    final Map<String, dynamic>? expertData = args?['expert'];
+
+    if (expertId == 0) {
+      print("Error: Expert ID is null or 0");
+      Get.snackbar('خطأ', 'معرف الخبير غير موجود.');
+      return Scaffold(
+        body: Center(child: Text("حدث خطأ، يرجى إعادة المحاولة.")),
+      );
+    }
+
+    final controller = Get.put(BookController(
+      expertId: expertId,
+      expertData: expertData,
+      repository: Get.find<ReservationRepository>(),
+      bookingRepository: Get.find<BookingRepository>(),
+    ));
+
+    final String expertName = args?['name'] ?? "دكتور افتراضي";
+    final String expertJob = args?['job'] ?? "استشاري نفسي";
+
     return Scaffold(
+      backgroundColor: AppColors.softWhite,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
-          text: "Book Appointement",
+          text: "Book Appointment",
           icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
       ),
       body: Obx(() {
-        final expert = controller.expert.value;
-        final hours =
-            controller.generatedHours.isNotEmpty
-                ? controller.generatedHours
-                : [
-                  "09:00",
-                  "10:00",
-                  "11:00",
-                  "12:00",
-                  "01:00",
-                  "02:00",
-                  "03:00",
-                ];
-        //controller.generateAppointmentHours();
-        final isBooked = controller.isBookedList;
-        if (hours.length != isBooked.length) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (hours.length != isBooked.length) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return Column(
-          children: [
-            CustomBook(
-              image: expert?.idCardImage ?? AppImages.expert,
-              name:
-                  expert != null
-                      ? "${expert.user?.firstName ?? ''} ${expert.user?.lastName ?? ''}"
-                          .trim()
-                      : "بدون اسم",
-              job: expert?.profession ?? "غير معروف",
-              rating: expert?.rating?.toString() ?? "0",
-              experience: expert?.experience ?? "0",
-              successCount: expert?.rateCount?.toString() ?? "0",
-              followerNum: "3",
-              monthDays: controller.getCurrentMonthDays(),
-              selectedDate: controller.selectedDate.value,
-              onDateSelected: controller.selectDate,
-              monthName: controller.getMonthName(),
-              onNextMonth: controller.goToNextMonth,
-              onResetMonth:
-                  controller.isInCurrentMonth()
-                      ? null
-                      : controller.resetToCurrentMonth,
-              showResetIcon: !controller.isInCurrentMonth(),
-              sessionDuration: [30, 60, 90],
-              selectedSessionIndex: controller.selectedSessionIndex.value,
-              onSessionSelected: controller.selectSession,
-              selectedCallType: controller.selectedCallType.value,
-              onCallTypeSelected: controller.selectCallType,
-              appointmentHours: hours,
-              isBooked: isBooked,
-              selectedHourIndex: controller.selectedHourIndex.value,
-              onHourSelected: controller.selectHour,
-            ),
-            CustomButton(
-              text: "حجز موعد",
-              backgroundColor:
-                  hours.isEmpty || controller.isLoading.value
-                      ? AppColors.grey
-                      : AppColors.deepNavy,
-              textColor: AppColors.softWhite,
-              width: double.infinity,
-              onPressed:
-                  hours.isEmpty || controller.isLoading.value
-                      ? null
-                      : () async {
-                        final result = await controller.bookAppointment();
-                        result.fold(
-                          (failure) => Get.snackbar('خطأ', failure.err_message),
-                          (response) => null, // Handled in controller
-                        );
+        final itemCount = controller.generatedHours.length;
+        final rowCount = (itemCount / 4).ceil();
+        final gridHeight = rowCount * 50.0;
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomBook(
+                image: expertData?['idCardImage'] ?? '',
+                name: expertName,
+                job: expertJob,
+                rating: args?['rating'] ?? "4.5",
+                experience: args?['experience'] ?? "3",
+                successCount: args?['successCount'] ?? "12",
+                monthDays: controller.getCurrentMonthDays(),
+                selectedDate: controller.selectedDate.value,
+                onDateSelected: controller.selectDate,
+                monthName: controller.getMonthName(),
+                onNextMonth: controller.goToNextMonth,
+                onResetMonth: controller.isInCurrentMonth() ? null : controller.resetToCurrentMonth,
+                showResetIcon: !controller.isInCurrentMonth(),
+                sessionDuration: [15, 30],
+                selectedSessionIndex: controller.selectedSessionIndex.value,
+                onSessionSelected: controller.selectSession,
+                selectedCallType: controller.selectedCallType.value,
+                onCallTypeSelected: controller.selectCallType,
+                appointmentHours: controller.generatedHours,
+                isBooked: controller.isBookedList,
+                selectedHourIndex: controller.selectedHourIndex.value,
+                onHourSelected: controller.selectHour,
+                followerNum: args?['followersCount'] ?? "" ,
+                gridHeight: gridHeight,
+              ),
+              const SizedBox(height: 15),
+              CustomButton(
+                text: controller.isLoading.value
+                    ? "...جاري الحجز"
+                    : controller.isLoadingTimes.value
+                    ? "...جاري تحميل أوقات العمل"
+                    : "حجز موعد",
+                backgroundColor: controller.isLoading.value || controller.isLoadingTimes.value
+                    ? AppColors.grey
+                    : AppColors.deepNavy,
+                textColor: AppColors.softWhite,
+                width: double.infinity,
+                height: 55,
+                onPressed: controller.isLoading.value || controller.isLoadingTimes.value
+                    ? null
+                    : () async {
+                  try {
+                    if (controller.selectedSessionIndex.value == -1) {
+                      Get.snackbar('خطأ', 'يرجى اختيار مدة الجلسة.');
+                      return;
+                    }
+                    if (controller.selectedHourIndex.value == -1) {
+                      Get.snackbar('خطأ', 'يرجى اختيار الساعة المناسبة.');
+                      return;
+                    }
+                    if (controller.expert.value?.id == null) {
+                      print("Error: Expert data is null -> ${controller.expert.value}");
+                      Get.snackbar('خطأ', 'حدث خطأ بالخبير، حاول مرة أخرى.');
+                      return;
+                    }
+
+                    final result = await controller.bookAppointment();
+                    result.fold(
+                          (failure) {
+                        print("Booking Failed: ${failure.err_message}");
                       },
-            ).padding(const EdgeInsets.all(15)),
-          ],
-        ).scrollDirection(Axis.vertical);
+                          (response) {
+                        print("Booking Success: $response");
+                        Get.snackbar('نجاح', 'تم الحجز بنجاح');
+                      },
+                    );
+                  } catch (e, stack) {
+                    print("Unexpected Error: $e\n$stack");
+                    Get.snackbar('خطأ', 'حدث خطأ غير متوقع، حاول مرة أخرى.');
+                  }
+                },
+              ).padding(const EdgeInsets.symmetric(horizontal: 0, vertical: 10)),
+            ],
+          ),
+        );
       }),
     );
   }

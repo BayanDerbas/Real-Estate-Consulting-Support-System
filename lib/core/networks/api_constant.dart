@@ -45,7 +45,7 @@ class ApiConstant {
   //show the working times experts by id
   static const String working_times = "$baseUrl/working_times/all/{id}";
   //the reservation appointement for expert
-  static const String reservation_allready = "$baseUrl//booking/{id}";
+  static const String reservation_allready = "$baseUrl/booking/{id}";
   //show my reservation with status
   static const String showMyReserve = "$baseUrl/booking/all/{status}";
   //show posts

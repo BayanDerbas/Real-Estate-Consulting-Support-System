@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/stripe/stripe.dart';
 import '../../../../core/widgets/custom_appbar.dart';
@@ -19,6 +20,17 @@ class Confirm extends StatelessWidget {
   final ConfirmController confirmController = Get.put(
     ConfirmController(BookingRepositoryImpl(Get.find<BookingService>())),
   );
+  String formatDate(String? dateTime) {
+    if (dateTime == null || dateTime.isEmpty) return "";
+    try {
+      final parsed = DateTime.parse(dateTime);
+      return DateFormat("yyyy-MM-dd HH:mm").format(parsed);
+    } catch (e) {
+      print("❌ Date parse error in UI: $e");
+      return dateTime;
+    }
+  }
+
 
   void _showPaymentBottomSheet(BuildContext context, BookingData booking) {
     showModalBottomSheet(
@@ -35,10 +47,24 @@ class Confirm extends StatelessWidget {
             paymentController.clearFields();
             Navigator.pop(context);
           },
-          onPay: () {
-            StripeService.presentPayementSheet(booking.clientSecret ?? "");
-            Navigator.pop(context);
-          },
+            onPay: () async {
+              try {
+                print("💳 Starting payment with clientSecret: ${booking.clientSecret}");
+                final result = await StripeService.presentPayementSheet(booking.clientSecret ?? "");
+                print("✅ Payment result: $result");
+
+                if (result) {
+                  Get.snackbar('نجاح', 'تم الدفع بنجاح!');
+                  Get.offAllNamed('/home');
+                } else {
+                  print("❌ Payment failed");
+                  Get.snackbar('خطأ', 'فشل الدفع، حاول مرة أخرى.');
+                }
+              } catch (e) {
+                print("⚠️ Payment exception: $e");
+                Get.snackbar('خطأ', 'فشل الدفع: $e');
+              }
+            }
         );
       },
     );
@@ -52,7 +78,7 @@ class Confirm extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(150),
           child: CustomAppbar(
-            text: "Welcome Home",
+            text: "Confirm Payment",
             icon: Icons.notifications,
             iconColor: AppColors.pureWhite,
           ),
@@ -70,7 +96,7 @@ class Confirm extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
-          text: "Welcome Home",
+          text: "Welcome Payment",
           icon: Icons.notifications,
           iconColor: AppColors.pureWhite,
         ),
@@ -83,7 +109,7 @@ class Confirm extends StatelessWidget {
               time: "${booking.duration ?? 0} دقيقة",
               expertName: booking.expert?.user?.firstName ?? "الخبير",
               price: "${booking.originalPrice ?? 0.0}",
-              dateTime: "${booking.startTime ?? ""} - ${booking.endTime ?? ""}",
+              dateTime: "${formatDate(booking.startTime)} - ${formatDate(booking.endTime)}",
               sessionPrice: "${booking.originalPrice ?? 0.0}",
               discountRate: "${booking.discountAmount ?? 0.0}",
               finalPrice: "${booking.finalPrice ?? 0.0}",
@@ -101,7 +127,7 @@ class Confirm extends StatelessWidget {
                   booking.client!.id!,
                   booking.callType!,
                   booking.duration!,
-                  booking.startTime!,
+                  formatDate(booking.startTime!),
                   booking.clientSecret!,
                 );
                 _showPaymentBottomSheet(context, booking);

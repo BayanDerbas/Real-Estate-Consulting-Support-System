@@ -19,40 +19,48 @@ class CustomPaymentBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Confirm Reservation and Payement",
-                style: Fonts.itim.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.softWhite,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "تأكيد الحجز والدفع",
+                  style: Fonts.itim.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.deepNavy,
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: onClose,
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: CustomButton(
-              text: "Pay \$${finalPrice}",
-              backgroundColor: AppColors.deepNavy,
-              textColor: AppColors.pureWhite,
-              onPressed: onPay,
-              width: 175,
+                IconButton(
+                  icon: const Icon(Icons.close, color: AppColors.darkGray),
+                  onPressed: onClose,
+                ),
+              ],
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: CustomButton(
+                text: "ادفع \$${finalPrice}",
+                backgroundColor: AppColors.deepNavy,
+                textColor: AppColors.pureWhite,
+                onPressed: onPay,
+                width: 175,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

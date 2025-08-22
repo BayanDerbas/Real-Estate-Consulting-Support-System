@@ -108,15 +108,16 @@ class DependenceInitializer {
     );
     // Booking dependencies
     Get.lazyPut<BookingService>(() => BookingService(Get.find<Dio>()));
-    Get.lazyPut<BookingRepository>(
-      () => BookingRepositoryImpl(Get.find<BookingService>()),
-    );
-    Get.put(
-      BookController(
-        Get.find<BookingRepository>(),
-        Get.find<ShowWorkingTimesRepository>(),
-      ),
-    );
+    Get.lazyPut<BookingRepository>(() => BookingRepositoryImpl(Get.find<BookingService>()));
+
+    Get.lazyPut<ReservationService>(() => ReservationService(Get.find<Dio>()));
+    Get.lazyPut<ReservationRepository>(() => ReservationRepository(Get.find<ReservationService>()));
+    // Get.put(BookController(
+    //   Get.find<ReservationRepository>(),
+    //   Get.find<BookingRepository>(),
+    //   ),
+    // );
+
     // MyReserve dependencies
     Get.lazyPut<MyReserveService>(() => MyReserveService(Get.find<Dio>()));
     Get.lazyPut(() => MyReserveRepositoryImpl(Get.find<MyReserveService>()));

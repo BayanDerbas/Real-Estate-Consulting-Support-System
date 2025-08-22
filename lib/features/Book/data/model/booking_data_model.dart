@@ -23,18 +23,13 @@ class BookingData {
   final String? startTime;
   final String? endTime;
   final String? bookingStatus;
-
   final String? refundStatus;
-
   @JsonKey(name: 'scheduled_at')
   final String? scheduledAt;
-
   @JsonKey(name: 'cancelled_at')
   final String? cancelledAt;
-
   @JsonKey(name: 'cancelled_by')
   final String? cancelledBy;
-
   final String? cancellationReason;
   final String? feedback;
 

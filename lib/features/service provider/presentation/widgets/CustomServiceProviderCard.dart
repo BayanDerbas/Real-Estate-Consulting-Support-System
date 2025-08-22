@@ -63,41 +63,45 @@ class Customserviceprovidercard extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 40,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: Image.network(
-                            provider['idCardImage'],
-                            width: 80,
-                            height: 100,
-                            fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return SizedBox(
-                                width: 80,
-                                height: 100,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                        : null,
-                                    strokeWidth: 2,
-                                  ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(40),
+                        child: provider['idCardImage'] != null &&
+                            provider['idCardImage'].toString().startsWith("http")
+                            ? Image.network(
+                          provider['idCardImage'],
+                          width: 80,
+                          height: 100,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return SizedBox(
+                              width: 80,
+                              height: 100,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                      : null,
+                                  strokeWidth: 2,
                                 ),
-                              );
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
-                                AppImages.noImage,
-                                width: 80,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              AppImages.noImage,
+                              width: 80,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                            : Image.asset(
+                          AppImages.noImage,
+                          width: 80,
+                          height: 100,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       const SizedBox(width: 10),

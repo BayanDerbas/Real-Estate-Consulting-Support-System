@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 
 class CustomBook extends StatelessWidget {
   final String image;
@@ -28,6 +29,7 @@ class CustomBook extends StatelessWidget {
   final int selectedHourIndex;
   final Function(int) onHourSelected;
   final List<bool> isBooked;
+  final double? gridHeight;
 
   const CustomBook({
     super.key,
@@ -55,10 +57,23 @@ class CustomBook extends StatelessWidget {
     required this.selectedHourIndex,
     required this.onHourSelected,
     required this.isBooked,
+    required this.gridHeight,
+
   }) : assert(
   appointmentHours.length == isBooked.length,
   'appointmentHours and isBooked must have the same length',
   );
+  ImageProvider _getImageProvider(String image) {
+    try {
+      if (image.startsWith("http")) {
+        return NetworkImage(image);
+      } else {
+        return AssetImage(AppImages.noImage);
+      }
+    } catch (_) {
+      return AssetImage(AppImages.expert);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +85,10 @@ class CustomBook extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(backgroundImage: AssetImage(image), radius: 50),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: _getImageProvider(image),
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
@@ -422,80 +440,76 @@ class CustomBook extends StatelessWidget {
             fontSize: 20,
           ),
         ).padding(const EdgeInsets.only(left: 16, top: 13, bottom: 13)),
-        SizedBox(
-          height: 130,
-          child: GridView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.6,
-            ),
-            itemCount: appointmentHours.length,
-            itemBuilder: (context, index) {
-              final hour = appointmentHours[index];
-              final booked = isBooked[index];
-              final isSelected = selectedHourIndex == index;
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 1.6,
+          ),
+          itemCount: appointmentHours.length,
+          itemBuilder: (context, index) {
+            final hour = appointmentHours[index];
+            final booked = isBooked[index];
+            final isSelected = selectedHourIndex == index;
 
-              Color bgColor;
-              Color textColor;
+            Color bgColor;
+            Color textColor;
 
-              if (booked) {
-                bgColor = AppColors.grey2;
-                textColor = AppColors.grey;
-              } else if (isSelected) {
-                bgColor = AppColors.purple;
-                textColor = AppColors.pureWhite;
-              } else {
-                bgColor = AppColors.softWhite;
-                textColor = AppColors.black;
-              }
+            if (booked) {
+              bgColor = AppColors.grey2;
+              textColor = AppColors.grey;
+            } else if (isSelected) {
+              bgColor = AppColors.purple;
+              textColor = AppColors.pureWhite;
+            } else {
+              bgColor = AppColors.softWhite;
+              textColor = AppColors.black;
+            }
 
-              return IgnorePointer(
-                ignoring: booked,
-                child: GestureDetector(
-                  onTap: booked ? null : () => onHourSelected(index),
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: bgColor,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: booked
-                          ? null
-                          : const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 5),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        hour,
-                        style: Fonts.itim.copyWith(
-                          fontSize: 16,
-                          color: textColor,
-                        ),
+            return IgnorePointer(
+              ignoring: booked,
+              child: GestureDetector(
+                onTap: booked ? null : () => onHourSelected(index),
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: booked
+                        ? null
+                        : const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      hour,
+                      style: Fonts.itim.copyWith(
+                        fontSize: 16,
+                        color: textColor,
                       ),
                     ),
                   ),
                 ),
-              ).padding(const EdgeInsets.only(top: 10));
-            },
-          ),
+              ),
+            ).padding(const EdgeInsets.only(top: 10));
+          },
         ),
       ],
     ).padding(const EdgeInsets.all(8));
   }
-
   String _getWeekDayAbbreviation(DateTime date) {
     const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     return days[date.weekday % 7];
   }
-
   List<DateTime> generateMonthDays(DateTime selectedDate) {
     final firstDay = DateTime(selectedDate.year, selectedDate.month, 1);
     final lastDay = DateTime(selectedDate.year, selectedDate.month + 1, 0);

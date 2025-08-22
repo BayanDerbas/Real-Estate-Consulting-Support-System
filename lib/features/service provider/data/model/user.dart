@@ -14,6 +14,8 @@ class User {
   final String? role;
   final String? status;
   final String? imageUrl;
+  final int? warnsCount;
+  final int? blocksCount;
 
   User({
     required this.id,
@@ -26,6 +28,8 @@ class User {
     required this.role,
     required this.status,
     required this.imageUrl,
+    this.warnsCount,
+    this.blocksCount,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

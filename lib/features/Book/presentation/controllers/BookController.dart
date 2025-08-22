@@ -1,104 +1,93 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/core/utils/secure_storage.dart';
-import 'package:graduation_project/features/Book/data/repository/reservation_repository.dart';
-import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
-import 'package:graduation_project/features/timeAvailable/data/repositories/show_working_times_repository.dart';
 import 'package:intl/intl.dart';
+import 'package:graduation_project/core/utils/secure_storage.dart';
+import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
 import 'package:graduation_project/features/service%20provider/data/model/expert.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/networks/failures.dart';
 import '../../../service provider/data/model/user.dart';
-import '../../../timeAvailable/data/models/working_times_model.dart';
 import '../../data/model/booking_request_model.dart';
 import '../../data/model/booking_response.dart';
+import '../../data/model/get_working_times/working_times_data.dart';
 import '../../data/repository/booking_repository.dart';
+import '../../data/repository/reservation_repository.dart';
 
 class BookController extends GetxController {
   var selectedDate = DateTime.now().obs;
-  var currentMonthDate = DateTime.now().obs;
-  var selectedSessionIndex = (-1).obs;
+  var selectedSessionIndex = 1.obs; // default 30 minutes
   var selectedCallType = 1.obs;
   var selectedHourIndex = (-1).obs;
   var isLoading = false.obs;
   var couponCode = ''.obs;
   var clientSecret = ''.obs;
   var expert = Rxn<Expert>();
-  var discountRate = ''.obs;
-  final availableTimes = <AvailableTime>[].obs;
-  final isLoadingTimes = false.obs;
+  final availableTimes = <WorkingTimesData>[].obs;
   final isBookedList = <bool>[].obs;
   final reservedTimes = <DateTime>[].obs;
   final BookingRepository _bookingRepository;
-  final ShowWorkingTimesRepository _showWorkingTimesRepository;
+  final ReservationRepository repository;
   RxList<String> generatedHours = <String>[].obs;
+  final int expertId;
+  final Map<String, dynamic>? expertData;
+  var currentMonthDate = DateTime.now().obs;
+  final isLoadingTimes = false.obs;
 
-
-  BookController(
-      this._bookingRepository,
-      this._showWorkingTimesRepository,
-      );
+  BookController({
+    required this.expertId,
+    this.expertData,
+    required this.repository,
+    required BookingRepository bookingRepository,
+  }) : _bookingRepository = bookingRepository;
 
   @override
   void onInit() {
     super.onInit();
-    final args = Get.arguments as Map<String, dynamic>?;
-    final String expertId = args?['id']?.toString() ?? '1';
-    final dynamic expertData = args?['expert'];
+
+    print("BookController onInit: expertId = $expertId");
     if (expertData != null) {
-      try {
-        expert.value = Expert(
-          id: int.tryParse(expertId),
-          user: User(
-            id: int.tryParse(expertId),
-            firstName: expertData['name']?.split(' ')[0] ?? '',
-            lastName: expertData['name']?.split(' ').length > 1
-                ? expertData['name'].split(' ')[1]
-                : '',
-            email: '',
-            phone: '',
-            enabled: true,
-            role: expertData['role'] ?? 'EXPERT',
-            status: 'AVAILABLE',
-            imageUrl: expertData['idCardImage'] ?? AppImages.noImage,
-          ),
-          profession: expertData['jobTitle'] ?? 'غير معروف',
-          experience: expertData['experienceYears']?.toString() ?? '0',
-          rating: double.tryParse(expertData['rating']?.toString() ?? '0') ?? 0.0,
-          rateCount: double.tryParse(expertData['rateCount']?.toString() ?? '0') ?? 0.0,
-          bio: expertData['textProvider'] ?? 'لا يوجد وصف',
-          idCardImage: expertData['idCardImage'] ?? AppImages.noImage,
-          degreeCertificateImage: expertData['idCardImage'] ?? AppImages.noImage,
-          perMinuteVideo: double.tryParse(
-            expertData['price']?.replaceAll(' S.P', '') ?? '0',
-          ) ?? 0.0,
-          perMinuteAudio: (double.tryParse(
-            expertData['price']?.replaceAll(' S.P', '') ?? '0',
-          ) ?? 0.0) / 2,
-        );
-        fetchAvailableTimes();
-      } catch (e) {
-        print("خطأ في تحويل بيانات الخبير: $e");
-      }
+      expert.value = Expert(
+        id: expertId,
+        user: User(
+          id: expertId,
+          firstName: expertData!['name']?.split(' ')[0] ?? '',
+          lastName: expertData!['name']?.split(' ').length > 1
+              ? expertData!['name'].split(' ')[1]
+              : '',
+          email: '',
+          phone: '',
+          enabled: true,
+          role: expertData!['role'] ?? 'EXPERT',
+          status: 'AVAILABLE',
+          imageUrl: expertData!['idCardImage'] ?? AppImages.noImage,
+        ),
+        profession: expertData!['jobTitle'] ?? 'غير معروف',
+        experience: expertData!['experienceYears']?.toString() ?? '0',
+        rating: double.tryParse(expertData!['rating']?.toString() ?? '0') ?? 0.0,
+        rateCount: double.tryParse(expertData!['rateCount']?.toString() ?? '0') ?? 0.0,
+        bio: expertData!['textProvider'] ?? 'لا يوجد وصف',
+        idCardImage: expertData!['idCardImage'] ?? AppImages.noImage,
+        degreeCertificateImage: expertData!['degreeCertificateImage'] ?? AppImages.noImage,
+      );
+      print("Expert set: ${expert.value}");
     }
+
+    fetchWorkingTimes();
+
+    ever(selectedSessionIndex, (_) => _updateHours());
+    ever(selectedDate, (_) => _updateHours());
+  }
+  void _updateHours() {
+    final hours = generateAppointmentHours();
+    isBookedList.value = getBookedStatusForHours(hours);
+    print("الساعات المتاحة بعد التحديث: $hours");
+    print("حالة الحجز لكل ساعة: $isBookedList");
   }
   void selectHour(int index) => selectedHourIndex.value = index;
-  void selectSession(int index) {
-    selectedSessionIndex.value = index;
-    final hours = generateAppointmentHours();
-    isBookedList.value = getBookedStatusForHours(hours);
-  }
-  void selectDate(DateTime date) {
-    selectedDate.value = date;
-    final hours = generateAppointmentHours();
-    isBookedList.value = getBookedStatusForHours(hours);
-  }
+  void selectSession(int index) => selectedSessionIndex.value = index;
+  void selectDate(DateTime date) => selectedDate.value = date;
   void selectCallType(int type) => selectedCallType.value = type;
   void setCouponCode(String code) => couponCode.value = code;
-  void updateIsBookedList() {
-    final hours = generateAppointmentHours();
-    isBookedList.value = getBookedStatusForHours(hours);
-  }
   void goToNextMonth() {
     currentMonthDate.value = DateTime(
       currentMonthDate.value.year,
@@ -112,105 +101,114 @@ class BookController extends GetxController {
     selectedDate.value = DateTime.now();
   }
   List<DateTime> getCurrentMonthDays() {
-    final firstDay = DateTime(
-      currentMonthDate.value.year,
-      currentMonthDate.value.month,
-      1,
-    );
-    final lastDay = DateTime(
-      currentMonthDate.value.year,
-      currentMonthDate.value.month + 1,
-      0,
-    );
-    return List.generate(
-      lastDay.day,
-          (index) => firstDay.add(Duration(days: index)),
-    );
+    final firstDay = DateTime(currentMonthDate.value.year, currentMonthDate.value.month, 1);
+    final lastDay = DateTime(currentMonthDate.value.year, currentMonthDate.value.month + 1, 0);
+    return List.generate(lastDay.day, (index) => firstDay.add(Duration(days: index)));
   }
   String getMonthName() => DateFormat.MMMM().format(currentMonthDate.value);
   bool isInCurrentMonth() {
     final now = DateTime.now();
-    return now.month == currentMonthDate.value.month &&
-        now.year == currentMonthDate.value.year;
+    return now.month == currentMonthDate.value.month && now.year == currentMonthDate.value.year;
   }
   List<String> generateAppointmentHours() {
-    List<String> slots = [];
+    final slots = <String>{};
+    if (availableTimes.isEmpty) {
+      print("لا توجد أوقات عمل متاحة حالياً.");
+      return [];
+    }
+    int duration = selectedSessionIndex.value == -1 ? 30 : [15, 30][selectedSessionIndex.value];
+    final dateStr = selectedDate.value.toIso8601String().split('T')[0];
 
-    if (availableTimes.isEmpty || selectedSessionIndex.value == -1) {
-      slots = ["09:00", "10:00", "11:00", "12:00", "01:00", "02:00", "03:00"];
-    } else {
-      final duration = [30, 60, 90][selectedSessionIndex.value];
-      final dateStr = selectedDate.value.toIso8601String().split('T')[0];
+    for (final slot in availableTimes) {
+      try {
+        String formatTime(String t) => t.length == 4 ? "0$t" : t;
 
-      for (final slot in availableTimes) {
-        try {
-          DateTime start = DateTime.parse('$dateStr' + 'T' + slot.startTime!);
-          DateTime end = DateTime.parse('$dateStr' + 'T' + slot.endTime!);
+        DateTime start = DateTime.parse('$dateStr' + 'T' + formatTime(slot.startTime!));
+        DateTime end = DateTime.parse('$dateStr' + 'T' + formatTime(slot.endTime!));
 
-          while (start.add(Duration(minutes: duration)).isBefore(end) ||
-              start.add(Duration(minutes: duration)).isAtSameMomentAs(end)) {
-            slots.add(DateFormat.jm().format(start));
-            start = start.add(Duration(minutes: 30));
-          }
-        } catch (_) {
-          continue;
+        while (start.add(Duration(minutes: duration)).isBefore(end) ||
+            start.add(Duration(minutes: duration)).isAtSameMomentAs(end)) {
+          slots.add(DateFormat.jm().format(start));
+          start = start.add(Duration(minutes: duration));
         }
-      }
-
-      if (slots.isEmpty) {
-        slots = ["09:00", "10:00", "11:00", "12:00", "01:00", "02:00", "03:00"];
+      } catch (e) {
+        print("خطأ أثناء توليد الساعات من slot: $e");
       }
     }
 
-    generatedHours.value = slots;
-    return slots;
+    final sortedSlots = slots.toList()
+      ..sort((a, b) => DateFormat.jm().parse(a).compareTo(DateFormat.jm().parse(b)));
+
+    generatedHours.value = sortedSlots;
+    print("الساعات المولدة بعد إزالة التكرار: $sortedSlots");
+    return sortedSlots;
   }
   List<bool> getBookedStatusForHours(List<String> hours) {
-    return List<bool>.generate(hours.length, (i) {
+    return List.generate(hours.length, (i) {
       try {
         final time = DateFormat.jm().parse(hours[i]);
-        final fullTime = DateTime(
-          selectedDate.value.year,
-          selectedDate.value.month,
-          selectedDate.value.day,
-          time.hour,
-          time.minute,
-        );
-        final matched = reservedTimes.any((r) =>
-        r.year   == fullTime.year &&
-            r.month  == fullTime.month &&
-            r.day    == fullTime.day &&
-            r.hour   == fullTime.hour &&
-            r.minute == fullTime.minute
-        );
-        return matched;
+        final fullTime = DateTime(selectedDate.value.year, selectedDate.value.month,
+            selectedDate.value.day, time.hour, time.minute);
+        return reservedTimes.any((r) =>
+        r.year == fullTime.year &&
+            r.month == fullTime.month &&
+            r.day == fullTime.day &&
+            r.hour == fullTime.hour &&
+            r.minute == fullTime.minute);
       } catch (_) {
         return true;
       }
     });
   }
+  Future<void> fetchWorkingTimes() async {
+    isLoadingTimes.value = true;
+    if (expertId == 0) {
+      print("لا يوجد معرف خبير لجلب أوقات العمل.");
+      isLoadingTimes.value = false;
+      return;
+    }
+
+    print("جاري جلب أوقات العمل للخبير: $expertId");
+
+    final result = await repository.getWorkingTimes(expertId);
+
+    result.fold(
+          (failure) {
+        print('فشل في جلب أوقات العمل: ${failure.err_message}');
+        isLoadingTimes.value = false;
+      },
+          (workingTimes) {
+        availableTimes.assignAll(workingTimes);
+        print("عدد أوقات العمل المسترجعة: ${workingTimes.length}");
+        _updateHours();
+      },
+    );
+
+    isLoadingTimes.value = false;
+  }
   Future<Either<Failures, BookingResponse>> bookAppointment() async {
     isLoading.value = true;
-    final sessionDurations = [30, 60, 90];
+    final sessionDurations = [15, 30];
     final callTypes = ['AUDIO', 'VIDEO'];
-    final hours = generateAppointmentHours();
+
     try {
       if (selectedSessionIndex.value == -1 ||
           selectedHourIndex.value == -1 ||
-          expert.value == null) {
+          expert.value?.id == null) {
         isLoading.value = false;
+        print("خطأ: لم يتم تحديد مدة الجلسة أو الساعة أو الخبير");
         return Left(serverFailure('يرجى تحديد مدة الجلسة والوقت'));
       }
 
       final String? userId = await SecureStorage().getIdByRole();
       if (userId == null) {
         isLoading.value = false;
+        print("خطأ: لم يتم العثور على معرف المستخدم");
         return Left(serverFailure('لم يتم العثور على معرف المستخدم'));
       }
-      print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk\n$userId");
       final int clientId = int.parse(userId);
 
-      final selectedTime = hours[selectedHourIndex.value];
+      final selectedTime = generatedHours[selectedHourIndex.value];
       final time = DateFormat.jm().parse(selectedTime);
       final selectedDateTime = DateTime(
         selectedDate.value.year,
@@ -221,6 +219,7 @@ class BookController extends GetxController {
       );
 
       final formattedStartDate = DateFormat("yyyy-MM-dd'T'HH:mm").format(selectedDateTime);
+      print("Booking: expertId=${expert.value!.id}, clientId=$clientId, time=$formattedStartDate");
 
       final request = BookingRequest(
         expertId: expert.value!.id!,
@@ -232,8 +231,6 @@ class BookController extends GetxController {
         clientSecret: clientSecret.value,
       );
 
-      print("Booking Request: ${request.toJson()}");
-
       final result = await _bookingRepository.createBooking(request);
       isLoading.value = false;
 
@@ -241,16 +238,16 @@ class BookController extends GetxController {
             (failure) {
           if (failure.err_message.contains('time slot')) {
             Get.snackbar('الوقت غير متاح', 'تم حجز هذا الوقت من قبل. يرجى اختيار وقت آخر.');
-            fetchAvailableTimes();
-          } else {
-            Get.snackbar('خطأ', failure.err_message);
+            fetchWorkingTimes();
           }
+          print("Booking failed: ${failure.err_message}");
           return Left(failure);
         },
             (response) {
           Get.find<myReserveController>().fetchReservations('PENDING');
           Get.snackbar('نجاح', 'تم الحجز بنجاح!');
           Get.toNamed('/confirm', arguments: {'booking': response.data});
+          print("Booking successful: ${response.data}");
           return Right(response);
         },
       );
@@ -259,24 +256,5 @@ class BookController extends GetxController {
       print('Booking error: $e\nStackTrace: $stackTrace');
       return Left(serverFailure('خطأ غير متوقع: $e'));
     }
-  }
-
-  Future<void> fetchAvailableTimes() async {
-    isLoadingTimes.value = true;
-    final expertId = expert.value?.id;
-    if (expertId == null) return;
-
-    final result = await _showWorkingTimesRepository.getAvailableTimes(expertId);
-    result.fold(
-          (failure) {
-        print('فشل في جلب أوقات العمل: ${failure.err_message}');
-      },
-          (response) {
-        availableTimes.assignAll(response.data ?? []);
-        generateAppointmentHours();
-        updateIsBookedList();
-      },
-    );
-    isLoadingTimes.value = false;
   }
 }
