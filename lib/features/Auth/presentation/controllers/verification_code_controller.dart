@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class VerificationCodeController extends GetxController {
   RxString errMessage = ''.obs;
   var isLoading = false.obs;
   final TextEditingController code = TextEditingController();
-  final TextEditingController email = TextEditingController();
+  late var email = SharedPrefs.getEmail();
 
   late Timer _timer;
   var canResend = false.obs;
@@ -26,7 +27,6 @@ class VerificationCodeController extends GetxController {
   void onInit() {
     super.onInit();
     if (Get.arguments is Map) {
-      email.text = Get.arguments['email'] ?? '';
       nextRoute = Get.arguments['nextRoute'] ?? AppRoutes.login;
     } else {
       nextRoute = AppRoutes.login;
@@ -49,7 +49,7 @@ class VerificationCodeController extends GetxController {
 
   Future<void> sendCode() async {
     isLoading(true);
-    final data = await _authRepository.sendCode(email.text);
+    final data = await _authRepository.sendCode(email);
     isLoading(false);
     data.fold(
       (l) {
@@ -64,6 +64,9 @@ class VerificationCodeController extends GetxController {
         ).show();
       },
       (r) async {
+        print('.................verification body');
+        log(email!);
+        log(code.text);
         code.clear();
         await AwesomeDialog(
           context: Get.context!,
@@ -86,13 +89,16 @@ class VerificationCodeController extends GetxController {
     errMessage("");
 
     final data = await _authRepository.verificationCode(
-      VerificationCodeModel(email: email.text, verificationCode: code.text),
+      VerificationCodeModel(email: email, verificationCode: code.text),
     );
 
     isLoading(false);
 
     data.fold(
       (l) {
+        print('verification >>>>>>>>>>>>>>>>');
+        log('email ');
+        log(email!);
         errMessage(l.err_message);
         AwesomeDialog(
           context: Get.context!,
@@ -110,7 +116,7 @@ class VerificationCodeController extends GetxController {
         // SharedPrefs.saveString(AppKeys.toRoute, "/check-status-page");
         // Get.offAllNamed("/check-status-page")
 
-        Get.offNamed(nextRoute, arguments: {'email': email.text});
+        Get.offNamed(nextRoute);
       },
     );
   }

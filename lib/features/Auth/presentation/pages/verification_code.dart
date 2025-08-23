@@ -5,6 +5,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/styles.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
+import '../../../../core/utils/shard_prefs.dart';
 import '../../../../core/widgets/custom_otp.dart';
 
 class OtpPage extends StatelessWidget {
@@ -12,8 +13,8 @@ class OtpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final email = SharedPrefs.getEmail();
     final controller = Get.find<VerificationCodeController>();
-
     return Scaffold(
       backgroundColor: AppColors.deepNavy,
       appBar: AppBar(
@@ -54,7 +55,7 @@ class OtpPage extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                controller.email.text,
+                email!,
                 textAlign: TextAlign.center,
                 style: setTextStyle(
                   GoogleFonts.poppins,

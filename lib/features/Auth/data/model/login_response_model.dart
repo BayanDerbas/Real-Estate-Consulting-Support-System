@@ -1,23 +1,26 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'login_response_model.g.dart';
+
+@JsonSerializable()
 class LoginResponse {
   final String? status;
   final Data? data;
 
   LoginResponse({this.status, this.data});
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
-      status: json['status'],
-      data: Data.fromJson(json['data']),
-    );
-  }
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class Data {
   final String? token;
   final String? refreshToken;
-  final dynamic? userRoleData;
+
+  @JsonKey(name: 'userRoleData', fromJson: _userRoleDataFromJson)
+  final dynamic userRoleData;
 
   Data({this.token, this.refreshToken, this.userRoleData});
 
@@ -37,8 +40,32 @@ class Data {
       userRoleData: userRole,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{'token': token, 'refreshToken': refreshToken};
+    if (userRoleData is LoginClient) {
+      map['client'] = (userRoleData as LoginClient).toJson();
+    } else if (userRoleData is LoginOffice) {
+      map['office'] = (userRoleData as LoginOffice).toJson();
+    } else if (userRoleData is LoginExpert) {
+      map['expert'] = (userRoleData as LoginExpert).toJson();
+    }
+    return map;
+  }
+
+  static dynamic _userRoleDataFromJson(Map<String, dynamic> json) {
+    if (json.containsKey('client')) {
+      return LoginClient.fromJson(json['client']);
+    } else if (json.containsKey('office')) {
+      return LoginOffice.fromJson(json['office']);
+    } else if (json.containsKey('expert')) {
+      return LoginExpert.fromJson(json['expert']);
+    }
+    return null;
+  }
 }
 
+@JsonSerializable()
 class LoginUser {
   final int? id;
   final String? firstName;
@@ -64,22 +91,12 @@ class LoginUser {
     this.imageUrl,
   });
 
-  factory LoginUser.fromJson(Map<String, dynamic> json) {
-    return LoginUser(
-      id: json['id'],
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      email: json['email'],
-      phone: json['phone'],
-      fcmToken: json['fcmToken'],
-      enabled: json['enabled'],
-      role: json['role'],
-      status: json['status'],
-      imageUrl: json['imageUrl'],
-    );
-  }
+  factory LoginUser.fromJson(Map<String, dynamic> json) =>
+      _$LoginUserFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginUserToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class LoginClient {
   final int? id;
   final LoginUser? user;
@@ -88,21 +105,17 @@ class LoginClient {
 
   LoginClient({this.id, this.user, this.favorites, this.followers});
 
-  factory LoginClient.fromJson(Map<String, dynamic> json) {
-    return LoginClient(
-      id: json['id'],
-      user: LoginUser.fromJson(json['user']),
-      favorites: json['favorites'],
-      followers: json['followers'],
-    );
-  }
+  factory LoginClient.fromJson(Map<String, dynamic> json) =>
+      _$LoginClientFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginClientToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class LoginOffice {
   final int? id;
   final LoginUser? user;
   final String? bio;
-  final String? rating;
+  final double? rating;
   final double? rateCount;
   final String? location;
   final double? latitude;
@@ -121,21 +134,12 @@ class LoginOffice {
     this.commercialRegisterImage,
   });
 
-  factory LoginOffice.fromJson(Map<String, dynamic> json) {
-    return LoginOffice(
-      id: json['id'],
-      user: LoginUser.fromJson(json['user']),
-      bio: json['bio'],
-      rating: json['rating'],
-      rateCount: json['rateCount'].toDouble(),
-      location: json['location'],
-      latitude: json['latitude'].toDouble(),
-      longitude: json['longitude'].toDouble(),
-      commercialRegisterImage: json['commercialRegisterImage'],
-    );
-  }
+  factory LoginOffice.fromJson(Map<String, dynamic> json) =>
+      _$LoginOfficeFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginOfficeToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class LoginExpert {
   final int? id;
   final LoginUser? user;
@@ -167,21 +171,7 @@ class LoginExpert {
     this.favoritesCount,
   });
 
-  factory LoginExpert.fromJson(Map<String, dynamic> json) {
-    return LoginExpert(
-      id: json['id'],
-      user: LoginUser.fromJson(json['user']),
-      profession: json['profession'],
-      experience: json['experience'],
-      rating: json['rating'].toDouble(),
-      rateCount: json['rateCount'].toDouble(),
-      bio: json['bio'],
-      idCardImage: json['idCardImage'],
-      degreeCertificateImage: json['degreeCertificateImage'],
-      perMinuteVideo: json['perMinuteVideo'].toDouble(),
-      perMinuteAudio: json['perMinuteAudio'].toDouble(),
-      followersCount: json['followersCount'],
-      favoritesCount: json['favoritesCount'],
-    );
-  }
+  factory LoginExpert.fromJson(Map<String, dynamic> json) =>
+      _$LoginExpertFromJson(json);
+  Map<String, dynamic> toJson() => _$LoginExpertToJson(this);
 }

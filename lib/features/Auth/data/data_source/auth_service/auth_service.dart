@@ -3,6 +3,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/features/Auth/data/model/login_model.dart';
 import 'package:graduation_project/features/Auth/data/model/login_response_model.dart';
 import 'package:graduation_project/features/Auth/data/model/register_request_model.dart';
+import 'package:graduation_project/features/Auth/data/model/register_response_model.dart';
 import 'package:graduation_project/features/Auth/data/model/verificationcode_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -18,7 +19,7 @@ abstract class AuthService {
   @POST(ApiConstant.registerPath)
   @MultiPart()
   @Headers(<String, dynamic>{"Content-Type": "multipart/form-data"})
-  Future<HttpResponse<RegisterModel>> userRegister(
+  Future<HttpResponse<RegisterResponseModel>> userRegister(
     // @Part(name: "commercialRegisterImage") MultiPartFile,
     @Part(name: 'firstName') String firstName,
     @Part(name: 'lastName') String lastName,

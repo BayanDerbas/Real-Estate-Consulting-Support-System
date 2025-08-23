@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
@@ -29,10 +30,11 @@ class CustomAppointmentCard extends StatelessWidget {
         boxShadow: customBoxShadow(x: 6, y: 7, blurRadius: 10, spreadRadius: 5),
       ),
       height: 140,
-      width: 400,
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          // Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: Image.asset(
@@ -41,7 +43,7 @@ class CustomAppointmentCard extends StatelessWidget {
               width: 84,
               fit: BoxFit.fill,
             ),
-          ),
+          ).paddingSymmetric(horizontal: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -100,7 +102,7 @@ class CustomAppointmentCard extends StatelessWidget {
               ),
             ],
           ).paddingOnly(top: 22, left: 5),
-          SizedBox(width: 60.0),
+          Spacer(),
           Container(
             height: 70,
             width: 70,

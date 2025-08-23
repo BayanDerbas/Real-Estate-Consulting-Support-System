@@ -6,7 +6,7 @@ import '../../../../core/routes/routes.dart';
 class VerifyEmailController extends GetxController {
   final SendCodeController sendCodeController;
   VerifyEmailController(this.sendCodeController);
-
+  @override
   var isLoading = false.obs;
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -20,10 +20,7 @@ class VerifyEmailController extends GetxController {
 
     Get.toNamed(
       AppRoutes.verificationCode,
-      arguments: {
-        'email': emailController.text,
-        'nextRoute': AppRoutes.resetPassword,
-      },
+      arguments: {'nextRoute': AppRoutes.resetPassword},
     );
   }
 }

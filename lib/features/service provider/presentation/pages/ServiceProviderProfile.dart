@@ -25,18 +25,18 @@ class Serviceproviderprofile extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton:
-      user != null
-          ? ZegoSendCallInvitationButton(
-        isVideoCall: true,
-        resourceID: "realEstateCons",
-        invitees: [
-          ZegoUIKitUser(
-            id: user.id.toString(),
-            name: user.firstName.toString(),
-          ),
-        ],
-      )
-          : null,
+          user != null
+              ? ZegoSendCallInvitationButton(
+                isVideoCall: true,
+                resourceID: "realEstateCons",
+                invitees: [
+                  ZegoUIKitUser(
+                    id: user.id.toString(),
+                    name: user.firstName.toString(),
+                  ),
+                ],
+              )
+              : null,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150),
         child: CustomAppbar(
@@ -72,20 +72,22 @@ class Serviceproviderprofile extends StatelessWidget {
           isFavourite: controller.isFavourite.value,
           isFollow: controller.isFollowing.value,
           onFollow: controller.toggleFollow,
-          onBook: role.toLowerCase() != "office"
-              ? () => Get.toNamed(
-            '/Book',
-            arguments: {
-              'id': id,
-              'name': provider['name'] ?? "بدون اسم",
-              'job': provider['jobTitle'] ?? "غير معروف",
-              'rating': provider['rating']?.toString() ?? "0",
-              'experience': provider['experienceYears']?.toString() ?? "0",
-              'successCount': provider['rateCount']?.toString() ?? "0",
-              'expert': provider,
-            },
-          )
-              : null,
+          onBook:
+              role.toLowerCase() != "office"
+                  ? () => Get.toNamed(
+                    '/Book',
+                    arguments: {
+                      'id': id,
+                      'name': provider['name'] ?? "بدون اسم",
+                      'job': provider['jobTitle'] ?? "غير معروف",
+                      'rating': provider['rating']?.toString() ?? "0",
+                      'experience':
+                          provider['experienceYears']?.toString() ?? "0",
+                      'successCount': provider['rateCount']?.toString() ?? "0",
+                      'expert': provider,
+                    },
+                  )
+                  : null,
           onMessage: () {
             if (user != null) {
               roomController.findOrCreateRoom(user);

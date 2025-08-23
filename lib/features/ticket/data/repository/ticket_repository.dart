@@ -27,6 +27,26 @@ class TicketRepositoryImpl {
     }
   }
 
+  Future<Either<Failures, void>> deleteTicket(int ticketId) async {
+    try {
+      final response = await _ticketService.deleteTicket(ticketId);
+      if (response.response.statusCode == 200 ||
+          response.response.statusCode == 204) {
+        return const Right(null);
+      } else {
+        return Left(
+          serverFailure(
+            'Failed to delete ticket. Status code: ${response.response.statusCode}',
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
   Future<Either<Failures, List<Ticket>>> getAllTickets({
     required int page,
     required int size,

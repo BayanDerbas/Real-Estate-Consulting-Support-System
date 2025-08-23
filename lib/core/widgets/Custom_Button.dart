@@ -8,7 +8,7 @@ class CustomButton extends StatelessWidget {
   final Color textColor;
   final double borderRadius;
   final double height;
-  final double width;
+  final double? width;
   final Color? borderColor;
 
   const CustomButton({
@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
     required this.textColor,
     this.borderRadius = 10,
     this.height = 50,
-    required this.width,
+    this.width,
     this.borderColor,
   });
 

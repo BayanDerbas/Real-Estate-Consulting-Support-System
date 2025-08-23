@@ -38,4 +38,6 @@ abstract class TicketService {
     @Query("highArea") String? highArea,
     @Query("location") String? location,
   });
+  @DELETE('/tickets/{id}')
+  Future<HttpResponse<void>> deleteTicket(@Path("id") int id);
 }

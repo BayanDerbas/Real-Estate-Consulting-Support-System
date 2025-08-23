@@ -14,7 +14,7 @@ class CurrentAppointments extends StatelessWidget {
       itemBuilder: (context, index) {
         final appointment = fakeAppointments[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
           child: CustomAppointmentCard(
             name: appointment['name'],
             date: appointment['date'],

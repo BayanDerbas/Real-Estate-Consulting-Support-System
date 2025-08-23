@@ -71,10 +71,8 @@ class RegisterController extends GetxController {
       idCardImage: idCardImage.value,
       degreeCertificateImage: degreeCertificateImage.value,
     );
-
     final data = await _authRepository.userRegister(requestModel);
     isLoading(false);
-
     data.fold(
       (failure) {
         errMessage.value = failure.err_message;
@@ -96,7 +94,7 @@ class RegisterController extends GetxController {
 
         Get.offAllNamed(
           AppRoutes.verificationCode,
-          arguments: {'nextRoute': AppRoutes.login, 'email': email.text},
+          arguments: {'nextRoute': AppRoutes.login},
         );
       },
     );

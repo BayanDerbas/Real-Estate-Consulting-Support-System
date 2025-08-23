@@ -9,7 +9,6 @@ class CustomRangeSlider extends StatelessWidget {
   final Color activeColor;
   final Color inactiveColor;
   final Color thumbColor;
-
   const CustomRangeSlider({
     super.key,
     required this.values,

@@ -5,11 +5,6 @@ String? validateInput(String val, int min, int max, String type) {
   if (val.length > max) return 'Cannot be more than $max characters';
 
   switch (type) {
-    case 'username':
-      if (!GetUtils.isUsername(val)) {
-        return 'Not a valid username';
-      }
-      break;
     case 'email':
       if (!GetUtils.isEmail(val)) {
         return 'Not a valid email';

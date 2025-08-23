@@ -20,7 +20,7 @@ class _AuthService implements AuthService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<RegisterModel>> userRegister(
+  Future<HttpResponse<RegisterResponseModel>> userRegister(
     String firstName,
     String lastName,
     String email,
@@ -102,7 +102,7 @@ class _AuthService implements AuthService {
     if (bio != null) {
       _data.fields.add(MapEntry('bio', bio));
     }
-    final _options = _setStreamType<HttpResponse<RegisterModel>>(
+    final _options = _setStreamType<HttpResponse<RegisterResponseModel>>(
       Options(
             method: 'POST',
             headers: _headers,
@@ -118,9 +118,9 @@ class _AuthService implements AuthService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late RegisterModel _value;
+    late RegisterResponseModel _value;
     try {
-      _value = RegisterModel.fromJson(_result.data!);
+      _value = RegisterResponseModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

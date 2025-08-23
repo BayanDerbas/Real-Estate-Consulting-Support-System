@@ -44,7 +44,7 @@ class TabSelector extends StatelessWidget {
               backgroundColor:
                   isSelected ? AppColors.lavender : AppColors.lightGrey,
               textColor: isSelected ? AppColors.pureWhite : AppColors.black,
-              width: 110,
+              // width: 110,
             );
           }),
         ),

@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/app_keys.dart';
@@ -34,6 +35,8 @@ class LoginController extends GetxController {
 
     await storage.deleteToken();
     await storage.deleteRefreshToken();
+
+    DioFactory.clearToken();
 
     final request = LoginRequestModel(
       email: email.text.trim(),

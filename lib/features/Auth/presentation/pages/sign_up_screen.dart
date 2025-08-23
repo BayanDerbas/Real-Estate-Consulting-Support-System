@@ -31,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
               hintText: "first name".tr,
               icon: Icons.person_outline,
               controller: controller.firstName,
-              validator: (val) => validateInput(val!, 2, 30, 'username'),
+              validator: (val) => validateInput(val!, 2, 30, ''),
             ).paddingOnly(left: 15, right: 15, top: 40),
             CustomTextField(
               keyboardType: TextInputType.name,

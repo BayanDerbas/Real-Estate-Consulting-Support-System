@@ -10,12 +10,13 @@ import 'package:graduation_project/features/Auth/data/model/verificationcode_mod
 
 import '../data_source/auth_service/auth_service.dart';
 import '../model/refresh_token_model.dart';
+import '../model/register_response_model.dart';
 
 class AuthRepository {
   final AuthService _authService;
   AuthRepository(this._authService);
   // In your AuthRepository class
-  Future<Either<Failures, RegisterModel>> userRegister(
+  Future<Either<Failures, RegisterResponseModel>> userRegister(
     RegisterModel request,
   ) async {
     try {
