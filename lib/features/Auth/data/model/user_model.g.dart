@@ -16,6 +16,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
   role: json['role'] as String?,
   status: json['status'] as String?,
   imageUrl: json['imageUrl'] as String? ?? '',
+  blocksCount: (json['blocksCount'] as num?)?.toInt(),
+  warnsCount: (json['warnsCount'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -28,4 +30,6 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
   'role': instance.role,
   'status': instance.status,
   'imageUrl': instance.imageUrl,
+  'warnsCount': instance.warnsCount,
+  'blocksCount': instance.blocksCount,
 };

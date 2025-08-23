@@ -86,6 +86,26 @@ class ChatRepository {
     }
   }
 
+  Future<Either<Failures, void>> deleteRoom(int roomId) async {
+    try {
+      final response = await _chatService.deleteRoom(roomId);
+      if (response.response.statusCode == 200 ||
+          response.response.statusCode == 204) {
+        return const Right(null);
+      } else {
+        return Left(
+          serverFailure(
+            'Failed to delete room. Status code: ${response.response.statusCode}',
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
   Future<Either<Failures, CreateRoomResponseModel>> getRoomById({
     required int roomId,
   }) async {

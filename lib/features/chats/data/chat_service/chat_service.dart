@@ -32,4 +32,7 @@ abstract class ChatService {
 
   @GET('/rooms/{id}')
   Future<HttpResponse<CreateRoomResponseModel>> getRoom(@Path("id") int id);
+
+  @DELETE('/rooms/{id}')
+  Future<HttpResponse<void>> deleteRoom(@Path("id") int id);
 }

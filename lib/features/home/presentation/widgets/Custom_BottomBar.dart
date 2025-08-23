@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
+import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 
 class CustomBottomBar extends StatelessWidget {
@@ -38,7 +39,8 @@ class CustomBottomBar extends StatelessWidget {
                   } else if (index == 2) {
                     Get.offAllNamed('/profile');
                   } else if (index == 3) {
-                    Get.offAllNamed('/settings');
+                    // Get.offAllNamed('/settings');
+                    Get.offNamed(AppRoutes.roomsPage);
                   }
                 },
                 selectedItemColor:
@@ -73,7 +75,7 @@ class CustomBottomBar extends StatelessWidget {
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      Icons.settings,
+                      Icons.chat_sharp,
                       size: controller.currentIndex.value == 3 ? 40 : 30,
                     ),
                     label: "",

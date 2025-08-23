@@ -35,7 +35,7 @@ class CreatePostPage extends StatelessWidget {
                           controller.imageFile.value != null
                               ? Image.file(
                                 controller.imageFile.value!,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               )
                               : const Center(
                                 child: Icon(
@@ -60,7 +60,7 @@ class CreatePostPage extends StatelessWidget {
                       width: 100,
                     ),
                   ],
-                ),
+                ).scrollDirection(Axis.horizontal),
               ),
               if (controller.isLoading.value)
                 const Center(child: CircularProgressIndicator()),

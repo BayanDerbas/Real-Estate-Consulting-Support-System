@@ -13,6 +13,8 @@ class UserModel {
   final String? role;
   final String? status;
   final String? imageUrl;
+  final int? warnsCount;
+  final int? blocksCount;
 
   UserModel({
     required this.id,
@@ -24,6 +26,8 @@ class UserModel {
     this.role,
     this.status,
     this.imageUrl = '',
+    this.blocksCount,
+    this.warnsCount,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

@@ -7,6 +7,8 @@ import 'package:graduation_project/features/chats/data/repository/chat_repositor
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 
+import 'get_current_user_rooms_controller.dart';
+
 class RoomController extends GetxController {
   final ChatRepository _chatRepository;
   final SecureStorage _storage = SecureStorage();
@@ -38,10 +40,6 @@ class RoomController extends GetxController {
       final roomsResult = await _chatRepository.getRoomsOfCurrentUser(
         userId: currentUserIdInt,
       );
-      print('...........current room info');
-      print(currentUserIdInt);
-      print('...........other user id info');
-      print(otherUser.id);
       await roomsResult.fold(
         (failure) async {
           await _createRoomAndNavigate(otherUser);
@@ -50,7 +48,6 @@ class RoomController extends GetxController {
           final existingRoom = rooms.firstWhereOrNull(
             (room) => room.otherUser?.id == otherUser.id,
           );
-
           if (existingRoom != null) {
             Get.back();
             await _navigateToChat(existingRoom.id!, otherUser);
@@ -71,14 +68,27 @@ class RoomController extends GetxController {
     }
   }
 
+  Future<void> deleteCurrentRoom(int roomId) async {
+    final result = await _chatRepository.deleteRoom(roomId);
+    result.fold(
+      (failure) =>
+          Get.snackbar('Error', failure.err_message ?? 'Failed to delete room'),
+      (_) {
+        Get.back();
+        Get.back();
+        final roomsController = Get.find<GetCurrentUserRoomsController>();
+        roomsController.getAllRooms(); // Refresh rooms page
+        Get.snackbar('Success', 'Room deleted successfully');
+      },
+    );
+  }
+
   Future<void> _createRoomAndNavigate(UserOffice otherUser) async {
     final createResult = await _chatRepository.createRoom(
       currentUserIdInt,
       otherUser.id!,
     );
-
     Get.back();
-
     createResult.fold(
       (failure) {
         Get.snackbar(
@@ -88,7 +98,6 @@ class RoomController extends GetxController {
         );
       },
       (roomResponse) async {
-        print('.............room response..............$roomResponse');
         await _navigateToChat(roomResponse.id!, otherUser);
       },
     );

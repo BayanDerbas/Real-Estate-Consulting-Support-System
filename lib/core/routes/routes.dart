@@ -26,6 +26,7 @@ import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/create_discounts.dart';
 import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
+import '../../features/chats/presentation/pages/current_user_rooms.dart';
 import '../../features/home/presentation/pages/Home.dart';
 import '../../features/myReserve/presentation/pages/MyReserve.dart';
 import '../../features/notification/presentation/pages/notification.dart';
@@ -81,7 +82,7 @@ class AppRoutes {
   static const String createProperty = '/create_property';
   static const String addImagesToProperty = '/add_images_to_property';
   static const String FAQs = '/FAQs';
-
+  static const String roomsPage = '/rooms_page';
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
     GetPage(name: refreshToken, page: () => RefreshTokenPage()),
@@ -168,5 +169,6 @@ class AppRoutes {
       page: () => const FAQS_support(),
       binding: FAQsBinding(),
     ),
+    GetPage(name: roomsPage, page: () => const RoomsPage()),
   ];
 }

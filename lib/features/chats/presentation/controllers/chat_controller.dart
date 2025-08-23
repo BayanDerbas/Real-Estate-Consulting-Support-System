@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
@@ -24,35 +23,56 @@ class ChatController extends GetxController {
   int? currentUserId;
   StompClient? stompClient;
 
+  final ScrollController scrollController = ScrollController();
+  int page = 0;
+  final int size = 15;
+  var isFetchingMore = false.obs;
+  var hasMore = true.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    ever(messages, (_) {
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (scrollController.hasClients) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        }
+      });
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels <=
+          scrollController.position.minScrollExtent + 100) {
+        if (!isFetchingMore.value && hasMore.value) {
+          loadMoreMessages();
+        }
+      }
+    });
+  }
+
   @override
   void onClose() {
-    log('--- ChatController onClose: Deactivating STOMP client. ---');
     stompClient?.deactivate();
     content.dispose();
+    scrollController.dispose();
     super.onClose();
   }
 
   Future<void> initializeChat() async {
     if (isConnected.value) return;
-
-    log('--- 1. INITIALIZING CHAT ---');
     isLoading.value = true;
     try {
       final storedId = await storage.getUserId();
-      if (storedId == null) throw Exception('User ID not found in storage.');
+      if (storedId == null) throw Exception('User ID not found');
       currentUserId = int.tryParse(storedId);
-
       if (roomId == null || otherUser.value == null || currentUserId == null) {
-        throw Exception('Chat data (room, user, etc.) is missing.');
+        throw Exception('Chat data missing');
       }
-
-      log('--- 2. Fetching initial messages via HTTP... ---');
+      page = 0;
+      hasMore.value = true;
       await _fetchInitialMessages();
-
-      log('--- 3. Starting WebSocket connection process... ---');
       _connect();
     } catch (e) {
-      log("---  INITIALIZATION FAILED: $e ---", error: e);
       Get.snackbar('Error', 'Chat setup failed: $e');
     } finally {
       isLoading.value = false;
@@ -62,71 +82,98 @@ class ChatController extends GetxController {
   Future<void> _fetchInitialMessages() async {
     final result = await chatRepository.getMessagesForCurrentRoom(
       id: roomId!,
-      page: 0,
-      size: 50,
+      page: page,
+      size: size,
     );
-    result.fold(
-      (failure) =>
-          log("---  Fetch initial messages failed: ${failure.err_message} ---"),
-      (initialMessages) {
-        print('success fetch messages ...........');
-        messages.assignAll(initialMessages.reversed);
-      },
+    result.fold((failure) {}, (initialMessages) {
+      if (initialMessages.isEmpty) {
+        hasMore.value = false;
+      }
+      messages.assignAll(initialMessages.reversed);
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (scrollController.hasClients) {
+          scrollController.jumpTo(scrollController.position.maxScrollExtent);
+        }
+      });
+    });
+  }
+
+  Future<void> loadMoreMessages() async {
+    if (!hasMore.value) return;
+    isFetchingMore.value = true;
+    page++;
+    final result = await chatRepository.getMessagesForCurrentRoom(
+      id: roomId!,
+      page: page,
+      size: size,
     );
+    result.fold((failure) {}, (olderMessages) {
+      if (olderMessages.isEmpty) {
+        hasMore.value = false;
+      } else {
+        final oldScrollOffset = scrollController.position.pixels;
+        messages.insertAll(0, olderMessages.reversed);
+        Future.delayed(const Duration(milliseconds: 100), () {
+          if (scrollController.hasClients) {
+            scrollController.jumpTo(
+              scrollController.position.maxScrollExtent - oldScrollOffset,
+            );
+          }
+        });
+      }
+    });
+    isFetchingMore.value = false;
   }
 
   void _connect() async {
     try {
-      // if (stompClient.connected) {
-      //   stompClient.deactivate();
-      // }
       final token = await storage.getToken();
       stompClient = StompClient(
         config: StompConfig(
           url: 'ws://195.88.87.77:8000/chat',
-          onConnect: (StompFrame frame) {
+          onConnect: (frame) {
             isConnected.value = true;
-            log("Connected to WebSocket");
-
             stompClient?.subscribe(
               destination: "/topic/room/$roomId",
-              callback: (StompFrame frame) {
+              callback: (frame) {
                 if (frame.body != null) {
-                  try {
-                    log(frame.body.toString());
-                    final newMessage = Message.fromJson(
-                      jsonDecode(frame.body!),
+                  final newMessage = Message.fromJson(jsonDecode(frame.body!));
+
+                  if (newMessage.sender?.id == currentUserId) {
+                    final localIndex = messages.lastIndexWhere(
+                      (m) =>
+                          m.status != MessageStatus.delivered &&
+                          m.content == newMessage.content,
                     );
-                    messages.add(newMessage);
-                    log("New message received: ${newMessage.content}");
-                  } catch (e) {
-                    log("Error parsing message: $e");
+                    if (localIndex != -1) {
+                      messages[localIndex] = newMessage.copyWith(
+                        status: MessageStatus.delivered,
+                      );
+                      return;
+                    }
                   }
+
+                  messages.add(newMessage.copyWith(status: MessageStatus.sent));
                 }
               },
             );
           },
-          onDisconnect: (StompFrame frame) {
+          onDisconnect: (_) {
             isConnected.value = false;
-            log("Disconnected from WebSocket");
             _reconnect();
           },
-          onWebSocketError: (dynamic error) {
+          onWebSocketError: (_) {
             isConnected.value = false;
-            log("WebSocket error: $error");
             _reconnect();
           },
-
           reconnectDelay: const Duration(seconds: 5),
           heartbeatIncoming: const Duration(seconds: 0),
           heartbeatOutgoing: const Duration(seconds: 0),
-          stompConnectHeaders: {'Authorization': 'Bearer $token'}, //
+          stompConnectHeaders: {'Authorization': 'Bearer $token'},
         ),
       );
-
       stompClient?.activate();
-    } catch (e) {
-      log("Connection error: $e");
+    } catch (_) {
       isConnected.value = false;
       _reconnect();
     }
@@ -134,28 +181,21 @@ class ChatController extends GetxController {
 
   void _reconnect() {
     Future.delayed(const Duration(seconds: 5), () {
-      log("Attempting to reconnect...");
       _connect();
     });
   }
 
   void sendMessage() {
-    log(currentUserId.toString() + content.toString());
-    log('--- Sending message... Checking conditions... ---');
-    log('   Is connected? ${isConnected.value}');
-    log('   Is content empty? ${content.text.isEmpty}');
+    if (content.text.isEmpty || currentUserId == null) return;
 
-    // // if (content.text.isEmpty || !isConnected.value || currentUserId == null) {
-    //    log('--- ‼ SendMessage aborted. Conditions not met. ---');
-    //    Get.snackbar(
-    //      "Cannot Send Message",
-    //      !isConnected.value
-    //          ? "You are not connected to the chat service."
-    //          : "Message cannot be empty.",
-    //      snackPosition: SnackPosition.BOTTOM,
-    //    );
-    //    return;
-    //  }
+    final localMessage = Message(
+      sender: UserModel(id: currentUserId!),
+      content: content.text,
+      createdAt: DateTime.now().toIso8601String(),
+      status: MessageStatus.local,
+    );
+
+    messages.add(localMessage);
 
     final messageToSend = {
       'senderId': currentUserId,
@@ -167,21 +207,12 @@ class ChatController extends GetxController {
       destination: "/app/chat/send-message",
       body: jsonEncode(messageToSend),
     );
-    log('--- DEBUG: messageToSend map ---');
-    log('senderId: ${messageToSend['senderId']}');
-    log('content: ${messageToSend['content']}');
-    log('roomId: ${messageToSend['roomId']}');
-    log('messageToSend = ${jsonEncode(messageToSend)}');
-    messages.insert(
-      0,
-      Message(
-        sender: UserModel(id: currentUserId!),
-        content: content.text,
-        createdAt: DateTime.now().toIso8601String(),
-      ),
-    );
+
+    final localIndex = messages.indexOf(localMessage);
+    if (localIndex != -1) {
+      messages[localIndex] = localMessage.copyWith(status: MessageStatus.sent);
+    }
 
     content.clear();
-    log('--- Message sent and text field cleared. ---');
   }
 }

@@ -30,18 +30,18 @@ class CustomAppbar extends StatelessWidget {
         height: 140,
         color: appbarColor,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              text,
-              style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
-            ),
-            IconButton(
-              onPressed: onPressed,
-              icon: Icon(icon, color: iconColor),
-            ),
-          ],
-        )
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  text,
+                  style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
+                ),
+                IconButton(
+                  onPressed: onPressed,
+                  icon: Icon(icon, color: iconColor),
+                ),
+              ],
+            )
             .paddingOnly(bottom: 30, left: 20, right: 20, top: 20)
             .marginOnly(bottom: 0),
       ),
