@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/features/Discounts/data/repositories/coupons_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DiscountsController extends GetxController with GetSingleTickerProviderStateMixin {
+  final CouponsRepository respository;
+  DiscountsController(this.respository);
+
+
   late TabController tabController;
   RxList<Map<String, dynamic>> discounts = <Map<String, dynamic>>[].obs;
 
@@ -53,28 +58,55 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
     await prefs.setString('discounts', encodedData);
   }
 
-  void addDiscount() {
-    final discountData = {
-      'code': codeController.text.isNotEmpty ? codeController.text : "",
-      'amount': amountController.text.isNotEmpty ? amountController.text : "",
-      'validity': validityController.text.isNotEmpty ? validityController.text : "",
-      'sessionsBeforeDiscount': sessionsBeforeDiscountController.text.isNotEmpty ? sessionsBeforeDiscountController.text : "",
-      'discountPercentage': discountPercentageController.text.isNotEmpty ? discountPercentageController.text : "",
-      'expiryDate': expiryDateController.text.isNotEmpty ? expiryDateController.text : "",
-      'description': tabController.index == 0 ? descriptionController.text : descriptionSessionsController.text,
-      'isCodeDiscount': tabController.index == 0,
+  Future<void> addDiscount() async {
+    final bool isCodeDiscount = tabController.index == 0;
+
+    if (isCodeDiscount && (codeController.text.trim().isEmpty)) {
+      Get.snackbar("Error", "Coupon code cannot be blank");
+      return;
+    }
+
+    final body = {
+      "code": codeController.text.trim().replaceAll(' ', '_'),
+      "discountType": isCodeDiscount ? 'FIXED_AMOUNT' : 'PERCENTAGE',
+      "description": isCodeDiscount
+          ? descriptionController.text.trim()
+          : descriptionSessionsController.text.trim(),
+      if (isCodeDiscount)
+        "amountValue": double.tryParse(amountController.text) ?? 0.0
+      else
+        "percentageValue": double.tryParse(discountPercentageController.text) ?? 0.0,
+      "expirationDate": expiryDateController.text.isNotEmpty
+          ? expiryDateController.text.trim()
+          : null,
+      "maxUses": validityController.text.isNotEmpty
+          ? int.tryParse(validityController.text)
+          : null,
+      "isActive": true,
     };
 
-    discounts.add(discountData);
-    saveDiscounts();
-    clearFields();
+    try {
+      final result = await respository.create_coupons(body);
+      result.fold(
+            (failure) {
+          Get.snackbar("Failed", failure.err_message);
+        },
+            (response) {
+          discounts.add(body);
+          saveDiscounts();
+          clearFields();
+          Get.snackbar("Success", "Created Coupon Successful");
+        },
+      );
+    } catch (e) {
+      print("Oop!! Unexpected Error: $e");
+    }
   }
 
   void clearFields() {
     codeController.clear();
     amountController.clear();
     validityController.clear();
-    sessionsBeforeDiscountController.clear();
     discountPercentageController.clear();
     expiryDateController.clear();
     descriptionController.clear();
@@ -84,7 +116,23 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
   void deleteDiscount(int index) {
     if (index >= 0 && index < discounts.length) {
       discounts.removeAt(index);
-      saveDiscounts();
     }
   }
 }
+
+
+// final storage = SecureStorage();
+//
+// final String? userId = await storage.getUserId();
+// final String? userName = await storage.getUserName();
+// final String? userType = await storage.getUserType();
+// final String? email = await storage.getEmail();
+// if (userId == null) {
+// print("خطأ: لم يتم العثور على معرف المستخدم");
+// }
+// print("========== Current User Info ==========");
+// print("ID: $userId");
+// print("Name: $userName");
+// print("Role: $userType");
+// print("Email: $email");
+// print("========== Current User Info ==========");

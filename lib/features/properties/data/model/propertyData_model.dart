@@ -79,7 +79,7 @@ class Sort {
 }
 
 // import 'package:json_annotation/json_annotation.dart';
-// import 'property_model.dart';
+// import 'propertiesByOfficeId_model.dart';
 //
 // part 'propertyData_model.g.dart';
 //

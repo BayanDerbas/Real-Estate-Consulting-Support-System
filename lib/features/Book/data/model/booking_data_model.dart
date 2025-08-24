@@ -1,3 +1,4 @@
+import 'package:graduation_project/features/service%20provider/data/model/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../service provider/data/model/expert.dart';
 import '../../../ticket/data/model/publish_ticket_response_model.dart';
@@ -9,7 +10,7 @@ class BookingData {
   final int? id;
 
   @JsonKey(fromJson: customClientFromJson)
-  final Client? client;
+  final User? client;
 
   @JsonKey(fromJson: customExpertFromJson)
   final Expert? expert;
@@ -54,17 +55,16 @@ class BookingData {
     this.feedback,
   });
 
-  factory BookingData.fromJson(Map<String, dynamic> json) =>
-      _$BookingDataFromJson(json);
+  factory BookingData.fromJson(Map<String, dynamic> json) => _$BookingDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$BookingDataToJson(this);
 }
 
-Client? customClientFromJson(Map<String, dynamic>? json) {
+User? customClientFromJson(Map<String, dynamic>? json) {
   if (json == null) {
     return null;
   }
-  return Client.fromJson(json);
+  return User.fromJson(json);
 }
 
 Expert? customExpertFromJson(Map<String, dynamic>? json) {

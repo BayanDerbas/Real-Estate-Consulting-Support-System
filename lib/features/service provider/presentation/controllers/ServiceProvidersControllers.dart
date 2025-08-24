@@ -84,7 +84,7 @@ class ServiceProviders_Controller extends GetxController {
   }
 
   String getValidImageUrl(Map<String, dynamic> provider) {
-    final url = provider['imagePath']?.toString() ?? '';
+    final url = provider['idCardImage']?.toString() ?? '';
     if (url.isEmpty || !url.contains('.')) {
       return AppImages.noImage;
     }

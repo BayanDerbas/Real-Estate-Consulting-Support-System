@@ -113,6 +113,10 @@ class MyLocale implements Translations {
       'no_tickets': 'لا يوجد طلبات حالياً',
       "create_ticket": "إنشاء تذكرة",
       "submit_ticket": "إرسال التذكرة",
+
+      "Settings" : "الإعدادات",
+      "Create Coupons" : "إنشاء كوبونات",
+      "Add Available Times" : "إضافة أوقات متاحة",
     },
     'en': {
       //continue info for expert
@@ -215,6 +219,10 @@ class MyLocale implements Translations {
       'no_tickets': 'No tickets available',
       "create_ticket": "Create Ticket",
       "submit_ticket": "Submit Ticket",
+
+      "Settings" : "Settings",
+      "Create Coupons" : "Create Coupons",
+      "Add Available Times" : "Add Available Times",
     },
   };
 }

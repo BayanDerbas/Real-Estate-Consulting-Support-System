@@ -45,6 +45,7 @@ class BookController extends GetxController {
     super.onInit();
 
     print("BookController onInit: expertId = $expertId");
+
     if (expertData != null) {
       expert.value = Expert(
         id: expertId,
@@ -200,13 +201,28 @@ class BookController extends GetxController {
         return Left(serverFailure('يرجى تحديد مدة الجلسة والوقت'));
       }
 
-      final String? userId = await SecureStorage().getIdByRole();
+      final storage = SecureStorage();
+
+      final String? userId = await storage.getUserId();
+      final String? userName = await storage.getUserName();
+      final String? userType = await storage.getUserType();
+      final String? email = await storage.getEmail();
+      final String? profileImage = await storage.getProfileImage();
+
       if (userId == null) {
         isLoading.value = false;
         print("خطأ: لم يتم العثور على معرف المستخدم");
         return Left(serverFailure('لم يتم العثور على معرف المستخدم'));
       }
       final int clientId = int.parse(userId);
+
+      print("========== Current User Info ==========");
+      print("ID: $userId");
+      print("Name: $userName");
+      print("Role: $userType");
+      print("Email: $email");
+      print("Profile Image: $profileImage");
+      print("======================================");
 
       final selectedTime = generatedHours[selectedHourIndex.value];
       final time = DateFormat.jm().parse(selectedTime);
@@ -219,8 +235,7 @@ class BookController extends GetxController {
       );
 
       final formattedStartDate = DateFormat("yyyy-MM-dd'T'HH:mm").format(selectedDateTime);
-      print("Booking: expertId=${expert.value!.id}, clientId=$clientId, time=$formattedStartDate");
-
+      print("Booking: expertId=${expert.value!.id}, clientId=$userId, time=$formattedStartDate");
       final request = BookingRequest(
         expertId: expert.value!.id!,
         clientId: clientId,

@@ -12,6 +12,18 @@ class myReserveController extends GetxController {
   var reservations = <BookingData>[].obs;
   var selectedStatus = 'PENDING'.obs;
   var statuses = ['PENDING', 'CONFIRMED', 'CANCELED', 'COMPLETED'].obs;
+  var role = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadRole();
+  }
+
+  Future<void> _loadRole() async {
+    final userRole = await SecureStorage().getUserType();
+    role.value = userRole ?? 'USER';
+  }
 
   void changeStatus(String status) {
     selectedStatus.value = status;
@@ -32,6 +44,21 @@ class myReserveController extends GetxController {
       },
       (result) async {
         reservations.value = result.data ?? [];
+
+        print("=============== Reservations from API ===============");
+        for (var r in reservations) {
+          print("""
+    📌 ID: ${r.id}
+    👤 Client: ${r.client?.firstName ?? ''} ${r.client?.lastName ?? ''}
+    🎓 Expert: ${r.expert?.user?.firstName ?? ''} ${r.expert?.user?.lastName ?? ''}
+    💼 Profession: ${r.expert?.profession ?? 'غير معروف'}
+    📞 Call Type: ${r.callType ?? 'غير معروف'}
+    ⏱️ Duration: ${r.duration ?? 0}
+    🕒 Start Time: ${r.startTime ?? 'غير معروف'}
+    📌 Status: ${r.bookingStatus ?? 'غير معروف'}
+    ----------------------------------------
+    """);
+        }
         await SecureStorage().saveReservations(reservations);
       },
     );

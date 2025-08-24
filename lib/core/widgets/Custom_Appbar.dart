@@ -10,6 +10,7 @@ class CustomAppbar extends StatelessWidget {
   final Color iconColor;
   final Color appbarColor;
   final void Function()? onPressed;
+  final TextStyle? textStyle;
 
   const CustomAppbar({
     super.key,
@@ -19,6 +20,7 @@ class CustomAppbar extends StatelessWidget {
     this.iconColor = AppColors.pureWhite,
     this.appbarColor = AppColors.deepNavy,
     this.onPressed,
+    this.textStyle,
   });
 
   @override

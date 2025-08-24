@@ -25,6 +25,7 @@ import '../../features/Auth/presentation/pages/refresh_token_page.dart';
 import '../../features/Book/presentation/pages/Confirm.dart';
 import '../../features/Discounts/presentation/pages/create_discounts.dart';
 import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
+import '../../features/Settings/presentation/pages/settings_page.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
 import '../../features/chats/presentation/pages/current_user_rooms.dart';
 import '../../features/home/presentation/pages/Home.dart';
@@ -66,7 +67,7 @@ class AppRoutes {
   static const String confirm = '/confirm';
   static const String wallet = '/wallet';
   static const String scheduleTime = '/scheduleTime';
-  static const String discounts = '/discounts';
+  static const String create_discounts = '/create_discounts';
   static const String continueFillExpertInfo = '/continue_fill_expert_info';
   // static const String changePassword = '/change_password';
   static const String createTicket = "/create_ticket";
@@ -82,7 +83,10 @@ class AppRoutes {
   static const String createProperty = '/create_property';
   static const String addImagesToProperty = '/add_images_to_property';
   static const String FAQs = '/FAQs';
+  static const String Settings = "/settings";
+  static const String create_coupon = "/create_coupon";
   static const String roomsPage = '/rooms_page';
+
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
     GetPage(name: refreshToken, page: () => RefreshTokenPage()),
@@ -95,7 +99,7 @@ class AppRoutes {
         controller.fetchReservations(controller.selectedStatus.value);
       }),
     ),
-    GetPage(name: discounts, page: () => Discounts()),
+    GetPage(name: create_discounts, page: () => Discounts()),
     GetPage(name: scheduleTime, page: () => Scheduletime()),
     GetPage(name: wallet, page: () => Wallet()),
     GetPage(name: confirm, page: () => Confirm()),
@@ -170,5 +174,13 @@ class AppRoutes {
       binding: FAQsBinding(),
     ),
     GetPage(name: roomsPage, page: () => const RoomsPage()),
+    GetPage(
+      name: '/settings',
+      page: () => const SettingsPage(),
+    ),
+    GetPage(
+      name: '/create_coupon',
+      page: () => const Discounts(),
+    ),
   ];
 }

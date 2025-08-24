@@ -37,7 +37,7 @@ class CustomDiscountCard extends StatelessWidget {
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: const BoxConstraints(
-              maxHeight: 300, // اضبط الارتفاع حسب الحاجة
+              maxHeight: 300,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

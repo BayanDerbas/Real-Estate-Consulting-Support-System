@@ -3,8 +3,12 @@ import 'package:get/get.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/networks/dio_factory.dart';
+import '../../../../core/utils/secure_storage.dart';
 import '../../../officers/data/data_source/office_service.dart';
 import '../../data/data_source/expert_service.dart';
+import '../../data/data_source/get_properties_by_officeId/properties_by_officeId_service.dart';
+import '../../data/model/get_properties_by_officeId/propertiesByOfficeId_model.dart';
+import '../../data/repository/properties_by_officeId_repository.dart';
 
 class ServiceProviderProfileController extends GetxController {
   final String id;
@@ -27,15 +31,6 @@ class ServiceProviderProfileController extends GetxController {
     AppImages.user,
     AppImages.expert,
     AppImages.property3,
-  ];
-
-  final realEstateImages = [
-    AppImages.garden,
-    AppImages.property1,
-    AppImages.property4,
-    AppImages.property2,
-    AppImages.expert,
-    AppImages.user,
   ];
 
   final List<Color> discountColors = [
@@ -89,6 +84,7 @@ class ServiceProviderProfileController extends GetxController {
       'code': 'عقارك',
     },
   ];
+  var properties = <Property>[].obs;
 
   @override
   void onInit() {
@@ -98,7 +94,9 @@ class ServiceProviderProfileController extends GetxController {
   }
 
   String getValidImageUrl(Map<String, dynamic> provider) {
-    final rawImage = provider['idCardImage']?.toString()?.trim() ?? '';
+    final rawImage = provider['userImage']?.toString()?.trim() ??
+        provider['idCardImage']?.toString()?.trim() ??
+        '';
     final isNetwork =
         rawImage.startsWith('http://') || rawImage.startsWith('https://');
     final hasExtension = rawImage.split('/').last.contains('.');
@@ -175,7 +173,40 @@ class ServiceProviderProfileController extends GetxController {
           "rateCount": 0,
           "role": "OFFICE",
         };
+        final propertyService = PropertiesByOfficeidService(dio);
+        final repo = PropertiesByOfficeIdRepository(propertyService);
+        final result = await repo.getPropertiesByOfficeId(officeId: int.parse(id));
+
+        result.fold(
+              (failure) {
+            print("خطأ في جلب العقارات: ${failure.err_message}");
+            properties.clear();
+          },
+              (success) {
+            properties.assignAll(success.data.content);
+          },
+        );
       }
+      final storage = SecureStorage();
+
+      final String? userId = await storage.getUserId();
+      final String? userName = await storage.getUserName();
+      final String? userType = await storage.getUserType();
+      final String? email = await storage.getEmail();
+      final String? profileImage = await storage.getProfileImage();
+
+      if (userId == null) {
+        isLoading.value = false;
+        print("خطأ: لم يتم العثور على معرف المستخدم");
+      }
+
+      print("========== Current User Info ==========");
+      print("ID: $userId");
+      print("Name: $userName");
+      print("Role: $userType");
+      print("Email: $email");
+      print("Profile Image: $profileImage");
+      print("======================================");
     } catch (e, stackTrace) {
       print("خطأ في جلب المزود: $e");
       print("Stack Trace: $stackTrace");

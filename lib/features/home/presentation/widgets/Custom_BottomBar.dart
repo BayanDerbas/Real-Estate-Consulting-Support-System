@@ -33,14 +33,15 @@ class CustomBottomBar extends StatelessWidget {
                   controller.hasTapped.value = true;
                   controller.changeIndex(index);
                   if (index == 0) {
-                    Get.offAllNamed('/home');
+                    Get.toNamed('/home');
                   } else if (index == 1) {
-                    Get.offAllNamed('/posts');
+                    Get.toNamed('/posts');
                   } else if (index == 2) {
-                    Get.offAllNamed('/profile');
+                    Get.toNamed('/profile');
                   } else if (index == 3) {
-                    // Get.offAllNamed('/settings');
                     Get.offNamed(AppRoutes.roomsPage);
+                  } else if (index == 4) {
+                    Get.toNamed('/settings');
                   }
                 },
                 selectedItemColor:
@@ -77,6 +78,13 @@ class CustomBottomBar extends StatelessWidget {
                     icon: Icon(
                       Icons.chat_sharp,
                       size: controller.currentIndex.value == 3 ? 40 : 30,
+                    ),
+                    label: "",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.settings,
+                      size: controller.currentIndex.value == 4 ? 40 : 30,
                     ),
                     label: "",
                   ),

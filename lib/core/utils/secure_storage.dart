@@ -12,7 +12,7 @@ class SecureStorage {
   final _userName = 'userName';
   final _userType = 'role';
   final _email = 'email';
-  final _officeId = 'email';
+  final _officeId = 'officeId';
   final _idCardImage = 'idCardImage';
   final _commercialRegisterImage = 'commercialRegisterImage';
   final _profileImage = 'imageUrl';

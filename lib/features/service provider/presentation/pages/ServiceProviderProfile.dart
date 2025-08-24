@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/features/properties/data/model/property_model.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
+import '../../../officers/data/model/userOffice.dart';
+import '../../../properties/data/model/propertyImage_model.dart';
+import '../../data/model/get_properties_by_officeId/propertiesByOfficeId_model.dart';
 import '../controllers/ServiceProviderProfileController.dart';
 import '../widgets/Custom_ServiceProviderProfile.dart';
-import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
+import 'package:graduation_project/features/officers/data/model/office.dart' as officersOffice;
 
 class Serviceproviderprofile extends StatelessWidget {
   const Serviceproviderprofile({super.key});
@@ -102,9 +106,88 @@ class Serviceproviderprofile extends StatelessWidget {
           onCall: () {},
           followerImages: [AppImages.expert, AppImages.user],
           description: provider['textProvider'] ?? "لا يوجد وصف",
-          postImages: controller.postImages,
-          realEstateImages: controller.realEstateImages,
-          discounts: controller.discounts,
+
+          realEstateImages:
+              controller.properties
+                  .expand(
+                    (property) =>
+                        property.propertyImageList
+                            ?.map((img) => img.imageUrl ?? "")
+                            .where((url) => url.isNotEmpty) ??
+                        [],
+                  )
+                  .cast<String>()
+                  .toList(),
+
+          posts: [],
+
+          // controller.posts.map((post) {
+          //   return {
+          //     'postImage': post['postImage'],
+          //     'username': post['username'],
+          //     'userImage': post['userImage'],
+          //     'postText': post['postText'],
+          //     'onTap': () {
+          //       Get.toNamed('/PostDetails', arguments: post);
+          //     },
+          //   };
+          // }).toList(),
+          properties: controller.properties.map((property) {
+            final imageList = property.propertyImageList
+                ?.map((img) => PropertyImageModel(
+              id: img.id,
+              imageUrl: img.imageUrl,
+              type: img.type,
+            ))
+                .toList() ?? [];
+
+            final officeModel = property.office != null
+                ? officersOffice.Office(
+              id: property.office!.id,
+              userId: property.office!.userId,
+              firstName: property.office!.firstName,
+              lastName: property.office!.lastName,
+              email: property.office!.email,
+              phone: property.office!.phone,
+              imageUrl: property.office!.imageUrl,
+              user: property.office!.user,
+              bio: property.office!.bio,
+              commercialRegisterImage: property.office!.commercialRegisterImage,
+            )
+                : null;
+
+            return {
+              'imagePath': imageList.isNotEmpty ? imageList.first.imageUrl : AppImages.noImage,
+              'place': property.location ?? "غير محدد",
+              'propertyType': property.houseType ?? "غير معروف",
+              'propertyIcon': Icons.home,
+              'onTap': () {
+                final propertyModel = PropertyModel(
+                  id: property.id,
+                  houseType: property.houseType,
+                  location: property.location,
+                  price: property.price,
+                  priceInMonth: property.priceInMonth,
+                  numberOfRooms: property.numberOfRooms,
+                  numberOfBed: property.numberOfBed,
+                  numberOfBathrooms: property.numberOfBathrooms,
+                  description: property.description,
+                  serviceType: property.serviceType,
+                  propertyImageList: imageList,
+                  office: officeModel,
+                  direction: property.direction,
+                  area: property.area,
+                  latitude: property.latitude,
+                  longitude: property.longitude,
+                );
+
+                Get.toNamed(AppRoutes.propertyDetails, arguments: propertyModel);
+              },
+            };
+          }).toList(),
+          onTap: () {},
+          postImages: [],
+          discounts: [],
         );
       }),
     );

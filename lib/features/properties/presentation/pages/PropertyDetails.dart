@@ -16,6 +16,7 @@ class PropertyDetails extends StatelessWidget {
     final propertyDetailsController controller = Get.put(
       propertyDetailsController(),
     );
+
     final PropertyModel property = Get.arguments as PropertyModel;
     final List<String>? imageList =
     property.propertyImageList

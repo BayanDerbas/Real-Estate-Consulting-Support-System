@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/features/search/presentation/pages/appointments.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -64,6 +63,7 @@ class MyApp extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final LanguageController languageController;
 
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        //home: Appointments(),
+        //home: LoginScreen(),
         getPages: AppRoutes.routes_,
       );
     });

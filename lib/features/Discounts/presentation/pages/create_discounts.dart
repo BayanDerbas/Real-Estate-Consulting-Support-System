@@ -10,7 +10,7 @@ class Discounts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DiscountsController controller = Get.put(DiscountsController());
+    final DiscountsController controller = Get.find<DiscountsController>();
 
     return Scaffold(
       appBar: PreferredSize(

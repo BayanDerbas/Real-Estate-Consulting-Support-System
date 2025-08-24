@@ -34,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
     final languageController = Get.find<LanguageController>();
     print("Name : ${controller.userName} ${controller.userType}");
     return SizedBox(
-      width: 340,
+      width: 360,
       child: Drawer(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -69,7 +69,7 @@ class CustomDrawer extends StatelessWidget {
                           controller.userName.value,
                           style: Fonts.itim.copyWith(
                             color: AppColors.grey,
-                            fontSize: 20,
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -178,6 +178,7 @@ class CustomDrawer extends StatelessWidget {
                 title: 'my reservations',
                 onTap: () {
                   Get.back();
+                  //Get.toNamed(AppRoutes.appointements);
                   Get.toNamed(AppRoutes.myReserve);
                 },
               ),

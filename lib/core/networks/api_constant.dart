@@ -52,4 +52,12 @@ class ApiConstant {
   static const String showPosts = "$baseUrl/posts";
   //FAQs Support
   static const String FAQS = "$baseUrl/FAQs";
+  //create Coupons
+  static const String create_coupons = "$baseUrl/coupons";
+  //show Coupons
+  static const String get_coupons = "$baseUrl/coupons";
+  //find all posts by expert id
+  static const String postsbyId = "$baseUrl/posts/expert/{expertId}";
+  //find all properties by officeId
+  static const String propertiesbyId = "$baseUrl/properties/office/{officeId}";
 }

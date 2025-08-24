@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
+import '../../../home/presentation/widgets/Custom_Post.dart';
+import '../../../properties/presentation/widgets/Custom_Properties.dart';
 
 class CustomServiceproviderprofile extends StatelessWidget {
   final String image;
@@ -19,12 +22,15 @@ class CustomServiceproviderprofile extends StatelessWidget {
   final VoidCallback? onBook;
   final VoidCallback? onCall;
   final VoidCallback? onMessage;
+  final VoidCallback? onTap;
   final List<String> followerImages;
   final String followers;
   final String description;
   final List<String> postImages;
   final List<String> realEstateImages;
   final List<Map<String, String>> discounts;
+  final List<Map<String, dynamic>> posts;
+  final List<Map<String, dynamic>> properties;
 
   const CustomServiceproviderprofile({
     super.key,
@@ -40,6 +46,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
     required this.onFollow,
     required this.onBook,
     required this.onMessage,
+    this.onTap,
     required this.followerNum,
     required this.followerImages,
     required this.description,
@@ -48,10 +55,16 @@ class CustomServiceproviderprofile extends StatelessWidget {
     required this.realEstateImages,
     required this.discounts,
     this.onCall,
+    required this.posts,
+    required this.properties,
   });
 
   @override
   Widget build(BuildContext context) {
+    int tabLength = 1;
+    if (job != "OFFICE") tabLength += 1;
+    if (job == "OFFICE") tabLength += 1;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Column(
@@ -366,7 +379,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
             color: AppColors.grey2,
           ).padding(EdgeInsets.symmetric(vertical: 15)),
           DefaultTabController(
-            length: job == "عقارات" ? 3 : 2,
+            length: tabLength,
             child: Directionality(
               textDirection: TextDirection.ltr,
               child: Column(
@@ -376,8 +389,8 @@ class CustomServiceproviderprofile extends StatelessWidget {
                     unselectedLabelColor: AppColors.grey,
                     dividerColor: AppColors.pureWhite,
                     tabs: [
-                      const Tab(text: 'posts'),
-                      if (job == "عقارات") const Tab(text: 'real estates'),
+                      if (job != "OFFICE") const Tab(text: 'posts'),
+                      if (job == "OFFICE") const Tab(text: 'real estates'),
                       const Tab(text: 'discounts'),
                     ],
                   ),
@@ -385,59 +398,56 @@ class CustomServiceproviderprofile extends StatelessWidget {
                     height: 250,
                     child: TabBarView(
                       children: [
-                        GridView.count(
-                          crossAxisCount: 3,
-                          padding: const EdgeInsets.all(10),
-                          crossAxisSpacing: 8,
-                          mainAxisSpacing: 8,
-                          children:
-                              postImages.asMap().entries.map((entry) {
-                                final index = entry.key;
-                                final imagePath = entry.value;
-                                return GestureDetector(
-                                  onTap: () {
-                                    print(
-                                      "تم الضغط على صورة البوست رقم: $index",
-                                    );
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.asset(
-                                      imagePath,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                        ),
-
-                        if (job == "عقارات")
+                        if (job != "OFFICE")
                           GridView.count(
                             crossAxisCount: 3,
                             padding: const EdgeInsets.all(10),
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
-                            children:
-                                realEstateImages.asMap().entries.map((entry) {
-                                  final index = entry.key;
-                                  final imagePath = entry.value;
-                                  return GestureDetector(
-                                    onTap: () {
-                                      print(
-                                        "تم الضغط على صورة العقار رقم: $index",
-                                      );
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: Image.asset(
-                                        imagePath,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
+                            children: posts.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final post = entry.value;
+                              return GestureDetector(
+                                onTap: () {
+                                  if (post['onTap'] != null) {
+                                    post['onTap']();
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    post['postImage'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
                           ),
-
+                        if (job == "OFFICE")
+                          GridView.count(
+                            crossAxisCount: 3,
+                            padding: const EdgeInsets.all(10),
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            children: properties.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final property = entry.value;
+                              return GestureDetector(
+                                onTap: () {
+                                  if (property['onTap'] != null) {
+                                    property['onTap']();
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    property['imagePath'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         GridView.count(
                           crossAxisCount: 3,
                           childAspectRatio: 0.7,

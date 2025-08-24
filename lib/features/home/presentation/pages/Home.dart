@@ -80,7 +80,10 @@ class Home extends StatelessWidget {
                     icon: Icons.engineering,
                     label: 'Services Provider',
                     isSelected: controller.selectedIndex.value == 4,
-                    onTap: () => controller.selectIndex(4),
+                    onTap: () {
+                      controller.selectIndex(4);
+                        Get.toNamed("/serviceProviders");
+                      },
                   ),
                   if (drawerController.userType.value == "عقارات" ||
                       drawerController.userType.value == "محامي" ||
@@ -134,7 +137,6 @@ class Home extends StatelessWidget {
               if (propertiesController.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
               }
-
               final propertyWidgets =
                   propertiesController.propertiesList.take(4).toList();
               return SizedBox(
@@ -320,7 +322,7 @@ class Home extends StatelessWidget {
                 successfulCases: 2,
                 appointmentDate: 'غير محدد',
                 appointmentTime: 'غير محدد',
-                imagePath: office.commercialRegisterImage ?? '',
+                imagePath: office.imageUrl ?? '',
                 isFavorite: isFavorite,
                 isFollowing: isFollowing,
                 onFavoriteToggle: () => officeController.toggleFavorite(index),
@@ -360,7 +362,7 @@ class Home extends StatelessWidget {
                   final post = _controller.postsList[index];
                   return CustomPost(
                     username: "${post.expert?.firstName ?? ""} ${post.expert?.lastName ?? ""}",
-                    userImage: post.imageUrl ?? AppImages.noImage,
+                    userImage: post.expert?.imageUrl ?? AppImages.noImage,
                     postText: post.content ?? '',
                     postImage: post.imageUrl ?? AppImages.noData,
                     // isLiked: isLiked,

@@ -37,6 +37,9 @@ import '../../features/Book/data/data_source/booking_api_service.dart';
 import '../../features/Book/data/data_source/reservation_service.dart';
 import '../../features/Book/data/repository/booking_repository.dart';
 import '../../features/Book/presentation/controllers/BookController.dart';
+import '../../features/Discounts/data/data_sources/coupons_service.dart';
+import '../../features/Discounts/data/repositories/coupons_repository.dart';
+import '../../features/Discounts/presentation/controllers/DiscountsController.dart';
 import '../../features/FAQs_Support/data/data_sources/faqs_service.dart';
 import '../../features/FAQs_Support/data/repositories/faqs_repository.dart';
 import '../../features/FAQs_Support/presentation/controllers/faqs_controller.dart';
@@ -138,5 +141,10 @@ class DependenceInitializer {
     Get.put(ServiceProviders_Controller());
     Get.put(HomeController());
     Get.put(CustomDrawerController());
+    //create coupon
+    Get.lazyPut(() => CouponsService(Get.find()));
+    Get.lazyPut(() => CouponsRepository(Get.find()));
+    Get.lazyPut(() => DiscountsController(Get.find()));
+    //
   }
 }
