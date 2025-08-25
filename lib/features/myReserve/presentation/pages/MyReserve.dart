@@ -17,6 +17,7 @@ class MyReserve extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myReserveController controller = Get.find<myReserveController>();
+    final myBookingsController = Get.find<MyBookingsController>();
 
     return DefaultTabController(
       length: controller.role.value == 'EXPERT' ? 2 : 1,
@@ -26,12 +27,8 @@ class MyReserve extends StatelessWidget {
           child: Column(
             children: [
               Obx(() {
-                String title;
-                if (controller.role.value == 'EXPERT') {
-                  title = "Expert Reservations";
-                } else {
-                  title = "My Reservations";
-                }
+                String title =
+                controller.role.value == 'EXPERT' ? "Expert Reservations" : "My Reservations";
                 return CustomAppbar(
                   text: title,
                   icon: Icons.notifications,
@@ -84,11 +81,13 @@ class MyReserve extends StatelessWidget {
         body: Column(
           children: [
             Obx(() {
+              // Status selector
               return CustomSelectStatus(
                 statuses: controller.statuses,
                 selectedStatus: controller.selectedStatus.value,
                 onStatusSelected: (status) {
                   controller.changeStatus(status);
+                  myBookingsController.changeStatus(status);
                 },
               );
             }),
@@ -109,11 +108,11 @@ class MyReserve extends StatelessWidget {
               child: TabBarView(
                 children: controller.role.value == 'EXPERT'
                     ? [
-                  _buildMyBookingsTab(),
-                  _buildReservationsList(controller, "EXPERT"),
+                  _buildMyBookingsTab(myBookingsController),
+                  _buildReservationsList(controller, showJob: false),
                 ]
                     : [
-                  _buildMyBookingsTab(),
+                  _buildMyBookingsTab(myBookingsController),
                 ],
               ),
             ),
@@ -122,55 +121,54 @@ class MyReserve extends StatelessWidget {
       ),
     );
   }
-  Widget _buildMyBookingsTab() {
-    final myBookingsController = Get.find<MyBookingsController>();
+
+  Widget _buildMyBookingsTab(MyBookingsController controller) {
     return Obx(() {
-      if (myBookingsController.isLoading.value) {
+      if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
       }
-      if (myBookingsController.bookings.isEmpty) {
+      if (controller.bookings.isEmpty) {
         return const Center(child: Text("لا توجد حجوزات"));
       }
-      return ListView.builder(
-        itemCount: myBookingsController.bookings.length,
-        itemBuilder: (context, index) {
-          final booking = myBookingsController.bookings[index];
-          final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
-          final name = '${booking.expert?.user?.firstName ?? ''} ${booking.expert?.user?.lastName ?? ''}';
-          final job = booking.expert?.profession ?? 'غير معروف';
-
-          final callType = booking.callType ?? 'غير معروف';
-          final duration = booking.duration ?? 0;
-          final finalPrice = booking.finalPrice ?? 0.0;
-          final startTime = booking.startTime != null
-              ? dateFormat.format(DateTime.parse(booking.startTime!))
-              : 'غير معروف';
-          final status = booking.bookingStatus ?? 'غير معروف';
-          final imageUrl = booking.expert?.user?.id != null ? "" : "";
-
-          return MyReserveCard(
-            name: name,
-            job: job,
-            callType: callType,
-            duration: duration,
-            startTime: startTime,
-            finalPrice: finalPrice,
-            bookingStatus: status,
-            imageUrl: imageUrl,
-            onCallPressed: () {
-              if (callType.toLowerCase() == 'video') {
-                // TODO: go to video call
-              } else {
-                // TODO: go to audio call
-              }
-            },
-          );
+      return RefreshIndicator(
+        onRefresh: () async {
+          await controller.fetchBookings(controller.selectedStatus.value);
         },
+        child: ListView.builder(
+          itemCount: controller.bookings.length,
+          itemBuilder: (context, index) {
+            final booking = controller.bookings[index];
+            final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+            final name =
+                '${booking.expert?.user?.firstName ?? ''} ${booking.expert?.user?.lastName ?? ''}';
+            final job = booking.expert?.profession ?? 'غير معروف';
+            final callType = booking.callType ?? 'غير معروف';
+            final duration = booking.duration ?? 0;
+            final finalPrice = booking.finalPrice ?? 0.0;
+            final startTime = booking.startTime != null
+                ? dateFormat.format(DateTime.parse(booking.startTime!))
+                : 'غير معروف';
+            final status = booking.bookingStatus ?? 'غير معروف';
+            final imageUrl = booking.expert?.user?.id != null ? "" : "";
+
+            return MyReserveCard(
+              name: name,
+              job: job,
+              callType: callType,
+              duration: duration,
+              startTime: startTime,
+              finalPrice: finalPrice,
+              bookingStatus: status,
+              imageUrl: imageUrl,
+              onCallPressed: () {},
+            );
+          },
+        ),
       );
     });
   }
 
-  Widget _buildReservationsList(myReserveController controller, String type) {
+  Widget _buildReservationsList(myReserveController controller, {bool showJob = true}) {
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
@@ -178,42 +176,40 @@ class MyReserve extends StatelessWidget {
       if (controller.reservations.isEmpty) {
         return const Center(child: Text('لا توجد حجوزات'));
       }
-      return ListView.builder(
-        itemCount: controller.reservations.length,
-        itemBuilder: (context, index) {
-          final reservation = controller.reservations[index];
-          final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
-          final name =
-              '${reservation.client?.firstName ?? ''} ${reservation.client?.lastName ?? ''}';
-          final job = reservation.expert?.profession ?? 'غير معروف';
-
-          final callType = reservation.callType ?? 'غير معروف';
-          final duration = reservation.duration ?? 0;
-          final finalPrice = reservation.finalPrice ?? 0.0;
-          final startTime =
-          reservation.startTime != null
-              ? dateFormat.format(DateTime.parse(reservation.startTime!))
-              : 'غير معروف';
-          final status = reservation.bookingStatus ?? 'غير معروف';
-          final imageUrl = reservation.expert?.idCardImage ?? "";
-
-          return MyReserveCard(
-            name: name,
-            job: job,
-            callType: callType,
-            duration: duration,
-            startTime: startTime,
-            finalPrice: finalPrice,
-            bookingStatus: status,
-            imageUrl: imageUrl,
-            onCallPressed: () {
-              if (callType.toLowerCase() == 'video') {
-              } else {
-
-              }
-            },
-          );
+      return RefreshIndicator(
+        onRefresh: () async {
+          await controller.fetchReservations(controller.selectedStatus.value);
         },
+        child: ListView.builder(
+          itemCount: controller.reservations.length,
+          itemBuilder: (context, index) {
+            final reservation = controller.reservations[index];
+            final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+            final name =
+                '${reservation.client?.firstName ?? ''} ${reservation.client?.lastName ?? ''}';
+            final job = reservation.expert?.profession ?? 'غير معروف';
+            final callType = reservation.callType ?? 'غير معروف';
+            final duration = reservation.duration ?? 0;
+            final finalPrice = reservation.finalPrice ?? 0.0;
+            final startTime = reservation.startTime != null
+                ? dateFormat.format(DateTime.parse(reservation.startTime!))
+                : 'غير معروف';
+            final status = reservation.bookingStatus ?? 'غير معروف';
+            final imageUrl = reservation.expert?.idCardImage ?? "";
+
+            return MyReserveCard(
+              name: name,
+              job: showJob ? job : '',
+              callType: callType,
+              duration: duration,
+              startTime: startTime,
+              finalPrice: finalPrice,
+              bookingStatus: status,
+              imageUrl: imageUrl,
+              onCallPressed: () {},
+            );
+          },
+        ),
       );
     });
   }

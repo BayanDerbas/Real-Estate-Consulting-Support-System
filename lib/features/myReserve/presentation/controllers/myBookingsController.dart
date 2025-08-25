@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../../../core/networks/dio_factory.dart';
 import '../../data/models/myBookings/my_bookings_model.dart';
 import '../../data/repositories/myBookings_repository.dart';
 
@@ -26,8 +27,9 @@ class MyBookingsController extends GetxController {
 
   Future<void> fetchBookings(String status) async {
     isLoading.value = true;
-    print("📡 Fetching bookings with status: $status");
 
+    print("📡 Fetching bookings with status: $status");
+    await DioFactory.loadToken();
     final result = await repository.getBookings(status);
 
     isLoading.value = false;

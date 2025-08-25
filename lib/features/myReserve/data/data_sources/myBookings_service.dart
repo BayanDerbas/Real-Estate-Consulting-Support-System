@@ -7,8 +7,8 @@ part 'myBookings_service.g.dart';
 
 @RestApi(baseUrl: ApiConstant.baseUrl)
 abstract class MyBookingsApi {
-  factory MyBookingsApi(Dio dio, {String baseUrl}) = _MyBookingsApi;
+  factory MyBookingsApi(Dio dio) = _MyBookingsApi;
 
-  @GET(ApiConstant.showMyAppointement)
+  @GET("/booking/my/{status}")
   Future<MyBookingsResponse> getMyBookings(@Path("status") String status);
 }

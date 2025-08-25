@@ -47,16 +47,26 @@ class MyReserveCard extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: Column(
+              child:Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(' الاسم: $name', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text(' المهنة : $job', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$callType : نوع المكالمة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('المدة : $duration دقيقة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$finalPrice : السعر النهائي', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$startTime : التاريخ', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$bookingStatus : الحالة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text(' $name',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+
+                  if (job.isNotEmpty)
+                    Text(' المهنة : $job',
+                        style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+
+                  Text('$callType : نوع المكالمة',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('المدة : $duration دقيقة',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('$finalPrice : السعر النهائي',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('$startTime : التاريخ',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('$bookingStatus : الحالة',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
                 ],
               ),
             ),

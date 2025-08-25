@@ -29,7 +29,7 @@ class _MyBookingsApi implements MyBookingsApi {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/booking/my/${status}',
+            '/booking/my/${status}',
             queryParameters: queryParameters,
             data: _data,
           )

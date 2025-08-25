@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        //home: Home(),
+        home: Home(),
         getPages: AppRoutes.routes_,
       );
     });
