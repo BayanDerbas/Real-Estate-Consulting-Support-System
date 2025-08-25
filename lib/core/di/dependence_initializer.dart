@@ -59,6 +59,9 @@ import '../../features/officers/presentation/controllers/OfficeController.dart';
 import '../../features/properties/data/data_source/property_service.dart';
 import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
+import '../../features/service provider/data/data_source/get_posts_by_expertId/get_posts_by_expertId_service.dart';
+import '../../features/service provider/data/repository/expert_posts_repository.dart';
+import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../networks/dio_factory.dart';
 import 'bindings/faqs_binding.dart';
@@ -152,5 +155,8 @@ class DependenceInitializer {
     Get.lazyPut<MyBookingsApi>(() => MyBookingsApi(Get.find<Dio>()));
     Get.lazyPut<MyBookingsRepository>(() => MyBookingsRepository(Get.find<MyBookingsApi>()));
     Get.put(MyBookingsController(Get.find<MyBookingsRepository>()));
+    //show posts expert
+    Get.lazyPut(() => ShowPostsbyExpertId(Get.find<Dio>()), fenix: true);
+    Get.lazyPut(() => ExpertPostsRepository(Get.find<ShowPostsbyExpertId>()), fenix: true);
   }
 }

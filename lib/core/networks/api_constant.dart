@@ -62,4 +62,6 @@ class ApiConstant {
   static const String propertiesbyId = "$baseUrl/properties/office/{officeId}";
   // show reservations for clients
   static const String showMyAppointement = "$baseUrl/booking/my/";
+  //show posts by expert id
+  static const String show_posts_byExpertId = "$baseUrl/posts/expert/{expertId}";
 }
