@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
+import 'package:graduation_project/features/home/presentation/pages/Home.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         debugShowCheckedModeBanner: false,
-        //home: LoginScreen(),
+        //home: Home(),
         getPages: AppRoutes.routes_,
       );
     });

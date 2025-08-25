@@ -46,8 +46,11 @@ import '../../features/FAQs_Support/presentation/controllers/faqs_controller.dar
 import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/data/chat_service/chat_service.dart';
 import '../../features/chats/data/repository/chat_repository.dart';
+import '../../features/myReserve/data/data_sources/myBookings_service.dart';
 import '../../features/myReserve/data/data_sources/myReserve_api_service.dart';
+import '../../features/myReserve/data/repositories/myBookings_repository.dart';
 import '../../features/myReserve/data/repositories/myReserve_repository.dart';
+import '../../features/myReserve/presentation/controllers/myBookingsController.dart';
 import '../../features/myReserve/presentation/controllers/myReserveController.dart';
 import '../../features/notification/presentation/controllers/notification_controller.dart';
 import '../../features/officers/data/data_source/office_service.dart';
@@ -145,6 +148,9 @@ class DependenceInitializer {
     Get.lazyPut(() => CouponsService(Get.find()));
     Get.lazyPut(() => CouponsRepository(Get.find()));
     Get.lazyPut(() => DiscountsController(Get.find()));
-    //
+    //my Booking (users)
+    Get.lazyPut<MyBookingsApi>(() => MyBookingsApi(Get.find<Dio>()));
+    Get.lazyPut<MyBookingsRepository>(() => MyBookingsRepository(Get.find<MyBookingsApi>()));
+    Get.put(MyBookingsController(Get.find<MyBookingsRepository>()));
   }
 }

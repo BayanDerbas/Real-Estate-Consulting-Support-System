@@ -13,7 +13,6 @@ class CustomConfirm extends StatelessWidget {
   final String sessionPrice;
   final String discountRate;
   final String finalPrice;
-  final TextEditingController controller;
 
   const CustomConfirm({
     super.key,
@@ -25,7 +24,6 @@ class CustomConfirm extends StatelessWidget {
     required this.sessionPrice,
     required this.discountRate,
     required this.finalPrice,
-    required this.controller,
   });
 
   @override
@@ -120,42 +118,7 @@ class CustomConfirm extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
-
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: AppColors.softWhite,
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  offset: Offset(2, 2),
-                  blurRadius: 8,
-                ),
-
-              ],
-            ),
-            child: TextField(
-              controller: controller,
-              textDirection: TextDirection.rtl,
-              style: Fonts.itim.copyWith(color: Colors.black),
-              decoration: InputDecoration(
-                hintText: "ادخل الكود هنا",
-                hintStyle: Fonts.itim.copyWith(color: Colors.grey),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: Colors.transparent,
-              ),
-            ),
-          ),
-
           const SizedBox(height: 30),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Container(

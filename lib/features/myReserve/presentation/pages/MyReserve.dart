@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/widgets/custom_appbar.dart';
+import '../controllers/myBookingsController.dart';
 import '../controllers/myReserveController.dart';
 import '../widgets/custom_myReserveCard.dart';
 import '../widgets/custom_select_status.dart';
@@ -22,9 +22,7 @@ class MyReserve extends StatelessWidget {
       length: controller.role.value == 'EXPERT' ? 2 : 1,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(
-            controller.role.value == 'EXPERT' ? 175 : 120,
-          ),
+          preferredSize: const Size.fromHeight(175),
           child: Column(
             children: [
               Obx(() {
@@ -43,32 +41,43 @@ class MyReserve extends StatelessWidget {
                   iconColor: AppColors.pureWhite,
                 );
               }),
-              if (controller.role.value == 'EXPERT')
-                TabBar(
-                  indicatorColor: AppColors.purple,
-                  labelColor: AppColors.purple,
-                  unselectedLabelColor: Colors.grey,
-                  tabs: [
-                    Tab(
-                      child: Text(
-                        "📅 My Bookings",
-                        style: Fonts.itim.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.deepNavy,
-                        ),
+              TabBar(
+                indicatorColor: AppColors.purple,
+                labelColor: AppColors.purple,
+                unselectedLabelColor: Colors.grey,
+                tabs: controller.role.value == 'EXPERT'
+                    ? [
+                  Tab(
+                    child: Text(
+                      "📅 My Bookings",
+                      style: Fonts.itim.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.deepNavy,
                       ),
                     ),
-                    Tab(
-                      child: Text(
-                        "👥 Clients Bookings",
-                        style: Fonts.itim.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.deepNavy,
-                        ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "👥 Clients Bookings",
+                      style: Fonts.itim.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.deepNavy,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ]
+                    : [
+                  Tab(
+                    child: Text(
+                      "📅 My Bookings",
+                      style: Fonts.itim.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.deepNavy,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -83,7 +92,7 @@ class MyReserve extends StatelessWidget {
                 },
               );
             }),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -94,23 +103,71 @@ class MyReserve extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ).padding(EdgeInsets.only(right: 15)),
-            SizedBox(height: 15),
+            ).padding(const EdgeInsets.only(right: 15)),
+            const SizedBox(height: 15),
             Expanded(
-              child:
-                  controller.role.value == 'EXPERT'
-                      ? TabBarView(
-                        children: [
-                          _buildReservationsList(controller, "CLIENT"),
-                          _buildReservationsList(controller, "EXPERT"),
-                        ],
-                      )
-                      : _buildReservationsList(controller, "CLIENT"),
+              child: TabBarView(
+                children: controller.role.value == 'EXPERT'
+                    ? [
+                  _buildMyBookingsTab(),
+                  _buildReservationsList(controller, "EXPERT"),
+                ]
+                    : [
+                  _buildMyBookingsTab(),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+  Widget _buildMyBookingsTab() {
+    final myBookingsController = Get.find<MyBookingsController>();
+    return Obx(() {
+      if (myBookingsController.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      if (myBookingsController.bookings.isEmpty) {
+        return const Center(child: Text("لا توجد حجوزات"));
+      }
+      return ListView.builder(
+        itemCount: myBookingsController.bookings.length,
+        itemBuilder: (context, index) {
+          final booking = myBookingsController.bookings[index];
+          final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+          final name = '${booking.expert?.user?.firstName ?? ''} ${booking.expert?.user?.lastName ?? ''}';
+          final job = booking.expert?.profession ?? 'غير معروف';
+
+          final callType = booking.callType ?? 'غير معروف';
+          final duration = booking.duration ?? 0;
+          final finalPrice = booking.finalPrice ?? 0.0;
+          final startTime = booking.startTime != null
+              ? dateFormat.format(DateTime.parse(booking.startTime!))
+              : 'غير معروف';
+          final status = booking.bookingStatus ?? 'غير معروف';
+          final imageUrl = booking.expert?.user?.id != null ? "" : "";
+
+          return MyReserveCard(
+            name: name,
+            job: job,
+            callType: callType,
+            duration: duration,
+            startTime: startTime,
+            finalPrice: finalPrice,
+            bookingStatus: status,
+            imageUrl: imageUrl,
+            onCallPressed: () {
+              if (callType.toLowerCase() == 'video') {
+                // TODO: go to video call
+              } else {
+                // TODO: go to audio call
+              }
+            },
+          );
+        },
+      );
+    });
   }
 
   Widget _buildReservationsList(myReserveController controller, String type) {
@@ -134,11 +191,11 @@ class MyReserve extends StatelessWidget {
           final duration = reservation.duration ?? 0;
           final finalPrice = reservation.finalPrice ?? 0.0;
           final startTime =
-              reservation.startTime != null
-                  ? dateFormat.format(DateTime.parse(reservation.startTime!))
-                  : 'غير معروف';
+          reservation.startTime != null
+              ? dateFormat.format(DateTime.parse(reservation.startTime!))
+              : 'غير معروف';
           final status = reservation.bookingStatus ?? 'غير معروف';
-          final imageUrl = reservation.expert?.idCardImage ?? AppImages.expert;
+          final imageUrl = reservation.expert?.idCardImage ?? "";
 
           return MyReserveCard(
             name: name,

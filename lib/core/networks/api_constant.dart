@@ -46,7 +46,7 @@ class ApiConstant {
   static const String working_times = "$baseUrl/working_times/all/{id}";
   //the reservation appointement for expert
   static const String reservation_allready = "$baseUrl/booking/{id}";
-  //show my reservation with status
+  //show my reservation with status for expert id has reservations from clients
   static const String showMyReserve = "$baseUrl/booking/all/{status}";
   //show posts
   static const String showPosts = "$baseUrl/posts";
@@ -60,4 +60,6 @@ class ApiConstant {
   static const String postsbyId = "$baseUrl/posts/expert/{expertId}";
   //find all properties by officeId
   static const String propertiesbyId = "$baseUrl/properties/office/{officeId}";
+  // show reservations for clients
+  static const String showMyAppointement = "$baseUrl/booking/my/{status}";
 }
