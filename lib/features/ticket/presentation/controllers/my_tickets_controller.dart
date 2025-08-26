@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
@@ -20,7 +22,7 @@ class MyTicketsController extends GetxController {
   Future<void> fetchTickets({required int page}) async {
     if (isLoading.value) return;
 
-    final userIdStr = await _storage.getUserId();
+    final userIdStr = await _storage.getIdByRole();
     final userIdInt = int.parse(userIdStr!);
 
     isLoading.value = true;
@@ -39,8 +41,11 @@ class MyTicketsController extends GetxController {
       (Failures failure) {
         errorMessage.value = failure.err_message;
       },
-      (List<Ticket>? fetchedTickets) {
-        myTickets.assignAll(fetchedTickets!);
+      (fetchedTickets) {
+        print('......................mt tickets');
+
+        myTickets.assignAll(fetchedTickets);
+
         currentPage.value = page;
         totalPages.value =
             (fetchedTickets.length < pageSize) ? page + 1 : page + 2;

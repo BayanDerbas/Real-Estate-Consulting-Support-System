@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
+import '../../../../core/constants/image_paths.dart';
 import '../controllers/chat_controller.dart';
 import '../controllers/room_controller.dart';
 import '../wedgits/custom_message.dart';
@@ -60,15 +62,55 @@ class ChatPage extends StatelessWidget {
           },
           icon: Icon(Icons.arrow_back, color: AppColors.pureWhite),
         ),
+
         title: Obx(
-          () => Text(
-            "${controller.otherUser.value?.firstName ?? ''} ${controller.otherUser.value?.lastName ?? ''}"
-                    .trim()
-                    .isEmpty
-                ? 'Chat'.tr
-                : "${controller.otherUser.value?.firstName ?? ''} ${controller.otherUser.value?.lastName ?? ''}"
-                    .trim(),
-            style: TextStyle(fontSize: 20, color: AppColors.pureWhite),
+          () => Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.all(2),
+                decoration: ShapeDecoration(
+                  color: AppColors.purple,
+                  shape: CircleBorder(),
+                ),
+                child: CircleAvatar(
+                  backgroundImage:
+                      controller.otherUser.value?.imageUrl != null ||
+                              controller.otherUser.value?.imageUrl == ''
+                          ? NetworkImage(
+                            controller.otherUser.value?.imageUrl ?? "",
+                          )
+                          : AssetImage(AppImages.user),
+                ),
+              ),
+              SizedBox(width: 16),
+              Text(
+                "${controller.otherUser.value?.firstName ?? ''} ${controller.otherUser.value?.lastName ?? ''}"
+                        .trim()
+                        .isEmpty
+                    ? 'Chat'.tr
+                    : "${controller.otherUser.value?.firstName ?? ''} ${controller.otherUser.value?.lastName ?? ''}"
+                        .trim(),
+                style: TextStyle(fontSize: 20, color: AppColors.pureWhite),
+              ),
+              SizedBox(width: 12),
+              if (controller.otherUser.value?.role != "USER")
+                Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: ShapeDecoration(
+                    color: AppColors.pureWhite,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  child: Text(
+                    controller.otherUser.value?.role == "EXPERT"
+                        ? "محامي"
+                        : "مكتب عقاري",
+                    style: GoogleFonts.itim(fontSize: 12),
+                  ),
+                ),
+            ],
           ),
         ),
         centerTitle: true,
@@ -98,7 +140,7 @@ class ChatPage extends StatelessWidget {
                   final message = controller.messages[messageIndex];
                   final isMe = message.sender?.id == controller.currentUserId;
                   return MessageBubble(
-                    message: message.content ?? '',
+                    message: message,
                     isMe: isMe,
                     status: message.status,
                   );
@@ -127,6 +169,15 @@ class ChatPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
+                CircleAvatar(
+                  radius: 24,
+                  backgroundColor: Get.theme.primaryColor,
+                  child: IconButton(
+                    icon: const Icon(Icons.attach_file, color: Colors.white),
+                    onPressed: () => controller.pickImage(),
+                  ),
+                ),
+                SizedBox(width: 8),
                 CircleAvatar(
                   radius: 24,
                   backgroundColor: Get.theme.primaryColor,

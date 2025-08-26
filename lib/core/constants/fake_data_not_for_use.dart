@@ -3,12 +3,12 @@ import 'package:graduation_project/core/constants/image_paths.dart';
 
 final List<Map<String, dynamic>> fakeAppointments = [
   {
-    "name": "osama Ali",
+    "name": "أسامة اليونس",
     "date": "2025-09-03",
     "time": "1/4",
     "image": AppImages.property1,
     "icon": Icons.phone,
-    'iconPth': AppImages.property2,
+    'iconPth': AppImages.expert,
   },
   {
     "name": "jary Farah",
@@ -16,7 +16,7 @@ final List<Map<String, dynamic>> fakeAppointments = [
     "time": "9/3",
     "image": AppImages.property2,
     "icon": Icons.message,
-    'iconPth': AppImages.property2,
+    'iconPth': AppImages.user,
   },
   {
     "name": "jary Farah",

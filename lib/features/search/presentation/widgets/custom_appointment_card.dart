@@ -34,11 +34,10 @@ class CustomAppointmentCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: Image.asset(
-              AppImages.property1,
+              iconPath,
               height: 84,
               width: 84,
               fit: BoxFit.fill,

@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/features/chats/data/repository/chat_repository.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 import '../../../Auth/data/model/user_model.dart';
 import '../../data/model/message_model.dart';
@@ -214,5 +217,47 @@ class ChatController extends GetxController {
     }
 
     content.clear();
+  }
+
+  void sendImage(String fileName, String fileType, Uint8List fileData) {
+    if (currentUserId == null) return;
+
+    final localMessage = Message(
+      sender: UserModel(id: currentUserId!),
+      createdAt: DateTime.now().toIso8601String(),
+      status: MessageStatus.local,
+      fileData: fileData,
+    );
+
+    messages.add(localMessage);
+
+    final messageToSend = {
+      'senderId': currentUserId,
+      'roomId': roomId,
+      'fileName': fileName,
+      'fileType': fileType,
+      'filaData': base64Encode(fileData),
+    };
+
+    stompClient?.send(
+      destination: "/app/chat/send-file",
+      body: jsonEncode(messageToSend),
+    );
+
+    final localIndex = messages.indexOf(localMessage);
+    if (localIndex != -1) {
+      messages[localIndex] = localMessage.copyWith(status: MessageStatus.sent);
+    }
+
+    content.clear();
+  }
+
+  Future<void> pickImage() async {
+    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      Uint8List image = await picked.readAsBytes();
+
+      sendImage(picked.name, picked.path.split('.').last, image);
+    }
   }
 }

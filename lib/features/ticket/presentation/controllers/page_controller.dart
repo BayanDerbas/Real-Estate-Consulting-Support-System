@@ -11,9 +11,9 @@ class PageTicketController extends GetxController {
     currentpPage.value = index;
 
     if (index == 0) {
-      if (Get.isRegistered<GetAllTicketsController>()) {
-        Get.find<GetAllTicketsController>().refreshTickets();
-      }
+      // if (Get.isRegistered<GetAllTicketsController>()) {
+      //   Get.find<GetAllTicketsController>().filter();
+      // }
     } else if (index == 1) {
       if (Get.isRegistered<MyTicketsController>()) {
         Get.find<MyTicketsController>().refreshTickets();

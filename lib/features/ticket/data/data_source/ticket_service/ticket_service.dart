@@ -3,6 +3,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_response_model.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_request_model.dart';
 import '../../../../../core/networks/api_constant.dart';
+import '../../model/filter_model.dart';
 import '../../model/filter_tickets_response_model.dart';
 import '../../model/ticket_response.dart';
 
@@ -23,7 +24,7 @@ abstract class TicketService {
   );
   @GET("${ApiConstant.getMyTickets}")
   Future<HttpResponse<TicketResponse>> getMyTickets(
-    @Path("clientId") int clientId,
+    @Path("id") int id,
     @Query("page") int page,
     @Query("size") int size,
   );
@@ -40,4 +41,7 @@ abstract class TicketService {
   });
   @DELETE('/tickets/{id}')
   Future<HttpResponse<void>> deleteTicket(@Path("id") int id);
+
+  @POST(ApiConstant.filterTickets)
+  Future<HttpResponse<TicketResponse>> filterTickets(@Body() FilterModel model);
 }

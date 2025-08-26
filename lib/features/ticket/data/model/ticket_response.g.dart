@@ -8,8 +8,11 @@ part of 'ticket_response.dart';
 
 TicketResponse _$TicketResponseFromJson(Map<String, dynamic> json) =>
     TicketResponse(
-      status: json['status'] as String,
-      data: TicketData.fromJson(json['data'] as Map<String, dynamic>),
+      status: json['status'] as String?,
+      data:
+          json['data'] == null
+              ? null
+              : TicketData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TicketResponseToJson(TicketResponse instance) =>
@@ -17,17 +20,18 @@ Map<String, dynamic> _$TicketResponseToJson(TicketResponse instance) =>
 
 TicketData _$TicketDataFromJson(Map<String, dynamic> json) => TicketData(
   content:
-      (json['content'] as List<dynamic>)
-          .map((e) => Ticket.fromJson(e as Map<String, dynamic>))
-          .toList(),
-  last: json['last'] as bool,
-  totalElements: (json['totalElements'] as num).toInt(),
-  totalPages: (json['totalPages'] as num).toInt(),
-  size: (json['size'] as num).toInt(),
-  number: (json['number'] as num).toInt(),
-  first: json['first'] as bool,
-  numberOfElements: (json['numberOfElements'] as num).toInt(),
-  empty: json['empty'] as bool,
+      (json['content'] as List<dynamic>?)
+          ?.map((e) => Ticket.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  last: json['last'] as bool?,
+  totalElements: (json['totalElements'] as num?)?.toInt(),
+  totalPages: (json['totalPages'] as num?)?.toInt(),
+  size: (json['size'] as num?)?.toInt(),
+  number: (json['number'] as num?)?.toInt(),
+  first: json['first'] as bool?,
+  numberOfElements: (json['numberOfElements'] as num?)?.toInt(),
+  empty: json['empty'] as bool?,
 );
 
 Map<String, dynamic> _$TicketDataToJson(TicketData instance) =>

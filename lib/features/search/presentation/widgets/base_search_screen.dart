@@ -11,12 +11,14 @@ class BaseSearchScreen extends StatelessWidget {
     this.clickableText,
     this.footerText,
     this.onTap,
+    this.withIcon = true,
   });
   final Widget widget;
   final String? appBarTitle;
   final String? bodyText;
   final String? clickableText;
   final String? footerText;
+  final bool withIcon;
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,12 @@ class BaseSearchScreen extends StatelessWidget {
           preferredSize: Size.fromHeight(130),
           child: CustomAppbar(
             text: appBarTitle.toString(),
-            icon: Icons.notifications,
+            icon: withIcon ? Icons.notifications : null,
             iconColor: Colors.white,
           ),
         ),
 
-        body: Center(child: widget),
+        body: widget,
       ),
     );
   }

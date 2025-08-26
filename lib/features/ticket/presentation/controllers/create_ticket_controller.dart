@@ -31,7 +31,7 @@ class CreateTicketController extends GetxController {
   CreateTicketController(this._ticketRepository);
 
   Future<void> submitTicket() async {
-    final userId = await storage.getUserId();
+    final userId = await storage.getIdByRole();
     if (!validateInput()) return;
 
     isLoading.value = true;

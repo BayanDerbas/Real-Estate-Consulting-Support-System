@@ -6,8 +6,10 @@ import 'package:graduation_project/features/ticket/data/model/publish_ticket_res
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_data_model.dart';
 import '../../../../core/networks/failures.dart';
+import '../model/filter_model.dart';
 import '../model/filter_tickets_response_model.dart';
 import '../model/ticket_model.dart';
+import '../model/ticket_response.dart';
 
 class TicketRepositoryImpl {
   final TicketService _ticketService;
@@ -53,7 +55,7 @@ class TicketRepositoryImpl {
   }) async {
     try {
       final httpResponse = await _ticketService.getAllTickets(page, size);
-      final tickets = httpResponse.data.data.content;
+      final tickets = httpResponse.data.data?.content ?? [];
 
       return Right(tickets);
     } on DioException catch (e) {
@@ -75,7 +77,7 @@ class TicketRepositoryImpl {
         size,
       );
 
-      final tickets = httpResponse.data.data.content;
+      final tickets = httpResponse.data.data?.content ?? [];
 
       return Right(tickets);
     } on DioException catch (e) {
@@ -102,6 +104,19 @@ class TicketRepositoryImpl {
       );
       final tickets = httpResponse.data.data;
       return Right(tickets!);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failures, TicketResponse>> filterTickets(
+    FilterModel filter,
+  ) async {
+    try {
+      final httpResponse = await _ticketService.filterTickets(filter);
+      return Right(httpResponse.data);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/Fonts.dart';
@@ -9,6 +11,7 @@ import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/core/utils/shard_prefs.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
+import '../../features/officers/presentation/pages/office_profile_page.dart';
 import '../di/bindings/faqs_binding.dart';
 import '../translation/locale_controller.dart';
 
@@ -83,6 +86,14 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              DrawerItem(
+                icon: Icons.person,
+                title: 'My Profile',
+                onTap: () {
+                  Get.back();
+                  Get.to(() => const ProfileExpertPage());
+                },
               ),
 
               DrawerItem(

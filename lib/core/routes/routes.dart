@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/login_screen.dart';
+import 'package:graduation_project/features/Auth/presentation/pages/pending_account_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/splash_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verification_code.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
@@ -16,6 +17,7 @@ import 'package:graduation_project/features/rating/presentation/pages/Rating.dar
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
 import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/base_tickets_page.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/my_tickets.dart';
@@ -41,6 +43,7 @@ import '../../features/service provider/presentation/pages/ServiceProviders.dart
 import '../../features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
+import '../../features/filter/pages/ticket_filter_page.dart';
 import '../di/bindings/booking_bind.dart';
 import '../di/bindings/change_password_bind.dart';
 import '../di/bindings/faqs_binding.dart';
@@ -86,6 +89,9 @@ class AppRoutes {
   static const String Settings = "/settings";
   static const String create_coupon = "/create_coupon";
   static const String roomsPage = '/rooms_page';
+  static const String accountPendingPage = '/account_pending_page';
+
+  static const String ticketFilterPage = '/ticket_filter_page';
 
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -148,7 +154,8 @@ class AppRoutes {
       name: baseTicketsPage,
       page: () => BaseTicketsPage(),
       binding: BindingsBuilder(() {
-        Get.find<GetAllTicketsController>().fetchTickets(page: 0);
+        Get.find<GetAllTicketsController>().filter();
+        Get.find<MyTicketsController>().fetchTickets(page: 0);
       }),
     ),
     GetPage(
@@ -157,6 +164,8 @@ class AppRoutes {
       // binding: MyTicketsBinds(),
     ),
     GetPage(name: filteredTickets, page: () => FilteredTicketPage()),
+    GetPage(name: accountPendingPage, page: () => AccountPendingPage()),
+
     GetPage(name: createPost, page: () => CreatePostPage()),
     GetPage(name: forgotPassword, page: () => VerifyEmailPage()),
     // GetPage(
@@ -174,13 +183,8 @@ class AppRoutes {
       binding: FAQsBinding(),
     ),
     GetPage(name: roomsPage, page: () => const RoomsPage()),
-    GetPage(
-      name: '/settings',
-      page: () => const SettingsPage(),
-    ),
-    GetPage(
-      name: '/create_coupon',
-      page: () => const Discounts(),
-    ),
+    GetPage(name: '/settings', page: () => const SettingsPage()),
+    GetPage(name: '/create_coupon', page: () => const Discounts()),
+    GetPage(name: ticketFilterPage, page: () => const TicketFilterPage()),
   ];
 }

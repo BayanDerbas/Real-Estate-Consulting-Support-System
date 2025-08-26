@@ -7,10 +7,11 @@ List<BoxShadow> customBoxShadow({
   required double y,
   required double blurRadius,
   required double spreadRadius,
+  Color? color,
 }) {
   return [
     BoxShadow(
-      color: AppColors.lightGrey,
+      color: color ?? AppColors.lightGrey,
       offset: Offset(x, y),
       blurRadius: blurRadius,
       spreadRadius: spreadRadius,

@@ -80,7 +80,7 @@ class _TicketService implements TicketService {
 
   @override
   Future<HttpResponse<TicketResponse>> getMyTickets(
-    int clientId,
+    int id,
     int page,
     int size,
   ) async {
@@ -92,7 +92,7 @@ class _TicketService implements TicketService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/tickets',
+            'http://195.88.87.77:8000/tickets/client/${id}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -137,7 +137,7 @@ class _TicketService implements TicketService {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'http://195.88.87.77:8000/tickets/filters',
+            'http://195.88.87.77:8000/tickets/filter',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -173,6 +173,35 @@ class _TicketService implements TicketService {
     );
     final _result = await _dio.fetch<void>(_options);
     final httpResponse = HttpResponse(null, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<TicketResponse>> filterTickets(FilterModel model) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(model.toJson());
+    final _options = _setStreamType<HttpResponse<TicketResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'http://195.88.87.77:8000/tickets/filter',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late TicketResponse _value;
+    try {
+      _value = TicketResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
 

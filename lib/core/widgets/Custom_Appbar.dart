@@ -6,7 +6,7 @@ import '../constants/colors.dart';
 class CustomAppbar extends StatelessWidget {
   final String text;
   final Color textColor;
-  final IconData icon;
+  final IconData? icon;
   final Color iconColor;
   final Color appbarColor;
   final void Function()? onPressed;
@@ -16,7 +16,7 @@ class CustomAppbar extends StatelessWidget {
     super.key,
     required this.text,
     this.textColor = AppColors.pureWhite,
-    required this.icon,
+    this.icon,
     this.iconColor = AppColors.pureWhite,
     this.appbarColor = AppColors.deepNavy,
     this.onPressed,
@@ -38,10 +38,11 @@ class CustomAppbar extends StatelessWidget {
                   text,
                   style: Fonts.itim.copyWith(color: textColor, fontSize: 20),
                 ),
-                IconButton(
-                  onPressed: onPressed,
-                  icon: Icon(icon, color: iconColor),
-                ),
+                if (icon != null)
+                  IconButton(
+                    onPressed: onPressed,
+                    icon: Icon(icon, color: iconColor),
+                  ),
               ],
             )
             .paddingOnly(bottom: 30, left: 20, right: 20, top: 20)

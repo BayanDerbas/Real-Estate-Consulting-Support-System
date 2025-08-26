@@ -20,7 +20,7 @@ class CurrentAppointments extends StatelessWidget {
             date: appointment['date'],
             time: appointment['time'],
             image: appointment['image'],
-            iconPath: AppImages.property1,
+            iconPath: appointment['iconPth'],
           ),
         );
       },

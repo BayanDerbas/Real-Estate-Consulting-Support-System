@@ -4,6 +4,10 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
+import 'package:graduation_project/core/widgets/custom_search_text_field.dart';
+import 'package:graduation_project/features/filter/controllers/ticket_filter_controller.dart';
+import 'package:graduation_project/features/ticket/data/model/filter_model.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../controllers/page_controller.dart';
 import 'all_tickets.dart';
 import 'my_tickets.dart';
@@ -13,6 +17,8 @@ class BaseTicketsPage extends GetView<PageTicketController> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(TicketFilterController());
+    final tapController = Get.put(PageTicketController());
     final double currentWidth = Get.width;
 
     return Scaffold(
@@ -27,6 +33,48 @@ class BaseTicketsPage extends GetView<PageTicketController> {
       body: SafeArea(
         child: Column(
           children: [
+            SizedBox(height: currentWidth * 0.05),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomSearchTextField(
+                  controller: controller.search,
+                  onFieldSubmitted: (value) {
+                    Get.find<GetAllTicketsController>().filter(
+                      filterItems: [
+                        // FilterItemModel(
+                        //   operation: OperationEnum.LIKE_NAME,
+                        //   value: controller.search.text,
+                        //   joinTable: "user",
+                        // ),
+                        FilterItemModel(
+                          column: "description",
+                          operation: OperationEnum.LIKE,
+                          value: controller.search.text,
+                        ),
+                        FilterItemModel(
+                          column: "location",
+                          operation: OperationEnum.LIKE,
+                          value: controller.search.text,
+                        ),
+                      ],
+                    );
+                  },
+                  hint: "search by username",
+                ).expanded(flex: 1),
+                IconButton(
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.ticketFilterPage);
+                  },
+                  icon: Icon(
+                    Icons.filter_alt_rounded,
+                    size: 32,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ).paddingSymmetric(horizontal: 16),
+            SizedBox(height: currentWidth * 0.05),
             Obx(
               () => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,10 +86,10 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                     width: currentWidth / 3,
                     height: 35,
                     borderColor:
-                        controller.currentpPage.value == 0
+                        tapController.currentpPage.value == 0
                             ? AppColors.deepNavy
                             : AppColors.pureWhite,
-                    onPressed: () => controller.changePageIndex(0),
+                    onPressed: () => tapController.changePageIndex(0),
                   ),
                   SizedBox(width: currentWidth * 0.1),
                   CustomButton(
@@ -51,18 +99,18 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                     width: currentWidth / 3,
                     height: 35,
                     borderColor:
-                        controller.currentpPage.value == 1
+                        tapController.currentpPage.value == 1
                             ? AppColors.deepNavy
                             : AppColors.pureWhite,
-                    onPressed: () => controller.changePageIndex(1),
+                    onPressed: () => tapController.changePageIndex(1),
                   ),
                 ],
               ),
-            ).scrollDirection(Axis.horizontal).paddingOnly(top: 50),
-            SizedBox(height: currentWidth * 0.1),
+            ).scrollDirection(Axis.horizontal),
+            SizedBox(height: currentWidth * 0.05),
             Expanded(
               child: Obx(() {
-                return controller.currentpPage.value == 0
+                return tapController.currentpPage.value == 0
                     ? TicketsPage()
                     : MyTickets();
               }),
