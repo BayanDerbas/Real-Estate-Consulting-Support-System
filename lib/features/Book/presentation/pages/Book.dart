@@ -4,6 +4,7 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
+import '../../../../core/constants/Fonts.dart';
 import '../../data/repository/booking_repository.dart';
 import '../../data/repository/reservation_repository.dart';
 import '../controllers/BookController.dart';
@@ -82,7 +83,24 @@ class Book extends StatelessWidget {
                 followerNum: args?['followersCount'] ?? "" ,
                 gridHeight: gridHeight,
               ),
-              const SizedBox(height: 15),
+              SizedBox(height: 5,),
+              Text(
+                "Coupon Code",
+                style: Fonts.itim.copyWith(
+                    fontSize: 20,color: AppColors.deepNavy,),)
+                  .padding(EdgeInsets.symmetric(horizontal: 13)),
+              SizedBox(height: 5,),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(13),
+                  ),
+                  prefixIcon: Icon(Icons.card_giftcard),
+                ),
+                style: Fonts.itim.copyWith(fontSize: 16,color: AppColors.deepNavy),
+                onChanged: (value) => controller.setCouponCode(value),
+              ).padding(const EdgeInsets.all(3)),
+              const SizedBox(height: 5),
               CustomButton(
                 text: controller.isLoading.value
                     ? "...جاري الحجز"

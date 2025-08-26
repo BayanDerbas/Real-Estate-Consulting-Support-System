@@ -10,7 +10,10 @@ import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import '../../../officers/data/model/userOffice.dart';
 import '../../../properties/data/model/propertyImage_model.dart';
 import '../../data/model/get_properties_by_officeId/propertiesByOfficeId_model.dart';
+import '../../data/repository/expert_posts_repository.dart';
 import '../controllers/ServiceProviderProfileController.dart';
+import '../controllers/expert_posts_controller.dart';
+import '../widgets/CustomCardPost.dart';
 import '../widgets/Custom_ServiceProviderProfile.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/officers/data/model/office.dart' as officersOffice;
@@ -26,7 +29,7 @@ class Serviceproviderprofile extends StatelessWidget {
     final UserOffice? user = args['user'];
     final controller = Get.put(ServiceProviderProfileController(id, role));
     final roomController = Get.find<RoomController>();
-
+    final postsController = Get.put(ExpertPostsController(Get.find<ExpertPostsRepository>(), int.parse(id)),);
     return Scaffold(
       floatingActionButton:
           user != null
@@ -56,13 +59,10 @@ class Serviceproviderprofile extends StatelessWidget {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
-
         if (controller.serviceProvider.isEmpty) {
           return const Center(child: Text("لم يتم العثور على مزود الخدمة."));
         }
-
         final provider = controller.serviceProvider;
-
         return CustomServiceproviderprofile(
           image: controller.getValidImageUrl(provider),
           name: provider['name'] ?? "بدون اسم",
@@ -106,7 +106,6 @@ class Serviceproviderprofile extends StatelessWidget {
           onCall: () {},
           followerImages: [AppImages.expert, AppImages.user],
           description: provider['textProvider'] ?? "لا يوجد وصف",
-
           realEstateImages:
               controller.properties
                   .expand(
@@ -118,20 +117,35 @@ class Serviceproviderprofile extends StatelessWidget {
                   )
                   .cast<String>()
                   .toList(),
-
-          posts: [],
-
-          // controller.posts.map((post) {
-          //   return {
-          //     'postImage': post['postImage'],
-          //     'username': post['username'],
-          //     'userImage': post['userImage'],
-          //     'postText': post['postText'],
-          //     'onTap': () {
-          //       Get.toNamed('/PostDetails', arguments: post);
-          //     },
-          //   };
-          // }).toList(),
+          posts: postsController.posts.map((post) {
+            return {
+              'postImage': post.imageUrl ?? AppImages.noImage,
+              'username': '${post.expert!.firstName} ${post.expert!.lastName}' ?? 'بدون اسم',
+              'userImage': post.expert!.imageUrl ?? AppImages.noImage,
+              'postText': post.content ?? 'لا يوجد نص',
+              'onTap': () {
+                showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: CustomCardPost(
+                          username: '${post.expert!.firstName} ${post.expert!.lastName}' ?? 'بدون اسم',
+                          userImage: post.expert!.imageUrl ?? AppImages.noImage,
+                          postText: post.content ?? 'لا يوجد نص',
+                          postImage: post.imageUrl ?? AppImages.noImage,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            };
+          }).toList(),
           properties: controller.properties.map((property) {
             final imageList = property.propertyImageList
                 ?.map((img) => PropertyImageModel(
@@ -185,8 +199,31 @@ class Serviceproviderprofile extends StatelessWidget {
               },
             };
           }).toList(),
-          onTap: () {},
-          postImages: [],
+          onTap: () {
+            // if (posts.isNotEmpty) {
+            //   final post = posts.first;
+            //   showDialog(
+            //     context: context,
+            //     builder: (context) => Dialog(
+            //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            //       child: SingleChildScrollView(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(12.0),
+            //           child: CustomCardPost(
+            //             username: post['username'] ?? 'بدون اسم',
+            //             userImage: post['userImage'] ?? AppImages.noImage,
+            //             postText: post['postText'] ?? 'لا يوجد نص',
+            //             postImage: post['postImage'] ?? AppImages.noImage,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   );
+            //}
+          },
+          postImages: postsController.posts
+              .map((post) => post.imageUrl ?? AppImages.noImage)
+              .toList(),
           discounts: [],
         );
       }),

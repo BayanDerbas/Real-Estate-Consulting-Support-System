@@ -15,7 +15,7 @@ import '../../data/repository/reservation_repository.dart';
 
 class BookController extends GetxController {
   var selectedDate = DateTime.now().obs;
-  var selectedSessionIndex = 1.obs; // default 30 minutes
+  var selectedSessionIndex = 1.obs;
   var selectedCallType = 1.obs;
   var selectedHourIndex = (-1).obs;
   var isLoading = false.obs;

@@ -46,8 +46,11 @@ import '../../features/FAQs_Support/presentation/controllers/faqs_controller.dar
 import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/data/chat_service/chat_service.dart';
 import '../../features/chats/data/repository/chat_repository.dart';
+import '../../features/myReserve/data/data_sources/myBookings_service.dart';
 import '../../features/myReserve/data/data_sources/myReserve_api_service.dart';
+import '../../features/myReserve/data/repositories/myBookings_repository.dart';
 import '../../features/myReserve/data/repositories/myReserve_repository.dart';
+import '../../features/myReserve/presentation/controllers/myBookingsController.dart';
 import '../../features/myReserve/presentation/controllers/myReserveController.dart';
 import '../../features/notification/presentation/controllers/notification_controller.dart';
 import '../../features/officers/data/data_source/office_service.dart';
@@ -56,6 +59,9 @@ import '../../features/officers/presentation/controllers/OfficeController.dart';
 import '../../features/properties/data/data_source/property_service.dart';
 import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
+import '../../features/service provider/data/data_source/get_posts_by_expertId/get_posts_by_expertId_service.dart';
+import '../../features/service provider/data/repository/expert_posts_repository.dart';
+import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../networks/dio_factory.dart';
 import 'bindings/faqs_binding.dart';
@@ -145,6 +151,12 @@ class DependenceInitializer {
     Get.lazyPut(() => CouponsService(Get.find()));
     Get.lazyPut(() => CouponsRepository(Get.find()));
     Get.lazyPut(() => DiscountsController(Get.find()));
-    //
+    //my Booking (users)
+    Get.lazyPut<MyBookingsApi>(() => MyBookingsApi(Get.find<Dio>()));
+    Get.lazyPut<MyBookingsRepository>(() => MyBookingsRepository(Get.find<MyBookingsApi>()));
+    Get.put(MyBookingsController(Get.find<MyBookingsRepository>()));
+    //show posts expert
+    Get.lazyPut(() => ShowPostsbyExpertId(Get.find<Dio>()), fenix: true);
+    Get.lazyPut(() => ExpertPostsRepository(Get.find<ShowPostsbyExpertId>()), fenix: true);
   }
 }

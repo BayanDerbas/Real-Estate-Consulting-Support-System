@@ -19,7 +19,11 @@ class DioFactory {
         ..options.receiveTimeout = const Duration(seconds: 15);
       dio!.options.headers = {'Accept': 'application/json'};
     }
-    // dio?.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    dio?.interceptors.add(LogInterceptor(
+      request: true,
+      requestBody: true,
+      responseBody: true,
+    ));
     return dio!;
   }
 

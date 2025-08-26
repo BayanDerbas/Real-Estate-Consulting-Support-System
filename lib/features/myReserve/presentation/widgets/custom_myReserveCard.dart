@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
-
+import 'package:graduation_project/core/constants/image_paths.dart';
 
 class MyReserveCard extends StatelessWidget {
   final String name;
@@ -11,7 +11,7 @@ class MyReserveCard extends StatelessWidget {
   final String startTime;
   final double finalPrice;
   final String bookingStatus;
-  final String? imageUrl;
+  final String imageUrl;
   final VoidCallback? onCallPressed;
 
   const MyReserveCard({
@@ -23,7 +23,7 @@ class MyReserveCard extends StatelessWidget {
     required this.startTime,
     required this.finalPrice,
     required this.bookingStatus,
-    this.imageUrl,
+    required this.imageUrl,
     this.onCallPressed,
   });
 
@@ -42,30 +42,63 @@ class MyReserveCard extends StatelessWidget {
               child: Icon(
                 callType.toLowerCase() == 'video' ? Icons.videocam : Icons.call,
                 color: AppColors.lavender,
-                size: 32,
+                size: 45,
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: Column(
+              child:Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('$name : الاسم', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$job : المهنة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$callType : نوع المكالمة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('المدة : $duration دقيقة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$finalPrice : السعر النهائي', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$startTime : البداية', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$bookingStatus : الحالة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text(' $name',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+
+                  if (job.isNotEmpty)
+                    Text(' المهنة : $job',
+                        style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+
+                  Text('$callType : نوع المكالمة',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('المدة : $duration دقيقة',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('$finalPrice : السعر النهائي',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('$startTime : التاريخ',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text('$bookingStatus : الحالة',
+                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
                 ],
               ),
             ),
             const SizedBox(width: 16),
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
-              backgroundColor: AppColors.lightGrey,
-              child: imageUrl == null ? Icon(Icons.person, size: 30, color: AppColors.deepNavy) : null,
+            ClipOval(
+              child: imageUrl.isNotEmpty && imageUrl.startsWith('http')
+                  ? Image.network(
+                imageUrl,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    AppImages.user,
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.cover,
+                    color: AppColors.deepNavy,
+                  );
+                },
+              )
+                  : Image.asset(
+                AppImages.user,
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+                color: AppColors.deepNavy,
+              ),
             ),
           ],
         ),
@@ -73,48 +106,3 @@ class MyReserveCard extends StatelessWidget {
     );
   }
 }
-
-//
-// class MyReserveCard extends StatelessWidget {
-//   final String name;
-//   final String job;
-//   final String callType;
-//   final int duration;
-//   final String startTime;
-//   final double finalPrice;
-//   final String bookingStatus;
-//
-//   const MyReserveCard({
-//     super.key,
-//     required this.name,
-//     required this.job,
-//     required this.callType,
-//     required this.duration,
-//     required this.startTime,
-//     required this.finalPrice,
-//     required this.bookingStatus,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       color: AppColors.whiteCard,
-//       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.end,
-//           children: [
-//             Text('$name : الاسم', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//             Text('$job : المهنة', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//             Text('$callType : نوع المكالمة ', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//             Text('المدة : $duration دقيقة ', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//             Text('$finalPrice : السعر النهائي ', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//             Text('$startTime : البداية ', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//             Text('$bookingStatus : الحالة ', style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
