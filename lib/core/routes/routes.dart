@@ -12,6 +12,8 @@ import 'package:graduation_project/features/Discounts/presentation/pages/get_all
 import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
 import 'package:graduation_project/features/officers/presentation/controllers/OfficeController.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
+import 'package:graduation_project/features/profiles/data/data_source/profile_service.dart';
+import 'package:graduation_project/features/profiles/data/repository/profile_repository.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
@@ -36,6 +38,8 @@ import '../../features/myReserve/presentation/pages/MyReserve.dart';
 import '../../features/notification/presentation/pages/notification.dart';
 import '../../features/officers/presentation/pages/offices.dart';
 import '../../features/posts/presentation/pages/Posts.dart';
+import '../../features/profiles/presentation/pages/expert_profile_screen.dart';
+import '../../features/profiles/presentation/pages/office_profile_screen.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
 import '../../features/properties/presentation/pages/add_images_to_property.dart';
 import '../../features/properties/presentation/pages/create_property.dart';
@@ -94,7 +98,8 @@ class AppRoutes {
   static const String accountPendingPage = '/account_pending_page';
 
   static const String ticketFilterPage = '/ticket_filter_page';
-
+  static const String expertProfile = '/expert_profile';
+  static const String officeProfile = '/office_profile';
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
     GetPage(name: refreshToken, page: () => RefreshTokenPage()),
@@ -161,6 +166,22 @@ class AppRoutes {
       }),
     ),
     GetPage(
+      name: expertProfile,
+      page: () => OfficeProfileScreen(),
+      binding: BindingsBuilder(() {
+        Get.find<ProfileService>();
+        Get.find<ProfileRepository>();
+      }),
+    ),
+    GetPage(
+      name: officeProfile,
+      page: () => ExpertProfileScreen(),
+      binding: BindingsBuilder(() {
+        Get.find<ProfileService>();
+        Get.find<ProfileRepository>();
+      }),
+    ),
+    GetPage(
       name: myTickets,
       page: () => MyTickets(),
       // binding: MyTicketsBinds(),
@@ -185,15 +206,9 @@ class AppRoutes {
       binding: FAQsBinding(),
     ),
     GetPage(name: roomsPage, page: () => const RoomsPage()),
-    GetPage(
-      name: '/settings',
-      page: () => const SettingsPage(),
-    ),
-    GetPage(
-      name: '/create_coupon',
-      page: () => const Discounts(),
-    ),
-    GetPage(name: '/all_coupons', page : () => GetAllCoupons()),
+    GetPage(name: '/settings', page: () => const SettingsPage()),
+    GetPage(name: '/create_coupon', page: () => const Discounts()),
+    GetPage(name: '/all_coupons', page: () => GetAllCoupons()),
     GetPage(name: '/settings', page: () => const SettingsPage()),
     GetPage(name: '/create_coupon', page: () => const Discounts()),
     GetPage(name: ticketFilterPage, page: () => const TicketFilterPage()),

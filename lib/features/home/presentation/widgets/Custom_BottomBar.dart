@@ -4,6 +4,8 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 
+import '../../../../core/utils/secure_storage.dart';
+
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({super.key});
 
@@ -29,7 +31,7 @@ class CustomBottomBar extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 type: BottomNavigationBarType.fixed,
                 currentIndex: controller.currentIndex.value,
-                onTap: (index) {
+                onTap: (index) async {
                   controller.hasTapped.value = true;
                   controller.changeIndex(index);
                   if (index == 0) {
@@ -37,9 +39,12 @@ class CustomBottomBar extends StatelessWidget {
                   } else if (index == 1) {
                     Get.toNamed('/posts');
                   } else if (index == 2) {
-                    Get.toNamed('/profile');
+                    final role = await SecureStorage().getUserType();
+                    role == 'EXPERT'
+                        ? Get.toNamed(AppRoutes.expertProfile)
+                        : Get.toNamed(AppRoutes.officeProfile);
                   } else if (index == 3) {
-                    Get.offNamed(AppRoutes.roomsPage);
+                    Get.toNamed(AppRoutes.roomsPage);
                   } else if (index == 4) {
                     Get.toNamed('/settings');
                   }

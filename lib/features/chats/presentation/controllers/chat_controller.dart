@@ -226,7 +226,6 @@ class ChatController extends GetxController {
       sender: UserModel(id: currentUserId!),
       createdAt: DateTime.now().toIso8601String(),
       status: MessageStatus.local,
-      fileData: fileData,
     );
 
     messages.add(localMessage);

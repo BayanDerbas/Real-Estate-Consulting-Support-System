@@ -15,23 +15,14 @@ class Message {
   final String? content;
   final String? createdAt;
 
-  final String? fileName;
-  final String? fileType;
-  final String? fileUrl;
-  final Uint8List? fileData;
-
   @JsonKey(ignore: true)
   final MessageStatus status;
 
   Message({
-    this.fileName,
-    this.fileType,
-    this.fileUrl,
     this.id,
     this.sender,
     this.content,
     this.createdAt,
-    this.fileData,
     this.status = MessageStatus.sent,
   });
 
