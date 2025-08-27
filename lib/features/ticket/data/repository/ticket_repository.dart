@@ -4,10 +4,8 @@ import 'package:graduation_project/features/ticket/data/model/filter_tickets_req
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_request_model.dart';
 import 'package:graduation_project/features/ticket/data/model/publish_ticket_response_model.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
-import 'package:graduation_project/features/ticket/data/model/ticket_data_model.dart';
 import '../../../../core/networks/failures.dart';
 import '../model/filter_model.dart';
-import '../model/filter_tickets_response_model.dart';
 import '../model/ticket_model.dart';
 import '../model/ticket_response.dart';
 
