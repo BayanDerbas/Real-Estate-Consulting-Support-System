@@ -182,16 +182,15 @@ class CustomDrawer extends StatelessWidget {
                   },
                 ),
               ],
-
-              DrawerItem(
-                icon: Icons.add_home,
-                title: 'my reservations',
-                onTap: () {
-                  Get.back();
-                  //Get.toNamed(AppRoutes.appointements);
-                  Get.toNamed(AppRoutes.myReserve);
-                },
-              ),
+              // DrawerItem(
+              //   icon: Icons.add_home,
+              //   title: 'my reservations',
+              //   onTap: () {
+              //     Get.back();
+              //     //Get.toNamed(AppRoutes.appointements);
+              //     Get.toNamed(AppRoutes.myReserve);
+              //   },
+              // ),
               DrawerItem(
                 icon: Icons.settings,
                 title: 'FAQ support',
