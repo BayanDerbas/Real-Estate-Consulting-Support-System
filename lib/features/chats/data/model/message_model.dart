@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../Auth/data/model/user_model.dart';
 
@@ -18,7 +16,12 @@ class Message {
   final String? fileName;
   final String? fileType;
   final String? fileUrl;
+  //final Uint8List? fileData;
+  @JsonKey(ignore: true)
   final Uint8List? fileData;
+  //if i use converter:
+  // @Uint8ListConverter()
+  // final Uint8List? fileData;
 
   @JsonKey(ignore: true)
   final MessageStatus status;
@@ -56,3 +59,25 @@ class Message {
     );
   }
 }
+
+
+//using converter:
+// class Uint8ListConverter implements JsonConverter<Uint8List?, String?> {
+//   const Uint8ListConverter();
+//
+//   @override
+//   Uint8List? fromJson(String? json) {
+//     if (json == null) return null;
+//     try {
+//       return base64Decode(json);
+//     } catch (_) {
+//       return null;
+//     }
+//   }
+//
+//   @override
+//   String? toJson(Uint8List? object) {
+//     if (object == null) return null;
+//     return base64Encode(object);
+//   }
+// }

@@ -154,8 +154,11 @@ class DependenceInitializer {
     Get.put(CustomDrawerController());
     //create coupon
     Get.lazyPut(() => CouponsService(Get.find()));
-    Get.lazyPut(() => CouponsRepository(Get.find()));
-    Get.lazyPut(() => DiscountsController(Get.find(),Get.find()));
+    Get.lazyPut(() => CouponsRepository(Get.find()),fenix: true);
+    Get.lazyPut<DiscountsController>(
+          () => DiscountsController(Get.find(), Get.find()),
+      fenix: true,
+    );
     //my Booking (users)
     Get.lazyPut<MyBookingsApi>(() => MyBookingsApi(Get.find<Dio>()));
     Get.lazyPut<MyBookingsRepository>(() => MyBookingsRepository(Get.find<MyBookingsApi>()));
