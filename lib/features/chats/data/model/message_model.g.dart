@@ -7,9 +7,6 @@ part of 'message_model.dart';
 // **************************************************************************
 
 Message _$MessageFromJson(Map<String, dynamic> json) => Message(
-  fileName: json['fileName'] as String?,
-  fileType: json['fileType'] as String?,
-  fileUrl: json['fileUrl'] as String?,
   id: (json['id'] as num?)?.toInt(),
   sender:
       json['sender'] == null
@@ -24,7 +21,4 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
   'sender': instance.sender,
   'content': instance.content,
   'createdAt': instance.createdAt,
-  'fileName': instance.fileName,
-  'fileType': instance.fileType,
-  'fileUrl': instance.fileUrl,
 };
