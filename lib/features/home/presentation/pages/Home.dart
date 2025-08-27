@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
+import 'package:graduation_project/features/Discounts/presentation/controllers/DiscountsController.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
+import '../../../Discounts/presentation/controllers/DiscountsController.dart';
 import '../../../officers/presentation/controllers/OfficeController.dart';
 import '../../../posts/presentation/controllers/PostsController.dart';
 import '../../../service provider/presentation/controllers/ServiceProvidersControllers.dart';
@@ -29,7 +31,7 @@ class Home extends StatelessWidget {
     final propertiesController = Get.find<PropertiesController>();
     final officeController = Get.find<OfficeController>();
     final PostsController _controller = Get.find<PostsController>();
-
+    final discountsController = Get.find<DiscountsController>();
     return Scaffold(
       drawer: CustomDrawer(
         userName: drawerController.userName.value,
@@ -85,49 +87,52 @@ class Home extends StatelessWidget {
                         Get.toNamed("/serviceProviders");
                       },
                   ),
-                  if (drawerController.userType.value == "عقارات" ||
-                      drawerController.userType.value == "محامي" ||
-                      drawerController.userType.value == "مهندس") ...[
-                    CustomIconButton(
-                      icon: Icons.bar_chart,
-                      label: 'Statistics',
-                      isSelected: controller.selectedIndex.value == 5,
-                      onTap: () {
-                        controller.selectIndex(5);
-                        print("Statistics pressed");
-                        // Get.toNamed("/statistics");
-                      },
-                    ),
-                    CustomIconButton(
-                      icon: Icons.confirmation_number,
-                      label: 'Tickets',
-                      isSelected: controller.selectedIndex.value == 6,
-                      onTap: () {
-                        controller.selectIndex(6);
-                        print("Tickets pressed");
-                        // Get.toNamed("/tickets");
-                      },
-                    ),
+                  CustomIconButton(
+                    icon: Icons.discount,
+                    label: 'Discounts',
+                    isSelected: controller.selectedIndex.value == 8,
+                    onTap: () {
+                      controller.selectIndex(8);
+                      Get.toNamed(AppRoutes.all_coupons);
+                      print("Discount pressed");
+                      // Get.toNamed("/discounts");
+                    },
+                  ),
+                  CustomIconButton(
+                    icon: Icons.confirmation_number,
+                    label: 'Tickets',
+                    isSelected: controller.selectedIndex.value == 6,
+                    onTap: () {
+                      controller.selectIndex(6);
+                      print("Tickets pressed");
+                      Get.toNamed(AppRoutes.baseTicketsPage);
+                    },
+                  ),
+                  if (
+                  //drawerController.userType.value == "OFFICE" ||
+                      drawerController.userType.value == "EXPERT" ) ...[
+                    // CustomIconButton(
+                    //   icon: Icons.bar_chart,
+                    //   label: 'Statistics',
+                    //   isSelected: controller.selectedIndex.value == 5,
+                    //   onTap: () {
+                    //     controller.selectIndex(5);
+                    //     print("Statistics pressed");
+                    //     // Get.toNamed("/statistics");
+                    //   },
+                    // ),
                     CustomIconButton(
                       icon: Icons.schedule,
                       label: 'Schedule Time',
                       isSelected: controller.selectedIndex.value == 7,
                       onTap: () {
                         controller.selectIndex(7);
+                        Get.toNamed(AppRoutes.scheduleTime);
                         print("Schedule Time pressed");
                         // Get.toNamed("/schedule_time");
                       },
                     ),
-                    CustomIconButton(
-                      icon: Icons.discount,
-                      label: 'Discount',
-                      isSelected: controller.selectedIndex.value == 8,
-                      onTap: () {
-                        controller.selectIndex(8);
-                        print("Discount pressed");
-                        // Get.toNamed("/discounts");
-                      },
-                    ),
+
                   ],
                 ],
               ).scrollDirection(Axis.horizontal),

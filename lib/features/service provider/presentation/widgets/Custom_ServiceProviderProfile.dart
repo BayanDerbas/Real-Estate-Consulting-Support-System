@@ -28,7 +28,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
   final String description;
   final List<String> postImages;
   final List<String> realEstateImages;
-  final List<Map<String, String>> discounts;
+  final List<Map<String, dynamic>> discounts;
   final List<Map<String, dynamic>> posts;
   final List<Map<String, dynamic>> properties;
 
@@ -379,7 +379,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
             color: AppColors.grey2,
           ).padding(EdgeInsets.symmetric(vertical: 15)),
           DefaultTabController(
-            length: tabLength,
+            length: job != "OFFICE" ? 2 : 1,
             child: Directionality(
               textDirection: TextDirection.ltr,
               child: Column(
@@ -390,8 +390,8 @@ class CustomServiceproviderprofile extends StatelessWidget {
                     dividerColor: AppColors.pureWhite,
                     tabs: [
                       if (job != "OFFICE") const Tab(text: 'posts'),
+                      if (job != "OFFICE") const Tab(text: 'discounts'),
                       if (job == "OFFICE") const Tab(text: 'real estates'),
-                      const Tab(text: 'discounts'),
                     ],
                   ),
                   SizedBox(
@@ -409,9 +409,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                               final post = entry.value;
                               return GestureDetector(
                                 onTap: () {
-                                  if (post['onTap'] != null) {
-                                    post['onTap']();
-                                  }
+                                  if (post['onTap'] != null) post['onTap']();
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -419,6 +417,35 @@ class CustomServiceproviderprofile extends StatelessWidget {
                                     post['postImage'],
                                     fit: BoxFit.cover,
                                   ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        if (job != "OFFICE")
+                          GridView.count(
+                            crossAxisCount: 3,
+                            childAspectRatio: 0.7,
+                            padding: const EdgeInsets.all(5),
+                            children: discounts.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final discount = entry.value;
+                              final colors = [
+                                AppColors.lavender,
+                                AppColors.softPink,
+                                AppColors.babySky,
+                                AppColors.aquaBlue,
+                                AppColors.goldenYellow,
+                                AppColors.purple,
+                              ];
+                              return GestureDetector(
+                                onTap: () {
+                                  print("تم الضغط على الخصم: ${discount['code']}");
+                                },
+                                child: DiscountItem(
+                                  discount: discount['discount']!,
+                                  description: discount['description']!,
+                                  code: discount['code']!,
+                                  color: colors[index % colors.length],
                                 ),
                               );
                             }).toList(),
@@ -434,9 +461,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                               final property = entry.value;
                               return GestureDetector(
                                 onTap: () {
-                                  if (property['onTap'] != null) {
-                                    property['onTap']();
-                                  }
+                                  if (property['onTap'] != null) property['onTap']();
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
@@ -448,44 +473,13 @@ class CustomServiceproviderprofile extends StatelessWidget {
                               );
                             }).toList(),
                           ),
-                        GridView.count(
-                          crossAxisCount: 3,
-                          childAspectRatio: 0.7,
-                          padding: const EdgeInsets.all(5),
-                          children:
-                              discounts.asMap().entries.map((entry) {
-                                final index = entry.key;
-                                final discount = entry.value;
-                                final colors = [
-                                  AppColors.lavender,
-                                  AppColors.softPink,
-                                  AppColors.babySky,
-                                  AppColors.aquaBlue,
-                                  AppColors.goldenYellow,
-                                  AppColors.purple,
-                                ];
-                                return GestureDetector(
-                                  onTap: () {
-                                    print(
-                                      "تم الضغط على الخصم: ${discount['code']}",
-                                    );
-                                  },
-                                  child: DiscountItem(
-                                    discount: discount['discount']!,
-                                    description: discount['description']!,
-                                    code: discount['code']!,
-                                    color: colors[index % colors.length],
-                                  ),
-                                );
-                              }).toList(),
-                        ),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
+          )
         ],
       ).padding(EdgeInsets.all(10)).scrollDirection(Axis.vertical),
     );

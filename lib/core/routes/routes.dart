@@ -8,6 +8,7 @@ import 'package:graduation_project/features/Auth/presentation/pages/verification
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
+import 'package:graduation_project/features/Discounts/presentation/pages/get_all_coupons.dart';
 import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
 import 'package:graduation_project/features/officers/presentation/controllers/OfficeController.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
@@ -89,6 +90,7 @@ class AppRoutes {
   static const String Settings = "/settings";
   static const String create_coupon = "/create_coupon";
   static const String roomsPage = '/rooms_page';
+  static const String all_coupons = '/all_coupons';
   static const String accountPendingPage = '/account_pending_page';
 
   static const String ticketFilterPage = '/ticket_filter_page';
@@ -183,6 +185,15 @@ class AppRoutes {
       binding: FAQsBinding(),
     ),
     GetPage(name: roomsPage, page: () => const RoomsPage()),
+    GetPage(
+      name: '/settings',
+      page: () => const SettingsPage(),
+    ),
+    GetPage(
+      name: '/create_coupon',
+      page: () => const Discounts(),
+    ),
+    GetPage(name: '/all_coupons', page : () => GetAllCoupons()),
     GetPage(name: '/settings', page: () => const SettingsPage()),
     GetPage(name: '/create_coupon', page: () => const Discounts()),
     GetPage(name: ticketFilterPage, page: () => const TicketFilterPage()),

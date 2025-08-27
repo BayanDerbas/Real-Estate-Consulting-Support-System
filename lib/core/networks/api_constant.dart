@@ -56,6 +56,8 @@ class ApiConstant {
   static const String create_coupons = "$baseUrl/coupons";
   //show Coupons
   static const String get_coupons = "$baseUrl/coupons";
+  //show expert cpoupons
+  static const String get_expert_coupons = "$baseUrl/coupons/all/{expertId}";
   //find all posts by expert id
   static const String postsbyId = "$baseUrl/posts/expert/{expertId}";
   //find all properties by officeId
@@ -64,4 +66,6 @@ class ApiConstant {
   static const String showMyAppointement = "$baseUrl/booking/my/";
   //show posts by expert id
   static const String show_posts_byExpertId = "$baseUrl/posts/expert/{expertId}";
+  //schedule
+  static const String schedule = "$baseUrl/working_times/{id}";
 }

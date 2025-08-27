@@ -3,12 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 
 class Fonts {
+// english lang
   static final TextStyle itim = GoogleFonts.itim(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: AppColors.pureWhite,
   );
-
+//arabic lang
   static final TextStyle taj = GoogleFonts.tajawal(
     fontSize: 18,
     fontWeight: FontWeight.w300,

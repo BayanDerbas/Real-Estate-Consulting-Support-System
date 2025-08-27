@@ -1,5 +1,8 @@
 import 'dart:ui';
 import 'package:get/get.dart';
+import 'package:graduation_project/features/Discounts/data/data_sources/coupons_service.dart';
+import 'package:graduation_project/features/Discounts/data/models/get_coupons_expertId/show_expert_coupons_data.dart';
+import 'package:graduation_project/features/Discounts/data/repositories/expert_coupons_repository.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/networks/dio_factory.dart';
@@ -20,18 +23,10 @@ class ServiceProviderProfileController extends GetxController {
   var isFavourite = false.obs;
   var followers = 18.obs;
   var isLoading = false.obs;
+  var coupons = <ShowExpertCouponsData>[].obs;
   final RxMap<String, dynamic> serviceProvider = <String, dynamic>{}.obs;
 
   String get followersText => "Sara and ${followers.value - 1} others";
-
-  final postImages = [
-    AppImages.property1,
-    AppImages.property2,
-    AppImages.garden,
-    AppImages.user,
-    AppImages.expert,
-    AppImages.property3,
-  ];
 
   final List<Color> discountColors = [
     AppColors.lavender,
@@ -42,48 +37,6 @@ class ServiceProviderProfileController extends GetxController {
     AppColors.blushRose,
   ];
 
-  final List<Map<String, String>> discounts = [
-    {
-      'discount': '%30 OFF',
-      'description': 'خصم 5000 لـ سن صالح لمرة واحدة',
-      'code': 'عقارك',
-    },
-    {
-      'discount': '%100 OFF',
-      'description': 'احصل على استشارة مجانية بالكامل\nبعد حجز استشارتين',
-      'code': '',
-    },
-    {
-      'discount': '%30 OFF',
-      'description': 'خصم خاص على العقارات السكنية',
-      'code': '',
-    },
-    {
-      'discount': '%30 OFF',
-      'description': 'خصم على خدمات التقييم العقاري',
-      'code': '',
-    },
-    {
-      'discount': '%30 OFF',
-      'description': 'خصم 5000 لـ سن صالح لمرة واحدة',
-      'code': 'عقارك',
-    },
-    {
-      'discount': '%100 OFF',
-      'description': 'احصل على استشارة مجانية بالكامل\nبعد حجز استشارتين',
-      'code': '',
-    },
-    {
-      'discount': '%30 OFF',
-      'description': 'خصم على خدمات التقييم العقاري',
-      'code': '',
-    },
-    {
-      'discount': '%30 OFF',
-      'description': 'خصم 5000 لـ سن صالح لمرة واحدة',
-      'code': 'عقارك',
-    },
-  ];
   var properties = <Property>[].obs;
 
   @override
@@ -114,15 +67,11 @@ class ServiceProviderProfileController extends GetxController {
       if (role == "EXPERT") {
         final expertService = ExpertService(dio);
         final response = await expertService.getExpertById(id);
-
         print("استجابة الخبير: ${response.toJson()}");
-
         final expert = response.data;
-
         if (expert == null) {
           throw Exception('لا يوجد خبير في الاستجابة');
         }
-
         serviceProvider.value = {
           "name":
               "${expert.user?.firstName} ${expert.user?.lastName}"
@@ -145,6 +94,17 @@ class ServiceProviderProfileController extends GetxController {
           "rateCount": expert.rateCount,
           "role": "EXPERT",
         };
+        final repo_coupon = ExpertCouponsRepository(CouponsService(dio));
+        final result = await repo_coupon.getExpertCoupons(int.parse(id));
+        result.fold(
+                (failure){
+                  print("Error : ${failure.err_message}");
+                  coupons.clear();
+                },
+                (response){
+                  coupons.assignAll(response ?? []);
+                }
+        );
       } else if (role == "OFFICE") {
         final officeService = OfficeService(dio);
         final response = await officeService.getAllOffices(page: 0, size: 50);

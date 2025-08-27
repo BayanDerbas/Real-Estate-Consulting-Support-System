@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:graduation_project/features/Discounts/data/models/create_coupons/create_coupons_response.dart';
+import 'package:graduation_project/features/Discounts/data/models/get_coupons_expertId/show_expert_coupons_response.dart';
 import 'package:retrofit/retrofit.dart';
 import '../../../../core/networks/api_constant.dart';
+import '../models/get_all_coupons/get_all_coupons_response.dart';
 
 part 'coupons_service.g.dart';
 
@@ -14,6 +16,9 @@ abstract class CouponsService{
     @Body() required Map<String,dynamic> body,
 });
 
-  // @GET(ApiConstant.show_coupons)
-  // Future<HttpResponse<List<ShowCouponsData>>> get_coupons();
+  @GET(ApiConstant.get_expert_coupons)
+  Future<HttpResponse<ShowExpertCouponsResponse>> get_coupons(@Path("expertId") int expertId);
+
+  @GET(ApiConstant.get_coupons)
+  Future<HttpResponse<GetAllCouponsResponse>> get_all_coupons();
 }

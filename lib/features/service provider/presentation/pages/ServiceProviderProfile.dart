@@ -224,7 +224,49 @@ class Serviceproviderprofile extends StatelessWidget {
           postImages: postsController.posts
               .map((post) => post.imageUrl ?? AppImages.noImage)
               .toList(),
-          discounts: [],
+          discounts: controller.coupons.asMap().entries.map((entry) {
+            final index = entry.key;
+            final coupon = entry.value;
+
+            return {
+              'discount': "${coupon.discountValue ?? ''}%",
+              'description': coupon.description ?? 'لا يوجد وصف',
+              'code': coupon.code ?? '',
+              'color': controller.discountColors[index % controller.discountColors.length],
+              'onTap': () {
+                showDialog(
+                  context: context,
+                  builder: (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("كود الخصم",
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 10),
+                          Text(coupon.code ?? "بدون كود",
+                              style: const TextStyle(
+                                  fontSize: 16, color: AppColors.grey)),
+                          const SizedBox(height: 20),
+                          Text(coupon.description ?? "لا يوجد وصف"),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: () => Get.back(),
+                            child: const Text("إغلاق"),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            };
+          }).toList(),
         );
       }),
     );

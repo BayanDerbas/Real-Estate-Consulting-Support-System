@@ -1,16 +1,21 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:graduation_project/core/networks/dio_factory.dart';
+import 'package:graduation_project/features/Discounts/data/repositories/all_coupons_repository.dart';
 import 'package:graduation_project/features/Discounts/data/repositories/coupons_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/models/get_all_coupons/get_all_coupons_data.dart';
 
 class DiscountsController extends GetxController with GetSingleTickerProviderStateMixin {
   final CouponsRepository respository;
-  DiscountsController(this.respository);
+  final AllCouponsRepository _repository;
+  DiscountsController(this.respository,this._repository);
 
 
   late TabController tabController;
   RxList<Map<String, dynamic>> discounts = <Map<String, dynamic>>[].obs;
+  RxList<GetAllCouponsData> allCoupons = <GetAllCouponsData>[].obs;
 
   final TextEditingController codeController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
@@ -26,6 +31,7 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
     super.onInit();
     tabController = TabController(length: 2, vsync: this);
     loadDiscounts();
+    get_all_coupons();
   }
 
   @override
@@ -103,6 +109,22 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
     }
   }
 
+  Future<void> get_all_coupons() async {
+    try {
+      DioFactory.loadToken();
+      final result = await _repository.get_all_coupons();
+      result.fold(
+              (failure){
+                print("Error allCoupons :${failure.err_message}");
+              },
+              (resposne){
+                allCoupons.value = resposne ?? [];
+              },
+      );
+    } catch (e) {
+    }
+  }
+
   void clearFields() {
     codeController.clear();
     amountController.clear();
@@ -119,20 +141,3 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
     }
   }
 }
-
-
-// final storage = SecureStorage();
-//
-// final String? userId = await storage.getUserId();
-// final String? userName = await storage.getUserName();
-// final String? userType = await storage.getUserType();
-// final String? email = await storage.getEmail();
-// if (userId == null) {
-// print("خطأ: لم يتم العثور على معرف المستخدم");
-// }
-// print("========== Current User Info ==========");
-// print("ID: $userId");
-// print("Name: $userName");
-// print("Role: $userType");
-// print("Email: $email");
-// print("========== Current User Info ==========");

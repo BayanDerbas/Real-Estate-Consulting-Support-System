@@ -7,6 +7,7 @@ import 'package:graduation_project/features/Auth/presentation/controllers/refres
 import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
 import 'package:graduation_project/features/Book/data/repository/reservation_repository.dart';
+import 'package:graduation_project/features/Discounts/data/repositories/all_coupons_repository.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
@@ -17,6 +18,7 @@ import 'package:graduation_project/features/posts/presentation/controllers/Posts
 import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
+import 'package:graduation_project/features/scheduleTime/presentation/controllers/ScheduleTimeController.dart';
 import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
 import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviders.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
@@ -39,6 +41,7 @@ import '../../features/Book/data/repository/booking_repository.dart';
 import '../../features/Book/presentation/controllers/BookController.dart';
 import '../../features/Discounts/data/data_sources/coupons_service.dart';
 import '../../features/Discounts/data/repositories/coupons_repository.dart';
+import '../../features/Discounts/data/repositories/expert_coupons_repository.dart';
 import '../../features/Discounts/presentation/controllers/DiscountsController.dart';
 import '../../features/FAQs_Support/data/data_sources/faqs_service.dart';
 import '../../features/FAQs_Support/data/repositories/faqs_repository.dart';
@@ -59,6 +62,8 @@ import '../../features/officers/presentation/controllers/OfficeController.dart';
 import '../../features/properties/data/data_source/property_service.dart';
 import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
+import '../../features/scheduleTime/data/data_sources/schedule_service.dart';
+import '../../features/scheduleTime/data/repositories/time_schedule_repository.dart';
 import '../../features/service provider/data/data_source/get_posts_by_expertId/get_posts_by_expertId_service.dart';
 import '../../features/service provider/data/repository/expert_posts_repository.dart';
 import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
@@ -150,7 +155,7 @@ class DependenceInitializer {
     //create coupon
     Get.lazyPut(() => CouponsService(Get.find()));
     Get.lazyPut(() => CouponsRepository(Get.find()));
-    Get.lazyPut(() => DiscountsController(Get.find()));
+    Get.lazyPut(() => DiscountsController(Get.find(),Get.find()));
     //my Booking (users)
     Get.lazyPut<MyBookingsApi>(() => MyBookingsApi(Get.find<Dio>()));
     Get.lazyPut<MyBookingsRepository>(() => MyBookingsRepository(Get.find<MyBookingsApi>()));
@@ -158,5 +163,12 @@ class DependenceInitializer {
     //show posts expert
     Get.lazyPut(() => ShowPostsbyExpertId(Get.find<Dio>()), fenix: true);
     Get.lazyPut(() => ExpertPostsRepository(Get.find<ShowPostsbyExpertId>()), fenix: true);
-  }
+    // get expert coupons
+    Get.lazyPut(() => ExpertCouponsRepository(Get.find<CouponsService>()),fenix: true);
+    //get_all_coupons
+    Get.lazyPut(() => AllCouponsRepository(Get.find()));
+    //schedule time
+    Get.lazyPut<ScheduleService>(() => ScheduleService(Get.find<Dio>()), fenix: true);
+    Get.lazyPut<ScheduleTimeRepository>(() => ScheduleTimeRepository(Get.find<ScheduleService>()), fenix: true);
+    Get.lazyPut<ScheduleTimeController>(() => ScheduleTimeController(Get.find<ScheduleTimeRepository>()), fenix: true);  }
 }

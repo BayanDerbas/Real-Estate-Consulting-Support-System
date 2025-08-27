@@ -23,5 +23,6 @@ class AppColors {
   static const Color darkGray = Color.fromRGBO(59, 59, 59, 1.0);
   static const Color filterButtonWhite = Color.fromRGBO(217, 217, 217, 0.7);
   static const Color whiteCard = Color.fromRGBO(240, 240, 240, 1.00);
+  static const Color green = Colors.green;
 // static const Color blackFont
 }
