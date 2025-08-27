@@ -15,6 +15,7 @@ class SecureStorage {
   final _commercialRegisterImage = 'commercialRegisterImage';
   final _profileImage = 'imageUrl';
   final _langCode = 'langCode';
+  final _notificationsKey = 'notifications';
 
   Future<void> saveToken(String token) async {
     await _storage.write(key: _tokenKey, value: token);
@@ -185,5 +186,21 @@ class SecureStorage {
       default:
         return await _storage.read(key: 'clientId');
     }
+  }
+
+  Future<void> saveNotifications(List<Map<String, dynamic>> notifications) async {
+    final jsonString = jsonEncode(notifications);
+    await _storage.write(key: _notificationsKey, value: jsonString);
+  }
+
+  Future<List<Map<String, dynamic>>> getNotifications() async {
+    final stored = await _storage.read(key: _notificationsKey);
+    if (stored == null) return [];
+    final decoded = jsonDecode(stored) as List<dynamic>;
+    return decoded.map((e) => Map<String, dynamic>.from(e)).toList();
+  }
+
+  Future<void> clearNotifications() async {
+    await _storage.delete(key: _notificationsKey);
   }
 }

@@ -32,15 +32,15 @@ class OfficeProfileController extends GetxController {
 
       final id = int.parse(stringId);
 
-      final result = await _repository.getOfficeProfile(id: id);
-      result.fold(
-        (failure) {
-          errorMessage.value = failure.err_message;
-        },
-        (data) {
-          profile.value = data;
-        },
-      );
+      // final result = await _repository.getOfficeProfile(id: id);
+      // result.fold(
+      //   (failure) {
+      //     errorMessage.value = failure.err_message;
+      //   },
+      //   (data) {
+      //     profile.value = data;
+      //   },
+      // );
     } catch (e) {
       errorMessage.value = "Failed to load profile: ${e.toString()}";
     } finally {
