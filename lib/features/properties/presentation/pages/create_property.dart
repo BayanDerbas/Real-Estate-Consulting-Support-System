@@ -37,6 +37,10 @@ class CreatePropertyScreen extends StatelessWidget {
         title: Text("create_property".tr, style: Fonts.itim),
         centerTitle: true,
         backgroundColor: AppColors.deepNavy,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back, color: AppColors.pureWhite),
+        ),
       ),
       body: BasePostScreen(
         heightOfAppBar: 0,

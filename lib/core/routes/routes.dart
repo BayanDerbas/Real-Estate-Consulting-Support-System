@@ -131,18 +131,7 @@ class AppRoutes {
     GetPage(name: serviceProviders, page: () => ServiceProviders()),
     GetPage(name: propertyDetails, page: () => PropertyDetails()),
     GetPage(name: properties, page: () => Properties()),
-    GetPage(
-      name: home,
-      page: () => Home(),
-      binding: BindingsBuilder(() {
-        Get.find<PropertiesController>().fetchProperties();
-        Get.find<OfficeController>().fetchOffices();
-        Get.find<ServiceProviders_Controller>().fetchExperts();
-        Get.find<PostsController>().showPosts();
-        Get.find<MyBookingsController>().fetchBookings("PENDING");
-        Get.find<myReserveController>().loadRole();
-      }),
-    ),
+    GetPage(name: home, page: () => Home()),
     GetPage(name: offices, page: () => Offices()),
     GetPage(
       name: login,
@@ -207,7 +196,7 @@ class AppRoutes {
     GetPage(name: chatPage, page: () => ChatPage()),
     GetPage(name: notifications, page: () => NotificationsScreen()),
     GetPage(name: createProperty, page: () => CreatePropertyScreen()),
-    // GetPage(name: addImagesToProperty, page: () => AddImagesToPropertyScreen()),
+    GetPage(name: addImagesToProperty, page: () => AddImagesToPropertyScreen()),
     GetPage(
       name: '/FAQs',
       page: () => const FAQS_support(),

@@ -26,6 +26,10 @@ class AddImagesToPropertyScreen extends StatelessWidget {
         title: Text("add_images".tr, style: Fonts.itim),
         centerTitle: true,
         backgroundColor: AppColors.deepNavy,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back, color: AppColors.pureWhite),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

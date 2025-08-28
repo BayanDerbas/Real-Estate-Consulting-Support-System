@@ -76,25 +76,9 @@ class TicketFilterController extends GetxController {
   List<FilterItemModel> onFilter() {
     List<FilterItemModel> list = [];
 
-    // list.add(
-    //   FilterItemModel(
-    //     operation: OperationEnum.LIKE_NAME,
-    //     value: search.text,
-    //     joinTable: "user",
-    //   ),
-    // );
-
     list.add(
       FilterItemModel(
-        column: "description",
-        operation: OperationEnum.LIKE,
-        value: search.text,
-      ),
-    );
-    list.add(
-      FilterItemModel(
-        column: "location",
-        operation: OperationEnum.LIKE,
+        operation: OperationEnum.LIKE_TICKET_CLIENT_NAME,
         value: search.text,
       ),
     );

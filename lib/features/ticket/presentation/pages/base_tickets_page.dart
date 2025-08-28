@@ -42,22 +42,22 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                   onFieldSubmitted: (value) {
                     Get.find<GetAllTicketsController>().filter(
                       filterItems: [
+                        FilterItemModel(
+                          operation: OperationEnum.LIKE_TICKET_CLIENT_NAME,
+                          value: controller.search.text,
+                        ),
                         // FilterItemModel(
-                        //   operation: OperationEnum.LIKE_NAME,
+                        //   column: "description",
+                        //   operation: OperationEnum.LIKE,
                         //   value: controller.search.text,
-                        //   joinTable: "user",
                         // ),
-                        FilterItemModel(
-                          column: "description",
-                          operation: OperationEnum.LIKE,
-                          value: controller.search.text,
-                        ),
-                        FilterItemModel(
-                          column: "location",
-                          operation: OperationEnum.LIKE,
-                          value: controller.search.text,
-                        ),
+                        // FilterItemModel(
+                        //   column: "location",
+                        //   operation: OperationEnum.LIKE,
+                        //   value: controller.search.text,
+                        // ),
                       ],
+                      globalOperator: GlobalOperatorEnum.OR,
                     );
                   },
                   hint: "search by username",

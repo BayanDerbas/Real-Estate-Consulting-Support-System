@@ -7,6 +7,7 @@ class CustomAppbar extends StatelessWidget {
   final String text;
   final Color textColor;
   final IconData? icon;
+  final IconData? backIcon;
   final Color iconColor;
   final Color appbarColor;
   final void Function()? onPressed;
@@ -24,6 +25,7 @@ class CustomAppbar extends StatelessWidget {
     this.textStyle,
     this.onBackButtonPressed,
     this.withBackArrow = false,
+    this.backIcon = Icons.arrow_back,
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomAppbar extends StatelessWidget {
                 !withBackArrow!
                     ? IconButton(
                       onPressed: onBackButtonPressed ?? () => Get.back(),
-                      icon: Icon(Icons.arrow_back, color: AppColors.pureWhite),
+                      icon: Icon(backIcon, color: AppColors.pureWhite),
                     )
                     : SizedBox(),
                 Text(

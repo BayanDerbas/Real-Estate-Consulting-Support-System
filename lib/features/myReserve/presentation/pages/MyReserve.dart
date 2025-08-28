@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
@@ -165,10 +167,17 @@ class MyReserve extends StatelessWidget {
               bookingStatus: status,
               imageUrl: imageUrl,
               onCallPressed: () {
-                // ZegoUIKitPrebuiltCallInvitationService.send(
-                //   invitees: [ZegoCallUser('', 'name')],
-                //   isVideoCall: false,
-                // );
+                log("message");
+                ZegoUIKitPrebuiltCallInvitationService().send(
+                  invitees: [
+                    ZegoCallUser(
+                      booking.expert!.user!.id.toString(),
+                      "${booking.expert?.user?.firstName} ${booking.expert?.user?.lastName}",
+                    ),
+                  ],
+                  isVideoCall: booking.callType == "VIDEO",
+                  callID: booking.id.toString(),
+                );
               },
             );
           },

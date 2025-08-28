@@ -85,7 +85,7 @@ class LoginController extends GetxController {
     DioFactory.setToken(loginData.token!);
 
     final userName = "${user.firstName ?? ''} ${user.lastName ?? ''}".trim();
-    await callServices.onUserLogin(currentId.toString(), userName);
+    await callServices.onUserLogin(currentId.toString(), userName.toString());
     if (Get.isDialogOpen ?? false) Get.back();
     isProcessing.value = false;
     AwesomeDialog(

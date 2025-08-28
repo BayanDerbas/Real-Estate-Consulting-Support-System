@@ -67,6 +67,7 @@ const _$OperationEnumEnumMap = {
   OperationEnum.LIKE_NAME: 'LIKE_NAME',
   OperationEnum.EQUAL_RATE: 'EQUAL_RATE',
   OperationEnum.LIKE_PROPERTY_OFFICE_NAME: 'LIKE_PROPERTY_OFFICE_NAME',
+  OperationEnum.LIKE_TICKET_CLIENT_NAME: 'LIKE_TICKET_CLIENT_NAME',
 };
 
 PageRequestModel _$PageRequestModelFromJson(Map<String, dynamic> json) =>

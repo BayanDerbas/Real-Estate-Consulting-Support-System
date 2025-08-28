@@ -11,7 +11,7 @@ class MyMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     // fot test
-    // return RouteSettings(name: AppRoutes.baseTicketsPage);
+    // return RouteSettings(name: AppRoutes.createProperty);
 
     // if (SharedPrefs.getString(AppKeys.toRoute) == "/check-status-page") {
     //   return RouteSettings(name:"/check-status-page");

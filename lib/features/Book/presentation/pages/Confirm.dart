@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/features/myReserve/presentation/controllers/myBookingsController.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/stripe/stripe.dart';
@@ -43,8 +44,12 @@ class Confirm extends StatelessWidget {
           },
           onPay: () async {
             try {
-              print("💳 Starting payment with clientSecret: ${booking.clientSecret}");
-              final result = await StripeService.presentPayementSheet(booking.clientSecret ?? "");
+              print(
+                "💳 Starting payment with clientSecret: ${booking.clientSecret}",
+              );
+              final result = await StripeService.presentPayementSheet(
+                booking.clientSecret ?? "",
+              );
               if (result) {
                 Get.snackbar('نجاح', 'تم الدفع بنجاح!');
                 Get.offAllNamed('/home');
@@ -101,7 +106,8 @@ class Confirm extends StatelessWidget {
               time: "${booking.duration ?? 0} دقيقة",
               expertName: booking.expert?.user?.firstName ?? "الخبير",
               price: "${booking.originalPrice ?? 0.0}",
-              dateTime: "${formatDate(booking.startTime)} - ${formatDate(booking.endTime)}",
+              dateTime:
+                  "${formatDate(booking.startTime)} - ${formatDate(booking.endTime)}",
               sessionPrice: "${booking.originalPrice ?? 0.0}",
               discountRate: "${booking.discountAmount ?? 0.0}",
               finalPrice: "${booking.finalPrice ?? 0.0}",
@@ -123,8 +129,6 @@ class Confirm extends StatelessWidget {
     );
   }
 }
-
-
 
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

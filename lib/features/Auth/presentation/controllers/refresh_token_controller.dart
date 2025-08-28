@@ -50,6 +50,12 @@ import 'package:graduation_project/features/Auth/data/model/refresh_token_model.
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
 import 'package:graduation_project/features/calls/calls_service.dart'; // <-- 1. Import CallServices
 import '../../../../core/networks/dio_factory.dart';
+import '../../../myReserve/presentation/controllers/myBookingsController.dart';
+import '../../../myReserve/presentation/controllers/myReserveController.dart';
+import '../../../officers/presentation/controllers/OfficeController.dart';
+import '../../../posts/presentation/controllers/PostsController.dart';
+import '../../../properties/presentation/controllers/Properties_Controller.dart';
+import '../../../service provider/presentation/controllers/ServiceProvidersControllers.dart';
 
 class RefreshTokenController extends GetxController {
   final AuthRepository _repository;
@@ -92,6 +98,13 @@ class RefreshTokenController extends GetxController {
     isLoading(false);
 
     if (errMessage.isEmpty) {
+      Get.find<PropertiesController>().fetchProperties();
+      Get.find<OfficeController>().fetchOffices();
+      Get.find<ServiceProviders_Controller>().fetchExperts();
+      Get.find<PostsController>().showPosts();
+
+      Get.find<myReserveController>().loadRole();
+
       Get.offNamed(AppRoutes.home);
       return;
     }

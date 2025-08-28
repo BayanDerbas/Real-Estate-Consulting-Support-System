@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:label="graduation_project"
+        android:label="عقار Link"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

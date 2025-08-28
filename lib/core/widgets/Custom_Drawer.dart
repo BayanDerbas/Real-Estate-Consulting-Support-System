@@ -5,6 +5,7 @@ import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/core/constants/app_keys.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/core/utils/shard_prefs.dart';
@@ -36,12 +37,12 @@ class CustomDrawer extends StatelessWidget {
     final languageController = Get.find<LanguageController>();
     print("Name : ${controller.userName} ${controller.userType}");
     return SizedBox(
-      width: 360,
+      width: context.width / 1.2,
       child: Drawer(
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            bottomRight: Radius.circular(20),
+          borderRadius: BorderRadiusDirectional.only(
+            topEnd: Radius.circular(20),
+            bottomEnd: Radius.circular(20),
           ),
         ),
         backgroundColor: AppColors.pureWhite,
@@ -166,8 +167,7 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icons.add_home,
                   title: 'add new property',
                   onTap: () {
-                    Get.back();
-                    Get.toNamed('/add_new_property');
+                    Get.toNamed(AppRoutes.createProperty);
                   },
                 ),
               ],
@@ -231,7 +231,7 @@ class CustomDrawer extends StatelessWidget {
           );
         }),
       ),
-    );
+    ).makeSafeArea();
   }
 }
 

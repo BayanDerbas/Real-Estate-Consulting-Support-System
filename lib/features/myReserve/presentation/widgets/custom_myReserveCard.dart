@@ -12,7 +12,7 @@ class MyReserveCard extends StatelessWidget {
   final double finalPrice;
   final String bookingStatus;
   final String imageUrl;
-  final VoidCallback? onCallPressed;
+  final GestureTapCallback? onCallPressed;
 
   const MyReserveCard({
     super.key,
@@ -47,58 +47,96 @@ class MyReserveCard extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             Expanded(
-              child:Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(' $name',
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text(
+                    ' $name',
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                    ),
+                  ),
 
                   if (job.isNotEmpty)
-                    Text(' المهنة : $job',
-                        style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                    Text(
+                      ' المهنة : $job',
+                      style: Fonts.itim.copyWith(
+                        color: AppColors.deepNavy,
+                        fontSize: 16,
+                      ),
+                    ),
 
-                  Text('$callType : نوع المكالمة',
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('المدة : $duration دقيقة',
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$finalPrice : السعر النهائي',
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$startTime : التاريخ',
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
-                  Text('$bookingStatus : الحالة',
-                      style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 16)),
+                  Text(
+                    '$callType : نوع المكالمة',
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    'المدة : $duration دقيقة',
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '$finalPrice : السعر النهائي',
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '$startTime : التاريخ',
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    '$bookingStatus : الحالة',
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 16,
+                    ),
+                  ),
                 ],
               ),
             ),
             const SizedBox(width: 16),
             ClipOval(
-              child: imageUrl.isNotEmpty && imageUrl.startsWith('http')
-                  ? Image.network(
-                imageUrl,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return const Center(child: CircularProgressIndicator());
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset(
-                    AppImages.user,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                    color: AppColors.deepNavy,
-                  );
-                },
-              )
-                  : Image.asset(
-                AppImages.user,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
-                color: AppColors.deepNavy,
-              ),
+              child:
+                  imageUrl.isNotEmpty && imageUrl.startsWith('http')
+                      ? Image.network(
+                        imageUrl,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            AppImages.user,
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                            color: AppColors.deepNavy,
+                          );
+                        },
+                      )
+                      : Image.asset(
+                        AppImages.user,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                        color: AppColors.deepNavy,
+                      ),
             ),
           ],
         ),

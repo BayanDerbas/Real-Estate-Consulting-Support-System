@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -10,24 +12,29 @@ class HomeController extends GetxController {
   var currentIndex = 0.obs;
   var hasTapped = false.obs;
 
-  var postsList = [
-    {
-      'userName' : 'محمد محمد',
-      'userImage': 'assets/images/expert.jpg',
-      'postText': '...............................................\n.....................................................',
-      'postImage': 'assets/images/garden.jpg',
-      'isLiked': false.obs,
-      'isDisLiked': false.obs,
-    },
-    {
-      'userName' : 'محمد محمد',
-      'userImage': 'assets/images/expert.jpg',
-      'postText': '...............................................\n.....................................................',
-      'postImage': 'assets/images/garden.jpg',
-      'isLiked': false.obs,
-      'isDisLiked': false.obs,
-    },
-  ].obs;
+  var postsList =
+      [
+        {
+          'userName': 'محمد محمد',
+          'userImage': 'assets/images/expert.jpg',
+          'postText':
+              '...............................................\n.....................................................',
+          'postImage': 'assets/images/garden.jpg',
+          'isLiked': false.obs,
+          'isDisLiked': false.obs,
+        },
+        {
+          'userName': 'محمد محمد',
+          'userImage': 'assets/images/expert.jpg',
+          'postText':
+              '...............................................\n.....................................................',
+          'postImage': 'assets/images/garden.jpg',
+          'isLiked': false.obs,
+          'isDisLiked': false.obs,
+        },
+      ].obs;
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void changeBottomNavIndex(int index) {
     bottomNavIndex.value = index;

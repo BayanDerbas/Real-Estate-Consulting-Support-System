@@ -80,6 +80,7 @@ enum OperationEnum {
   LIKE_NAME,
   EQUAL_RATE,
   LIKE_PROPERTY_OFFICE_NAME,
+  LIKE_TICKET_CLIENT_NAME,
 }
 
 enum GlobalOperatorEnum { AND, OR }

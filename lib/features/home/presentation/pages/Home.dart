@@ -11,6 +11,7 @@ import '../../../../core/constants/colors.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
 import '../../../Discounts/presentation/controllers/DiscountsController.dart';
+import '../../../myReserve/presentation/controllers/myBookingsController.dart';
 import '../../../officers/presentation/controllers/OfficeController.dart';
 import '../../../posts/presentation/controllers/PostsController.dart';
 import '../../../service provider/presentation/controllers/ServiceProvidersControllers.dart';
@@ -33,6 +34,7 @@ class Home extends StatelessWidget {
     final PostsController _controller = Get.find<PostsController>();
     final discountsController = Get.find<DiscountsController>();
     return Scaffold(
+      key: controller.scaffoldKey,
       drawer: CustomDrawer(
         userName: drawerController.userName.value,
         email: drawerController.email.value,
@@ -44,6 +46,10 @@ class Home extends StatelessWidget {
         child: CustomAppbar(
           text: "Welcome Home",
           icon: Icons.notifications,
+          withBackArrow: false,
+          onBackButtonPressed:
+              () => controller.scaffoldKey.currentState?.openDrawer(),
+          backIcon: Icons.menu,
           onPressed: () {
             Get.toNamed(AppRoutes.notifications);
           },
@@ -84,8 +90,8 @@ class Home extends StatelessWidget {
                     isSelected: controller.selectedIndex.value == 4,
                     onTap: () {
                       controller.selectIndex(4);
-                        Get.toNamed("/serviceProviders");
-                      },
+                      Get.toNamed("/serviceProviders");
+                    },
                   ),
                   CustomIconButton(
                     icon: Icons.discount,
@@ -110,7 +116,7 @@ class Home extends StatelessWidget {
                   ),
                   if (
                   //drawerController.userType.value == "OFFICE" ||
-                      drawerController.userType.value == "EXPERT" ) ...[
+                  drawerController.userType.value == "EXPERT") ...[
                     // CustomIconButton(
                     //   icon: Icons.bar_chart,
                     //   label: 'Statistics',
@@ -132,7 +138,6 @@ class Home extends StatelessWidget {
                         // Get.toNamed("/schedule_time");
                       },
                     ),
-
                   ],
                 ],
               ).scrollDirection(Axis.horizontal),
@@ -175,7 +180,10 @@ class Home extends StatelessWidget {
             const SizedBox(height: 5),
             Text(
               "Quick Access",
-              style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 24),
+              style: Fonts.itim.copyWith(
+                color: AppColors.deepNavy,
+                fontSize: 24,
+              ),
             ).padding(const EdgeInsets.all(8)),
             GridView.count(
               crossAxisCount: 2,
@@ -210,6 +218,7 @@ class Home extends StatelessWidget {
                   onPressed: () {
                     Get.back();
                     //Get.toNamed(AppRoutes.appointements);
+                    Get.find<MyBookingsController>().fetchBookings("PENDING");
                     Get.toNamed(AppRoutes.myReserve);
                     print('My Appointments Pressed');
                   },
@@ -224,7 +233,7 @@ class Home extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -276,14 +285,17 @@ class Home extends StatelessWidget {
                 onProfileTap: () {
                   Get.toNamed(
                     '/serviceProvider_profile',
-                    arguments: {'id': expert['id'].toString(), 'role': 'EXPERT'},
+                    arguments: {
+                      'id': expert['id'].toString(),
+                      'role': 'EXPERT',
+                    },
                   );
                 },
                 onFollowToggle: () => expertController.toggleFollowing(index),
                 isFollowing: isFollowing.value,
               );
             }),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -348,10 +360,13 @@ class Home extends StatelessWidget {
                 },
               );
             }),
-            SizedBox(height: 15,),
+            SizedBox(height: 15),
             Text(
               "Posts",
-              style: Fonts.itim.copyWith(color: AppColors.deepNavy, fontSize: 24),
+              style: Fonts.itim.copyWith(
+                color: AppColors.deepNavy,
+                fontSize: 24,
+              ),
             ).padding(const EdgeInsets.all(8)),
             Obx(() {
               if (_controller.isLoading.value) {
@@ -369,7 +384,8 @@ class Home extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final post = _controller.postsList[index];
                   return CustomPost(
-                    username: "${post.expert?.firstName ?? ""} ${post.expert?.lastName ?? ""}",
+                    username:
+                        "${post.expert?.firstName ?? ""} ${post.expert?.lastName ?? ""}",
                     userImage: post.expert?.imageUrl ?? AppImages.noImage,
                     postText: post.content ?? '',
                     postImage: post.imageUrl ?? AppImages.noData,
