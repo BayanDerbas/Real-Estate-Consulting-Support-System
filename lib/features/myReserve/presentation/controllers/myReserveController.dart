@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:graduation_project/core/networks/dio_factory.dart';
 import 'package:graduation_project/features/Book/data/model/booking_data_model.dart';
 import 'package:graduation_project/features/myReserve/data/repositories/myReserve_repository.dart';
 
@@ -32,6 +33,7 @@ class myReserveController extends GetxController {
 
   Future<void> fetchReservations(String status) async {
     isLoading.value = true;
+    DioFactory.loadToken();
     final result = await repository.getReserveationByStatus(status);
     isLoading.value = false;
     result.fold(
@@ -39,7 +41,6 @@ class myReserveController extends GetxController {
         print(
           "//////////////////////////////////////////////////////////////\n${failure.err_message}",
         );
-        Get.snackbar("Error", failure.err_message);
         reservations.value = [];
       },
       (result) async {

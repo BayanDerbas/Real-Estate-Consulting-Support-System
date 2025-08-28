@@ -68,4 +68,6 @@ class ApiConstant {
   static const String show_posts_byExpertId = "$baseUrl/posts/expert/{expertId}";
   //schedule
   static const String schedule = "$baseUrl/working_times/{id}";
+  //get notifications
+  static const String notifications = "$baseUrl/notifications/my-notifications";
 }

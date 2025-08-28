@@ -208,6 +208,9 @@ class Home extends StatelessWidget {
                   imagePath: AppImages.MyAppointement,
                   backgroundColor: AppColors.goldenYellow,
                   onPressed: () {
+                    Get.back();
+                    //Get.toNamed(AppRoutes.appointements);
+                    Get.toNamed(AppRoutes.myReserve);
                     print('My Appointments Pressed');
                   },
                 ),

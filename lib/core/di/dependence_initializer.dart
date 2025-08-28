@@ -55,6 +55,8 @@ import '../../features/myReserve/data/repositories/myBookings_repository.dart';
 import '../../features/myReserve/data/repositories/myReserve_repository.dart';
 import '../../features/myReserve/presentation/controllers/myBookingsController.dart';
 import '../../features/myReserve/presentation/controllers/myReserveController.dart';
+import '../../features/notification/data/data_sources/notification_service.dart';
+import '../../features/notification/data/repositories/notification_repository.dart';
 import '../../features/notification/presentation/controllers/notification_controller.dart';
 import '../../features/officers/data/data_source/office_service.dart';
 import '../../features/officers/data/repository/OfficeRepository.dart';
@@ -111,25 +113,19 @@ class DependenceInitializer {
     Get.lazyPut(() => OfficeService(Get.find()));
     Get.lazyPut(() => OfficeRepository(Get.find()));
     Get.put(OfficeController(Get.find()));
-    //notifications
-    Get.put(NotificationController());
     // show working time
     Get.lazyPut<show_workingTimes_service>(
-      () => show_workingTimes_service(Get.find()),
+          () => show_workingTimes_service(Get.find()),
     );
     Get.lazyPut<ShowWorkingTimesRepository>(
-      () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
+          () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
     );
     // Booking dependencies
     Get.lazyPut<BookingService>(() => BookingService(Get.find<Dio>()));
-    Get.lazyPut<BookingRepository>(
-      () => BookingRepositoryImpl(Get.find<BookingService>()),
-    );
+    Get.lazyPut<BookingRepository>(() => BookingRepositoryImpl(Get.find<BookingService>()));
 
     Get.lazyPut<ReservationService>(() => ReservationService(Get.find<Dio>()));
-    Get.lazyPut<ReservationRepository>(
-      () => ReservationRepository(Get.find<ReservationService>()),
-    );
+    Get.lazyPut<ReservationRepository>(() => ReservationRepository(Get.find<ReservationService>()));
     // Get.put(BookController(
     //   Get.find<ReservationRepository>(),
     //   Get.find<BookingRepository>(),
@@ -157,40 +153,30 @@ class DependenceInitializer {
     Get.put(HomeController());
     Get.put(CustomDrawerController());
     //create coupon
-    Get.lazyPut(() => CouponsService(Get.find()));
-    Get.lazyPut(() => CouponsRepository(Get.find()), fenix: true);
-    Get.lazyPut(() => DiscountsController(Get.find(), Get.find()), fenix: true);
+    Get.lazyPut(() => CouponsService(Get.find()),fenix: true);
+    Get.lazyPut(() => CouponsRepository(Get.find()),fenix: true);
+    Get.lazyPut<DiscountsController>(
+          () => DiscountsController(Get.find(), Get.find(),),
+      fenix: true,
+    );
     //my Booking (users)
     Get.lazyPut<MyBookingsApi>(() => MyBookingsApi(Get.find<Dio>()));
-    Get.lazyPut<MyBookingsRepository>(
-      () => MyBookingsRepository(Get.find<MyBookingsApi>()),
-    );
+    Get.lazyPut<MyBookingsRepository>(() => MyBookingsRepository(Get.find<MyBookingsApi>()));
     Get.put(MyBookingsController(Get.find<MyBookingsRepository>()));
     //show posts expert
     Get.lazyPut(() => ShowPostsbyExpertId(Get.find<Dio>()), fenix: true);
-    Get.lazyPut(
-      () => ExpertPostsRepository(Get.find<ShowPostsbyExpertId>()),
-      fenix: true,
-    );
+    Get.lazyPut(() => ExpertPostsRepository(Get.find<ShowPostsbyExpertId>()), fenix: true);
     // get expert coupons
-    Get.lazyPut(
-      () => ExpertCouponsRepository(Get.find<CouponsService>()),
-      fenix: true,
-    );
+    Get.lazyPut(() => ExpertCouponsRepository(Get.find<CouponsService>()),fenix: true);
     //get_all_coupons
-    Get.lazyPut(() => AllCouponsRepository(Get.find()));
+    Get.lazyPut(() => AllCouponsRepository(Get.find()),fenix: true);
     //schedule time
-    Get.lazyPut<ScheduleService>(
-      () => ScheduleService(Get.find<Dio>()),
-      fenix: true,
-    );
-    Get.lazyPut<ScheduleTimeRepository>(
-      () => ScheduleTimeRepository(Get.find<ScheduleService>()),
-      fenix: true,
-    );
-    Get.lazyPut<ScheduleTimeController>(
-      () => ScheduleTimeController(Get.find<ScheduleTimeRepository>()),
-      fenix: true,
-    );
+    Get.lazyPut<ScheduleService>(() => ScheduleService(Get.find<Dio>()), fenix: true);
+    Get.lazyPut<ScheduleTimeRepository>(() => ScheduleTimeRepository(Get.find<ScheduleService>()), fenix: true);
+    Get.lazyPut<ScheduleTimeController>(() => ScheduleTimeController(Get.find<ScheduleTimeRepository>()), fenix: true);
+    // Notifications
+    Get.lazyPut(() => NotificationService(Get.find()),fenix: true);
+    Get.lazyPut(() => NotificationRepository(Get.find()),fenix: true);
+    Get.lazyPut(() => NotificationController(Get.find()),fenix: true);
   }
 }
