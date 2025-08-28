@@ -29,7 +29,6 @@ Future<void> main() async {
 
   await DependenceInitializer.dependenceInjection();
   await SharedPrefs.init();
-  await DioFactory.loadToken();
 
   final storage = SecureStorage();
   final token = await storage.getToken();

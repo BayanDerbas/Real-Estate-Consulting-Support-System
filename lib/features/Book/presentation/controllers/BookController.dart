@@ -52,9 +52,10 @@ class BookController extends GetxController {
         user: User(
           id: expertId,
           firstName: expertData!['name']?.split(' ')[0] ?? '',
-          lastName: expertData!['name']?.split(' ').length > 1
-              ? expertData!['name'].split(' ')[1]
-              : '',
+          lastName:
+              expertData!['name']?.split(' ').length > 1
+                  ? expertData!['name'].split(' ')[1]
+                  : '',
           email: '',
           phone: '',
           enabled: true,
@@ -64,11 +65,14 @@ class BookController extends GetxController {
         ),
         profession: expertData!['jobTitle'] ?? 'غير معروف',
         experience: expertData!['experienceYears']?.toString() ?? '0',
-        rating: double.tryParse(expertData!['rating']?.toString() ?? '0') ?? 0.0,
-        rateCount: double.tryParse(expertData!['rateCount']?.toString() ?? '0') ?? 0.0,
+        rating:
+            double.tryParse(expertData!['rating']?.toString() ?? '0') ?? 0.0,
+        rateCount:
+            double.tryParse(expertData!['rateCount']?.toString() ?? '0') ?? 0.0,
         bio: expertData!['textProvider'] ?? 'لا يوجد وصف',
         idCardImage: expertData!['idCardImage'] ?? AppImages.noImage,
-        degreeCertificateImage: expertData!['degreeCertificateImage'] ?? AppImages.noImage,
+        degreeCertificateImage:
+            expertData!['degreeCertificateImage'] ?? AppImages.noImage,
       );
       print("Expert set: ${expert.value}");
     }
@@ -78,12 +82,14 @@ class BookController extends GetxController {
     ever(selectedSessionIndex, (_) => _updateHours());
     ever(selectedDate, (_) => _updateHours());
   }
+
   void _updateHours() {
     final hours = generateAppointmentHours();
     isBookedList.value = getBookedStatusForHours(hours);
     print("الساعات المتاحة بعد التحديث: $hours");
     print("حالة الحجز لكل ساعة: $isBookedList");
   }
+
   void selectHour(int index) => selectedHourIndex.value = index;
   void selectSession(int index) => selectedSessionIndex.value = index;
   void selectDate(DateTime date) => selectedDate.value = date;
@@ -97,35 +103,58 @@ class BookController extends GetxController {
     );
     selectedDate.value = currentMonthDate.value;
   }
+
   void resetToCurrentMonth() {
     currentMonthDate.value = DateTime.now();
     selectedDate.value = DateTime.now();
   }
+
   List<DateTime> getCurrentMonthDays() {
-    final firstDay = DateTime(currentMonthDate.value.year, currentMonthDate.value.month, 1);
-    final lastDay = DateTime(currentMonthDate.value.year, currentMonthDate.value.month + 1, 0);
-    return List.generate(lastDay.day, (index) => firstDay.add(Duration(days: index)));
+    final firstDay = DateTime(
+      currentMonthDate.value.year,
+      currentMonthDate.value.month,
+      1,
+    );
+    final lastDay = DateTime(
+      currentMonthDate.value.year,
+      currentMonthDate.value.month + 1,
+      0,
+    );
+    return List.generate(
+      lastDay.day,
+      (index) => firstDay.add(Duration(days: index)),
+    );
   }
+
   String getMonthName() => DateFormat.MMMM().format(currentMonthDate.value);
   bool isInCurrentMonth() {
     final now = DateTime.now();
-    return now.month == currentMonthDate.value.month && now.year == currentMonthDate.value.year;
+    return now.month == currentMonthDate.value.month &&
+        now.year == currentMonthDate.value.year;
   }
+
   List<String> generateAppointmentHours() {
     final slots = <String>{};
     if (availableTimes.isEmpty) {
       print("لا توجد أوقات عمل متاحة حالياً.");
       return [];
     }
-    int duration = selectedSessionIndex.value == -1 ? 30 : [15, 30][selectedSessionIndex.value];
+    int duration =
+        selectedSessionIndex.value == -1
+            ? 30
+            : [15, 30][selectedSessionIndex.value];
     final dateStr = selectedDate.value.toIso8601String().split('T')[0];
 
     for (final slot in availableTimes) {
       try {
         String formatTime(String t) => t.length == 4 ? "0$t" : t;
 
-        DateTime start = DateTime.parse('$dateStr' + 'T' + formatTime(slot.startTime!));
-        DateTime end = DateTime.parse('$dateStr' + 'T' + formatTime(slot.endTime!));
+        DateTime start = DateTime.parse(
+          '$dateStr' + 'T' + formatTime(slot.startTime!),
+        );
+        DateTime end = DateTime.parse(
+          '$dateStr' + 'T' + formatTime(slot.endTime!),
+        );
 
         while (start.add(Duration(minutes: duration)).isBefore(end) ||
             start.add(Duration(minutes: duration)).isAtSameMomentAs(end)) {
@@ -137,30 +166,42 @@ class BookController extends GetxController {
       }
     }
 
-    final sortedSlots = slots.toList()
-      ..sort((a, b) => DateFormat.jm().parse(a).compareTo(DateFormat.jm().parse(b)));
+    final sortedSlots =
+        slots.toList()..sort(
+          (a, b) =>
+              DateFormat.jm().parse(a).compareTo(DateFormat.jm().parse(b)),
+        );
 
     generatedHours.value = sortedSlots;
     print("الساعات المولدة بعد إزالة التكرار: $sortedSlots");
     return sortedSlots;
   }
+
   List<bool> getBookedStatusForHours(List<String> hours) {
     return List.generate(hours.length, (i) {
       try {
         final time = DateFormat.jm().parse(hours[i]);
-        final fullTime = DateTime(selectedDate.value.year, selectedDate.value.month,
-            selectedDate.value.day, time.hour, time.minute);
-        return reservedTimes.any((r) =>
-        r.year == fullTime.year &&
-            r.month == fullTime.month &&
-            r.day == fullTime.day &&
-            r.hour == fullTime.hour &&
-            r.minute == fullTime.minute);
+        final fullTime = DateTime(
+          selectedDate.value.year,
+          selectedDate.value.month,
+          selectedDate.value.day,
+          time.hour,
+          time.minute,
+        );
+        return reservedTimes.any(
+          (r) =>
+              r.year == fullTime.year &&
+              r.month == fullTime.month &&
+              r.day == fullTime.day &&
+              r.hour == fullTime.hour &&
+              r.minute == fullTime.minute,
+        );
       } catch (_) {
         return true;
       }
     });
   }
+
   Future<void> fetchWorkingTimes() async {
     isLoadingTimes.value = true;
     if (expertId == 0) {
@@ -174,11 +215,11 @@ class BookController extends GetxController {
     final result = await repository.getWorkingTimes(expertId);
 
     result.fold(
-          (failure) {
+      (failure) {
         print('فشل في جلب أوقات العمل: ${failure.err_message}');
         isLoadingTimes.value = false;
       },
-          (workingTimes) {
+      (workingTimes) {
         availableTimes.assignAll(workingTimes);
         print("عدد أوقات العمل المسترجعة: ${workingTimes.length}");
         _updateHours();
@@ -187,6 +228,7 @@ class BookController extends GetxController {
 
     isLoadingTimes.value = false;
   }
+
   Future<Either<Failures, BookingResponse>> bookAppointment() async {
     isLoading.value = true;
     final sessionDurations = [15, 30];
@@ -234,8 +276,12 @@ class BookController extends GetxController {
         time.minute,
       );
 
-      final formattedStartDate = DateFormat("yyyy-MM-dd'T'HH:mm").format(selectedDateTime);
-      print("Booking: expertId=${expert.value!.id}, clientId=$userId, time=$formattedStartDate");
+      final formattedStartDate = DateFormat(
+        "yyyy-MM-dd'T'HH:mm",
+      ).format(selectedDateTime);
+      print(
+        "Booking: expertId=${expert.value!.id}, clientId=$userId, time=$formattedStartDate",
+      );
       final request = BookingRequest(
         expertId: expert.value!.id!,
         clientId: clientId,
@@ -250,15 +296,18 @@ class BookController extends GetxController {
       isLoading.value = false;
 
       return result.fold(
-            (failure) {
+        (failure) {
           if (failure.err_message.contains('time slot')) {
-            Get.snackbar('الوقت غير متاح', 'تم حجز هذا الوقت من قبل. يرجى اختيار وقت آخر.');
+            Get.snackbar(
+              'الوقت غير متاح',
+              'تم حجز هذا الوقت من قبل. يرجى اختيار وقت آخر.',
+            );
             fetchWorkingTimes();
           }
           print("Booking failed: ${failure.err_message}");
           return Left(failure);
         },
-            (response) {
+        (response) {
           Get.find<myReserveController>().fetchReservations('PENDING');
           Get.snackbar('نجاح', 'تم الحجز بنجاح!');
           Get.toNamed('/confirm', arguments: {'booking': response.data});

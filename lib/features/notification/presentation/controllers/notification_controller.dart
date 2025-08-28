@@ -9,7 +9,8 @@ class NotificationController extends GetxController {
   NotificationController(this.repository);
 
   final SecureStorage secureStorage = SecureStorage();
-  final RxList<Map<String, dynamic>> notifications = <Map<String, dynamic>>[].obs;
+  final RxList<Map<String, dynamic>> notifications =
+      <Map<String, dynamic>>[].obs;
   final isLoading = false.obs;
   final error = ''.obs;
 
@@ -22,18 +23,16 @@ class NotificationController extends GetxController {
   Future<void> loadNotifications() async {
     try {
       isLoading.value = true;
-      DioFactory.loadToken();
 
       final result = await repository.getMyNotification(page: 0, size: 10);
 
       result.fold(
-            (failure) {
+        (failure) {
           error.value = failure.err_message;
         },
-            (response) async {
-          final notifs = (response.content ?? [])
-              .map((n) => n.toJson())
-              .toList();
+        (response) async {
+          final notifs =
+              (response.content ?? []).map((n) => n.toJson()).toList();
 
           notifications.assignAll(notifs);
           if (notifs.isNotEmpty) {

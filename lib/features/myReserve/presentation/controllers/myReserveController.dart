@@ -15,13 +15,7 @@ class myReserveController extends GetxController {
   var statuses = ['PENDING', 'CONFIRMED', 'CANCELED', 'COMPLETED'].obs;
   var role = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _loadRole();
-  }
-
-  Future<void> _loadRole() async {
+  Future<void> loadRole() async {
     final userRole = await SecureStorage().getUserType();
     role.value = userRole ?? 'USER';
   }
@@ -33,7 +27,6 @@ class myReserveController extends GetxController {
 
   Future<void> fetchReservations(String status) async {
     isLoading.value = true;
-    DioFactory.loadToken();
     final result = await repository.getReserveationByStatus(status);
     isLoading.value = false;
     result.fold(

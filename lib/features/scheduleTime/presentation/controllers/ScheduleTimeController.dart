@@ -100,7 +100,6 @@ class ScheduleTimeController extends GetxController {
       return;
     }
 
-    await DioFactory.loadToken();
     final expertId = await SecureStorage().getIdByRole();
 
     if (expertId == null || expertId.isEmpty) {
@@ -116,15 +115,19 @@ class ScheduleTimeController extends GetxController {
     );
 
     result.fold(
-          (failure) {
+      (failure) {
         print("Error Schedule : ${failure.err_message}");
-        Get.snackbar("خطأ", "فشل في إضافة الجدول الزمني: ${failure.err_message}");
+        Get.snackbar(
+          "خطأ",
+          "فشل في إضافة الجدول الزمني: ${failure.err_message}",
+        );
       },
-          (response) {
+      (response) {
         Get.snackbar("Success", "Time Schedule Added Successfully");
         for (var item in response) {
           print(
-              "${item.dayOfWeek}: ${item.startTime} - ${item.endTime} (${item.callType})");
+            "${item.dayOfWeek}: ${item.startTime} - ${item.endTime} (${item.callType})",
+          );
         }
       },
     );

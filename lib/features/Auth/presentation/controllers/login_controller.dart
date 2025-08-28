@@ -8,6 +8,7 @@ import 'package:graduation_project/core/utils/secure_storage.dart';
 import 'package:graduation_project/core/utils/shard_prefs.dart';
 import 'package:graduation_project/features/Auth/data/model/login_response_model.dart';
 import 'package:graduation_project/features/Auth/data/repository/auth_repository.dart';
+import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
 import '../../../../core/networks/dio_factory.dart';
 import '../../../../core/networks/failures.dart';
@@ -19,6 +20,7 @@ class LoginController extends GetxController {
   final TextEditingController email = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final RxBool isLoading = false.obs;
+  final RxBool isProcessing = false.obs;
   final RxString errMessage = ''.obs;
 
   final AuthRepository _authRepository;
@@ -29,31 +31,22 @@ class LoginController extends GetxController {
 
   Future<void> userLogin() async {
     if (isLoading.value) return;
-
     isLoading.value = true;
     errMessage.value = '';
-
-    await storage.deleteToken();
-    await storage.deleteRefreshToken();
-
-    DioFactory.clearToken();
-
+    // await storage.deleteToken();
+    // await storage.deleteRefreshToken();
+    // DioFactory.clearToken();
     final request = LoginRequestModel(
       email: email.text.trim(),
       password: password.text.trim(),
     );
-
     final result = await _authRepository.userLogin(request);
     isLoading.value = false;
-
     final context = Get.context;
     if (context == null) return;
-
     result.fold((failure) => _handleLoginFailure(context, failure), (
       loginData,
     ) {
-      print('...........success.........');
-      print(loginData);
       _handleLoginSuccess(context, loginData);
     });
   }
@@ -72,7 +65,6 @@ class LoginController extends GetxController {
       id = userRoleData.id.toString();
       user = userRoleData.user;
     }
-
     if (loginData.token == null ||
         user == null ||
         user.id == null ||
@@ -84,32 +76,34 @@ class LoginController extends GetxController {
       );
       return;
     }
-
+    _showLoadingDialog(context);
+    isProcessing.value = true;
     await _saveUserData(loginData, user);
     final currentId = await storage.getUserId();
 
+    await storage.saveRefreshToken(loginData.refreshToken!);
     DioFactory.setToken(loginData.token!);
+
     final userName = "${user.firstName ?? ''} ${user.lastName ?? ''}".trim();
     await callServices.onUserLogin(currentId.toString(), userName);
+    if (Get.isDialogOpen ?? false) Get.back();
+    isProcessing.value = false;
     AwesomeDialog(
       context: context,
       dialogType: DialogType.success,
       animType: AnimType.scale,
       title: "Success",
       desc: "Logged in successfully!",
-      btnOkOnPress: () {
-        SharedPrefs.saveString(AppKeys.toRoute, AppRoutes.refreshToken);
-        Get.offAllNamed(AppRoutes.home);
-      },
     ).show();
+
+    Future.delayed(const Duration(seconds: 2), () {
+      SharedPrefs.saveString(AppKeys.toRoute, AppRoutes.refreshToken);
+      Get.offAllNamed(AppRoutes.home);
+    });
   }
 
   Future<void> _saveUserData(Data loginData, LoginUser user) async {
-    await storage.saveToken(loginData.token!);
-    if (loginData.refreshToken != null) {
-      await storage.saveRefreshToken(loginData.refreshToken!);
-    }
-
+    // await storage.saveToken(loginData.token!);
     await storage.saveUserId(user.id.toString());
     await storage.saveUserName(
       "${user.firstName ?? ''} ${user.lastName ?? ''}".trim(),
@@ -119,10 +113,8 @@ class LoginController extends GetxController {
       await storage.saveEmail(user.email!);
     }
     await storage.saveProfileImage(user.imageUrl ?? AppImages.user);
-
     final userRoleData = loginData.userRoleData;
     String? roleSpecificId;
-
     if (userRoleData is LoginClient) {
       roleSpecificId = userRoleData.id?.toString();
     } else if (userRoleData is LoginExpert) {
@@ -141,7 +133,6 @@ class LoginController extends GetxController {
         );
       }
     }
-
     if (roleSpecificId != null && user.role != null) {
       await storage.saveUserIdByRole(roleSpecificId, user.role!);
     }
@@ -165,6 +156,17 @@ class LoginController extends GetxController {
       desc: description,
       btnOkOnPress: () {},
     ).show();
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (_) => Center(
+            child: CircularProgressIndicator(color: AppColors.deepNavy),
+          ),
+    );
   }
 
   bool validateInput() {

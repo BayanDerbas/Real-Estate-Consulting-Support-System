@@ -7,11 +7,11 @@ import 'package:graduation_project/features/Discounts/data/repositories/coupons_
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/get_all_coupons/get_all_coupons_data.dart';
 
-class DiscountsController extends GetxController with GetSingleTickerProviderStateMixin {
+class DiscountsController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final CouponsRepository respository;
   final AllCouponsRepository _repository;
-  DiscountsController(this.respository,this._repository);
-
+  DiscountsController(this.respository, this._repository);
 
   late TabController tabController;
   RxList<Map<String, dynamic>> discounts = <Map<String, dynamic>>[].obs;
@@ -20,11 +20,14 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
   final TextEditingController codeController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
   final TextEditingController validityController = TextEditingController();
-  final TextEditingController sessionsBeforeDiscountController = TextEditingController();
-  final TextEditingController discountPercentageController = TextEditingController();
+  final TextEditingController sessionsBeforeDiscountController =
+      TextEditingController();
+  final TextEditingController discountPercentageController =
+      TextEditingController();
   final TextEditingController expiryDateController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController descriptionSessionsController = TextEditingController();
+  final TextEditingController descriptionSessionsController =
+      TextEditingController();
 
   @override
   void onInit() {
@@ -75,29 +78,33 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
     final body = {
       "code": codeController.text.trim().replaceAll(' ', '_'),
       "discountType": isCodeDiscount ? 'FIXED_AMOUNT' : 'PERCENTAGE',
-      "description": isCodeDiscount
-          ? descriptionController.text.trim()
-          : descriptionSessionsController.text.trim(),
+      "description":
+          isCodeDiscount
+              ? descriptionController.text.trim()
+              : descriptionSessionsController.text.trim(),
       if (isCodeDiscount)
         "amountValue": double.tryParse(amountController.text) ?? 0.0
       else
-        "percentageValue": double.tryParse(discountPercentageController.text) ?? 0.0,
-      "expirationDate": expiryDateController.text.isNotEmpty
-          ? expiryDateController.text.trim()
-          : null,
-      "maxUses": validityController.text.isNotEmpty
-          ? int.tryParse(validityController.text)
-          : null,
+        "percentageValue":
+            double.tryParse(discountPercentageController.text) ?? 0.0,
+      "expirationDate":
+          expiryDateController.text.isNotEmpty
+              ? expiryDateController.text.trim()
+              : null,
+      "maxUses":
+          validityController.text.isNotEmpty
+              ? int.tryParse(validityController.text)
+              : null,
       "isActive": true,
     };
 
     try {
       final result = await respository.create_coupons(body);
       result.fold(
-            (failure) {
+        (failure) {
           Get.snackbar("Failed", failure.err_message);
         },
-            (response) {
+        (response) {
           discounts.add(body);
           saveDiscounts();
           clearFields();
@@ -111,18 +118,16 @@ class DiscountsController extends GetxController with GetSingleTickerProviderSta
 
   Future<void> get_all_coupons() async {
     try {
-      DioFactory.loadToken();
       final result = await _repository.get_all_coupons();
       result.fold(
-              (failure){
-                print("Error allCoupons :${failure.err_message}");
-              },
-              (resposne){
-                allCoupons.value = resposne ?? [];
-              },
+        (failure) {
+          print("Error allCoupons :${failure.err_message}");
+        },
+        (resposne) {
+          allCoupons.value = resposne ?? [];
+        },
       );
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   void clearFields() {

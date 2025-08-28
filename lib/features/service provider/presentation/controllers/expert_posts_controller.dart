@@ -20,16 +20,15 @@ class ExpertPostsController extends GetxController {
 
   Future<void> fetchPosts() async {
     isLoading.value = true;
-    DioFactory.loadToken();
     final result = await repository.getPostsByExpert(expertId);
     isLoading.value = false;
 
     result.fold(
-          (failure) {
+      (failure) {
         Get.snackbar("Error", failure.err_message);
         posts.value = [];
       },
-          (response) {
+      (response) {
         posts.value = response.data ?? [];
       },
     );

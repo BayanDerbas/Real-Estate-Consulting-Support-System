@@ -31,7 +31,6 @@ class PropertiesController extends GetxController {
 
   void fetchProperties({int? page, int? size}) async {
     isLoading.value = true;
-    await DioFactory.loadToken();
 
     int current = page ?? currentPage.value;
     int limit = size ?? pageSize;

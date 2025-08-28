@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:intl/intl.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/routes/routes.dart';
@@ -28,7 +29,9 @@ class MyReserve extends StatelessWidget {
             children: [
               Obx(() {
                 String title =
-                controller.role.value == 'EXPERT' ? "Expert Reservations" : "My Reservations";
+                    controller.role.value == 'EXPERT'
+                        ? "Expert Reservations"
+                        : "My Reservations";
                 return CustomAppbar(
                   text: title,
                   icon: Icons.notifications,
@@ -42,38 +45,39 @@ class MyReserve extends StatelessWidget {
                 indicatorColor: AppColors.purple,
                 labelColor: AppColors.purple,
                 unselectedLabelColor: Colors.grey,
-                tabs: controller.role.value == 'EXPERT'
-                    ? [
-                  Tab(
-                    child: Text(
-                      "📅 My Bookings",
-                      style: Fonts.itim.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.deepNavy,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "👥 Clients Bookings",
-                      style: Fonts.itim.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.deepNavy,
-                      ),
-                    ),
-                  ),
-                ]
-                    : [
-                  Tab(
-                    child: Text(
-                      "📅 My Bookings",
-                      style: Fonts.itim.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.deepNavy,
-                      ),
-                    ),
-                  ),
-                ],
+                tabs:
+                    controller.role.value == 'EXPERT'
+                        ? [
+                          Tab(
+                            child: Text(
+                              "📅 My Bookings",
+                              style: Fonts.itim.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.deepNavy,
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: Text(
+                              "👥 Clients Bookings",
+                              style: Fonts.itim.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.deepNavy,
+                              ),
+                            ),
+                          ),
+                        ]
+                        : [
+                          Tab(
+                            child: Text(
+                              "📅 My Bookings",
+                              style: Fonts.itim.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.deepNavy,
+                              ),
+                            ),
+                          ),
+                        ],
               ),
             ],
           ),
@@ -106,14 +110,13 @@ class MyReserve extends StatelessWidget {
             const SizedBox(height: 15),
             Expanded(
               child: TabBarView(
-                children: controller.role.value == 'EXPERT'
-                    ? [
-                  _buildMyBookingsTab(myBookingsController),
-                  _buildReservationsList(controller, showJob: false),
-                ]
-                    : [
-                  _buildMyBookingsTab(myBookingsController),
-                ],
+                children:
+                    controller.role.value == 'EXPERT'
+                        ? [
+                          _buildMyBookingsTab(myBookingsController),
+                          _buildReservationsList(controller, showJob: false),
+                        ]
+                        : [_buildMyBookingsTab(myBookingsController)],
               ),
             ),
           ],
@@ -145,9 +148,10 @@ class MyReserve extends StatelessWidget {
             final callType = booking.callType ?? 'غير معروف';
             final duration = booking.duration ?? 0;
             final finalPrice = booking.finalPrice ?? 0.0;
-            final startTime = booking.startTime != null
-                ? dateFormat.format(DateTime.parse(booking.startTime!))
-                : 'غير معروف';
+            final startTime =
+                booking.startTime != null
+                    ? dateFormat.format(DateTime.parse(booking.startTime!))
+                    : 'غير معروف';
             final status = booking.bookingStatus ?? 'غير معروف';
             final imageUrl = booking.expert?.user?.id != null ? "" : "";
 
@@ -160,7 +164,12 @@ class MyReserve extends StatelessWidget {
               finalPrice: finalPrice,
               bookingStatus: status,
               imageUrl: imageUrl,
-              onCallPressed: () {},
+              onCallPressed: () {
+                // ZegoUIKitPrebuiltCallInvitationService.send(
+                //   invitees: [ZegoCallUser('', 'name')],
+                //   isVideoCall: false,
+                // );
+              },
             );
           },
         ),
@@ -168,7 +177,10 @@ class MyReserve extends StatelessWidget {
     });
   }
 
-  Widget _buildReservationsList(myReserveController controller, {bool showJob = true}) {
+  Widget _buildReservationsList(
+    myReserveController controller, {
+    bool showJob = true,
+  }) {
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
@@ -191,9 +203,10 @@ class MyReserve extends StatelessWidget {
             final callType = reservation.callType ?? 'غير معروف';
             final duration = reservation.duration ?? 0;
             final finalPrice = reservation.finalPrice ?? 0.0;
-            final startTime = reservation.startTime != null
-                ? dateFormat.format(DateTime.parse(reservation.startTime!))
-                : 'غير معروف';
+            final startTime =
+                reservation.startTime != null
+                    ? dateFormat.format(DateTime.parse(reservation.startTime!))
+                    : 'غير معروف';
             final status = reservation.bookingStatus ?? 'غير معروف';
             final imageUrl = reservation.expert?.idCardImage ?? "";
 

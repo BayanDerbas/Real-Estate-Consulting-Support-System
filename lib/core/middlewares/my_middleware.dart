@@ -19,7 +19,7 @@ class MyMiddleware extends GetMiddleware {
     //important
     //important
     if (SharedPrefs.getString(AppKeys.toRoute) == AppRoutes.refreshToken) {
-      return RouteSettings(name: AppRoutes.home);
+      return RouteSettings(name: AppRoutes.refreshToken);
     }
     return null;
   }

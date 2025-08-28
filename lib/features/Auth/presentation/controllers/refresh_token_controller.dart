@@ -64,14 +64,15 @@ class RefreshTokenController extends GetxController {
   Future<void> refreshToken() async {
     isLoading(true);
     errMessage("");
+    // DioFactory.clearToken();
     final data = await _repository.refreshToken(
       RefreshRequestModel(refreshToken: await _storage.getRefreshToken()),
     );
 
     await data.fold((l) => errMessage(l.err_message), (r) async {
-      log("token: ${r.token}");
-      await _storage.saveToken(r.token!);
-      await _storage.saveRefreshToken(r.refreshToken!);
+      log("R token: ${r.token}");
+      // await _storage.saveToken(r.token!);
+      // await _storage.saveRefreshToken(r.refreshToken!);
 
       DioFactory.setToken(r.token!);
 

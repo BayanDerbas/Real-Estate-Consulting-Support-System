@@ -17,12 +17,6 @@ class PostsController extends GetxController {
   var postsList = <PostsData>[].obs;
   final storage = SecureStorage();
 
-  @override
-  void onInit() {
-    super.onInit();
-    showPosts();
-  }
-
   void selectIndex(int index) {
     selectedIndex.value = index;
   }
@@ -44,7 +38,6 @@ class PostsController extends GetxController {
   Future<void> showPosts() async {
     isLoading.value = true;
     errorMessage.value = '';
-    await DioFactory.loadToken();
 
     final result = await repository.showPosts();
     result.fold(

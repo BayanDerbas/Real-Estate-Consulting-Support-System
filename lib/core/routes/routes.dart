@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:graduation_project/core/di/bindings/create_ticket_binds.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/continue_info_for_expert.dart';
@@ -8,9 +10,12 @@ import 'package:graduation_project/features/Auth/presentation/pages/verification
 import 'package:graduation_project/features/Auth/presentation/pages/sign_up_screen.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/upload_documents.dart';
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
+import 'package:graduation_project/features/Book/presentation/controllers/BookController.dart';
 import 'package:graduation_project/features/Discounts/presentation/pages/get_all_coupons.dart';
+import 'package:graduation_project/features/myReserve/presentation/controllers/myBookingsController.dart';
 import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
 import 'package:graduation_project/features/officers/presentation/controllers/OfficeController.dart';
+import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
 import 'package:graduation_project/features/profiles/data/data_source/profile_service.dart';
 import 'package:graduation_project/features/profiles/data/repository/profile_repository.dart';
@@ -133,6 +138,9 @@ class AppRoutes {
         Get.find<PropertiesController>().fetchProperties();
         Get.find<OfficeController>().fetchOffices();
         Get.find<ServiceProviders_Controller>().fetchExperts();
+        Get.find<PostsController>().showPosts();
+        Get.find<MyBookingsController>().fetchBookings("PENDING");
+        Get.find<myReserveController>().loadRole();
       }),
     ),
     GetPage(name: offices, page: () => Offices()),

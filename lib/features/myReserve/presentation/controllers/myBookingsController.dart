@@ -14,12 +14,6 @@ class MyBookingsController extends GetxController {
   var selectedStatus = 'PENDING'.obs;
   var statuses = ['PENDING', 'CONFIRMED', 'CANCELED', 'COMPLETED'].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchBookings(selectedStatus.value);
-  }
-
   void changeStatus(String status) {
     selectedStatus.value = status;
     fetchBookings(status);
@@ -29,25 +23,23 @@ class MyBookingsController extends GetxController {
     isLoading.value = true;
 
     print("📡 Fetching bookings with status: $status");
-    await DioFactory.loadToken();
     final result = await repository.getBookings(status);
 
     isLoading.value = false;
 
     result.fold(
-          (failure) {
+      (failure) {
         print("❌ API Error: ${failure.err_message}");
         Get.snackbar("Error", failure.err_message);
         bookings.value = [];
       },
-          (response) {
+      (response) {
         print("✅ API Response Body:");
         bookings.value = response.data ?? [];
       },
     );
   }
 }
-
 
 // import 'package:get/get.dart';
 // import '../../../../core/networks/dio_factory.dart';
