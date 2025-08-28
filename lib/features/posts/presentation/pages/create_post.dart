@@ -16,6 +16,7 @@ class CreatePostPage extends StatelessWidget {
 
     return Scaffold(
       body: BasePostScreen(
+        onBack: () => Get.back(),
         heightOfAppBar: 120,
         appBarTitle: 'create post'.tr,
         child: Obx(() {

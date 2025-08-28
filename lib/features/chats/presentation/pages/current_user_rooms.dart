@@ -11,6 +11,7 @@ class RoomsPage extends StatelessWidget {
     final controller = Get.put(GetCurrentUserRoomsController(Get.find()));
 
     return BasePostScreen(
+      onBack: () => Get.back(),
       appBarTitle: 'Conversations',
       heightOfAppBar: 100,
       child: Obx(() {

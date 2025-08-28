@@ -11,7 +11,8 @@ class CustomAppbar extends StatelessWidget {
   final Color appbarColor;
   final void Function()? onPressed;
   final TextStyle? textStyle;
-
+  final void Function()? onBackButtonPressed;
+  final bool? withBackArrow;
   const CustomAppbar({
     super.key,
     required this.text,
@@ -21,6 +22,8 @@ class CustomAppbar extends StatelessWidget {
     this.appbarColor = AppColors.deepNavy,
     this.onPressed,
     this.textStyle,
+    this.onBackButtonPressed,
+    this.withBackArrow = false,
   });
 
   @override
@@ -34,6 +37,12 @@ class CustomAppbar extends StatelessWidget {
         child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                !withBackArrow!
+                    ? IconButton(
+                      onPressed: onBackButtonPressed ?? () => Get.back(),
+                      icon: Icon(Icons.arrow_back, color: AppColors.pureWhite),
+                    )
+                    : SizedBox(),
                 Text(
                   text,
                   style: Fonts.itim.copyWith(color: textColor, fontSize: 20),

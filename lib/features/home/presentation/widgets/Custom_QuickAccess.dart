@@ -31,24 +31,30 @@ class CustomQuickAccessCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  imagePath,
-                  height: 100,
-                  width: 100,
+              Flexible(
+                flex: 2,
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Image.asset(imagePath),
                 ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                title,
-                style: Fonts.itim.copyWith(
-                  color: AppColors.deepNavy,
-                  fontSize: 18,
+              SizedBox(height: 10),
+              // The title remains flexible
+              Flexible(
+                flex: 1,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    title,
+                    style: Fonts.itim.copyWith(
+                      color: AppColors.deepNavy,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ),
             ],
-          ).scrollDirection(Axis.vertical),
+          ),
         ),
       ),
     ).padding(EdgeInsets.all(8));
