@@ -71,11 +71,11 @@ class CustomPropertyDetails extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder:
                           (context, error, stackTrace) => Image.asset(
-                        AppImages.noImage,
-                        width: double.infinity,
-                        height: 400,
-                        fit: BoxFit.cover,
-                      ),
+                            AppImages.noImage,
+                            width: double.infinity,
+                            height: 400,
+                            fit: BoxFit.cover,
+                          ),
                     ),
                   ),
                 ),
@@ -150,9 +150,9 @@ class CustomPropertyDetails extends StatelessWidget {
                         fit: BoxFit.cover,
                         errorBuilder:
                             (context, error, stackTrace) => Image.asset(
-                          AppImages.noImage,
-                          fit: BoxFit.cover,
-                        ),
+                              AppImages.noImage,
+                              fit: BoxFit.cover,
+                            ),
                       ),
                     ),
                   ),
@@ -212,17 +212,19 @@ class CustomPropertyDetails extends StatelessWidget {
           ).padding(EdgeInsets.symmetric(horizontal: 16)),
           const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildInfoCard(Icons.aspect_ratio, '$area m²'),
-              SizedBox(width: 5),
-              _buildInfoCard(Icons.bed, '$beds BedRooms '),
-              SizedBox(width: 5),
-              _buildInfoCard(Icons.meeting_room, '$room LivingRooms '),
-              SizedBox(width: 5),
-              _buildInfoCard(Icons.bathtub, '$baths BathRooms'),
-            ],
-          ).padding(EdgeInsets.symmetric(horizontal: 10)).scrollDirection(Axis.horizontal),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildInfoCard(Icons.aspect_ratio, '$area m²'),
+                  SizedBox(width: 5),
+                  _buildInfoCard(Icons.bed, '$beds BedRooms '),
+                  SizedBox(width: 5),
+                  _buildInfoCard(Icons.meeting_room, '$room LivingRooms '),
+                  SizedBox(width: 5),
+                  _buildInfoCard(Icons.bathtub, '$baths BathRooms'),
+                ],
+              )
+              .padding(EdgeInsets.symmetric(horizontal: 10))
+              .scrollDirection(Axis.horizontal),
           const SizedBox(height: 20),
           Text(
             'Details',

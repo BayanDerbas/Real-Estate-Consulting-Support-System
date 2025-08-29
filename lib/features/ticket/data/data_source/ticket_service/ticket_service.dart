@@ -17,6 +17,12 @@ abstract class TicketService {
   Future<HttpResponse<PublishTicketResponseModel>> createTicket(
     @Body() PublishTicketRequestModel request,
   );
+
+  @PUT(ApiConstant.updateTicket)
+  Future<HttpResponse<PublishTicketResponseModel>> updateTicket(
+    @Path("id") int id,
+    @Body() PublishTicketRequestModel request,
+  );
   @GET(ApiConstant.getAllTickets)
   Future<HttpResponse<TicketResponse>> getAllTickets(
     @Query("page") int page,
@@ -41,7 +47,6 @@ abstract class TicketService {
   });
   @DELETE('/tickets/{id}')
   Future<HttpResponse<void>> deleteTicket(@Path("id") int id);
-
   @POST(ApiConstant.filterTickets)
   Future<HttpResponse<TicketResponse>> filterTickets(@Body() FilterModel model);
 }

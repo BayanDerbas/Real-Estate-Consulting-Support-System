@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/utils/shard_prefs.dart';
 import '../../../../core/widgets/custom_snack_bar.dart';
+import '../../../ticket/data/model/ticket_model.dart';
 import '../../data/model/register_request_model.dart';
 import '../../data/repository/auth_repository.dart';
 
@@ -26,18 +27,22 @@ class RegisterController extends GetxController {
   final profession = TextEditingController();
   final experience = TextEditingController();
 
-  final RxString selectedRole = 'USER'.obs;
-
   final Rx<File?> commercialRegisterImage = Rx<File?>(null);
   final Rx<File?> idCardImage = Rx<File?>(null);
   final Rx<File?> degreeCertificateImage = Rx<File?>(null);
 
   final ImagePicker _picker = ImagePicker();
 
-  List<String> roles = ['USER', 'OFFICE', 'EXPERT'];
+  List<EnumModel<Role>> roles = [
+    EnumModel(label: "مستخدم", value: Role.USER),
+    EnumModel(label: "مقدم خدمة", value: Role.EXPERT),
+    EnumModel(label: "مكتب عقاري", value: Role.OFFICE),
+  ];
 
-  onChangeRole(val) {
-    selectedRole.value = val;
+  final Rx<Role> selectedRole = Rx(Role.USER);
+
+  onChangeRole(Enum? val) {
+    selectedRole.value = val as Role;
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();

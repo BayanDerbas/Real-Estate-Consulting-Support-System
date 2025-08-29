@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
-import 'package:graduation_project/core/constants/Fonts.dart'; // لو تستخدم نفس الستايلات
+import 'package:graduation_project/core/constants/Fonts.dart';
+
+import '../../../ticket/data/model/ticket_model.dart'; // لو تستخدم نفس الستايلات
 
 class CustomDropDownWithField extends StatelessWidget {
   const CustomDropDownWithField({
@@ -16,9 +18,9 @@ class CustomDropDownWithField extends StatelessWidget {
 
   final double? width;
   final double? height;
-  final List<String> list;
-  final RxString item;
-  final ValueChanged<String?> onChanged;
+  final List<EnumModel> list;
+  final Rx<Enum> item;
+  final ValueChanged<Enum?> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class CustomDropDownWithField extends StatelessWidget {
             ),
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
+              child: DropdownButton<Enum>(
                 isExpanded: true,
                 value: item.value,
                 style: Fonts.hintTextStyle,
@@ -46,10 +48,10 @@ class CustomDropDownWithField extends StatelessWidget {
                 items:
                     list
                         .map(
-                          (dropdownItem) => DropdownMenuItem(
-                            value: dropdownItem,
+                          (EnumModel dropdownItem) => DropdownMenuItem<Enum>(
+                            value: dropdownItem.value,
                             child: Text(
-                              dropdownItem,
+                              dropdownItem.label.tr,
                               style: Fonts.contentTextFieldStyle,
                             ),
                           ),

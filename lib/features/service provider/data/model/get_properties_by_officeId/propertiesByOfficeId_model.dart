@@ -1,3 +1,4 @@
+import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../officers/data/model/userOffice.dart';
@@ -43,10 +44,10 @@ class Property {
   final List<PropertyImage> propertyImageList;
   final int id;
   final String description;
-  final String houseType;
-  final String serviceType;
+  final HouseType houseType;
+  final ServiceType serviceType;
   final String location;
-  final String direction;
+  final Direction direction;
   final double price;
   final double priceInMonth;
   final double area;
@@ -128,8 +129,7 @@ class Office {
     this.commercialRegisterImage,
   });
 
-  factory Office.fromJson(Map<String, dynamic> json) =>
-      _$OfficeFromJson(json);
+  factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);
 
   Map<String, dynamic> toJson() => _$OfficeToJson(this);
 }

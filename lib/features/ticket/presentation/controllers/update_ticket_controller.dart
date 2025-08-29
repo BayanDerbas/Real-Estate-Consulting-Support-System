@@ -2,14 +2,14 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/utils/secure_storage.dart';
+import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 
 import '../../data/model/publish_ticket_request_model.dart';
-import '../../data/model/ticket_model.dart';
 
-class CreateTicketController extends GetxController {
-  final TicketRepositoryImpl _ticketRepository;
+class UpdateTicketController extends GetxController {
+  final TicketRepositoryImpl _repository;
 
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
@@ -56,10 +56,10 @@ class CreateTicketController extends GetxController {
   Rx<Direction> selectedDirection = Rx(Direction.SOUTH);
   Rx<ServiceType> selectedServiceType = Rx(ServiceType.BUY);
 
-  late int clientId;
+  int ticketId = 0;
   SecureStorage storage = SecureStorage();
 
-  CreateTicketController(this._ticketRepository);
+  UpdateTicketController(this._repository);
 
   Future<void> submitTicket() async {
     final userId = await storage.getIdByRole();
@@ -87,7 +87,7 @@ class CreateTicketController extends GetxController {
     final context = Get.context;
     if (context == null) return;
 
-    final result = await _ticketRepository.createTicket(request);
+    final result = await _repository.updateTicket(ticketId, request);
     isLoading.value = false;
 
     result.fold(
@@ -116,7 +116,8 @@ class CreateTicketController extends GetxController {
           autoHide: const Duration(seconds: 2),
         ).show();
 
-        Get.offNamed(AppRoutes.baseTicketsPage);
+        Get.back();
+        Get.back();
       },
 
       // (response) async {
@@ -151,5 +152,20 @@ class CreateTicketController extends GetxController {
     numberOfRooms.dispose();
     numberOfBathrooms.dispose();
     super.onClose();
+  }
+
+  void fillController(Ticket model) {
+    ticketId = model.id;
+    selectedDirection.value = model.direction ?? Direction.SOUTH;
+    selectedServiceType.value = model.serviceType ?? ServiceType.BUY;
+    selectedHouseType.value = model.houseType ?? HouseType.HOME;
+    description.text = model.description;
+    location.text = model.location;
+    lowPrice.text = model.lowPrice.toString();
+    highPrice.text = model.highPrice.toString();
+    area.text = model.area.toString();
+    numberOfBed.text = model.numberOfBed.toString();
+    numberOfRooms.text = model.numberOfRooms.toString();
+    numberOfBathrooms.text = model.numberOfBathrooms.toString();
   }
 }

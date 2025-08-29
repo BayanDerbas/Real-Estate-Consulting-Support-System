@@ -40,6 +40,7 @@ class serverFailure extends Failures {
         final statusCode = dioException.response?.statusCode;
         final data = dioException.response?.data;
         log("Status code : $statusCode");
+        log("data: $data");
         return serverFailure.fromResponse(
           statusCode ?? 0,
           data,
@@ -59,16 +60,16 @@ class serverFailure extends Failures {
 
     if (statusCode == 400) {
       message =
-          "Bad request. Please check your input.${response['errors']['message']}";
+          "Bad request. Please check your input.${response['errors'][0]['message']}";
     } else if (statusCode == 401) {
       message = "Unauthorized. Please log in again.";
     } else if (statusCode == 403) {
       message = "Forbidden. You don't have permission.";
     } else if (statusCode == 404) {
-      message = "Resource not found.${response['errors']['message']}";
+      message = "Resource not found.${response['errors'][0]['message']}";
     } else if (statusCode == 500) {
       message =
-          "Internal server error. Please try again later.${response['errors']['message']}";
+          "Internal server error. Please try again later.${response['errors'][0]['message']}";
     } else {
       message = "Unexpected error (code $statusCode)";
     }

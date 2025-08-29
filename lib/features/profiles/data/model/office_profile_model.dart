@@ -3,15 +3,15 @@ import 'package:json_annotation/json_annotation.dart';
 part 'office_profile_model.g.dart';
 
 @JsonSerializable()
-class OfficeProfileModel {
+class OfficeProfilingModel {
   final String? status;
   final OfficeProfileData? data;
 
-  OfficeProfileModel({this.status, this.data});
+  OfficeProfilingModel({this.status, this.data});
 
-  factory OfficeProfileModel.fromJson(Map<String, dynamic> json) =>
-      _$OfficeProfileModelFromJson(json);
-  Map<String, dynamic> toJson() => _$OfficeProfileModelToJson(this);
+  factory OfficeProfilingModel.fromJson(Map<String, dynamic> json) =>
+      _$OfficeProfilingModelFromJson(json);
+  Map<String, dynamic> toJson() => _$OfficeProfilingModelToJson(this);
 }
 
 @JsonSerializable()

@@ -47,6 +47,33 @@ class _ProfileService implements ProfileService {
   }
 
   @override
+  Future<OfficeProfilingModel> getOffice(int id) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<OfficeProfilingModel>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/offices/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late OfficeProfilingModel _value;
+    try {
+      _value = OfficeProfilingModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<HttpResponse<void>> uploadUserImage(File? image) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -67,14 +94,14 @@ class _ProfileService implements ProfileService {
     }
     final _options = _setStreamType<HttpResponse<void>>(
       Options(
-            method: 'GET',
+            method: 'POST',
             headers: _headers,
             extra: _extra,
             contentType: 'multipart/form-data',
           )
           .compose(
             _dio.options,
-            '/offices/{id}',
+            '/users/upload-image',
             queryParameters: queryParameters,
             data: _data,
           )

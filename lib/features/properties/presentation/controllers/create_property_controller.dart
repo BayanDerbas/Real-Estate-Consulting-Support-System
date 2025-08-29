@@ -6,6 +6,9 @@ import 'package:graduation_project/features/properties/data/model/create_propert
 import 'package:graduation_project/features/properties/data/repository/property_repository.dart';
 import 'package:graduation_project/core/routes/routes.dart';
 
+import '../../../ticket/data/model/ticket_model.dart';
+import '../../data/model/property_model.dart';
+
 class CreatePropertyController extends GetxController {
   final PropertyRepository _propertyRepository;
 
@@ -14,15 +17,44 @@ class CreatePropertyController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController description = TextEditingController();
   final TextEditingController location = TextEditingController();
-  final TextEditingController direction = TextEditingController();
   final TextEditingController area = TextEditingController();
   final TextEditingController numberOfBed = TextEditingController();
   final TextEditingController numberOfRooms = TextEditingController();
   final TextEditingController price = TextEditingController();
   final TextEditingController priceInMonth = TextEditingController();
   final TextEditingController numberOfBathrooms = TextEditingController();
-  RxString houseType = 'HOME'.obs;
-  RxString serviceType = 'BUY'.obs;
+
+  List<EnumModel<HouseType>> houseTypes = [
+    EnumModel(label: 'بيت', value: HouseType.HOME),
+    EnumModel(label: 'شقة', value: HouseType.UPPER_FLOOR),
+    EnumModel(label: 'فيلا', value: HouseType.VILLA),
+    EnumModel(label: 'مكتب', value: HouseType.OFFICE),
+    EnumModel(label: 'قطعة أرض', value: HouseType.LAND),
+    EnumModel(label: 'محل', value: HouseType.STORE),
+    EnumModel(label: 'غير ذلك', value: HouseType.OTHER),
+  ];
+
+  List<EnumModel<Direction>> directions = [
+    EnumModel(label: 'شمال', value: Direction.SOUTH),
+    EnumModel(label: 'جنوب', value: Direction.NORTH),
+    EnumModel(label: 'شرق', value: Direction.EAST),
+    EnumModel(label: 'غرب', value: Direction.WEST),
+    EnumModel(label: 'شمال - غرب', value: Direction.SOUTH_WEST),
+    EnumModel(label: 'شمال - شرق', value: Direction.SOUTH_EAST),
+    EnumModel(label: 'جنوب - شرق', value: Direction.NORTH_EAST),
+    EnumModel(label: 'جنوب - غرب', value: Direction.NORTH_WEST),
+  ];
+
+  List<EnumModel<ServiceType>> serviceTypes = [
+    EnumModel(label: 'بيع', value: ServiceType.BUY),
+    EnumModel(label: 'شراء', value: ServiceType.SELL),
+    EnumModel(label: 'استئجار', value: ServiceType.RENT),
+  ];
+
+  Rx<HouseType> selectedHouseType = Rx(HouseType.HOME);
+  Rx<Direction> selectedDirection = Rx(Direction.SOUTH);
+  Rx<ServiceType> selectedServiceType = Rx(ServiceType.BUY);
+
   late int clientId;
   SecureStorage storage = SecureStorage();
 
@@ -39,10 +71,10 @@ class CreatePropertyController extends GetxController {
     final request = CreatePropertyRequestModel(
       officeId: userIdInt,
       description: description.text,
-      houseType: houseType.value,
-      serviceType: serviceType.value,
+      houseType: selectedHouseType.value,
+      serviceType: selectedServiceType.value,
       location: location.text,
-      direction: direction.text,
+      direction: selectedDirection.value,
       area: double.tryParse(area.text) ?? 0,
       numberOfBed: int.tryParse(numberOfBed.text) ?? 0,
       numberOfRooms: int.tryParse(numberOfRooms.text) ?? 0,
@@ -106,7 +138,6 @@ class CreatePropertyController extends GetxController {
   void onClose() {
     description.dispose();
     location.dispose();
-    direction.dispose();
     area.dispose();
     numberOfBed.dispose();
     numberOfRooms.dispose();

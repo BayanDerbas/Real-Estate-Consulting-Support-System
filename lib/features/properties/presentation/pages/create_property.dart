@@ -4,29 +4,19 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/posts/presentation/widgets/base_post_screen.dart';
+import 'package:graduation_project/features/properties/data/model/property_model.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../Auth/presentation/widgets/custom_drop_down_with_field.dart';
 import '../../../Auth/presentation/widgets/custom_text_form_field.dart';
+import '../../../ticket/data/model/ticket_model.dart';
 
 class CreatePropertyScreen extends StatelessWidget {
   CreatePropertyScreen({super.key});
 
   final CreatePropertyController controller =
       Get.find<CreatePropertyController>();
-
-  final List<String> houseTypeList = [
-    'HOME',
-    'UPPER_FLOOR',
-    'VILLA',
-    'OFFICE',
-    'LAND',
-    'STORE',
-    'OTHER',
-  ];
-
-  final List<String> serviceTypeList = ['BUY', 'RENT'];
 
   @override
   Widget build(BuildContext context) {
@@ -81,16 +71,20 @@ class CreatePropertyScreen extends StatelessWidget {
                                     : null,
                       ),
                       CustomDropDownWithField(
-                        list: houseTypeList,
-                        item: controller.houseType,
+                        list: controller.houseTypes,
+                        item: controller.selectedHouseType,
                         onChanged:
-                            (val) => controller.houseType.value = val ?? '',
+                            (val) =>
+                                controller.selectedHouseType.value =
+                                    val as HouseType,
                       ),
                       CustomDropDownWithField(
-                        list: serviceTypeList,
-                        item: controller.serviceType,
+                        list: controller.serviceTypes,
+                        item: controller.selectedServiceType,
                         onChanged:
-                            (val) => controller.serviceType.value = val ?? '',
+                            (val) =>
+                                controller.selectedServiceType.value =
+                                    val as ServiceType,
                       ),
                       CustomTextField(
                         hintText: 'location'.tr,
@@ -103,11 +97,13 @@ class CreatePropertyScreen extends StatelessWidget {
                                     ? 'required'.tr
                                     : null,
                       ),
-                      CustomTextField(
-                        hintText: 'direction'.tr,
-                        icon: Icons.explore,
-                        width: double.infinity,
-                        controller: controller.direction,
+                      CustomDropDownWithField(
+                        list: controller.directions,
+                        item: controller.selectedDirection,
+                        onChanged:
+                            (val) =>
+                                controller.selectedDirection.value =
+                                    val as Direction,
                       ),
                       Row(
                         children: [

@@ -19,14 +19,14 @@ class UploadDocuments extends StatelessWidget {
     return BaseAuthScreen(
       widget: Column(
         children: [
-          CustomDropDownWithField(
-            width: width * 0.8,
-            list: controller.types,
-            item: controller.selectType,
-            onChanged: (String? value) {
-              controller.onChangeType(value);
-            },
-          ).paddingOnly(top: 100),
+          // CustomDropDownWithField(
+          //   width: width * 0.8,
+          //   list: controller.types,
+          //   item: controller.selectType,
+          //   onChanged: (String? value) {
+          //     controller.onChangeType(value);
+          //   },
+          // ).paddingOnly(top: 100),
           CustomTextField(
             width: width * 0.8,
             hintText: "attach documents",

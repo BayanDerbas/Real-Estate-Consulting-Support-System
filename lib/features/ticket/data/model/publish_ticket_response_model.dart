@@ -1,33 +1,8 @@
+import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../Auth/data/model/user_model.dart';
 
 part 'publish_ticket_response_model.g.dart';
-
-enum HouseType {
-  @JsonValue("HOME")
-  home,
-  @JsonValue("UPPER_FLOOR")
-  upperFloor,
-  @JsonValue("LOWER_FLOOR")
-  lowerFloor,
-  @JsonValue("VILLA")
-  villa,
-  @JsonValue("OFFICE")
-  office,
-  @JsonValue("LAND")
-  land,
-  @JsonValue("STORE")
-  store,
-  @JsonValue("OTHER")
-  other,
-}
-
-enum ServiceType {
-  @JsonValue("BUY")
-  buy,
-  @JsonValue("RENT")
-  rent,
-}
 
 @JsonSerializable()
 class PublishTicketResponseModel {
@@ -49,7 +24,7 @@ class TicketData {
   final HouseType? houseType;
   final ServiceType? serviceType;
   final String? location;
-  final String? direction;
+  final Direction? direction;
   final double? lowPrice;
   final double? highPrice;
   final double? area;

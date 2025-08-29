@@ -25,6 +25,7 @@ class ApiConstant {
 
   //tickets
   static const String createTicket = "$baseUrl/tickets";
+  static const String updateTicket = "$baseUrl/tickets/{id}";
   static const String getAllTickets = "$baseUrl/tickets";
   static const String getMyTickets = "$baseUrl/tickets/client/{id}";
   static const String filterTickets = "$baseUrl/tickets/filter";
@@ -65,7 +66,8 @@ class ApiConstant {
   // show reservations for clients
   static const String showMyAppointement = "$baseUrl/booking/my/";
   //show posts by expert id
-  static const String show_posts_byExpertId = "$baseUrl/posts/expert/{expertId}";
+  static const String show_posts_byExpertId =
+      "$baseUrl/posts/expert/{expertId}";
   //schedule
   static const String schedule = "$baseUrl/working_times/{id}";
   //get notifications

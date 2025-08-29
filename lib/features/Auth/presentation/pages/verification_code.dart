@@ -65,11 +65,14 @@ class OtpPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              OTPInput(
-                onCompleted: (code) {
-                  controller.code.text = code;
-                  controller.verificationCode();
-                },
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: OTPInput(
+                  onCompleted: (code) {
+                    controller.code.text = code;
+                    controller.verificationCode();
+                  },
+                ),
               ),
               const SizedBox(height: 20),
               Obx(() {

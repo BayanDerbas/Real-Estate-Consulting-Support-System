@@ -23,7 +23,7 @@ TicketData _$TicketDataFromJson(Map<String, dynamic> json) => TicketData(
   houseType: $enumDecodeNullable(_$HouseTypeEnumMap, json['houseType']),
   serviceType: $enumDecodeNullable(_$ServiceTypeEnumMap, json['serviceType']),
   location: json['location'] as String?,
-  direction: json['direction'] as String?,
+  direction: $enumDecodeNullable(_$DirectionEnumMap, json['direction']),
   lowPrice: (json['lowPrice'] as num?)?.toDouble(),
   highPrice: (json['highPrice'] as num?)?.toDouble(),
   area: (json['area'] as num?)?.toDouble(),
@@ -44,7 +44,7 @@ Map<String, dynamic> _$TicketDataToJson(TicketData instance) =>
       'houseType': _$HouseTypeEnumMap[instance.houseType],
       'serviceType': _$ServiceTypeEnumMap[instance.serviceType],
       'location': instance.location,
-      'direction': instance.direction,
+      'direction': _$DirectionEnumMap[instance.direction],
       'lowPrice': instance.lowPrice,
       'highPrice': instance.highPrice,
       'area': instance.area,
@@ -56,17 +56,31 @@ Map<String, dynamic> _$TicketDataToJson(TicketData instance) =>
     };
 
 const _$HouseTypeEnumMap = {
-  HouseType.home: 'HOME',
-  HouseType.upperFloor: 'UPPER_FLOOR',
-  HouseType.lowerFloor: 'LOWER_FLOOR',
-  HouseType.villa: 'VILLA',
-  HouseType.office: 'OFFICE',
-  HouseType.land: 'LAND',
-  HouseType.store: 'STORE',
-  HouseType.other: 'OTHER',
+  HouseType.HOME: 'HOME',
+  HouseType.UPPER_FLOOR: 'UPPER_FLOOR',
+  HouseType.VILLA: 'VILLA',
+  HouseType.OFFICE: 'OFFICE',
+  HouseType.LAND: 'LAND',
+  HouseType.STORE: 'STORE',
+  HouseType.OTHER: 'OTHER',
 };
 
-const _$ServiceTypeEnumMap = {ServiceType.buy: 'BUY', ServiceType.rent: 'RENT'};
+const _$ServiceTypeEnumMap = {
+  ServiceType.BUY: 'BUY',
+  ServiceType.SELL: 'SELL',
+  ServiceType.RENT: 'RENT',
+};
+
+const _$DirectionEnumMap = {
+  Direction.SOUTH: 'SOUTH',
+  Direction.NORTH: 'NORTH',
+  Direction.EAST: 'EAST',
+  Direction.WEST: 'WEST',
+  Direction.SOUTH_WEST: 'SOUTH_WEST',
+  Direction.SOUTH_EAST: 'SOUTH_EAST',
+  Direction.NORTH_EAST: 'NORTH_EAST',
+  Direction.NORTH_WEST: 'NORTH_WEST',
+};
 
 Client _$ClientFromJson(Map<String, dynamic> json) => Client(
   id: (json['id'] as num?)?.toInt(),

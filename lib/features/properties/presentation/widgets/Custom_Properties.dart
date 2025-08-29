@@ -7,11 +7,14 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/Fonts.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:graduation_project/features/properties/data/model/property_model.dart';
+
+import '../../../ticket/data/model/ticket_model.dart';
 
 class CustomProperties extends StatelessWidget {
   final String imagePath;
   final String place;
-  final String propertyType;
+  final HouseType propertyType;
   final IconData propertyIcon;
   final VoidCallback onTap;
 
@@ -70,48 +73,82 @@ class CustomProperties extends StatelessWidget {
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Transform.translate(offset: Offset(-1, 0), child: Icon(propertyIcon, size: 24, color: AppColors.black)),
-                                    Transform.translate(offset: Offset(1, 0), child: Icon(propertyIcon, size: 24, color: AppColors.black)),
-                                    Transform.translate(offset: Offset(0, -1), child: Icon(propertyIcon, size: 24, color: AppColors.black)),
-                                    Transform.translate(offset: Offset(0, 1), child: Icon(propertyIcon, size: 24, color: AppColors.black)),
+                                    Transform.translate(
+                                      offset: Offset(-1, 0),
+                                      child: Icon(
+                                        propertyIcon,
+                                        size: 24,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                    Transform.translate(
+                                      offset: Offset(1, 0),
+                                      child: Icon(
+                                        propertyIcon,
+                                        size: 24,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                    Transform.translate(
+                                      offset: Offset(0, -1),
+                                      child: Icon(
+                                        propertyIcon,
+                                        size: 24,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
+                                    Transform.translate(
+                                      offset: Offset(0, 1),
+                                      child: Icon(
+                                        propertyIcon,
+                                        size: 24,
+                                        color: AppColors.black,
+                                      ),
+                                    ),
 
-                                    Icon(propertyIcon, size: 24, color: AppColors.pureWhite),
+                                    Icon(
+                                      propertyIcon,
+                                      size: 24,
+                                      color: AppColors.pureWhite,
+                                    ),
                                   ],
                                 ),
                                 SizedBox(width: 5),
                                 Stack(
-                                    children:[
-                                      Text(
-                                        '$propertyType',
-                                        style: Fonts.itim.copyWith(
-                                          fontSize: 16,
-                                          foreground: Paint()
-                                            ..style = PaintingStyle.stroke
-                                            ..strokeWidth = 1
-                                            ..color = AppColors.black,
-                                        ),
+                                  children: [
+                                    Text(
+                                      propertyType.name,
+                                      style: Fonts.itim.copyWith(
+                                        fontSize: 16,
+                                        foreground:
+                                            Paint()
+                                              ..style = PaintingStyle.stroke
+                                              ..strokeWidth = 1
+                                              ..color = AppColors.black,
                                       ),
-                                      Text(
-                                        '$propertyType',
-                                        style: Fonts.itim.copyWith(
-                                          fontSize: 16,
-                                          color: AppColors.pureWhite,
-                                        ),
+                                    ),
+                                    Text(
+                                      propertyType.name,
+                                      style: Fonts.itim.copyWith(
+                                        fontSize: 16,
+                                        color: AppColors.pureWhite,
                                       ),
-                                    ]
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                             Stack(
-                              children:[
+                              children: [
                                 Text(
                                   '$place',
                                   style: Fonts.itim.copyWith(
                                     fontSize: 16,
-                                    foreground: Paint()
-                                      ..style = PaintingStyle.stroke
-                                      ..strokeWidth = 1
-                                      ..color = AppColors.black,
+                                    foreground:
+                                        Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 1
+                                          ..color = AppColors.black,
                                   ),
                                 ),
                                 Text(
@@ -121,7 +158,7 @@ class CustomProperties extends StatelessWidget {
                                     color: AppColors.pureWhite,
                                   ),
                                 ),
-                              ]
+                              ],
                             ),
                           ],
                         ),
@@ -134,7 +171,7 @@ class CustomProperties extends StatelessWidget {
           ],
         ),
       ),
-    ).padding(EdgeInsets.only(top: 5,bottom: 15,));
+    ).padding(EdgeInsets.only(top: 5, bottom: 15));
   }
 
   Widget buildImage(String path) {
@@ -152,7 +189,12 @@ class CustomProperties extends StatelessWidget {
             ),
       );
     } else {
-      return Image.asset(path, width: double.infinity,height: 260, fit: BoxFit.cover);
+      return Image.asset(
+        path,
+        width: double.infinity,
+        height: 260,
+        fit: BoxFit.cover,
+      );
     }
   }
 }

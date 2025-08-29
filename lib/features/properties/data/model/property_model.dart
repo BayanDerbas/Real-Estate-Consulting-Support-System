@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../../../officers/data/model/office.dart';
+import '../../../ticket/data/model/ticket_model.dart';
 import 'propertyImage_model.dart';
 
 part 'property_model.g.dart';
@@ -8,10 +9,10 @@ part 'property_model.g.dart';
 class PropertyModel {
   final int id;
   final String description;
-  final String houseType;
-  final String serviceType;
+  final HouseType houseType;
+  final ServiceType serviceType;
   final String location;
-  final String direction;
+  final Direction direction;
   final double price;
   final double priceInMonth;
   final double area;

@@ -6,8 +6,12 @@ import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/officers/data/model/userOffice.dart';
+import 'package:graduation_project/features/ticket/data/model/publish_ticket_response_model.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/update_ticket_controller.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
+import '../../data/model/ticket_model.dart';
 
 class TicketDetailsPage extends StatelessWidget {
   final String fullName;
@@ -15,7 +19,9 @@ class TicketDetailsPage extends StatelessWidget {
   final String description;
   final String priceRange;
   UserOffice? user;
-
+  final int id;
+  final bool withActions;
+  final Ticket model;
   TicketDetailsPage({
     super.key,
     required this.fullName,
@@ -23,6 +29,9 @@ class TicketDetailsPage extends StatelessWidget {
     required this.description,
     required this.priceRange,
     this.user,
+    required this.id,
+    this.withActions = false,
+    required this.model,
   });
 
   @override
@@ -99,73 +108,71 @@ class TicketDetailsPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
-          /// Buttons row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // TODO: Navigate to update page
-                  Get.snackbar("Update", "Update button clicked for $fullName");
-                },
-                icon: const Icon(
-                  Icons.edit,
-                  size: 18,
-                  color: AppColors.pureWhite,
-                ),
-                label: Text(
-                  "Update",
-                  style: setTextStyle(
-                    GoogleFonts.cairo,
-                    14,
-                    AppColors.pureWhite,
-                    FontWeight.w500,
+          if (withActions)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Get.find<UpdateTicketController>().fillController(model);
+                    Get.toNamed(AppRoutes.updateTicketPage);
+                  },
+                  icon: const Icon(
+                    Icons.edit,
+                    size: 18,
+                    color: AppColors.pureWhite,
+                  ),
+                  label: Text(
+                    "Update",
+                    style: setTextStyle(
+                      GoogleFonts.cairo,
+                      14,
+                      AppColors.pureWhite,
+                      FontWeight.w500,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.deepNavy,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.deepNavy,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    _showDeleteDialog(context);
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    size: 18,
+                    color: AppColors.pureWhite,
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
+                  label: Text(
+                    "Delete",
+                    style: setTextStyle(
+                      GoogleFonts.cairo,
+                      14,
+                      AppColors.pureWhite,
+                      FontWeight.w500,
+                    ),
                   ),
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  // TODO: Confirm delete
-                  _showDeleteDialog(context);
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  size: 18,
-                  color: AppColors.pureWhite,
-                ),
-                label: Text(
-                  "Delete",
-                  style: setTextStyle(
-                    GoogleFonts.cairo,
-                    14,
-                    AppColors.pureWhite,
-                    FontWeight.w500,
-                  ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.deepNavy,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
     );
@@ -223,9 +230,8 @@ class TicketDetailsPage extends StatelessWidget {
       confirmTextColor: Colors.white,
       buttonColor: Colors.red,
       onConfirm: () {
-        // TODO: perform delete logic
+        Get.find<MyTicketsController>().deleteTicket(id);
         Get.back();
-        Get.snackbar("Deleted", "Ticket has been deleted");
       },
     );
   }

@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:graduation_project/core/networks/failures.dart';
 
+import '../../../officers/data/model/office_profile_model.dart';
 import '../data_source/profile_service.dart';
 import '../model/expert_profile_model.dart';
+import '../model/office_profile_model.dart';
 
 class ProfileRepository {
   final ProfileService service;
@@ -22,15 +24,16 @@ class ProfileRepository {
     }
   }
 
-  // Future<Either<String, OfficeProfileModel>> getOffice({required int id}) async {
-  //   try {
-  //     final response = await service.getOffice(id);
-  //     return Right(response);
-  //   } catch (e) {
-  //     return Left("Failed to fetch office data: $e");
-  //   }
-  //
-  // }
+  Future<Either<String, OfficeProfilingModel>> getOffice({
+    required int id,
+  }) async {
+    try {
+      final response = await service.getOffice(id);
+      return Right(response);
+    } catch (e) {
+      return Left("Failed to fetch office data: $e");
+    }
+  }
 
   Future<Either<String, Unit>> uploadUserImage(File image) async {
     try {

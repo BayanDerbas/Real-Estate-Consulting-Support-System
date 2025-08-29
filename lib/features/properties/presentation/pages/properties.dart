@@ -19,32 +19,30 @@ class Properties extends StatelessWidget {
       PropertiesController(Get.find<PropertyRepository>()),
     );
 
-    final Map<String, String> propertyTypes = {
-      'HOME': 'Home',
-      'APARTMENT': 'Apartment',
-      'VILLA': 'Villa',
-      'LAND': 'Land',
-      'STORE': 'Store',
-      'OFFICE': 'Office',
-      'OTHER': 'Other',
-    };
+    final List<String> propertyTypes = [
+      'HOME',
+      'APARTMENT',
+      'VILLA',
+      'LAND',
+      'STORE',
+      'OFFICE',
+      'OTHER',
+    ];
 
     return Obx(() {
       final groupedProperties = <String, List<CustomProperties>>{};
       for (var property in controller.propertiesList) {
         final type = property.propertyType;
         if (!groupedProperties.containsKey(type)) {
-          groupedProperties[type] = [];
+          groupedProperties[type.name] = [];
         }
-        groupedProperties[type]!.add(property);
+        groupedProperties[type.name]!.add(property);
       }
 
-      final displayTypes = controller.selectedIndex.value == -1
-          ? propertyTypes.entries
-          : [
-        propertyTypes.entries
-            .toList()[controller.selectedIndex.value]
-      ];
+      final displayTypes =
+          controller.selectedIndex.value == -1
+              ? propertyTypes
+              : [propertyTypes[controller.selectedIndex.value]];
 
       return Scaffold(
         appBar: PreferredSize(
@@ -140,69 +138,78 @@ class Properties extends StatelessWidget {
                   ).scrollDirection(Axis.horizontal),
                   controller.isLoading.value
                       ? Padding(
-                    padding: const EdgeInsets.only(top: 100),
-                    child: Center(child: CircularProgressIndicator()),
-                  )
+                        padding: const EdgeInsets.only(top: 100),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
                       : controller.properties.isEmpty
                       ? Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 200),
-                        Text(
-                          controller.failureMessage.value.isNotEmpty
-                              ? controller.failureMessage.value
-                              : "No properties available.",
-                          style: Fonts.itim.copyWith(
-                            fontSize: 16,
-                            color: AppColors.deepNavy,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                      : Column(
-                    children: displayTypes.map((entry) {
-                      final type = entry.key;
-                      final label = entry.value;
-                      final propertiesForType = groupedProperties[type] ?? [];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
-                            child: Text(
-                              label,
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            SizedBox(height: 200),
+                            Text(
+                              controller.failureMessage.value.isNotEmpty
+                                  ? controller.failureMessage.value
+                                  : "No properties available.",
                               style: Fonts.itim.copyWith(
-                                color: AppColors.black,
-                                fontSize: 22,
+                                fontSize: 16,
+                                color: AppColors.deepNavy,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                          propertiesForType.isEmpty
-                              ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16),
-                            child: Text(
-                              "No $label available.",
-                              style: Fonts.itim.copyWith(
-                                color: AppColors.grey,
-                                fontSize: 16,
-                              ),
-                            ),
-                          )
-                              : Column(
-                            children: propertiesForType
-                                .map((property) => property)
-                                .toList(),
-                          ).padding(EdgeInsets.only(bottom: 10)),
-                        ],
-                      );
-                    }).toList(),
-                  ).padding(EdgeInsets.only(top: 5)),
+                          ],
+                        ),
+                      )
+                      : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:
+                            displayTypes.map((item) {
+                              final type = item;
+                              final label =
+                                  item.substring(0, 1) +
+                                  item.substring(1).toLowerCase();
+                              final propertiesForType =
+                                  groupedProperties[type] ?? [];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 10,
+                                    ),
+                                    child: Text(
+                                      label,
+                                      style: Fonts.itim.copyWith(
+                                        color: AppColors.black,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  propertiesForType.isEmpty
+                                      ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
+                                        child: Text(
+                                          "No $label available.",
+                                          style: Fonts.itim.copyWith(
+                                            color: AppColors.grey,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      )
+                                      : Column(
+                                        children:
+                                            propertiesForType
+                                                .map((property) => property)
+                                                .toList(),
+                                      ).padding(EdgeInsets.only(bottom: 10)),
+                                ],
+                              );
+                            }).toList(),
+                      ).padding(EdgeInsets.only(top: 5)),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Align(

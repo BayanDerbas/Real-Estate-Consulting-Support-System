@@ -6,19 +6,19 @@ part of 'office_profile_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OfficeProfileModel _$OfficeProfileModelFromJson(Map<String, dynamic> json) =>
-    OfficeProfileModel(
-      status: json['status'] as String?,
-      data:
-          json['data'] == null
-              ? null
-              : OfficeProfileData.fromJson(
-                json['data'] as Map<String, dynamic>,
-              ),
-    );
+OfficeProfilingModel _$OfficeProfilingModelFromJson(
+  Map<String, dynamic> json,
+) => OfficeProfilingModel(
+  status: json['status'] as String?,
+  data:
+      json['data'] == null
+          ? null
+          : OfficeProfileData.fromJson(json['data'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$OfficeProfileModelToJson(OfficeProfileModel instance) =>
-    <String, dynamic>{'status': instance.status, 'data': instance.data};
+Map<String, dynamic> _$OfficeProfilingModelToJson(
+  OfficeProfilingModel instance,
+) => <String, dynamic>{'status': instance.status, 'data': instance.data};
 
 OfficeProfileData _$OfficeProfileDataFromJson(Map<String, dynamic> json) =>
     OfficeProfileData(

@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../ticket/data/model/ticket_model.dart';
+
 part 'create_property_response_model.g.dart';
 
 @JsonSerializable()
@@ -19,10 +21,10 @@ class CreatePropertyResponseModel {
 class PropertyDataResponseModel {
   final int? id;
   final String? description;
-  final String? houseType;
-  final String? serviceType;
+  final HouseType? houseType;
+  final ServiceType? serviceType;
   final String? location;
-  final String? direction;
+  final Direction? direction;
   final int? price;
   final int? priceInMonth;
   final int? area;

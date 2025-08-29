@@ -19,22 +19,22 @@ class PropertyDetails extends StatelessWidget {
 
     final PropertyModel property = Get.arguments as PropertyModel;
     final List<String>? imageList =
-    property.propertyImageList
-        ?.map((imageModel) => imageModel.imageUrl)
-        .toList();
+        property.propertyImageList
+            ?.map((imageModel) => imageModel.imageUrl)
+            .toList();
     return Scaffold(
       body: Obx(
-            () => Column(
+        () => Column(
           children: [
             CustomPropertyDetails(
               imagePath:
-              imageList!.isNotEmpty ? imageList[0] : AppImages.noImage,
+                  imageList!.isNotEmpty ? imageList[0] : AppImages.noImage,
               images: imageList.length > 1 ? imageList.sublist(1) : [],
               price: property.price.toString(),
               priceInMonth: property.priceInMonth.toString(),
-              title: property.houseType!,
-              location: property.location!,
-              serviceType: property.serviceType!,
+              title: property.houseType.name,
+              location: property.location,
+              serviceType: property.serviceType.name,
               area: property.area.toString(),
               room: property.numberOfRooms.toString(),
               beds: property.numberOfBed.toString(),

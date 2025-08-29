@@ -149,7 +149,7 @@ class PropertiesController extends GetxController {
         imagePath: mainImage.imageUrl,
         place: property.location,
         propertyType: property.houseType,
-        propertyIcon: _getIconForType(property.houseType),
+        propertyIcon: _getIconForType(property.houseType.name),
         onTap: () {
           Get.toNamed('/propertyDetails', arguments: property);
         },

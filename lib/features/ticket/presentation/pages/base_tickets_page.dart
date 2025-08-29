@@ -27,7 +27,7 @@ class BaseTicketsPage extends GetView<PageTicketController> {
         backgroundColor: AppColors.deepNavy,
         child: Icon(Icons.add_home, color: AppColors.pureWhite),
         onPressed: () {
-          Get.offNamed(AppRoutes.createTicket);
+          Get.toNamed(AppRoutes.createTicket);
         },
       ),
       body: SafeArea(
@@ -81,8 +81,14 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                 children: [
                   CustomButton(
                     text: 'الكل'.tr,
-                    backgroundColor: AppColors.pureWhite,
-                    textColor: AppColors.deepNavy,
+                    backgroundColor:
+                        tapController.currentpPage.value == 0
+                            ? AppColors.purple
+                            : AppColors.pureWhite,
+                    textColor:
+                        tapController.currentpPage.value == 0
+                            ? AppColors.pureWhite
+                            : AppColors.deepNavy,
                     width: currentWidth / 3,
                     height: 35,
                     borderColor:
@@ -94,8 +100,14 @@ class BaseTicketsPage extends GetView<PageTicketController> {
                   SizedBox(width: currentWidth * 0.1),
                   CustomButton(
                     text: 'طلباتي'.tr,
-                    backgroundColor: AppColors.pureWhite,
-                    textColor: AppColors.deepNavy,
+                    backgroundColor:
+                        tapController.currentpPage.value == 1
+                            ? AppColors.purple
+                            : AppColors.pureWhite,
+                    textColor:
+                        tapController.currentpPage.value == 1
+                            ? AppColors.pureWhite
+                            : AppColors.deepNavy,
                     width: currentWidth / 3,
                     height: 35,
                     borderColor:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/features/ticket/data/model/ticket_model.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/my_ticket_card.dart';
@@ -16,70 +17,41 @@ class MyTickets extends GetView<MyTicketsController> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(color: AppColors.deepNavy),
-          );
-        }
+      body: Obx(
+        () => RefreshIndicator(
+          onRefresh: () => controller.filter(),
+          child: ListView.separated(
+            controller: controller.scrollController,
+            padding: const EdgeInsets.all(16),
+            itemCount:
+                controller.myTickets.length + (controller.last.isFalse ? 1 : 0),
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              if (controller.last.isFalse && index == controller.length) {
+                if (controller.isLoading.value) {
+                  return const CircularProgressIndicator().center();
+                }
+                return const SizedBox();
+              }
 
-        if (controller.errorMessage.isNotEmpty) {
-          return Center(
-            child: Text(
-              controller.errorMessage.value,
-              style: const TextStyle(color: Colors.red),
-            ),
-          );
-        }
+              final Ticket ticket = controller.myTickets[index];
+              final user = ticket.client;
 
-        if (controller.myTickets.isEmpty) {
-          return Center(
-            child: Text(
-              'no_tickets'.tr,
-              style: Fonts.itim.copyWith(
-                color: AppColors.deepNavy.withOpacity(0.6),
-              ),
-            ),
-          );
-        }
-
-        return Column(
-          children: [
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async => controller.refreshTickets(),
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: controller.myTickets.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final Ticket ticket = controller.myTickets[index];
-                    final user = ticket.client;
-
-                    return MyTicketCard(
-                      fullName:
-                          '${user.firstName ?? ""} ${user.lastName ?? ""}',
-                      location: ticket.location,
-                      description: ticket.description,
-                      priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',
-                      width: screenWidth,
-                      height: context.height / 3,
-                    );
-                  },
-                ),
-              ),
-            ),
-            Obx(
-              () => CustomPaginationBar(
-                totalPages: controller.totalPages.value,
-                currentPage: controller.currentPage.value,
-                onPageSelected: (page) => controller.fetchTickets(page: page),
-              ),
-            ),
-            const SizedBox(height: 12),
-          ],
-        );
-      }),
+              return MyTicketCard(
+                id: ticket.id,
+                fullName: '${user.firstName ?? ""} ${user.lastName ?? ""}',
+                location: ticket.location,
+                description: ticket.description,
+                priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',
+                width: screenWidth,
+                height: context.height / 3,
+                withActions: true,
+                model: ticket,
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

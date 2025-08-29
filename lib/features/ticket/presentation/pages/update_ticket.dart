@@ -10,19 +10,21 @@ import '../../../Auth/presentation/widgets/custom_drop_down_with_field.dart';
 import '../../../Auth/presentation/widgets/custom_text_form_field.dart';
 import '../../data/model/ticket_model.dart';
 import '../controllers/create_ticket_controller.dart';
+import '../controllers/update_ticket_controller.dart';
 
-class CreateTicketScreen extends StatelessWidget {
-  CreateTicketScreen({super.key});
-
-  final CreateTicketController controller = Get.find<CreateTicketController>();
+class UpdateTicketScreen extends StatelessWidget {
+  const UpdateTicketScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final UpdateTicketController controller =
+        Get.find<UpdateTicketController>();
+
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("create_ticket".tr, style: Fonts.itim),
+        title: Text("Update ticket".tr, style: Fonts.itim),
         centerTitle: true,
         backgroundColor: AppColors.deepNavy,
       ),
@@ -165,13 +167,12 @@ class CreateTicketScreen extends StatelessWidget {
                           controller.isLoading.value
                               ? const CircularProgressIndicator()
                               : CustomButton(
-                                text: 'submit_ticket'.tr,
+                                text: 'update'.tr,
                                 backgroundColor: AppColors.deepNavy,
                                 textColor: AppColors.pureWhite,
                                 width: width * 0.6,
                                 onPressed: () {
                                   controller.submitTicket();
-                                  print(controller.clientId);
                                 },
                               ),
                     ),

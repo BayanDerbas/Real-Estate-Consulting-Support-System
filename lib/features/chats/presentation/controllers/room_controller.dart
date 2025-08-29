@@ -77,7 +77,7 @@ class RoomController extends GetxController {
         Get.back();
         Get.back();
         final roomsController = Get.find<GetCurrentUserRoomsController>();
-        roomsController.getAllRooms(); // Refresh rooms page
+        roomsController.getAllRooms();
         Get.snackbar('Success', 'Room deleted successfully');
       },
     );

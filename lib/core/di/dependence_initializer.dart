@@ -16,6 +16,7 @@ import 'package:graduation_project/features/posts/data/model/post_response_model
 import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
+import 'package:graduation_project/features/profiles/presentation/controllers/office_profile_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/controllers/ScheduleTimeController.dart';
@@ -61,6 +62,9 @@ import '../../features/notification/presentation/controllers/notification_contro
 import '../../features/officers/data/data_source/office_service.dart';
 import '../../features/officers/data/repository/OfficeRepository.dart';
 import '../../features/officers/presentation/controllers/OfficeController.dart';
+import '../../features/profiles/data/data_source/profile_service.dart';
+import '../../features/profiles/data/repository/profile_repository.dart';
+import '../../features/profiles/presentation/controllers/expert_profile_controller.dart';
 import '../../features/properties/data/data_source/property_service.dart';
 import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
@@ -70,6 +74,7 @@ import '../../features/service provider/data/data_source/get_posts_by_expertId/g
 import '../../features/service provider/data/repository/expert_posts_repository.dart';
 import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
+import '../../features/ticket/presentation/controllers/update_ticket_controller.dart';
 import '../networks/dio_factory.dart';
 import 'bindings/faqs_binding.dart';
 
@@ -79,7 +84,10 @@ class DependenceInitializer {
     Get.lazyPut<Dio>(() => DioFactory.getDio(), fenix: true);
     Get.lazyPut(() => AuthService(Get.find()));
     Get.lazyPut(() => AuthRepository(Get.find()));
-
+    // Get.find<ProfileService>();
+    // Get.find<ProfileRepository>();
+    Get.lazyPut(() => ProfileService(Get.find()));
+    Get.lazyPut(() => ProfileRepository(Get.find()));
     Get.put(SplashController());
     Get.put(RegisterController(Get.find()));
     Get.put(LoginController(Get.find()));
@@ -99,8 +107,8 @@ class DependenceInitializer {
     //put.lazyPut(() => ChatController(Get.find()), fenix: true);
     Get.put(RoomController(Get.find()));
     Get.put(CreateTicketController(Get.find()));
+    Get.put(UpdateTicketController(Get.find()));
     Get.put(FilteredTicketsController(Get.find()));
-
     Get.put(GetAllTicketsController(Get.find()));
     Get.put(MyTicketsController(Get.find()));
     //properties
@@ -194,6 +202,15 @@ class DependenceInitializer {
     Get.lazyPut<ScheduleTimeController>(
       () => ScheduleTimeController(Get.find<ScheduleTimeRepository>()),
       fenix: true,
+    );
+    //profiles
+    Get.put(
+      ExpertProfileController(profileRepository: Get.find<ProfileRepository>()),
+    );
+    Get.put(
+      OfficeProfilingController(
+        profileRepository: Get.find<ProfileRepository>(),
+      ),
     );
     // Notifications
     Get.lazyPut(() => NotificationService(Get.find()), fenix: true);

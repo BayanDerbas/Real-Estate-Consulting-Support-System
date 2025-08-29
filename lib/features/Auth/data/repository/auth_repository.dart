@@ -26,7 +26,7 @@ class AuthRepository {
         request.email!,
         request.password!,
         request.phone!,
-        request.role!,
+        request.role!.name,
         request.latitude,
         request.longitude,
         request.location,

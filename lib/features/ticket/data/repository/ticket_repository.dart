@@ -27,6 +27,20 @@ class TicketRepositoryImpl {
     }
   }
 
+  Future<Either<Failures, PublishTicketResponseModel>> updateTicket(
+    int id,
+    PublishTicketRequestModel request,
+  ) async {
+    try {
+      final httpResponse = await _ticketService.updateTicket(id, request);
+      return Right(httpResponse.data);
+    } on DioException catch (e) {
+      return Left(serverFailure.fromDioError(e));
+    } catch (e) {
+      return Left(serverFailure(e.toString()));
+    }
+  }
+
   Future<Either<Failures, void>> deleteTicket(int ticketId) async {
     try {
       final response = await _ticketService.deleteTicket(ticketId);
@@ -40,44 +54,6 @@ class TicketRepositoryImpl {
           ),
         );
       }
-    } on DioException catch (e) {
-      return Left(serverFailure.fromDioError(e));
-    } catch (e) {
-      return Left(serverFailure(e.toString()));
-    }
-  }
-
-  Future<Either<Failures, List<Ticket>>> getAllTickets({
-    required int page,
-    required int size,
-  }) async {
-    try {
-      final httpResponse = await _ticketService.getAllTickets(page, size);
-      final tickets = httpResponse.data.data?.content ?? [];
-
-      return Right(tickets);
-    } on DioException catch (e) {
-      return Left(serverFailure.fromDioError(e));
-    } catch (e) {
-      return Left(serverFailure(e.toString()));
-    }
-  }
-
-  Future<Either<Failures, List<Ticket>>> getMyTickets({
-    required int page,
-    required int size,
-    required int userId,
-  }) async {
-    try {
-      final httpResponse = await _ticketService.getMyTickets(
-        userId,
-        page,
-        size,
-      );
-
-      final tickets = httpResponse.data.data?.content ?? [];
-
-      return Right(tickets);
     } on DioException catch (e) {
       return Left(serverFailure.fromDioError(e));
     } catch (e) {

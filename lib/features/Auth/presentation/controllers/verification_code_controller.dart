@@ -75,7 +75,7 @@ class VerificationCodeController extends GetxController {
           title: "Success",
           desc: "New code sent successfully",
           btnOkOnPress: () {},
-          autoHide: const Duration(seconds: 2),
+          autoHide: const Duration(seconds: 4),
         ).show();
         startResendTimer();
       },
@@ -93,10 +93,10 @@ class VerificationCodeController extends GetxController {
     );
 
     isLoading(false);
-
+    log(data.toString());
     data.fold(
       (l) {
-        print('verification >>>>>>>>>>>>>>>>');
+        log('verification >>>>>>>>>>>>>>>>');
         log('email ');
         log(email!);
         errMessage(l.err_message);

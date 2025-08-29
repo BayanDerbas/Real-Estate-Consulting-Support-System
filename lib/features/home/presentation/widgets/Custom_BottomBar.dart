@@ -40,9 +40,11 @@ class CustomBottomBar extends StatelessWidget {
                     Get.toNamed('/posts');
                   } else if (index == 2) {
                     final role = await SecureStorage().getUserType();
-                    role == 'EXPERT'
-                        ? Get.toNamed(AppRoutes.expertProfile)
-                        : Get.toNamed(AppRoutes.officeProfile);
+                    if (role != 'USER') {
+                      role == 'EXPERT'
+                          ? Get.toNamed(AppRoutes.expertProfile)
+                          : Get.toNamed(AppRoutes.officeProfile);
+                    }
                   } else if (index == 3) {
                     Get.toNamed(AppRoutes.roomsPage);
                   } else if (index == 4) {

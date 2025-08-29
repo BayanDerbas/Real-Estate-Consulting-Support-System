@@ -15,16 +15,19 @@ import 'package:graduation_project/features/Discounts/presentation/pages/get_all
 import 'package:graduation_project/features/myReserve/presentation/controllers/myBookingsController.dart';
 import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
 import 'package:graduation_project/features/officers/presentation/controllers/OfficeController.dart';
+import 'package:graduation_project/features/officers/presentation/controllers/office_profile_controller.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/pages/create_post.dart';
 import 'package:graduation_project/features/profiles/data/data_source/profile_service.dart';
 import 'package:graduation_project/features/profiles/data/repository/profile_repository.dart';
+import 'package:graduation_project/features/profiles/presentation/controllers/expert_profile_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import 'package:graduation_project/features/properties/presentation/pages/properties.dart';
 import 'package:graduation_project/features/rating/presentation/pages/Rating.dart';
 import 'package:graduation_project/features/Book/presentation/pages/Book.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/pages/ScheduleTime.dart';
 import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
+import 'package:graduation_project/features/service%20provider/presentation/controllers/expert_posts_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/base_tickets_page.dart';
 import 'package:graduation_project/features/ticket/presentation/pages/filter_tickets.dart';
@@ -43,6 +46,7 @@ import '../../features/myReserve/presentation/pages/MyReserve.dart';
 import '../../features/notification/presentation/pages/notification.dart';
 import '../../features/officers/presentation/pages/offices.dart';
 import '../../features/posts/presentation/pages/Posts.dart';
+import '../../features/profiles/presentation/controllers/office_profile_controller.dart';
 import '../../features/profiles/presentation/pages/expert_profile_screen.dart';
 import '../../features/profiles/presentation/pages/office_profile_screen.dart';
 import '../../features/properties/presentation/pages/PropertyDetails.dart';
@@ -54,6 +58,7 @@ import '../../features/ticket/presentation/controllers/get_all_tickets_controlle
 import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
 import '../../features/filter/pages/ticket_filter_page.dart';
+import '../../features/ticket/presentation/pages/update_ticket.dart';
 import '../di/bindings/booking_bind.dart';
 import '../di/bindings/change_password_bind.dart';
 import '../di/bindings/faqs_binding.dart';
@@ -105,6 +110,8 @@ class AppRoutes {
   static const String ticketFilterPage = '/ticket_filter_page';
   static const String expertProfile = '/expert_profile';
   static const String officeProfile = '/office_profile';
+  static const String updateTicketPage = '/update_ticket_page';
+
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
     GetPage(name: refreshToken, page: () => RefreshTokenPage()),
@@ -159,23 +166,21 @@ class AppRoutes {
       page: () => BaseTicketsPage(),
       binding: BindingsBuilder(() {
         Get.find<GetAllTicketsController>().filter();
-        Get.find<MyTicketsController>().fetchTickets(page: 0);
+        Get.find<MyTicketsController>().filter();
       }),
     ),
     GetPage(
       name: expertProfile,
       page: () => OfficeProfileScreen(),
       binding: BindingsBuilder(() {
-        Get.find<ProfileService>();
-        Get.find<ProfileRepository>();
+        final controller = Get.find<OfficeProfilingController>();
       }),
     ),
     GetPage(
       name: officeProfile,
-      page: () => ExpertProfileScreen(),
+      page: () => OfficeProfileScreen(),
       binding: BindingsBuilder(() {
-        Get.find<ProfileService>();
-        Get.find<ProfileRepository>();
+        Get.find<ExpertProfileController>();
       }),
     ),
     GetPage(
@@ -209,5 +214,6 @@ class AppRoutes {
     GetPage(name: '/settings', page: () => const SettingsPage()),
     GetPage(name: '/create_coupon', page: () => const Discounts()),
     GetPage(name: ticketFilterPage, page: () => const TicketFilterPage()),
+    GetPage(name: updateTicketPage, page: () => const UpdateTicketScreen()),
   ];
 }

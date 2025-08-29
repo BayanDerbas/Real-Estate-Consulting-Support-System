@@ -1,14 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../ticket/data/model/ticket_model.dart';
+
 part 'create_property_request_model.g.dart';
 
 @JsonSerializable()
 class CreatePropertyRequestModel {
   final String? description;
-  final String? houseType;
-  final String? serviceType;
+  final HouseType? houseType;
+  final ServiceType? serviceType;
   final String? location;
-  final String? direction;
+  final Direction? direction;
   final double? price;
   final double? priceInMonth;
   final double? area;

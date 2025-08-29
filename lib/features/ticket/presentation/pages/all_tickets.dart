@@ -74,6 +74,7 @@ class TicketsPage extends GetView<GetAllTicketsController> {
             final user = ticket.client;
 
             return MyTicketCard(
+              id: ticket.id,
               fullName:
                   '${user.firstName ?? ""} ${user.lastName ?? ""}'
                           .trim()
@@ -85,6 +86,7 @@ class TicketsPage extends GetView<GetAllTicketsController> {
               priceRange: '${ticket.lowPrice} - ${ticket.highPrice}',
               width: currentWidth,
               height: 300,
+              model: ticket,
             );
           },
         ),

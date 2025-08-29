@@ -9,10 +9,10 @@ part of 'ticket_model.dart';
 Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
   id: (json['id'] as num).toInt(),
   description: json['description'] as String,
-  houseType: json['houseType'] as String,
-  serviceType: json['serviceType'] as String,
+  houseType: $enumDecodeNullable(_$HouseTypeEnumMap, json['houseType']),
+  serviceType: $enumDecodeNullable(_$ServiceTypeEnumMap, json['serviceType']),
   location: json['location'] as String,
-  direction: json['direction'] as String,
+  direction: $enumDecodeNullable(_$DirectionEnumMap, json['direction']),
   lowPrice: json['lowPrice'] as num,
   highPrice: json['highPrice'] as num,
   area: json['area'] as num,
@@ -26,10 +26,10 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
 Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
   'id': instance.id,
   'description': instance.description,
-  'houseType': instance.houseType,
-  'serviceType': instance.serviceType,
+  'houseType': _$HouseTypeEnumMap[instance.houseType],
+  'serviceType': _$ServiceTypeEnumMap[instance.serviceType],
   'location': instance.location,
-  'direction': instance.direction,
+  'direction': _$DirectionEnumMap[instance.direction],
   'lowPrice': instance.lowPrice,
   'highPrice': instance.highPrice,
   'area': instance.area,
@@ -38,4 +38,31 @@ Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
   'numberOfBathrooms': instance.numberOfBathrooms,
   'dateTime': instance.dateTime,
   'client': instance.client,
+};
+
+const _$HouseTypeEnumMap = {
+  HouseType.HOME: 'HOME',
+  HouseType.UPPER_FLOOR: 'UPPER_FLOOR',
+  HouseType.VILLA: 'VILLA',
+  HouseType.OFFICE: 'OFFICE',
+  HouseType.LAND: 'LAND',
+  HouseType.STORE: 'STORE',
+  HouseType.OTHER: 'OTHER',
+};
+
+const _$ServiceTypeEnumMap = {
+  ServiceType.BUY: 'BUY',
+  ServiceType.SELL: 'SELL',
+  ServiceType.RENT: 'RENT',
+};
+
+const _$DirectionEnumMap = {
+  Direction.SOUTH: 'SOUTH',
+  Direction.NORTH: 'NORTH',
+  Direction.EAST: 'EAST',
+  Direction.WEST: 'WEST',
+  Direction.SOUTH_WEST: 'SOUTH_WEST',
+  Direction.SOUTH_EAST: 'SOUTH_EAST',
+  Direction.NORTH_EAST: 'NORTH_EAST',
+  Direction.NORTH_WEST: 'NORTH_WEST',
 };

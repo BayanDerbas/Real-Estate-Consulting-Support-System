@@ -13,7 +13,7 @@ RegisterModel _$RegisterModelFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       password: json['password'] as String?,
       phone: json['phone'] as String?,
-      role: json['role'] as String?,
+      role: $enumDecodeNullable(_$RoleEnumMap, json['role']),
       latitude: json['latitude'] as String?,
       longitude: json['longitude'] as String?,
       location: json['location'] as String?,
@@ -29,7 +29,7 @@ Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
       'email': instance.email,
       'password': instance.password,
       'phone': instance.phone,
-      'role': instance.role,
+      'role': _$RoleEnumMap[instance.role],
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'location': instance.location,
@@ -37,3 +37,9 @@ Map<String, dynamic> _$RegisterModelToJson(RegisterModel instance) =>
       'experience': instance.experience,
       'bio': instance.bio,
     };
+
+const _$RoleEnumMap = {
+  Role.USER: 'USER',
+  Role.OFFICE: 'OFFICE',
+  Role.EXPERT: 'EXPERT',
+};

@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' hide Headers;
+import 'package:graduation_project/features/profiles/data/model/office_profile_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../../../core/networks/api_constant.dart';
@@ -18,6 +16,7 @@ abstract class ProfileService {
   @GET("/experts/{id}")
   Future<ExpertProfileModel> getExpert(@Path("id") int id);
   @GET("/offices/{id}")
+  Future<OfficeProfilingModel> getOffice(@Path("id") int id);
   @POST('/users/upload-image')
   @MultiPart()
   @Headers(<String, dynamic>{"Content-Type": "multipart/form-data"})

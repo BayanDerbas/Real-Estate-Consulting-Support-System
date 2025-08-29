@@ -7,9 +7,11 @@ import 'package:graduation_project/features/filter/widgets/chips_card.dart';
 import 'package:graduation_project/features/filter/widgets/slider_card.dart';
 import 'package:graduation_project/features/search/presentation/widgets/base_search_screen.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/get_all_tickets_controller.dart';
+import 'package:graduation_project/features/ticket/presentation/controllers/my_tickets_controller.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../../core/widgets/Custom_Button.dart';
+import '../../ticket/presentation/controllers/page_controller.dart';
 
 class TicketFilterPage extends StatelessWidget {
   const TicketFilterPage({super.key});
@@ -17,6 +19,7 @@ class TicketFilterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<TicketFilterController>();
+    final tabController = Get.find<PageTicketController>();
 
     return BaseSearchScreen(
       appBarTitle: 'Filter',
@@ -77,9 +80,16 @@ class TicketFilterPage extends StatelessWidget {
                 textColor: AppColors.pureWhite,
                 onPressed: () {
                   Get.back();
-                  Get.find<GetAllTicketsController>().filter(
-                    filterItems: controller.onFilter(),
-                  );
+
+                  if (tabController.currentpPage.value == 0) {
+                    Get.find<GetAllTicketsController>().filter(
+                      filterItems: controller.onFilter(),
+                    );
+                  } else {
+                    Get.find<MyTicketsController>().filter(
+                      filterItems: controller.onFilter(),
+                    );
+                  }
                 },
               )
               .paddingSymmetric(vertical: 16, horizontal: 8)

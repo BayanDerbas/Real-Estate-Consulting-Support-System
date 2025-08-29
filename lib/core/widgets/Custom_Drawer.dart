@@ -100,7 +100,7 @@ class CustomDrawer extends StatelessWidget {
                 icon: Icons.confirmation_number,
                 title: 'my tickets',
                 onTap: () {
-                  Get.find<MyTicketsController>().fetchTickets(page: 0);
+                  Get.find<MyTicketsController>().filter();
                   Get.toNamed(AppRoutes.myTickets);
                 },
               ),
@@ -154,15 +154,15 @@ class CustomDrawer extends StatelessWidget {
               ),
 
               if (controller.userType.value == "OFFICE") ...[
-                DrawerItem(
-                  icon: Icons.home,
-                  title: 'my property',
-                  onTap: () {
-                    Get.offAllNamed(AppRoutes.filteredTickets);
-                    // Get.back(
-                    // Get.toNamed('/my_property');
-                  },
-                ),
+                // DrawerItem(
+                //   icon: Icons.home,
+                //   title: 'my property',
+                //   onTap: () {
+                //     Get.offAllNamed(AppRoutes.filteredTickets);
+                //     // Get.back(
+                //     // Get.toNamed('/my_property');
+                //   },
+                // ),
                 DrawerItem(
                   icon: Icons.add_home,
                   title: 'add new property',

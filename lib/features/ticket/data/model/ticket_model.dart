@@ -4,14 +4,35 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'ticket_model.g.dart';
 
+enum HouseType { HOME, UPPER_FLOOR, VILLA, OFFICE, LAND, STORE, OTHER }
+
+enum Direction {
+  SOUTH,
+  NORTH,
+  EAST,
+  WEST,
+  SOUTH_WEST,
+  SOUTH_EAST,
+  NORTH_EAST,
+  NORTH_WEST,
+}
+
+enum ServiceType { BUY, SELL, RENT }
+
+class EnumModel<T> {
+  final String label;
+  final T value;
+  EnumModel({required this.label, required this.value});
+}
+
 @JsonSerializable()
 class Ticket {
   final int id;
   final String description;
-  final String houseType;
-  final String serviceType;
+  final HouseType? houseType;
+  final ServiceType? serviceType;
   final String location;
-  final String direction;
+  final Direction? direction;
   final num lowPrice;
   final num highPrice;
   final num area;

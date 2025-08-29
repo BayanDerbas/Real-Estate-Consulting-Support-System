@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dotted_line/dotted_line.dart';
+import 'package:graduation_project/core/extensions/widget_extension.dart';
+import 'package:graduation_project/features/ticket/data/model/publish_ticket_response_model.dart';
 import 'package:graduation_project/features/ticket/presentation/widgets/ticket_details_page.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/styles.dart';
+import '../../data/model/ticket_model.dart';
 import 'custom_ticket_widget.dart';
 
 class MyTicketCard extends StatelessWidget {
   final String fullName, location, description, priceRange;
   final double width, height;
+  final int id;
+  final bool withActions;
+
+  final Ticket model;
 
   const MyTicketCard({
     super.key,
     required this.fullName,
-
+    required this.id,
     required this.location,
     required this.description,
     required this.priceRange,
     required this.width,
     required this.height,
+    this.withActions = false,
+    required this.model,
   });
 
   @override
@@ -30,16 +39,15 @@ class MyTicketCard extends StatelessWidget {
             : description;
     return InkWell(
       onTap:
-          () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder:
-                  (_) => TicketDetailsPage(
-                    fullName: fullName,
-                    location: location,
-                    description: description,
-                    priceRange: priceRange,
-                  ),
+          () => Get.to(
+            () => TicketDetailsPage(
+              id: id,
+              fullName: fullName,
+              location: location,
+              description: description,
+              priceRange: priceRange,
+              withActions: withActions,
+              model: model,
             ),
           ),
       child: TicketCard(
@@ -103,9 +111,9 @@ class MyTicketCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const DottedLine(dashColor: AppColors.darkGray, lineThickness: 3),
+              // const DottedLine(dashColor: AppColors.darkGray, lineThickness: 3),
             ],
-          ),
+          ).paddingDirectional(EdgeInsetsDirectional.only(start: 15)),
         ),
       ),
     );
@@ -134,7 +142,6 @@ class MyTicketCard extends StatelessWidget {
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
         ),
       ],
     );

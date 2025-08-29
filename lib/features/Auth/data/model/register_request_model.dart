@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'register_request_model.g.dart';
 
+enum Role { USER, OFFICE, EXPERT }
+
 @JsonSerializable()
 class RegisterModel {
   final String? firstName;
@@ -10,7 +12,7 @@ class RegisterModel {
   final String? email;
   final String? password;
   final String? phone;
-  final String? role;
+  final Role? role;
   final String? latitude;
   final String? longitude;
   final String? location;
