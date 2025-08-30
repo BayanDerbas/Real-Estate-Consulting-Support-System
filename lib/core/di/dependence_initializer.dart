@@ -166,8 +166,8 @@ class DependenceInitializer {
     Get.lazyPut(() => Favourite_UnFavourite_Service(Get.find()),fenix: true);
     Get.lazyPut(() => Favourite_UnFavourite_Repository(Get.find()),fenix: true);
     // last edit
-    Get.put(ServiceProviders_Controller(Get.find(),Get.find()), permanent: true);
-    Get.put(HomeController(Get.find()));
+    Get.lazyPut(() =>ServiceProviders_Controller(Get.find(),Get.find()), fenix: true);
+    Get.lazyPut<HomeController>(() => HomeController(Get.find()), fenix: true);
     Get.put(CustomDrawerController());
     //create coupon
     Get.lazyPut(() => CouponsService(Get.find()), fenix: true);

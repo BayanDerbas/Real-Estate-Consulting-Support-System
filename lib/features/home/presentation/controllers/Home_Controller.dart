@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../core/utils/secure_storage.dart';
 import '../../../service provider/data/repository/follow_unfollow/follow_unfollow_repository.dart';
 
@@ -15,11 +14,17 @@ class HomeController extends GetxController {
   var bottomNavIndex = 0.obs;
   var currentIndex = 0.obs;
   var hasTapped = false.obs;
+  var role = ''.obs;
 
   final SecureStorage secureStorage = SecureStorage();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   HomeController(this.repository);
+
+  Future<void> loadRole() async {
+    final storage = SecureStorage();
+    role.value = await storage.getUserType() ?? '';
+  }
 
   void changeBottomNavIndex(int index) {
     bottomNavIndex.value = index;

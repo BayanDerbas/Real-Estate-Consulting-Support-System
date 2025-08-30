@@ -61,18 +61,20 @@ class Home extends StatelessWidget {
             Obx(
               () => Row(
                 children: [
-                  CustomIconButton(
-                    icon: Icons.favorite_border,
-                    label: 'Favorite',
-                    isSelected: controller.selectedIndex.value == 1,
-                    onTap: () => controller.selectIndex(1),
-                  ),
-                  CustomIconButton(
-                    icon: Icons.group_add,
-                    label: 'Followings',
-                    isSelected: controller.selectedIndex.value == 2,
-                    onTap: () => controller.selectIndex(2),
-                  ),
+                  if (controller.role.value.toUpperCase() == "USER") ...[
+                    CustomIconButton(
+                      icon: Icons.favorite_border,
+                      label: 'Favorite',
+                      isSelected: controller.selectedIndex.value == 1,
+                      onTap: () => controller.selectIndex(1),
+                    ),
+                    CustomIconButton(
+                      icon: Icons.group_add,
+                      label: 'Followings',
+                      isSelected: controller.selectedIndex.value == 2,
+                      onTap: () => controller.selectIndex(2),
+                    ),
+                  ],
                   CustomIconButton(
                     icon: Icons.home_work_rounded,
                     label: 'Properties',
