@@ -100,7 +100,6 @@ class Confirm extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // عرض تفاصيل الحجز فقط بدون حقل الكوبون
             CustomConfirm(
               calltype: booking.callType ?? "",
               time: "${booking.duration ?? 0} دقيقة",
@@ -119,7 +118,6 @@ class Confirm extends StatelessWidget {
               textColor: AppColors.pureWhite,
               width: 375,
               onPressed: () {
-                // فتح صفحة الدفع مباشرة
                 _showPaymentBottomSheet(context, booking);
               },
             ),

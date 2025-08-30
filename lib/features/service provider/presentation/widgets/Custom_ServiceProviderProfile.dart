@@ -31,6 +31,8 @@ class CustomServiceproviderprofile extends StatelessWidget {
   final List<Map<String, dynamic>> discounts;
   final List<Map<String, dynamic>> posts;
   final List<Map<String, dynamic>> properties;
+  final String role;
+  final String profileRole;
 
   const CustomServiceproviderprofile({
     super.key,
@@ -57,6 +59,8 @@ class CustomServiceproviderprofile extends StatelessWidget {
     this.onCall,
     required this.posts,
     required this.properties,
+    required this.role,
+    required this.profileRole,
   });
 
   @override
@@ -114,27 +118,29 @@ class CustomServiceproviderprofile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    child: GestureDetector(
-                      onTap: onFavourite,
-                      child: CircleAvatar(
-                        radius: 18,
-                        backgroundColor: AppColors.purple,
-                        child: Icon(
-                          isFavourite ? Icons.favorite : Icons.favorite_border,
-                          color: AppColors.pureWhite,
-                          size: 25,
+                  if (role == "USER" && profileRole != "OFFICE")
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: GestureDetector(
+                        onTap: onFavourite,
+                        child: CircleAvatar(
+                          radius: 18,
+                          backgroundColor: AppColors.purple,
+                          child: Icon(
+                            isFavourite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: AppColors.pureWhite,
+                            size: 25,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
               SizedBox(width: 10),
               Expanded(
-                // Wrap the Column in Expanded to constrain its width
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -293,58 +299,61 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: onFollow,
-                style: ElevatedButton.styleFrom(
-                  elevation: 5.0,
-                  backgroundColor: AppColors.deepNavy,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  isFollow ? "Follow" : "Following",
-                  style: Fonts.itim.copyWith(color: AppColors.pureWhite),
-                ),
-              ),
-            ],
-          ).padding(EdgeInsets.all(20)).scrollDirection(Axis.horizontal),
-          Divider(
-            thickness: 1,
-            color: AppColors.grey2,
-          ).padding(EdgeInsets.symmetric(vertical: 15)),
-          if (followerImages.length >= 2)
-            Directionality(
-              textDirection: TextDirection.ltr,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 12,
-                        backgroundImage: AssetImage(followerImages[0]),
-                      ),
-                      SizedBox(
-                        width: 50,
-                        child: CircleAvatar(
-                          radius: 12,
-                          backgroundImage: AssetImage(followerImages[1]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    "Followed by $followers",
-                    style: Fonts.itim.copyWith(
-                      color: AppColors.grey,
-                      fontSize: 16,
+              if (role == "USER" && profileRole != "OFFICE")
+                ElevatedButton(
+                  onPressed: onFollow,
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5.0,
+                    backgroundColor: AppColors.deepNavy,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ],
-              ),
-            ).padding(EdgeInsets.only(left: 16)),
+                  child: Text(
+                    isFollow ? "Following" : "Follow",
+                    style: Fonts.itim.copyWith(color: AppColors.pureWhite),
+                  ),
+                ),
+            ],
+          ).padding(EdgeInsets.all(20)).scrollDirection(Axis.horizontal),
+          if (role == "USER" && profileRole != "OFFICE")
+            Divider(
+              thickness: 1,
+              color: AppColors.grey2,
+            ).padding(EdgeInsets.symmetric(vertical: 15)),
+          if (role == "USER" && profileRole != "OFFICE")
+            if (followerImages.length >= 2)
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 12,
+                          backgroundImage: AssetImage(followerImages[0]),
+                        ),
+                        SizedBox(
+                          width: 50,
+                          child: CircleAvatar(
+                            radius: 12,
+                            backgroundImage: AssetImage(followerImages[1]),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      "Followed by $followers",
+                      style: Fonts.itim.copyWith(
+                        color: AppColors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ).padding(EdgeInsets.only(left: 16)),
           Divider(
             thickness: 1,
             color: AppColors.grey2,
@@ -404,51 +413,56 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
-                            children: posts.asMap().entries.map((entry) {
-                              final index = entry.key;
-                              final post = entry.value;
-                              return GestureDetector(
-                                onTap: () {
-                                  if (post['onTap'] != null) post['onTap']();
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    post['postImage'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                            children:
+                                posts.asMap().entries.map((entry) {
+                                  final index = entry.key;
+                                  final post = entry.value;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (post['onTap'] != null)
+                                        post['onTap']();
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(
+                                        post['postImage'],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                           ),
                         if (job != "OFFICE")
                           GridView.count(
                             crossAxisCount: 3,
                             childAspectRatio: 0.7,
                             padding: const EdgeInsets.all(5),
-                            children: discounts.asMap().entries.map((entry) {
-                              final index = entry.key;
-                              final discount = entry.value;
-                              final colors = [
-                                AppColors.lavender,
-                                AppColors.softPink,
-                                AppColors.babySky,
-                                AppColors.aquaBlue,
-                                AppColors.goldenYellow,
-                                AppColors.purple,
-                              ];
-                              return GestureDetector(
-                                onTap: () {
-                                  print("تم الضغط على الخصم: ${discount['code']}");
-                                },
-                                child: DiscountItem(
-                                  discount: discount['discount']!,
-                                  description: discount['description']!,
-                                  code: discount['code']!,
-                                  color: colors[index % colors.length],
-                                ),
-                              );
-                            }).toList(),
+                            children:
+                                discounts.asMap().entries.map((entry) {
+                                  final index = entry.key;
+                                  final discount = entry.value;
+                                  final colors = [
+                                    AppColors.lavender,
+                                    AppColors.softPink,
+                                    AppColors.babySky,
+                                    AppColors.aquaBlue,
+                                    AppColors.goldenYellow,
+                                    AppColors.purple,
+                                  ];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      print(
+                                        "تم الضغط على الخصم: ${discount['code']}",
+                                      );
+                                    },
+                                    child: DiscountItem(
+                                      discount: discount['discount']!,
+                                      description: discount['description']!,
+                                      code: discount['code']!,
+                                      color: colors[index % colors.length],
+                                    ),
+                                  );
+                                }).toList(),
                           ),
                         if (job == "OFFICE")
                           GridView.count(
@@ -456,22 +470,24 @@ class CustomServiceproviderprofile extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             crossAxisSpacing: 8,
                             mainAxisSpacing: 8,
-                            children: properties.asMap().entries.map((entry) {
-                              final index = entry.key;
-                              final property = entry.value;
-                              return GestureDetector(
-                                onTap: () {
-                                  if (property['onTap'] != null) property['onTap']();
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    property['imagePath'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                            children:
+                                properties.asMap().entries.map((entry) {
+                                  final index = entry.key;
+                                  final property = entry.value;
+                                  return GestureDetector(
+                                    onTap: () {
+                                      if (property['onTap'] != null)
+                                        property['onTap']();
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(
+                                        property['imagePath'],
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                           ),
                       ],
                     ),
@@ -479,7 +495,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ).padding(EdgeInsets.all(10)).scrollDirection(Axis.vertical),
     );

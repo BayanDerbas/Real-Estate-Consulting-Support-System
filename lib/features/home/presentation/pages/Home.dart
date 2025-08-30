@@ -10,7 +10,6 @@ import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/routes/routes.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
-import '../../../Discounts/presentation/controllers/DiscountsController.dart';
 import '../../../myReserve/presentation/controllers/myBookingsController.dart';
 import '../../../officers/presentation/controllers/OfficeController.dart';
 import '../../../posts/presentation/controllers/PostsController.dart';
@@ -32,7 +31,7 @@ class Home extends StatelessWidget {
     final propertiesController = Get.find<PropertiesController>();
     final officeController = Get.find<OfficeController>();
     final PostsController _controller = Get.find<PostsController>();
-    final discountsController = Get.find<DiscountsController>();
+
     return Scaffold(
       key: controller.scaffoldKey,
       drawer: CustomDrawer(
@@ -265,11 +264,9 @@ class Home extends StatelessWidget {
 
               final expert = expertController.serviceProviders.first;
               final index = expertController.serviceProviders.indexOf(expert);
-              final isFavorite =
-                  expertController.isFavoriteList[index] ?? false.obs;
-              final isFollowing =
-                  expertController.isFollowingList[index] ?? false.obs;
-
+              final expertId = expert['id'] as int;
+              final isFavorite = expertController.isFavoriteList[expertId] ?? false.obs;
+              final isFollowing = expertController.isFollowingList[expertId] ?? false.obs;
               return CustomExpertCard(
                 name: expert['name'],
                 jobTitle: expert['jobTitle'],
@@ -280,8 +277,10 @@ class Home extends StatelessWidget {
                 appointmentDate: 'غير محدد',
                 appointmentTime: 'غير محدد',
                 imagePath: expert['idCardImage'],
+                onFavoriteToggle: () async {
+                  await expertController.toggleFavorite(expertId);
+                },
                 isFavorite: isFavorite.value,
-                onFavoriteToggle: () => expertController.toggleFavorite(index),
                 onProfileTap: () {
                   Get.toNamed(
                     '/serviceProvider_profile',
@@ -291,8 +290,15 @@ class Home extends StatelessWidget {
                     },
                   );
                 },
-                onFollowToggle: () => expertController.toggleFollowing(index),
+                onFollowToggle: () async {
+                  if (isFollowing.value) {
+                    await expertController.unfollowExpert(expertId);
+                  } else {
+                    await expertController.followExpert(expertId);
+                  }
+                },
                 isFollowing: isFollowing.value,
+                role: expertController.role.value,
               );
             }),
             SizedBox(height: 15),
@@ -358,6 +364,7 @@ class Home extends StatelessWidget {
                     },
                   );
                 },
+                role: expertController.role.value,
               );
             }),
             SizedBox(height: 15),

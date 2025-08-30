@@ -17,7 +17,7 @@ class Posts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostsController controller = Get.find<PostsController>();
-    final HomeController homeController = Get.put(HomeController());
+    final HomeController homeController = Get.put(HomeController(Get.find()));
     final CustomDrawerController drawerController = Get.put(
       CustomDrawerController(),
     );

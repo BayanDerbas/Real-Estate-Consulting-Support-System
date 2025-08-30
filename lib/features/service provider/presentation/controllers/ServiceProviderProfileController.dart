@@ -93,6 +93,9 @@ class ServiceProviderProfileController extends GetxController {
                   : "غير محدد",
           "rateCount": expert.rateCount,
           "role": "EXPERT",
+          "followersCount": expert.followersCount,
+          "favoritesCount": expert.favoritesCount,
+          "newExpert": expert.newExpert,
         };
         final repo_coupon = ExpertCouponsRepository(CouponsService(dio));
         final result = await repo_coupon.getExpertCoupons(int.parse(id));
@@ -180,12 +183,4 @@ class ServiceProviderProfileController extends GetxController {
     isFavourite.value = !isFavourite.value;
   }
 
-  void toggleFollow() {
-    isFollowing.value = !isFollowing.value;
-    if (isFollowing.value) {
-      followers.value--;
-    } else {
-      followers.value++;
-    }
-  }
 }

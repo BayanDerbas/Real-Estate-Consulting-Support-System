@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/constants/image_paths.dart';
+import '../../../../core/utils/secure_storage.dart';
 import '../../../../core/widgets/Custom_Appbar.dart';
 import '../../../../core/widgets/Custom_PaginationBar.dart';
 import '../controllers/OfficeController.dart';
@@ -10,6 +11,7 @@ import '../widgets/CustomOffices.dart';
 
 class Offices extends StatelessWidget {
   final OfficeController controller = Get.find();
+  final SecureStorage secureStorage = SecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +52,17 @@ class Offices extends StatelessWidget {
                           '${office.user?.firstName} ${office.user?.lastName}',
                       location: office.location ?? 'غير محدد',
                       bio: office.bio ?? 'لا يوجد وصف',
-                      isFavorite: isFavorite,
-                      isFollowing: isFollowing,
+                      // isFavorite: isFavorite,
+                      // isFollowing: isFollowing,
                       isExpanded: isExpanded,
-                      onFavoriteToggle: () {
-                        controller.toggleFavorite(index);
-                        print("onFavoriteToggle called for index: $index");
-                      },
-                      onFollowToggle: () {
-                        controller.toggleFollow(index);
-                        print("onFollowToggle called for index: $index");
-                      },
+                      // onFavoriteToggle: () {
+                      //   controller.toggleFavorite(index);
+                      //   print("onFavoriteToggle called for index: $index");
+                      // },
+                      // onFollowToggle: () {
+                      //   controller.toggleFollow(index);
+                      //   print("onFollowToggle called for index: $index");
+                      // },
                       onToggleExpand: () {
                         controller.toggleExpand(index);
                         print("onToggleExpand called for index: $index");
@@ -77,6 +79,7 @@ class Offices extends StatelessWidget {
                         );
                       },
                       imageUrl: office.commercialRegisterImage ?? '',
+                      role: controller.userRole.value,
                     );
                   });
                 },

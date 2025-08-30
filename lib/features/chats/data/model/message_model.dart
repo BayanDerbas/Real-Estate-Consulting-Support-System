@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-
-import 'package:graduation_project/features/officers/data/model/userOffice.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../Auth/data/model/user_model.dart';
 
@@ -17,13 +14,24 @@ class Message {
 
   @JsonKey(ignore: true)
   final MessageStatus status;
+  final String? fileName;
+  final String? fileType;
+  final String? fileUrl;
+  // final Uint8List? fileData;
+  //
+  // @JsonKey(ignore: true)
+  // final MessageStatus status;
 
-  Message({
+  Message( {
     this.id,
     this.sender,
     this.content,
     this.createdAt,
     this.status = MessageStatus.sent,
+    this.fileName,
+    this.fileType,
+    this.fileUrl,
+    // this.status = MessageStatus.sent,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) =>

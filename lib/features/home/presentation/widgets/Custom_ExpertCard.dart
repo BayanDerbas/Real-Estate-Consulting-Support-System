@@ -18,6 +18,7 @@ class CustomExpertCard extends StatelessWidget {
   final VoidCallback onProfileTap;
   final VoidCallback onFollowToggle;
   final bool isFollowing;
+  final String role;
 
   const CustomExpertCard({
     super.key,
@@ -34,6 +35,7 @@ class CustomExpertCard extends StatelessWidget {
     required this.onProfileTap,
     required this.onFollowToggle,
     required this.isFollowing,
+    required this.role,
   });
 
   @override
@@ -76,10 +78,11 @@ class CustomExpertCard extends StatelessWidget {
                           height: 100,
                           child: Center(
                             child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                                  : null,
+                              value:
+                                  loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
                               strokeWidth: 2,
                             ),
                           ),
@@ -268,27 +271,30 @@ class CustomExpertCard extends StatelessWidget {
                 ),
               ],
             ),
-            Positioned(
+            if (role == "USER" && jobTitle != "OFFICE")
+              Positioned(
               bottom: 3,
               left: 0,
               child: Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.deepNavy,
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color:
-                            isFavorite ? AppColors.lavender : AppColors.pureWhite,
-                        size: 28,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.deepNavy,
+                        shape: BoxShape.circle,
                       ),
-                      onPressed: onFavoriteToggle,
+                      child: IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color:
+                              isFavorite
+                                  ? AppColors.lavender
+                                  : AppColors.pureWhite,
+                          size: 28,
+                        ),
+                        onPressed: onFavoriteToggle,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 4),
+                    const SizedBox(width: 4),
                   Container(
                     decoration: const BoxDecoration(
                       color: AppColors.deepNavy,
@@ -296,13 +302,14 @@ class CustomExpertCard extends StatelessWidget {
                     ),
                     child: IconButton(
                       icon: Icon(
-                        isFollowing ? Icons.person_remove : Icons.person_add,
-                        color: AppColors.pureWhite,
+                        isFollowing ? Icons.check : Icons.person_add,
+                        color: isFollowing ? AppColors.lavender : AppColors.pureWhite,
                         size: 24,
                       ),
                       onPressed: onFollowToggle,
                     ),
                   ),
+
                 ],
               ),
             ),

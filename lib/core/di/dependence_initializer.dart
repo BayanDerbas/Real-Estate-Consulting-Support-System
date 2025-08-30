@@ -20,6 +20,8 @@ import 'package:graduation_project/features/profiles/presentation/controllers/of
 import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/controllers/ScheduleTimeController.dart';
+import 'package:graduation_project/features/service%20provider/data/data_source/favourite_unfavorite/favourite_unfavourite_service.dart';
+import 'package:graduation_project/features/service%20provider/data/repository/favourite_unfavorite/favourite_unfavourite_repository.dart';
 import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
 import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviders.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
@@ -70,8 +72,10 @@ import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../features/scheduleTime/data/data_sources/schedule_service.dart';
 import '../../features/scheduleTime/data/repositories/time_schedule_repository.dart';
+import '../../features/service provider/data/data_source/follow_unfollow/follow_unfollow_service.dart';
 import '../../features/service provider/data/data_source/get_posts_by_expertId/get_posts_by_expertId_service.dart';
 import '../../features/service provider/data/repository/expert_posts_repository.dart';
+import '../../features/service provider/data/repository/follow_unfollow/follow_unfollow_repository.dart';
 import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../../features/ticket/presentation/controllers/update_ticket_controller.dart';
@@ -160,9 +164,15 @@ class DependenceInitializer {
     Get.lazyPut(() => PostsRepository(Get.find()));
     Get.put(CreatePostController(Get.find()));
     Get.put(PostsController(Get.find()));
+    // Follow/Unfollow
+    Get.lazyPut(() => Follow_UnFollow_service(Get.find()),fenix: true);
+    Get.lazyPut(() => Follow_UnFollow_Repository(Get.find()),fenix: true);
+    //favourite/unfavourite
+    Get.lazyPut(() => Favourite_UnFavourite_Service(Get.find()),fenix: true);
+    Get.lazyPut(() => Favourite_UnFavourite_Repository(Get.find()),fenix: true);
     // last edit
-    Get.put(ServiceProviders_Controller());
-    Get.put(HomeController());
+    Get.put(ServiceProviders_Controller(Get.find(),Get.find()), permanent: true);
+    Get.put(HomeController(Get.find()));
     Get.put(CustomDrawerController());
     //create coupon
     Get.lazyPut(() => CouponsService(Get.find()), fenix: true);
@@ -202,15 +212,6 @@ class DependenceInitializer {
     Get.lazyPut<ScheduleTimeController>(
       () => ScheduleTimeController(Get.find<ScheduleTimeRepository>()),
       fenix: true,
-    );
-    //profiles
-    Get.put(
-      ExpertProfileController(profileRepository: Get.find<ProfileRepository>()),
-    );
-    Get.put(
-      OfficeProfilingController(
-        profileRepository: Get.find<ProfileRepository>(),
-      ),
     );
     // Notifications
     Get.lazyPut(() => NotificationService(Get.find()), fenix: true);

@@ -18,6 +18,7 @@ class Customserviceprovidercard extends StatelessWidget {
   final bool isExpanded;
   final String imageUrl;
   final VoidCallback onFollowToggle;
+  final String role;
 
   const Customserviceprovidercard({
     super.key,
@@ -34,6 +35,7 @@ class Customserviceprovidercard extends StatelessWidget {
     required this.onFollowToggle,
     required this.isExpanded,
     required this.imageUrl,
+    required this.role,
   });
 
   @override
@@ -189,40 +191,42 @@ class Customserviceprovidercard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
+                  if (role == "USER")
+                    Positioned(
                     bottom: 5,
                     left: 0,
-                    child: Row(
+                    child:
+                    Row(
                       children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.deepNavy,
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              isFavorite ? Icons.favorite : Icons.favorite_border,
-                              color: isFavorite ? AppColors.lavender : AppColors.pureWhite,
-                              size: 28,
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: AppColors.deepNavy,
+                              shape: BoxShape.circle,
                             ),
-                            onPressed: onFavoriteToggle,
-                          ),
-                        ),
-                        SizedBox(width: 5),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.deepNavy,
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              isFollowing ? Icons.person_remove : Icons.person_add,
-                              color: AppColors.pureWhite,
-                              size: 24,
+                            child: IconButton(
+                              icon: Icon(
+                                isFavorite ? Icons.favorite : Icons.favorite_border,
+                                color: isFavorite ? AppColors.lavender : AppColors.pureWhite,
+                                size: 28,
+                              ),
+                              onPressed: onFavoriteToggle,
                             ),
-                            onPressed: onFollowToggle,
                           ),
-                        ),
+                        SizedBox(width: 3,),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.deepNavy,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                isFollowing ? Icons.check : Icons.person_add,
+                                color:isFollowing ? AppColors.lavender :AppColors.pureWhite,
+                                size: 24,
+                              ),
+                              onPressed: onFollowToggle,
+                            ),
+                          ),
                       ],
                     ),
                   ),

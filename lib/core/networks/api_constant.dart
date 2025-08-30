@@ -72,4 +72,14 @@ class ApiConstant {
   static const String schedule = "$baseUrl/working_times/{id}";
   //get notifications
   static const String notifications = "$baseUrl/notifications/my-notifications";
+  //follow expert
+  static const String follow_expert = "$baseUrl/clients/add-follower";
+  //unfollow expert
+  static const String unfollow_expert = "$baseUrl/clients/remove-follower";
+  // client get me
+  static const String get_me_client = "$baseUrl/clients/me";
+  // favourite expert
+  static const String favourite_expert = "$baseUrl/clients/add-favorite";
+  //unfavourite expert
+  static const String unfavourite_expert = "$baseUrl/clients/remove-favorite";
 }

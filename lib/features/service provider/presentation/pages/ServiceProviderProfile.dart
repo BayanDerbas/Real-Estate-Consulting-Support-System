@@ -12,6 +12,7 @@ import '../../../properties/data/model/propertyImage_model.dart';
 import '../../data/model/get_properties_by_officeId/propertiesByOfficeId_model.dart';
 import '../../data/repository/expert_posts_repository.dart';
 import '../controllers/ServiceProviderProfileController.dart';
+import '../controllers/ServiceProvidersControllers.dart';
 import '../controllers/expert_posts_controller.dart';
 import '../widgets/CustomCardPost.dart';
 import '../widgets/Custom_ServiceProviderProfile.dart';
@@ -27,9 +28,11 @@ class Serviceproviderprofile extends StatelessWidget {
     final String id = args['id'].toString();
     final String role = args['role'].toString();
     final UserOffice? user = args['user'];
+    final controller_ = Get.find<ServiceProviders_Controller>();
     final controller = Get.put(ServiceProviderProfileController(id, role));
     final roomController = Get.find<RoomController>();
     final postsController = Get.put(ExpertPostsController(Get.find<ExpertPostsRepository>(), int.parse(id)),);
+
     return Scaffold(
       floatingActionButton:
           user != null
@@ -63,19 +66,33 @@ class Serviceproviderprofile extends StatelessWidget {
           return const Center(child: Text("لم يتم العثور على مزود الخدمة."));
         }
         final provider = controller.serviceProvider;
+        final expertId = int.parse(id);
+        final isFollowing = controller_.isFollowingList[expertId] ?? false.obs;
+
         return CustomServiceproviderprofile(
           image: controller.getValidImageUrl(provider),
           name: provider['name'] ?? "بدون اسم",
           job: provider['jobTitle'] ?? "غير معروف",
+          profileRole: provider['jobTitle'] ?? "UNKNOWN",
           rating: provider['rating']?.toString() ?? "0",
           experience: provider['experienceYears']?.toString() ?? "0",
           successCount: provider['rateCount']?.toString() ?? "0",
-          followerNum: controller.followers.value.toString(),
+          followerNum: provider['followersCount']?.toString() ?? "0",
           followers: controller.followersText,
-          onFavourite: controller.toggleFavourite,
-          isFavourite: controller.isFavourite.value,
-          isFollow: controller.isFollowing.value,
-          onFollow: controller.toggleFollow,
+          onFavourite: () async {
+            await controller_.toggleFavorite(expertId);
+          },
+          isFavourite: controller_.isFavoriteList[expertId]?.value ?? false,
+          isFollow: isFollowing.value,
+          onFollow: () async {
+            if (isFollowing.value) {
+              await controller_.unfollowExpert(expertId);
+              controller.followers.value--;
+            } else {
+              await controller_.followExpert(expertId);
+              controller.followers.value++;
+            }
+          },          role: controller_.role.value,
           onBook:
               role.toLowerCase() != "office"
                   ? () => Get.toNamed(
@@ -200,6 +217,7 @@ class Serviceproviderprofile extends StatelessWidget {
             };
           }).toList(),
           onTap: () {
+
             // if (posts.isNotEmpty) {
             //   final post = posts.first;
             //   showDialog(

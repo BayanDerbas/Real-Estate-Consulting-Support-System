@@ -14,6 +14,9 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
           : UserModel.fromJson(json['sender'] as Map<String, dynamic>),
   content: json['content'] as String?,
   createdAt: json['createdAt'] as String?,
+  fileName: json['fileName'] as String?,
+  fileType: json['fileType'] as String?,
+  fileUrl: json['fileUrl'] as String?,
 );
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
@@ -21,4 +24,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
   'sender': instance.sender,
   'content': instance.content,
   'createdAt': instance.createdAt,
+  'fileName': instance.fileName,
+  'fileType': instance.fileType,
+  'fileUrl': instance.fileUrl,
 };

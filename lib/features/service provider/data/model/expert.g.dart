@@ -21,6 +21,9 @@ Expert _$ExpertFromJson(Map<String, dynamic> json) => Expert(
   degreeCertificateImage: json['degreeCertificateImage'] as String?,
   perMinuteVideo: (json['perMinuteVideo'] as num?)?.toDouble(),
   perMinuteAudio: (json['perMinuteAudio'] as num?)?.toDouble(),
+  followersCount: (json['followersCount'] as num?)?.toInt(),
+  favoritesCount: (json['favoritesCount'] as num?)?.toInt(),
+  newExpert: json['newExpert'] as bool?,
 );
 
 Map<String, dynamic> _$ExpertToJson(Expert instance) => <String, dynamic>{
@@ -35,4 +38,7 @@ Map<String, dynamic> _$ExpertToJson(Expert instance) => <String, dynamic>{
   'degreeCertificateImage': instance.degreeCertificateImage,
   'perMinuteVideo': instance.perMinuteVideo,
   'perMinuteAudio': instance.perMinuteAudio,
+  'followersCount': instance.followersCount,
+  'favoritesCount': instance.favoritesCount,
+  'newExpert': instance.newExpert,
 };

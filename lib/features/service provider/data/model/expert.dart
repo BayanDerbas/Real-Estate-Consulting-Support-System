@@ -16,6 +16,9 @@ class Expert {
   final String? degreeCertificateImage;
   final double? perMinuteVideo;
   final double? perMinuteAudio;
+  final int? followersCount;
+  final int? favoritesCount;
+  final bool? newExpert;
 
   Expert({
     this.id,
@@ -29,6 +32,9 @@ class Expert {
     this.degreeCertificateImage,
     this.perMinuteVideo,
     this.perMinuteAudio,
+    this.followersCount,
+    this.favoritesCount,
+    this.newExpert,
   });
 
   factory Expert.fromJson(Map<String, dynamic> json) => _$ExpertFromJson(json);

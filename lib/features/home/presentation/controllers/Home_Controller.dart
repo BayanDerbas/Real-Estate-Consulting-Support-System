@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/secure_storage.dart';
+import '../../../service provider/data/repository/follow_unfollow/follow_unfollow_repository.dart';
+
 class HomeController extends GetxController {
+  final Follow_UnFollow_Repository repository;
   var selectedIndex = (-1).obs;
   var isFavorite = false.obs;
   var isFollowing = false.obs;
@@ -12,29 +16,10 @@ class HomeController extends GetxController {
   var currentIndex = 0.obs;
   var hasTapped = false.obs;
 
-  var postsList =
-      [
-        {
-          'userName': 'محمد محمد',
-          'userImage': 'assets/images/expert.jpg',
-          'postText':
-              '...............................................\n.....................................................',
-          'postImage': 'assets/images/garden.jpg',
-          'isLiked': false.obs,
-          'isDisLiked': false.obs,
-        },
-        {
-          'userName': 'محمد محمد',
-          'userImage': 'assets/images/expert.jpg',
-          'postText':
-              '...............................................\n.....................................................',
-          'postImage': 'assets/images/garden.jpg',
-          'isLiked': false.obs,
-          'isDisLiked': false.obs,
-        },
-      ].obs;
-
+  final SecureStorage secureStorage = SecureStorage();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  HomeController(this.repository);
 
   void changeBottomNavIndex(int index) {
     bottomNavIndex.value = index;

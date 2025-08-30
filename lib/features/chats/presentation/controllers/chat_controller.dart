@@ -145,7 +145,7 @@ class ChatController extends GetxController {
                   if (newMessage.sender?.id == currentUserId) {
                     final localIndex = messages.lastIndexWhere(
                       (m) =>
-                          m.status != MessageStatus.delivered &&
+                         // m.status != MessageStatus.delivered &&
                           m.content == newMessage.content,
                     );
                     if (localIndex != -1) {
@@ -195,7 +195,7 @@ class ChatController extends GetxController {
       sender: UserModel(id: currentUserId!),
       content: content.text,
       createdAt: DateTime.now().toIso8601String(),
-      status: MessageStatus.local,
+     // status: MessageStatus.local,
     );
 
     messages.add(localMessage);
@@ -225,7 +225,7 @@ class ChatController extends GetxController {
     final localMessage = Message(
       sender: UserModel(id: currentUserId!),
       createdAt: DateTime.now().toIso8601String(),
-      status: MessageStatus.local,
+      //status: MessageStatus.local,
     );
 
     messages.add(localMessage);

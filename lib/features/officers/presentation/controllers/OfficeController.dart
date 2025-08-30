@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
+import '../../../../core/utils/secure_storage.dart';
 import '../../data/model/office.dart';
 import '../../data/repository/OfficeRepository.dart';
 
 class OfficeController extends GetxController {
   final OfficeRepository repository;
-
+  final SecureStorage secureStorage = SecureStorage();
+  var userRole = ''.obs;
   var isLoading = true.obs;
   var officesList = <Office>[].obs;
   var currentPage = 0.obs;
   var totalPages = 10.obs;
   var pageSize = 10;
-
+  var role = ''.obs;
   var isFavoriteList = <int, RxBool>{}.obs;
   var isFollowingList = <int, RxBool>{}.obs;
   var isExpandedList = <int, RxBool>{}.obs;
@@ -92,6 +94,12 @@ class OfficeController extends GetxController {
     } else {
       print("Error: isFollowingList does not contain index $index");
     }
+  }
+
+  Future<void> loadUserRole() async {
+    final role = await secureStorage.getUserType();
+    userRole.value = role ?? '';
+    print("User Role: $userRole");
   }
 
   void toggleExpand(int index) {

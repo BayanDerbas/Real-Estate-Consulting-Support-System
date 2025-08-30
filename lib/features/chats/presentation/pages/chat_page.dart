@@ -142,7 +142,7 @@ class ChatPage extends StatelessWidget {
                   return MessageBubble(
                     message: message,
                     isMe: isMe,
-                    status: message.status,
+                  //  status: message.status,
                   );
                 },
               );
