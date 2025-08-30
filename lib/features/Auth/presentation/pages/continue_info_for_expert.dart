@@ -9,6 +9,7 @@ import 'package:graduation_project/core/widgets/Custom_Button.dart';
 import 'package:graduation_project/features/Auth/presentation/widgets/custom_drop_down_with_field.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/constants/styles.dart';
+import '../../data/model/register_request_model.dart';
 import '../controllers/signup_controller.dart';
 import '../widgets/base_auth_screen.dart';
 import '../widgets/custom_text_form_field.dart';
@@ -107,12 +108,12 @@ class ContinueInfoForExpert extends StatelessWidget {
           reverse: true,
           child: Column(
             children: [
-              if (controller.selectedRole.value == 'OFFICE') ...[
+              if (controller.selectedRole.value == Role.OFFICE) ...[
                 const Text("Commercial Register Image"),
                 const SizedBox(height: 10),
                 _imageUploadTile(context, controller.commercialRegisterImage),
               ],
-              if (controller.selectedRole.value == 'EXPERT') ...[
+              if (controller.selectedRole.value == Role.EXPERT) ...[
                 const Text("ID Card Image"),
                 const SizedBox(height: 10),
                 _imageUploadTile(context, controller.idCardImage),
@@ -134,7 +135,7 @@ class ContinueInfoForExpert extends StatelessWidget {
                   controller: controller.experience,
                 ).paddingSymmetric(horizontal: 15),
               ],
-              if (controller.selectedRole.value != 'USER') ...[
+              if (controller.selectedRole.value != Role.USER) ...[
                 CustomTextField(
                   keyboardType: TextInputType.text,
                   width: width * 0.8,

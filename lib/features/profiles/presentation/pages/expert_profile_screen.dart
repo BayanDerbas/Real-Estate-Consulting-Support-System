@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/constants/colors.dart';
+import 'package:graduation_project/core/widgets/view_image_page.dart';
 import 'package:graduation_project/features/profiles/presentation/controllers/expert_profile_controller.dart';
 
 class ExpertProfileScreen extends StatelessWidget {
@@ -20,6 +21,20 @@ class ExpertProfileScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ViewImagePage(MemoryImage(controller.image.value!));
+                },
+              );
+            },
+            icon: Icon(Icons.qr_code, color: AppColors.pureWhite),
+          ),
+        ],
+
         leading: IconButton(
           onPressed: () => Get.back(),
           icon: Icon(Icons.arrow_back),

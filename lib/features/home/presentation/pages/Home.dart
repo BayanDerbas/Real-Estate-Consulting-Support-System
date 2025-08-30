@@ -57,14 +57,14 @@ class Home extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-            await Future.wait([
-              Future(() => propertiesController.fetchProperties()),
-              Future(() => expertController.fetchExperts()),
-              Future(() => officeController.fetchOffices()),
-              Future(() => _controller.showPosts()),
+          await Future.wait([
+            Future(() => propertiesController.fetchProperties()),
+            Future(() => expertController.filter()),
+            Future(() => officeController.fetchOffices()),
+            Future(() => _controller.showPosts()),
 
-             // Get.find<MyBookingsController>().fetchBookings("PENDING"),
-            ]);
+            // Get.find<MyBookingsController>().fetchBookings("PENDING"),
+          ]);
         },
         child: SingleChildScrollView(
           child: Column(
@@ -81,7 +81,7 @@ class Home extends StatelessWidget {
                         onTap: () {
                           controller.selectIndex(1);
                           Get.toNamed(AppRoutes.favourites);
-                          },
+                        },
                       ),
                       CustomIconButton(
                         icon: Icons.group_add,
@@ -90,7 +90,7 @@ class Home extends StatelessWidget {
                         onTap: () {
                           controller.selectIndex(2);
                           Get.toNamed(AppRoutes.followings);
-                          }
+                        },
                       ),
                     ],
                     CustomIconButton(
@@ -264,7 +264,7 @@ class Home extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.toNamed("/serviceProviders");
+                      Get.toNamed(AppRoutes.serviceProviders);
                     },
                     child: Text(
                       "See all",
@@ -284,8 +284,10 @@ class Home extends StatelessWidget {
                 final expert = expertController.serviceProviders.first;
                 final index = expertController.serviceProviders.indexOf(expert);
                 final expertId = expert['id'] as int;
-                final isFavorite = expertController.isFavoriteList[expertId] ?? false.obs;
-                final isFollowing = expertController.isFollowingList[expertId] ?? false.obs;
+                final isFavorite =
+                    expertController.isFavoriteList[expertId] ?? false.obs;
+                final isFollowing =
+                    expertController.isFollowingList[expertId] ?? false.obs;
                 return CustomExpertCard(
                   name: expert['name'],
                   jobTitle: expert['jobTitle'],
@@ -295,7 +297,7 @@ class Home extends StatelessWidget {
                   successfulCases: expert['rateCount'],
                   // appointmentDate: 'غير محدد',
                   // appointmentTime: 'غير محدد',
-                  imagePath: expert['idCardImage'],
+                  imagePath: expert['userImage'],
                   onFavoriteToggle: () async {
                     await expertController.toggleFavorite(expertId);
                   },
@@ -370,7 +372,8 @@ class Home extends StatelessWidget {
                   imagePath: office.imageUrl ?? '',
                   isFavorite: isFavorite,
                   isFollowing: isFollowing,
-                  onFavoriteToggle: () => officeController.toggleFavorite(index),
+                  onFavoriteToggle:
+                      () => officeController.toggleFavorite(index),
                   onFollowToggle: () => officeController.toggleFollow(index),
                   onProfileTap: () {
                     print("زيارة ملف المكتب: ${office.user?.id}");

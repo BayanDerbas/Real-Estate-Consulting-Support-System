@@ -4,12 +4,12 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
-import 'package:graduation_project/features/rating/presentation/controllers/Rating_Controller.dart';
 import 'package:graduation_project/features/rating/presentation/widgets/Custom_Rating.dart';
 
 import '../../../../core/widgets/Custom_Button.dart';
 import '../../../../core/widgets/Custom_TextButton.dart';
 import '../../../service provider/presentation/controllers/rating_controller.dart';
+import '../controllers/rating_controller.dart';
 
 class Rating extends StatelessWidget {
   const Rating({super.key});

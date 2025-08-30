@@ -49,11 +49,12 @@ class ProfileRepository {
     }
   }
 
-  // Future<Either<String, Uint8List>> getExpertQr({required int expertId}) async {
-  //   try {
-  //     final response = await service.getExpertQr(expertId);
-  //     return Right(response.data);
-  //   } catch (e) {
-  //     return Left("Failed to fetch QR code: $e");
-  //   }
+  Future<Either<String, Uint8List>> getExpertQr({required int expertId}) async {
+    try {
+      final response = await service.getExpertQr(expertId);
+      return Right(Uint8List.fromList(response.data));
+    } catch (e) {
+      return Left("Failed to fetch QR code: $e");
+    }
+  }
 }

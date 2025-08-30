@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:graduation_project/features/profiles/data/model/office_profile_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -21,8 +22,8 @@ abstract class ProfileService {
   @MultiPart()
   @Headers(<String, dynamic>{"Content-Type": "multipart/form-data"})
   Future<HttpResponse<void>> uploadUserImage(@Part(name: "image") File? image);
-  // @GET("/qr-code/{expertId}")
-  // @DioResponseType(ResponseType.bytes)
-  // @Headers({"accept": "image/png"})
-  // Future<HttpResponse<Uint8List>> getExpertQr(@Path("expertId") int expertId);
+  @GET("/qr-code/{expertId}")
+  @DioResponseType(ResponseType.bytes)
+  @Headers({"accept": "image/png"})
+  Future<HttpResponse<List<int>>> getExpertQr(@Path("expertId") int expertId);
 }

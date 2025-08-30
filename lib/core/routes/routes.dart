@@ -43,6 +43,7 @@ import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/Settings/presentation/pages/settings_page.dart';
 import '../../features/chats/presentation/pages/chat_page.dart';
 import '../../features/chats/presentation/pages/current_user_rooms.dart';
+import '../../features/filter/pages/service_provider_filter_page.dart';
 import '../../features/home/presentation/pages/Home.dart';
 import '../../features/myReserve/presentation/pages/MyReserve.dart';
 import '../../features/notification/presentation/pages/notification.dart';
@@ -115,6 +116,8 @@ class AppRoutes {
   static const String updateTicketPage = '/update_ticket_page';
   static const String followings = '/followings';
   static const String favourites = '/favourites';
+  static const String serviceProviderFilterPage =
+      '/service_provider_filter_page';
 
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -175,16 +178,16 @@ class AppRoutes {
     ),
     GetPage(
       name: expertProfile,
-      page: () => OfficeProfileScreen(),
+      page: () => ExpertProfileScreen(),
       binding: BindingsBuilder(() {
-        final controller = Get.find<OfficeProfilingController>();
+        Get.find<ExpertProfileController>().fetchExpertByRole();
       }),
     ),
     GetPage(
       name: officeProfile,
       page: () => OfficeProfileScreen(),
       binding: BindingsBuilder(() {
-        Get.find<ExpertProfileController>();
+        Get.find<OfficeProfilingController>().fetchOfficeByRole();
       }),
     ),
     GetPage(
@@ -219,6 +222,10 @@ class AppRoutes {
     GetPage(name: '/create_coupon', page: () => const Discounts()),
     GetPage(name: ticketFilterPage, page: () => const TicketFilterPage()),
     GetPage(name: updateTicketPage, page: () => const UpdateTicketScreen()),
+    GetPage(
+      name: serviceProviderFilterPage,
+      page: () => const ServiceProviderFilterPage(),
+    ),
     GetPage(name: followings, page: () => Followers()),
     GetPage(name: favourites, page: () => Favourite()),
   ];

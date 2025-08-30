@@ -31,8 +31,15 @@ ExpertData _$ExpertDataFromJson(Map<String, dynamic> json) => ExpertData(
   content:
       (json['content'] as List<dynamic>?)
           ?.map((e) => Expert.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toList() ??
+      [],
+  last: json['last'] as bool?,
+  totalElements: (json['totalElements'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$ExpertDataToJson(ExpertData instance) =>
-    <String, dynamic>{'content': instance.content};
+    <String, dynamic>{
+      'content': instance.content,
+      'last': instance.last,
+      'totalElements': instance.totalElements,
+    };

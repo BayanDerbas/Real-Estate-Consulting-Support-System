@@ -7,6 +7,8 @@ import 'package:graduation_project/core/constants/styles.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/features/filter/controllers/ticket_filter_controller.dart';
 
+import '../model/filter_material_model.dart';
+
 class ChipsCard extends StatelessWidget {
   final String title;
   final String? subtitle;

@@ -41,6 +41,7 @@ class ApiConstant {
   static const String getAllOffices = "$baseUrl/offices";
   //experts (done show list and details page 2 api)
   static const String getAllExperts = "$baseUrl/experts";
+  static const String filterExpert = "$baseUrl/experts/filter";
   //booking (done show list and details 2 api with filter)
   static const String booking = "$baseUrl/booking";
   //show the working times experts by id
@@ -86,4 +87,4 @@ class ApiConstant {
   static const String rating_expert = "$baseUrl/clients/rate-expert";
   //rating office
   static const String rating_office = "$baseUrl/clients/rate-office";
- }
+}

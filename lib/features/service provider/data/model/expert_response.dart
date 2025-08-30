@@ -30,19 +30,26 @@ class ExpertByIdResponse {
 
 @JsonSerializable()
 class ExpertData {
+  @JsonKey(defaultValue: [])
   final List<Expert>? content;
 
-  ExpertData({required this.content});
+  final bool? last;
+  final int? totalElements;
 
-  factory ExpertData.fromJson(Map<String, dynamic> json) {
-    return ExpertData(
-      content:
-          (json['content'] as List<dynamic>?)
-              ?.map((e) => Expert.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-  }
+  ExpertData({this.content, this.last, this.totalElements});
+
+  factory ExpertData.fromJson(Map<String, dynamic> json) =>
+      _$ExpertDataFromJson(json);
+
+  // factory ExpertData.fromJson(Map<String, dynamic> json) {
+  // return ExpertData(
+  //   content:
+  //       (json['content'] as List<dynamic>?)
+  //           ?.map((e) => Expert.fromJson(e as Map<String, dynamic>))
+  //           .toList() ??
+  //       [],
+  // );
+  // }
 
   Map<String, dynamic> toJson() => _$ExpertDataToJson(this);
 }

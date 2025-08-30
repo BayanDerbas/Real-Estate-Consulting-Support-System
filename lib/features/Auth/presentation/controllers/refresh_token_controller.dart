@@ -100,7 +100,7 @@ class RefreshTokenController extends GetxController {
     if (errMessage.isEmpty) {
       Get.find<PropertiesController>().fetchProperties();
       Get.find<OfficeController>().fetchOffices();
-      Get.find<ServiceProviders_Controller>().fetchExperts();
+      Get.find<ServiceProviders_Controller>().filter();
       Get.find<PostsController>().showPosts();
 
       Get.find<myReserveController>().loadRole();
