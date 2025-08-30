@@ -178,7 +178,7 @@ class CustomDrawer extends StatelessWidget {
                   title: 'my available times',
                   onTap: () {
                     Get.back();
-                    Get.toNamed(AppRoutes.myTimes);
+                    Get.toNamed(AppRoutes.my_available_time);
                   },
                 ),
               ],

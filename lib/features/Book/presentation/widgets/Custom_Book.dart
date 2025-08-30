@@ -208,6 +208,7 @@ class CustomBook extends StatelessWidget {
                 style: Fonts.itim.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: AppColors.deepNavy,
                 ),
               ),
               Row(
@@ -295,7 +296,7 @@ class CustomBook extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           "Session Duration",
-          style: Fonts.itim.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+          style: Fonts.itim.copyWith(fontSize: 20, fontWeight: FontWeight.bold,color: AppColors.deepNavy),
         ).padding(const EdgeInsets.symmetric(horizontal: 16.0)),
         const SizedBox(height: 5),
         SizedBox(

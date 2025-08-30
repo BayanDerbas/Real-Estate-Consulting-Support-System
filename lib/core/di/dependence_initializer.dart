@@ -9,6 +9,7 @@ import 'package:graduation_project/features/Book/data/repository/reservation_rep
 import 'package:graduation_project/features/Discounts/data/repositories/all_coupons_repository.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
+import 'package:graduation_project/features/officers/presentation/controllers/office_profile_controller.dart';
 import 'package:graduation_project/features/posts/data/data_source/post_service.dart';
 import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
@@ -71,6 +72,7 @@ import '../../features/service provider/data/repository/rating/rating_repository
 import '../../features/service provider/presentation/controllers/rating_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../../features/ticket/presentation/controllers/update_ticket_controller.dart';
+import '../../features/timeAvailable/presentation/myAvailable_time_expert/controllers/available_times_controller.dart';
 import '../networks/dio_factory.dart';
 
 class DependenceInitializer {
@@ -98,7 +100,8 @@ class DependenceInitializer {
     Get.lazyPut(() => ChatService(Get.find()), fenix: true);
     Get.lazyPut(() => ChatRepository(Get.find()), fenix: true);
     Get.put(PageTicketController());
-
+    //
+    Get.lazyPut(() => OfficeProfileController(Get.find(), Get.find()));
     //put.lazyPut(() => ChatController(Get.find()), fenix: true);
     Get.put(RoomController(Get.find()));
     Get.put(CreateTicketController(Get.find()));
@@ -123,6 +126,9 @@ class DependenceInitializer {
     Get.lazyPut<ShowWorkingTimesRepository>(
       () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
     );
+    Get.lazyPut<AvailableTimesController>(() => AvailableTimesController(
+      repository: Get.find<ShowWorkingTimesRepository>(),
+    ));
     // Booking dependencies
     Get.lazyPut<BookingService>(() => BookingService(Get.find<Dio>()));
     Get.lazyPut<BookingRepository>(

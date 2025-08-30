@@ -54,7 +54,7 @@ class SettingsPage extends StatelessWidget {
                 icon: Icons.access_time,
                 isArabic: Get.locale?.languageCode == 'ar',
                 onTap: () {
-                  Get.toNamed("/add_times");
+                  Get.toNamed(AppRoutes.scheduleTime);
                 },
               ),
           ],
