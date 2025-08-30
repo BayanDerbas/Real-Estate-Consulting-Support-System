@@ -77,7 +77,11 @@ class Book extends StatelessWidget {
                 selectedCallType: controller.selectedCallType.value,
                 onCallTypeSelected: controller.selectCallType,
                 appointmentHours: controller.generatedHours,
-                isBooked: controller.isBookedList,
+                isBooked: controller.generatedHours.length == controller.isBookedList.length
+                    ? controller.isBookedList
+                    : List.generate(controller.generatedHours.length, (_) => false),
+                // appointmentHours: controller.generatedHours,
+                // isBooked: controller.isBookedList,
                 selectedHourIndex: controller.selectedHourIndex.value,
                 onHourSelected: controller.selectHour,
                 followerNum: args?['followersCount'] ?? "" ,

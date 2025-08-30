@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import '../../../../core/networks/failures.dart';
 import '../../../ticket/data/model/filter_model.dart';
 import '../data_source/expert_service.dart';
-import '../model/expert.dart';
 import '../model/expert_response.dart';
 
 class ExpertRepository {

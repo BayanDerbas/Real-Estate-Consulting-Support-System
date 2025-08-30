@@ -37,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
     final languageController = Get.find<LanguageController>();
     print("Name : ${controller.userName} ${controller.userType}");
     return SizedBox(
-      width: context.width / 1.2,
+      width: context.width / 1.15,
       child: Drawer(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadiusDirectional.only(
@@ -178,7 +178,7 @@ class CustomDrawer extends StatelessWidget {
                   title: 'my available times',
                   onTap: () {
                     Get.back();
-                    Get.toNamed(AppRoutes.myTimes);
+                    Get.toNamed(AppRoutes.my_available_time);
                   },
                 ),
               ],
@@ -193,7 +193,7 @@ class CustomDrawer extends StatelessWidget {
               // ),
               DrawerItem(
                 icon: Icons.settings,
-                title: 'FAQ support',
+                title: 'FAQ Support',
                 onTap: () {
                   Get.back();
                   Get.to(() => FAQS_support(), binding: FAQsBinding());

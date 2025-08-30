@@ -73,7 +73,7 @@ class Home extends StatelessWidget {
               Obx(
                 () => Row(
                   children: [
-                    if (controller.role.value == "USER") ...[
+                    if (controller.role.value == "USER")...[
                       CustomIconButton(
                         icon: Icons.favorite_border,
                         label: 'Favorite',

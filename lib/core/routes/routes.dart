@@ -62,8 +62,8 @@ import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
 import '../../features/filter/pages/ticket_filter_page.dart';
 import '../../features/ticket/presentation/pages/update_ticket.dart';
+import '../../features/timeAvailable/presentation/pages/my_available_times.dart';
 import '../di/bindings/booking_bind.dart';
-import '../di/bindings/change_password_bind.dart';
 import '../di/bindings/faqs_binding.dart';
 import '../middlewares/my_middleware.dart';
 
@@ -118,6 +118,7 @@ class AppRoutes {
   static const String favourites = '/favourites';
   static const String serviceProviderFilterPage =
       '/service_provider_filter_page';
+  static const String my_available_time = '/my_available_time';
 
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -228,5 +229,6 @@ class AppRoutes {
     ),
     GetPage(name: followings, page: () => Followers()),
     GetPage(name: favourites, page: () => Favourite()),
+    GetPage(name: my_available_time, page: () => MyAvailableTimes()),
   ];
 }

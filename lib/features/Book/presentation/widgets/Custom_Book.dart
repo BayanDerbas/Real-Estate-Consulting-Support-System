@@ -208,6 +208,7 @@ class CustomBook extends StatelessWidget {
                 style: Fonts.itim.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: AppColors.deepNavy,
                 ),
               ),
               Row(
@@ -244,7 +245,7 @@ class CustomBook extends StatelessWidget {
               final date = monthDays[index];
               final isSelected =
                   selectedDate.day == date.day &&
-                  selectedDate.month == date.month;
+                      selectedDate.month == date.month;
 
               return GestureDetector(
                 onTap: () => onDateSelected(date),
@@ -271,9 +272,9 @@ class CustomBook extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                           color:
-                              isSelected
-                                  ? AppColors.pureWhite
-                                  : AppColors.black,
+                          isSelected
+                              ? AppColors.pureWhite
+                              : AppColors.black,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -281,7 +282,7 @@ class CustomBook extends StatelessWidget {
                         _getWeekDayAbbreviation(date),
                         style: Fonts.itim.copyWith(
                           color:
-                              isSelected ? AppColors.softWhite : AppColors.grey,
+                          isSelected ? AppColors.softWhite : AppColors.grey,
                           fontSize: 16,
                         ),
                       ),
@@ -295,7 +296,7 @@ class CustomBook extends StatelessWidget {
         const SizedBox(height: 10),
         Text(
           "Session Duration",
-          style: Fonts.itim.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+          style: Fonts.itim.copyWith(fontSize: 20, fontWeight: FontWeight.bold,color: AppColors.deepNavy),
         ).padding(const EdgeInsets.symmetric(horizontal: 16.0)),
         const SizedBox(height: 5),
         SizedBox(
@@ -303,57 +304,57 @@ class CustomBook extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children:
-                sessionDuration.map((duration) {
-                  final index = sessionDuration.indexOf(duration);
-                  final isSelected = selectedSessionIndex == index;
-                  return GestureDetector(
-                    onTap: () => onSessionSelected(index),
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color:
-                            isSelected ? AppColors.purple : AppColors.softWhite,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 5),
+            sessionDuration.map((duration) {
+              final index = sessionDuration.indexOf(duration);
+              final isSelected = selectedSessionIndex == index;
+              return GestureDetector(
+                onTap: () => onSessionSelected(index),
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:
+                    isSelected ? AppColors.purple : AppColors.softWhite,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "$duration",
+                          style: Fonts.itim.copyWith(
+                            fontSize: 16,
+                            color:
+                            isSelected
+                                ? AppColors.pureWhite
+                                : AppColors.black,
                           ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "$duration",
-                              style: Fonts.itim.copyWith(
-                                fontSize: 16,
-                                color:
-                                    isSelected
-                                        ? AppColors.pureWhite
-                                        : AppColors.black,
-                              ),
-                            ),
-                            Text(
-                              minute,
-                              style: Fonts.itim.copyWith(
-                                fontSize: 16,
-                                color:
-                                    isSelected
-                                        ? AppColors.pureWhite
-                                        : AppColors.grey,
-                              ),
-                            ),
-                          ],
                         ),
-                      ),
+                        Text(
+                          minute,
+                          style: Fonts.itim.copyWith(
+                            fontSize: 16,
+                            color:
+                            isSelected
+                                ? AppColors.pureWhite
+                                : AppColors.grey,
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }).toList(),
+                  ),
+                ),
+              );
+            }).toList(),
           ),
         ),
         const SizedBox(height: 5),
@@ -375,9 +376,9 @@ class CustomBook extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color:
-                    selectedCallType == 1
-                        ? AppColors.purple
-                        : AppColors.softWhite,
+                selectedCallType == 1
+                    ? AppColors.purple
+                    : AppColors.softWhite,
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
@@ -391,9 +392,9 @@ class CustomBook extends StatelessWidget {
                 icon: Icon(
                   Icons.call,
                   color:
-                      selectedCallType == 1
-                          ? AppColors.pureWhite
-                          : AppColors.grey,
+                  selectedCallType == 1
+                      ? AppColors.pureWhite
+                      : AppColors.grey,
                   size: 35,
                 ),
                 splashRadius: 24,
@@ -406,9 +407,9 @@ class CustomBook extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color:
-                    selectedCallType == 2
-                        ? AppColors.purple
-                        : AppColors.softWhite,
+                selectedCallType == 2
+                    ? AppColors.purple
+                    : AppColors.softWhite,
                 boxShadow: const [
                   BoxShadow(
                     color: Colors.black12,
@@ -422,9 +423,9 @@ class CustomBook extends StatelessWidget {
                 icon: Icon(
                   Icons.videocam,
                   color:
-                      selectedCallType == 2
-                          ? AppColors.pureWhite
-                          : AppColors.grey,
+                  selectedCallType == 2
+                      ? AppColors.pureWhite
+                      : AppColors.grey,
                   size: 35,
                 ),
                 splashRadius: 24,
@@ -515,7 +516,7 @@ class CustomBook extends StatelessWidget {
     final lastDay = DateTime(selectedDate.year, selectedDate.month + 1, 0);
     return List.generate(
       lastDay.day,
-      (index) => DateTime(selectedDate.year, selectedDate.month, index + 1),
+          (index) => DateTime(selectedDate.year, selectedDate.month, index + 1),
     );
   }
 }

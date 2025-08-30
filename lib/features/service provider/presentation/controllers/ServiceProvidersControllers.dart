@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
+import 'package:graduation_project/features/service%20provider/data/repository/expert_repository.dart';
+import '../../../ticket/data/model/filter_model.dart';
 import 'package:graduation_project/features/service%20provider/data/repository/favourite_unfavorite/favourite_unfavourite_repository.dart';
 import 'package:graduation_project/features/service%20provider/data/repository/follow_unfollow/follow_unfollow_repository.dart';
-import '../../../../core/networks/dio_factory.dart';
 import '../../../../core/utils/secure_storage.dart';
-import '../../data/data_source/expert_service.dart';
 
 class ServiceProviders_Controller extends GetxController {
   final ExpertRepository _repository;
@@ -12,10 +13,10 @@ class ServiceProviders_Controller extends GetxController {
   final Favourite_UnFavourite_Repository repository_;
 
   ServiceProviders_Controller(
-    this._repository,
-    this.repository,
-    this.repository_,
-  );
+      this._repository,
+      this.repository,
+      this.repository_,
+      );
 
   var serviceProviders = <Map<String, dynamic>>[].obs;
 
@@ -38,7 +39,11 @@ class ServiceProviders_Controller extends GetxController {
     role.value = await storage.getUserType() ?? '';
   }
 
-  Future<void> fetchExperts({int page = 0}) async {
+  Future<void> filter({
+    List<FilterItemModel>? filterItems,
+    GlobalOperatorEnum globalOperator = GlobalOperatorEnum.AND,
+    PageRequestModel? pageRequest,
+  }) async {
     isLoading(true);
     errorMessage("");
 
@@ -60,55 +65,73 @@ class ServiceProviders_Controller extends GetxController {
             .asMap()
             .entries
             .map((entry) {
-              final expert = entry.value;
+          final expert = entry.value;
 
-              final expertId = expert.id;
-              if (expertId == null) return null;
+          final expertId = expert.id;
+          if (expertId == null) return null;
 
-        isFavoriteList[expertId] = false.obs;
-        isFollowingList[expertId] = false.obs;
-        isExpandedList[expertId] = false.obs;
+          isFavoriteList[expertId] = false.obs;
+          isFollowingList[expertId] = false.obs;
+          isExpandedList[expertId] = false.obs;
 
-        return {
-          "id": expertId,
-          "name":
-          "${expert.user?.firstName ?? ''} ${expert.user?.lastName ?? ''}",
-          "jobTitle": expert.profession,
-          "rating": expert.rating,
-          "experienceYears": expert.experience,
-          "idCardImage": expert.user?.imageUrl,
-          "isFavorite": false,
-          "isFollowing": false,
-          "isExpanded": false,
-          "text": expert.bio ?? "",
-          "price": [
-            expert.perMinuteVideo != null
-                ? "${expert.perMinuteVideo!.toInt()} S.P (فيديو)"
-                : null,
-            expert.perMinuteAudio != null
-                ? "${expert.perMinuteAudio!.toInt()} S.P (صوت)"
-                : null,
-          ].whereType<String>().join("\n"),
-          "textProvider": expert.bio ?? "لا يوجد وصف",
-          "rateCount": expert.rateCount,
-        };
-      }).where((e) => e != null).cast<Map<String, dynamic>>().toList();
-
+          return {
+            "id": expertId,
+            "name":
+            "${expert.user?.firstName ?? ''} ${expert.user?.lastName ?? ''}",
+            "jobTitle": expert.profession,
+            "rating": expert.rating,
+            "experienceYears": expert.experience,
+            "isFavorite": false,
+            "isFollowing": false,
+            "isExpanded": false,
+            "text": expert.bio ?? "",
+            "price": [
+              expert.perMinuteVideo != null
+                  ? "${expert.perMinuteVideo!.toInt()} S.P (فيديو)"
+                  : null,
+              expert.perMinuteAudio != null
+                  ? "${expert.perMinuteAudio!.toInt()} S.P (صوت)"
+                  : null,
+            ].whereType<String>().join("\n"),
+            "textProvider": expert.bio ?? "لا يوجد وصف",
+            "rateCount": expert.rateCount,
+            "userImage": expert.user?.imageUrl ?? "",
+          };
+        })
+            .where((e) => e != null)
+            .cast<Map<String, dynamic>>()
+            .toList(),
+      );
       await _initUserState();
-    } catch (e) {
-      print("خطأ في جلب الخبراء: $e");
-    } finally {
-      isLoading(false);
+      last(r.data?.last ?? false);
+      totalElements(r.data?.totalElements ?? 0);
+    });
+    isLoading(false);
+  }
+
+  loadMoreDate() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent &&
+        last.isFalse) {
+      filter(pageRequest: PageRequestModel(page: length ~/ 10, size: 10));
     }
   }
+
+  @override
+  void onInit() {
+    scrollController.addListener(() => loadMoreDate());
+    super.onInit();
+  }
+
+  //////
 
   Future<void> _initUserState() async {
     final result = await repository.getMeClient();
     result.fold(
-      (failure) {
+          (failure) {
         print("❌ فشل في جلب بيانات المستخدم: ${failure.err_message}");
       },
-      (me) {
+          (me) {
         final followers = me.data.followers;
 
         for (var expertId in followers) {
@@ -142,11 +165,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository.followExpert(expertId);
       result.fold(
-        (failure) {
+            (failure) {
           print("❌ فشل في المتابعة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في المتابعة");
         },
-        (_) {
+            (_) {
           isFollowingList[expertId]?.value = true;
           Get.snackbar("Success", "تمت المتابعة");
         },
@@ -161,11 +184,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository.unfollowExpert(expertId);
       result.fold(
-        (failure) {
+            (failure) {
           print("❌ فشل في إلغاء المتابعة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في إلغاء المتابعة");
         },
-        (_) {
+            (_) {
           isFollowingList[expertId]?.value = false;
           Get.snackbar("Success", "تم إلغاء المتابعة");
         },
@@ -180,11 +203,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository_.favouriteExpert(expertId);
       result.fold(
-        (failure) {
+            (failure) {
           print("❌ فشل في إضافة المفضلة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في الإضافة للمفضلة");
         },
-        (_) {
+            (_) {
           isFavoriteList[expertId]?.value = true;
           Get.snackbar("Success", "تمت الإضافة إلى المفضلة");
         },
@@ -199,11 +222,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository_.unfavouriteExpert(expertId);
       result.fold(
-        (failure) {
+            (failure) {
           print("❌ فشل في إلغاء المفضلة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في الإلغاء من المفضلة");
         },
-        (_) {
+            (_) {
           isFavoriteList[expertId]?.value = false;
           Get.snackbar("Success", "تم الإلغاء من المفضلة");
         },

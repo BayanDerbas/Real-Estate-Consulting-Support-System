@@ -84,6 +84,7 @@ import '../../features/service provider/presentation/controllers/expert_posts_co
 import '../../features/service provider/presentation/controllers/rating_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../../features/ticket/presentation/controllers/update_ticket_controller.dart';
+import '../../features/timeAvailable/presentation/controllers/available_times_controller.dart';
 import '../networks/dio_factory.dart';
 import 'bindings/faqs_binding.dart';
 
@@ -132,11 +133,13 @@ class DependenceInitializer {
     Get.put(OfficeController(Get.find()));
     // show working time
     Get.lazyPut<show_workingTimes_service>(
-      () => show_workingTimes_service(Get.find()),
-    );
+          () => show_workingTimes_service(Get.find()),
+    fenix: true);
     Get.lazyPut<ShowWorkingTimesRepository>(
-      () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
-    );
+          () => ShowWorkingTimesRepositoryImpl(service: Get.find()),
+    fenix: true);
+    Get.lazyPut<AvailableTimesController>(() => AvailableTimesController(
+      repository: Get.find<ShowWorkingTimesRepository>(),),fenix: true);
     // Booking dependencies
     Get.lazyPut<BookingService>(() => BookingService(Get.find<Dio>()));
     Get.lazyPut<BookingRepository>(
