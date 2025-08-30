@@ -25,6 +25,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
+    controller.loadRole();
     final expertController = Get.find<ServiceProviders_Controller>();
     final drawerController = Get.find<CustomDrawerController>();
     final propertiesController = Get.find<PropertiesController>();
@@ -61,18 +62,24 @@ class Home extends StatelessWidget {
             Obx(
               () => Row(
                 children: [
-                  if (controller.role.value.toUpperCase() == "USER") ...[
+                  if (controller.role.value == "USER") ...[
                     CustomIconButton(
                       icon: Icons.favorite_border,
                       label: 'Favorite',
                       isSelected: controller.selectedIndex.value == 1,
-                      onTap: () => controller.selectIndex(1),
+                      onTap: () {
+                        controller.selectIndex(1);
+                        Get.toNamed(AppRoutes.favourites);
+                        },
                     ),
                     CustomIconButton(
                       icon: Icons.group_add,
                       label: 'Followings',
                       isSelected: controller.selectedIndex.value == 2,
-                      onTap: () => controller.selectIndex(2),
+                      onTap: () {
+                        controller.selectIndex(2);
+                        Get.toNamed(AppRoutes.followings);
+                        }
                     ),
                   ],
                   CustomIconButton(

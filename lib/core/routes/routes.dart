@@ -12,6 +12,8 @@ import 'package:graduation_project/features/Auth/presentation/pages/upload_docum
 import 'package:graduation_project/features/Auth/presentation/pages/verify_email_page.dart';
 import 'package:graduation_project/features/Book/presentation/controllers/BookController.dart';
 import 'package:graduation_project/features/Discounts/presentation/pages/get_all_coupons.dart';
+import 'package:graduation_project/features/favourite/presentation/pages/favourite.dart';
+import 'package:graduation_project/features/followings/presentation/pages/Followers.dart';
 import 'package:graduation_project/features/myReserve/presentation/controllers/myBookingsController.dart';
 import 'package:graduation_project/features/myReserve/presentation/controllers/myReserveController.dart';
 import 'package:graduation_project/features/officers/presentation/controllers/OfficeController.dart';
@@ -111,6 +113,8 @@ class AppRoutes {
   static const String expertProfile = '/expert_profile';
   static const String officeProfile = '/office_profile';
   static const String updateTicketPage = '/update_ticket_page';
+  static const String followings = '/followings';
+  static const String favourites = '/favourites';
 
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -215,5 +219,7 @@ class AppRoutes {
     GetPage(name: '/create_coupon', page: () => const Discounts()),
     GetPage(name: ticketFilterPage, page: () => const TicketFilterPage()),
     GetPage(name: updateTicketPage, page: () => const UpdateTicketScreen()),
+    GetPage(name: followings, page: () => Followers()),
+    GetPage(name: favourites, page: () => Favourite()),
   ];
 }
