@@ -18,6 +18,8 @@ class Office {
   final double? latitude;
   final double? longitude;
   final String? commercialRegisterImage;
+  final double? rateCount;
+  final double? rating;
 
   Office({
     this.id,
@@ -33,6 +35,8 @@ class Office {
     this.latitude,
     this.longitude,
     this.commercialRegisterImage,
+    this.rating,
+    this.rateCount,
   });
 
   factory Office.fromJson(Map<String, dynamic> json) => _$OfficeFromJson(json);

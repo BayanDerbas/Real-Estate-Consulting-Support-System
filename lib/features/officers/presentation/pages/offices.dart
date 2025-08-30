@@ -52,6 +52,8 @@ class Offices extends StatelessWidget {
                           '${office.user?.firstName} ${office.user?.lastName}',
                       location: office.location ?? 'غير محدد',
                       bio: office.bio ?? 'لا يوجد وصف',
+                      rating: office.rating!,
+                      rateCount: office.rateCount!,
                       // isFavorite: isFavorite,
                       // isFollowing: isFollowing,
                       isExpanded: isExpanded,

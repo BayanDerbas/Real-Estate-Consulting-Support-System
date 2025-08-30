@@ -1,29 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
-import 'package:graduation_project/features/Auth/presentation/controllers/change_password_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/login_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/refresh_token_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/signup_controller.dart';
 import 'package:graduation_project/features/Auth/presentation/controllers/verification_code_controller.dart';
 import 'package:graduation_project/features/Book/data/repository/reservation_repository.dart';
 import 'package:graduation_project/features/Discounts/data/repositories/all_coupons_repository.dart';
-import 'package:graduation_project/features/chats/presentation/controllers/chat_controller.dart';
 import 'package:graduation_project/features/chats/presentation/controllers/room_controller.dart';
 import 'package:graduation_project/features/home/presentation/controllers/Home_Controller.dart';
 import 'package:graduation_project/features/posts/data/data_source/post_service.dart';
-import 'package:graduation_project/features/posts/data/model/post_response_model.dart';
 import 'package:graduation_project/features/posts/data/repository/posts_repository.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/PostsController.dart';
 import 'package:graduation_project/features/posts/presentation/controllers/create_post_controller.dart';
-import 'package:graduation_project/features/profiles/presentation/controllers/office_profile_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/add_images_to_property_controller.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/create_property_controller.dart';
+import 'package:graduation_project/features/rating/presentation/controllers/Rating_Controller.dart';
 import 'package:graduation_project/features/scheduleTime/presentation/controllers/ScheduleTimeController.dart';
 import 'package:graduation_project/features/service%20provider/data/data_source/favourite_unfavorite/favourite_unfavourite_service.dart';
 import 'package:graduation_project/features/service%20provider/data/repository/favourite_unfavorite/favourite_unfavourite_repository.dart';
 import 'package:graduation_project/features/service%20provider/presentation/controllers/ServiceProvidersControllers.dart';
-import 'package:graduation_project/features/service%20provider/presentation/pages/ServiceProviders.dart';
 import 'package:graduation_project/features/ticket/data/data_source/ticket_service/ticket_service.dart';
 import 'package:graduation_project/features/ticket/data/repository/ticket_repository.dart';
 import 'package:graduation_project/features/ticket/presentation/controllers/create_ticket_controller.dart';
@@ -61,7 +57,6 @@ import '../../features/officers/data/repository/OfficeRepository.dart';
 import '../../features/officers/presentation/controllers/OfficeController.dart';
 import '../../features/profiles/data/data_source/profile_service.dart';
 import '../../features/profiles/data/repository/profile_repository.dart';
-import '../../features/profiles/presentation/controllers/expert_profile_controller.dart';
 import '../../features/properties/data/data_source/property_service.dart';
 import '../../features/properties/data/repository/property_repository.dart';
 import '../../features/properties/presentation/controllers/Properties_Controller.dart';
@@ -69,13 +64,14 @@ import '../../features/scheduleTime/data/data_sources/schedule_service.dart';
 import '../../features/scheduleTime/data/repositories/time_schedule_repository.dart';
 import '../../features/service provider/data/data_source/follow_unfollow/follow_unfollow_service.dart';
 import '../../features/service provider/data/data_source/get_posts_by_expertId/get_posts_by_expertId_service.dart';
+import '../../features/service provider/data/data_source/rating/rating_service.dart';
 import '../../features/service provider/data/repository/expert_posts_repository.dart';
 import '../../features/service provider/data/repository/follow_unfollow/follow_unfollow_repository.dart';
-import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
+import '../../features/service provider/data/repository/rating/rating_repository.dart';
+import '../../features/service provider/presentation/controllers/rating_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../../features/ticket/presentation/controllers/update_ticket_controller.dart';
 import '../networks/dio_factory.dart';
-import 'bindings/faqs_binding.dart';
 
 class DependenceInitializer {
   static dependenceInjection() async {
@@ -159,6 +155,10 @@ class DependenceInitializer {
     Get.lazyPut(() => PostsRepository(Get.find()));
     Get.put(CreatePostController(Get.find()));
     Get.put(PostsController(Get.find()));
+    //rating
+    Get.lazyPut(() => RatingService(Get.find()),fenix: true);
+    Get.lazyPut(() => RatingRepository(Get.find()),fenix: true);
+    Get.lazyPut<RatingController>(() => RatingController(Get.find()), fenix: true);
     // Follow/Unfollow
     Get.lazyPut(() => Follow_UnFollow_service(Get.find()),fenix: true);
     Get.lazyPut(() => Follow_UnFollow_Repository(Get.find()),fenix: true);

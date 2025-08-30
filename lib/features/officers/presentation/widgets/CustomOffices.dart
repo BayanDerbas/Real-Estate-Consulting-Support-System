@@ -16,6 +16,8 @@ class Customoffices extends StatelessWidget {
   final String location;
   final String imageUrl;
   final String role;
+  final double rating;
+  final double rateCount;
 
   const Customoffices({
     super.key,
@@ -31,6 +33,8 @@ class Customoffices extends StatelessWidget {
     required this.location,
     required this.imageUrl,
     required this.role,
+    required this.rating,
+    required this.rateCount,
   });
 
   @override
@@ -131,6 +135,7 @@ class Customoffices extends StatelessWidget {
                             const SizedBox(height: 8),
                             Row(
                               children: [
+                                SizedBox(width: 5,),
                                 Icon(
                                   Icons.brightness_1,
                                   color: AppColors.skyBlue,
@@ -142,6 +147,36 @@ class Customoffices extends StatelessWidget {
                                   style: Fonts.itim.copyWith(
                                     fontSize: 14,
                                     color: AppColors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star_rate_rounded,
+                                  color: AppColors.yellow,
+                                  size: 20,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  "$rating   ",
+                                  style: Fonts.itim.copyWith(
+                                    fontSize: 14,
+                                    color: AppColors.grey,
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(
+                                    '$rateCount تجربة ناجحة',
+                                    style: Fonts.itim.copyWith(
+                                      fontSize: 14,
+                                      color: AppColors.black,
+                                    ),
+                                    softWrap: true,
+                                    overflow: TextOverflow.visible,
                                   ),
                                 ),
                               ],
@@ -223,7 +258,7 @@ class Customoffices extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Row(
                   children: [
-                    Icon(Icons.brightness_1, color: AppColors.purple, size: 10),
+                    Icon(Icons.info, color: AppColors.purple, size: 25),
                     SizedBox(width: 4),
                     Text(
                       "الوصف : ${bio.isNotEmpty ? bio : ' نبذة عن المكتب سيتم عرضها هنا'}",

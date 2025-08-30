@@ -9,13 +9,14 @@ import 'package:graduation_project/features/rating/presentation/widgets/Custom_R
 
 import '../../../../core/widgets/Custom_Button.dart';
 import '../../../../core/widgets/Custom_TextButton.dart';
+import '../../../service provider/presentation/controllers/rating_controller.dart';
 
 class Rating extends StatelessWidget {
   const Rating({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final RatingController controller = Get.put(RatingController());
+    final Rating_Controller controller = Get.put(Rating_Controller());
 
     return Scaffold(
       appBar: PreferredSize(

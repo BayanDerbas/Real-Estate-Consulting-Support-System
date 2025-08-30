@@ -203,4 +203,23 @@ class SecureStorage {
   Future<void> clearNotifications() async {
     await _storage.delete(key: _notificationsKey);
   }
+
+  Future<void> saveRating({
+    required String role,
+    required int id,
+    required double rating,
+  }) async {
+    final key = "rating_${role}_$id";
+    await _storage.write(key: key, value: rating.toString());
+  }
+
+  Future<double?> getRating({
+    required String role,
+    required int id,
+  }) async {
+    final key = "rating_${role}_$id";
+    final value = await _storage.read(key: key);
+    return value != null ? double.tryParse(value) : null;
+  }
+
 }

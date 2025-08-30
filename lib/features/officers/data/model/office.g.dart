@@ -23,6 +23,8 @@ Office _$OfficeFromJson(Map<String, dynamic> json) => Office(
   latitude: (json['latitude'] as num?)?.toDouble(),
   longitude: (json['longitude'] as num?)?.toDouble(),
   commercialRegisterImage: json['commercialRegisterImage'] as String?,
+  rating: (json['rating'] as num?)?.toDouble(),
+  rateCount: (json['rateCount'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$OfficeToJson(Office instance) => <String, dynamic>{
@@ -39,4 +41,6 @@ Map<String, dynamic> _$OfficeToJson(Office instance) => <String, dynamic>{
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'commercialRegisterImage': instance.commercialRegisterImage,
+  'rateCount': instance.rateCount,
+  'rating': instance.rating,
 };

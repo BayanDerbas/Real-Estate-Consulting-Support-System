@@ -60,9 +60,14 @@ class ServiceProviders_Controller extends GetxController {
           "isFollowing": false,
           "isExpanded": false,
           "text": expert.bio ?? "",
-          "price": expert.perMinuteVideo != null
-              ? "${expert.perMinuteVideo!.toInt()} S.P"
-              : "غير محدد",
+          "price": [
+            expert.perMinuteVideo != null
+                ? "${expert.perMinuteVideo!.toInt()} S.P (فيديو)"
+                : null,
+            expert.perMinuteAudio != null
+                ? "${expert.perMinuteAudio!.toInt()} S.P (صوت)"
+                : null,
+          ].whereType<String>().join("\n"),
           "textProvider": expert.bio ?? "لا يوجد وصف",
           "rateCount": expert.rateCount,
         };

@@ -82,4 +82,8 @@ class ApiConstant {
   static const String favourite_expert = "$baseUrl/clients/add-favorite";
   //unfavourite expert
   static const String unfavourite_expert = "$baseUrl/clients/remove-favorite";
-}
+  //rating expert
+  static const String rating_expert = "$baseUrl/clients/rate-expert";
+  //rating office
+  static const String rating_office = "$baseUrl/clients/rate-office";
+ }

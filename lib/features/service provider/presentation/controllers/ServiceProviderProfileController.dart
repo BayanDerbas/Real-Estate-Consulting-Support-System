@@ -59,7 +59,7 @@ class ServiceProviderProfileController extends GetxController {
     return AppImages.noImage;
   }
 
-  void fetchProviderByIdAndRole(String id, String role) async {
+  Future<void> fetchProviderByIdAndRole(String id, String role) async {
     try {
       isLoading.value = true;
       final dio = DioFactory.getDio();
@@ -93,8 +93,8 @@ class ServiceProviderProfileController extends GetxController {
                   : "غير محدد",
           "rateCount": expert.rateCount,
           "role": "EXPERT",
-          "followersCount": expert.followersCount,
-          "favoritesCount": expert.favoritesCount,
+          "followersCount": expert.followersCount ?? 0,
+          "favoritesCount": expert.favoritesCount ?? 0,
           "newExpert": expert.newExpert,
         };
         final repo_coupon = ExpertCouponsRepository(CouponsService(dio));
@@ -112,30 +112,26 @@ class ServiceProviderProfileController extends GetxController {
         final officeService = OfficeService(dio);
         final response = await officeService.getAllOffices(page: 0, size: 50);
         final office = response.data?.content?.firstWhere(
-          (e) => e.id.toString() == id,
+              (e) => e.id.toString() == id,
           orElse: () => throw Exception('لم يتم العثور على المكتب'),
         );
 
         serviceProvider.value = {
-          "name":
-              "${office?.user?.firstName} ${office?.user?.lastName}"
-                      .trim()
-                      .isEmpty
-                  ? "بدون اسم"
-                  : "${office?.user?.firstName} ${office?.user?.lastName}"
-                      .trim(),
+          "name": "${office?.user?.firstName} ${office?.user?.lastName}".trim().isEmpty
+              ? "بدون اسم"
+              : "${office?.user?.firstName} ${office?.user?.lastName}".trim(),
           "jobTitle": "OFFICE",
-          "rating": "4.5",
+          "rating": office?.rating ?? 0.0,
           "experienceYears": 0,
-          "idCardImage":
-              office?.commercialRegisterImage?.isNotEmpty == true
-                  ? office?.commercialRegisterImage
-                  : AppImages.noImage,
+          "idCardImage": office?.commercialRegisterImage?.isNotEmpty == true
+              ? office?.commercialRegisterImage
+              : AppImages.noImage,
           "textProvider": office?.bio ?? "لا يوجد وصف",
           "price": "غير محدد",
-          "rateCount": 0,
+          "rateCount": office?.rateCount ?? 0,
           "role": "OFFICE",
         };
+
         final propertyService = PropertiesByOfficeidService(dio);
         final repo = PropertiesByOfficeIdRepository(propertyService);
         final result = await repo.getPropertiesByOfficeId(officeId: int.parse(id));
@@ -149,7 +145,49 @@ class ServiceProviderProfileController extends GetxController {
             properties.assignAll(success.data.content);
           },
         );
-      }
+      };
+      // } else if (role == "OFFICE") {
+      //   final officeService = OfficeService(dio);
+      //   final response = await officeService.getAllOffices(page: 0, size: 50);
+      //   final office = response.data?.content?.firstWhere(
+      //     (e) => e.id.toString() == id,
+      //     orElse: () => throw Exception('لم يتم العثور على المكتب'),
+      //   );
+      //
+      //   serviceProvider.value = {
+      //     "name":
+      //         "${office?.user?.firstName} ${office?.user?.lastName}"
+      //                 .trim()
+      //                 .isEmpty
+      //             ? "بدون اسم"
+      //             : "${office?.user?.firstName} ${office?.user?.lastName}"
+      //                 .trim(),
+      //     "jobTitle": "OFFICE",
+      //     "rating": "4.5",
+      //     "experienceYears": 0,
+      //     "idCardImage":
+      //         office?.commercialRegisterImage?.isNotEmpty == true
+      //             ? office?.commercialRegisterImage
+      //             : AppImages.noImage,
+      //     "textProvider": office?.bio ?? "لا يوجد وصف",
+      //     "price": "غير محدد",
+      //     "rateCount": 0,
+      //     "role": "OFFICE",
+      //   };
+      //   final propertyService = PropertiesByOfficeidService(dio);
+      //   final repo = PropertiesByOfficeIdRepository(propertyService);
+      //   final result = await repo.getPropertiesByOfficeId(officeId: int.parse(id));
+      //
+      //   result.fold(
+      //         (failure) {
+      //       print("خطأ في جلب العقارات: ${failure.err_message}");
+      //       properties.clear();
+      //     },
+      //         (success) {
+      //       properties.assignAll(success.data.content);
+      //     },
+      //   );
+      // }
       final storage = SecureStorage();
 
       final String? userId = await storage.getUserId();

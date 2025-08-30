@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
-import '../../../home/presentation/widgets/Custom_Post.dart';
-import '../../../properties/presentation/widgets/Custom_Properties.dart';
 
 class CustomServiceproviderprofile extends StatelessWidget {
   final String image;
@@ -33,6 +31,8 @@ class CustomServiceproviderprofile extends StatelessWidget {
   final List<Map<String, dynamic>> properties;
   final String role;
   final String profileRole;
+  final ValueChanged<double> onRatingChanged;
+  final double rate;
 
   const CustomServiceproviderprofile({
     super.key,
@@ -61,6 +61,8 @@ class CustomServiceproviderprofile extends StatelessWidget {
     required this.properties,
     required this.role,
     required this.profileRole,
+    required this.onRatingChanged,
+    required this.rate,
   });
 
   @override
@@ -316,44 +318,59 @@ class CustomServiceproviderprofile extends StatelessWidget {
                 ),
             ],
           ).padding(EdgeInsets.all(20)).scrollDirection(Axis.horizontal),
-          if (role == "USER" && profileRole != "OFFICE")
+          if (role == "USER")
             Divider(
               thickness: 1,
               color: AppColors.grey2,
             ).padding(EdgeInsets.symmetric(vertical: 15)),
-          if (role == "USER" && profileRole != "OFFICE")
-            if (followerImages.length >= 2)
-              Directionality(
-                textDirection: TextDirection.ltr,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 12,
-                          backgroundImage: AssetImage(followerImages[0]),
-                        ),
-                        SizedBox(
-                          width: 50,
-                          child: CircleAvatar(
-                            radius: 12,
-                            backgroundImage: AssetImage(followerImages[1]),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 5),
-                    Text(
-                      "Followed by $followers",
-                      style: Fonts.itim.copyWith(
-                        color: AppColors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-              ).padding(EdgeInsets.only(left: 16)),
+          // if (role == "USER" && profileRole != "OFFICE")
+          //   if (followerImages.length >= 2)
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: RatingBar.builder(
+              initialRating: rate,
+              minRating: 1,
+              maxRating: 5,
+              itemSize: 50,
+              glow: false,
+              allowHalfRating: false,
+              itemBuilder:
+                  (context, _) => Icon(
+                    Icons.star_rate_rounded,
+                    color: Colors.amber.withOpacity(0.7),
+                  ),
+              unratedColor: AppColors.grey2,
+              onRatingUpdate: onRatingChanged,
+            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     Stack(
+            //       children: [
+            //         CircleAvatar(
+            //           radius: 12,
+            //           backgroundImage: AssetImage(followerImages[0]),
+            //         ),
+            //         SizedBox(
+            //           width: 50,
+            //           child: CircleAvatar(
+            //             radius: 12,
+            //             backgroundImage: AssetImage(followerImages[1]),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     SizedBox(width: 5),
+            //     Text(
+            //       "Followed by $followers",
+            //       style: Fonts.itim.copyWith(
+            //         color: AppColors.grey,
+            //         fontSize: 16,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          ).padding(EdgeInsets.only(left: 16)),
           Divider(
             thickness: 1,
             color: AppColors.grey2,
