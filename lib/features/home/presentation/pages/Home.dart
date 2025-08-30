@@ -274,8 +274,8 @@ class Home extends StatelessWidget {
                 experienceYears:
                     int.tryParse(expert['experienceYears'].toString()) ?? 0,
                 successfulCases: expert['rateCount'],
-                appointmentDate: 'غير محدد',
-                appointmentTime: 'غير محدد',
+                // appointmentDate: 'غير محدد',
+                // appointmentTime: 'غير محدد',
                 imagePath: expert['idCardImage'],
                 onFavoriteToggle: () async {
                   await expertController.toggleFavorite(expertId);
@@ -346,8 +346,8 @@ class Home extends StatelessWidget {
                 rating: 0,
                 experienceYears: 0,
                 successfulCases: 2,
-                appointmentDate: 'غير محدد',
-                appointmentTime: 'غير محدد',
+                // appointmentDate: 'غير محدد',
+                // appointmentTime: 'غير محدد',
                 imagePath: office.imageUrl ?? '',
                 isFavorite: isFavorite,
                 isFollowing: isFollowing,

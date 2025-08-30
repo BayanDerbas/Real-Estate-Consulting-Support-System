@@ -10,8 +10,8 @@ class CustomExpertCard extends StatelessWidget {
   final double rating;
   final int experienceYears;
   final double successfulCases;
-  final String appointmentDate;
-  final String appointmentTime;
+  // final String appointmentDate;
+  // final String appointmentTime;
   final String imagePath;
   final bool isFavorite;
   final VoidCallback onFavoriteToggle;
@@ -27,8 +27,8 @@ class CustomExpertCard extends StatelessWidget {
     required this.rating,
     required this.experienceYears,
     required this.successfulCases,
-    required this.appointmentDate,
-    required this.appointmentTime,
+    // required this.appointmentDate,
+    // required this.appointmentTime,
     required this.imagePath,
     required this.isFavorite,
     required this.onFavoriteToggle,
@@ -226,45 +226,45 @@ class CustomExpertCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          children: [
-                            Text(
-                              'أقرب موعد يوم :  ',
-                              style: Fonts.itim.copyWith(
-                                fontSize: 14,
-                                color: AppColors.grey,
-                              ),
-                            ),
-                            Text(
-                              appointmentDate,
-                              style: Fonts.itim.copyWith(
-                                fontSize: 14,
-                                color: AppColors.lavender,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          children: [
-                            Text(
-                              ' الساعة: ',
-                              style: Fonts.itim.copyWith(
-                                fontSize: 14,
-                                color: AppColors.grey,
-                              ),
-                            ),
-                            Text(
-                              appointmentTime,
-                              style: Fonts.itim.copyWith(
-                                fontSize: 14,
-                                color: AppColors.lavender,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // SizedBox(height: 8),
+                        // Wrap(
+                        //   crossAxisAlignment: WrapCrossAlignment.start,
+                        //   children: [
+                        //     Text(
+                        //       'أقرب موعد يوم :  ',
+                        //       style: Fonts.itim.copyWith(
+                        //         fontSize: 14,
+                        //         color: AppColors.grey,
+                        //       ),
+                        //     ),
+                        //     Text(
+                        //       appointmentDate,
+                        //       style: Fonts.itim.copyWith(
+                        //         fontSize: 14,
+                        //         color: AppColors.lavender,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        // Wrap(
+                        //   crossAxisAlignment: WrapCrossAlignment.start,
+                        //   children: [
+                        //     Text(
+                        //       ' الساعة: ',
+                        //       style: Fonts.itim.copyWith(
+                        //         fontSize: 14,
+                        //         color: AppColors.grey,
+                        //       ),
+                        //     ),
+                        //     Text(
+                        //       appointmentTime,
+                        //       style: Fonts.itim.copyWith(
+                        //         fontSize: 14,
+                        //         color: AppColors.lavender,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),

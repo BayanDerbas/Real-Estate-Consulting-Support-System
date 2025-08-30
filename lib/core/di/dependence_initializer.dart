@@ -41,15 +41,10 @@ import '../../features/Auth/presentation/controllers/verifiy_email_controller.da
 import '../../features/Book/data/data_source/booking_api_service.dart';
 import '../../features/Book/data/data_source/reservation_service.dart';
 import '../../features/Book/data/repository/booking_repository.dart';
-import '../../features/Book/presentation/controllers/BookController.dart';
 import '../../features/Discounts/data/data_sources/coupons_service.dart';
 import '../../features/Discounts/data/repositories/coupons_repository.dart';
 import '../../features/Discounts/data/repositories/expert_coupons_repository.dart';
 import '../../features/Discounts/presentation/controllers/DiscountsController.dart';
-import '../../features/FAQs_Support/data/data_sources/faqs_service.dart';
-import '../../features/FAQs_Support/data/repositories/faqs_repository.dart';
-import '../../features/FAQs_Support/presentation/controllers/faqs_controller.dart';
-import '../../features/FAQs_Support/presentation/pages/faq-s_support.dart';
 import '../../features/chats/data/chat_service/chat_service.dart';
 import '../../features/chats/data/repository/chat_repository.dart';
 import '../../features/myReserve/data/data_sources/myBookings_service.dart';
