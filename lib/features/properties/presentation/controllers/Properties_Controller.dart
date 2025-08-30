@@ -29,7 +29,7 @@ class PropertiesController extends GetxController {
     }
   }
 
-  void fetchProperties({int? page, int? size}) async {
+  Future <void> fetchProperties({int? page, int? size}) async {
     isLoading.value = true;
 
     int current = page ?? currentPage.value;
