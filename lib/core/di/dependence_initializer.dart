@@ -75,10 +75,13 @@ import '../../features/scheduleTime/data/repositories/time_schedule_repository.d
 import '../../features/service provider/data/data_source/favourite_unfavorite/favourite_unfavourite_service.dart';
 import '../../features/service provider/data/data_source/follow_unfollow/follow_unfollow_service.dart';
 import '../../features/service provider/data/data_source/get_posts_by_expertId/get_posts_by_expertId_service.dart';
+import '../../features/service provider/data/data_source/rating/rating_service.dart';
 import '../../features/service provider/data/repository/expert_posts_repository.dart';
 import '../../features/service provider/data/repository/favourite_unfavorite/favourite_unfavourite_repository.dart';
 import '../../features/service provider/data/repository/follow_unfollow/follow_unfollow_repository.dart';
+import '../../features/service provider/data/repository/rating/rating_repository.dart';
 import '../../features/service provider/presentation/controllers/expert_posts_controller.dart';
+import '../../features/service provider/presentation/controllers/rating_controller.dart';
 import '../../features/ticket/presentation/controllers/get_filtered_tickets_controller.dart';
 import '../../features/ticket/presentation/controllers/update_ticket_controller.dart';
 import '../networks/dio_factory.dart';
@@ -169,7 +172,13 @@ class DependenceInitializer {
     // last edit
     Get.put(ExpertService(Get.find()));
     Get.put(ExpertRepository(Get.find()));
-
+    //rating
+    Get.lazyPut(() => RatingService(Get.find()), fenix: true);
+    Get.lazyPut(() => RatingRepository(Get.find()), fenix: true);
+    Get.lazyPut<RatingController>(
+      () => RatingController(Get.find()),
+      fenix: true,
+    );
     // Follow/Unfollow
     Get.lazyPut(() => Follow_UnFollow_service(Get.find()));
     Get.lazyPut(() => Follow_UnFollow_Repository(Get.find()));
