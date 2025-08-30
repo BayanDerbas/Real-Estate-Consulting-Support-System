@@ -54,7 +54,7 @@ class PropertyDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: CustomButton(
-                text: "الذهاب للعقار",
+                text: "الذهاب للمكتب العقاري",
                 backgroundColor: AppColors.deepNavy,
                 textColor: AppColors.pureWhite,
                 width: 150,

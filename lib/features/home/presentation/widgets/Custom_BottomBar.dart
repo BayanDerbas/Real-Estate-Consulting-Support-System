@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/colors.dart';
@@ -40,6 +42,7 @@ class CustomBottomBar extends StatelessWidget {
                     Get.toNamed('/posts');
                   } else if (index == 2) {
                     final role = await SecureStorage().getUserType();
+                    log(role.toString());
                     if (role != 'USER') {
                       role == 'EXPERT'
                           ? Get.toNamed(AppRoutes.expertProfile)

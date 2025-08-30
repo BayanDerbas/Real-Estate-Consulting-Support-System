@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dartz/dartz.dart';
@@ -18,6 +20,8 @@ class ExpertProfileController extends GetxController {
   var errorMessage = ''.obs;
   var isUploadingImage = false.obs;
 
+  Rx<Uint8List?> image = Rx(null);
+
   Future<void> fetchExpertByRole() async {
     try {
       isLoading.value = true;
@@ -25,6 +29,9 @@ class ExpertProfileController extends GetxController {
       expertProfile.value = null;
 
       final String? id = await secureStorage.getIdByRole();
+
+      log("Role : $id");
+
       if (id == null) {
         errorMessage.value = "No expert id found in storage";
         return;
@@ -33,9 +40,16 @@ class ExpertProfileController extends GetxController {
       final Either<String, ExpertProfileModel> result = await profileRepository
           .getExpert(id: int.parse(id));
 
+      getQr();
+
       result.fold(
-        (failure) => errorMessage.value = failure,
-        (data) => expertProfile.value = data,
+        (failure) {
+          print('..................$failure');
+          errorMessage.value = failure;
+        },
+        (data) {
+          return expertProfile.value = data;
+        },
       );
     } catch (e) {
       errorMessage.value = "Unexpected error: $e";
@@ -92,6 +106,31 @@ class ExpertProfileController extends GetxController {
       );
     } finally {
       isUploadingImage.value = false;
+    }
+  }
+
+  Future<void> getQr() async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      final String? id = await secureStorage.getIdByRole();
+      if (id == null) {
+        errorMessage.value = "No expert id found in storage";
+        return;
+      }
+
+      final result = await profileRepository.getExpertQr(
+        expertId: int.parse(id),
+      );
+
+      result.fold((failure) {
+        errorMessage.value = failure;
+      }, (data) => image.value = data);
+    } catch (e) {
+      errorMessage.value = "Unexpected error: $e";
+    } finally {
+      isLoading.value = false;
     }
   }
 }

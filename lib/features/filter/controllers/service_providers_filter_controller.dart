@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../model/filter_material_model.dart';
 
-class TicketFilterController extends GetxController {
+class ServiceProvidersFilterController extends GetxController {
   TextEditingController search = TextEditingController();
 
   List<ChipModel> propertyTypes = [

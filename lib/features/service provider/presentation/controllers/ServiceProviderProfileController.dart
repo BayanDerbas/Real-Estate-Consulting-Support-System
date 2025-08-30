@@ -47,7 +47,8 @@ class ServiceProviderProfileController extends GetxController {
   }
 
   String getValidImageUrl(Map<String, dynamic> provider) {
-    final rawImage = provider['userImage']?.toString()?.trim() ??
+    final rawImage =
+        provider['userImage']?.toString()?.trim() ??
         provider['idCardImage']?.toString()?.trim() ??
         '';
     final isNetwork =
@@ -67,65 +68,71 @@ class ServiceProviderProfileController extends GetxController {
       if (role == "EXPERT") {
         final expertService = ExpertService(dio);
         final response = await expertService.getExpertById(id);
-        print("استجابة الخبير: ${response.toJson()}");
+        print("استجابة الخبير: ${response.data.toJson()}");
         final expert = response.data;
         if (expert == null) {
           throw Exception('لا يوجد خبير في الاستجابة');
         }
         serviceProvider.value = {
           "name":
-              "${expert.user?.firstName} ${expert.user?.lastName}"
+              "${expert.data.user?.firstName} ${expert.data.user?.lastName}"
                       .trim()
                       .isEmpty
                   ? "بدون اسم"
-                  : "${expert.user?.firstName} ${expert.user?.lastName}".trim(),
-          "jobTitle": expert.profession,
-          "rating": expert.rating,
-          "experienceYears": int.tryParse(expert.experience!) ?? 0,
+                  : "${expert.data.user?.firstName} ${expert.data.user?.lastName}"
+                      .trim(),
+          "jobTitle": expert.data.profession,
+          "rating": expert.data.rating,
+          "experienceYears": int.tryParse(expert.data.experience!) ?? 0,
           "idCardImage":
-              expert.idCardImage?.isNotEmpty == true
-                  ? expert.idCardImage!
+              expert.data.idCardImage?.isNotEmpty == true
+                  ? expert.data.idCardImage!
                   : AppImages.noImage,
-          "textProvider": expert.bio ?? "لا يوجد وصف",
+          "textProvider": expert.data.bio ?? "لا يوجد وصف",
           "price":
-              expert.perMinuteVideo != null
-                  ? "${expert.perMinuteVideo!.toInt()} S.P"
+              expert.data.perMinuteVideo != null
+                  ? "${expert.data.perMinuteVideo!.toInt()} S.P"
                   : "غير محدد",
-          "rateCount": expert.rateCount,
+          "rateCount": expert.data.rateCount,
           "role": "EXPERT",
-          "followersCount": expert.followersCount ?? 0,
-          "favoritesCount": expert.favoritesCount ?? 0,
-          "newExpert": expert.newExpert,
+          "followersCount": expert.data.followersCount ?? 0,
+          "favoritesCount": expert.data.favoritesCount ?? 0,
+          "newExpert": expert.data.newExpert,
         };
         final repo_coupon = ExpertCouponsRepository(CouponsService(dio));
         final result = await repo_coupon.getExpertCoupons(int.parse(id));
         result.fold(
-                (failure){
-                  print("Error : ${failure.err_message}");
-                  coupons.clear();
-                },
-                (response){
-                  coupons.assignAll(response ?? []);
-                }
+          (failure) {
+            print("Error : ${failure.err_message}");
+            coupons.clear();
+          },
+          (response) {
+            coupons.assignAll(response ?? []);
+          },
         );
       } else if (role == "OFFICE") {
         final officeService = OfficeService(dio);
         final response = await officeService.getAllOffices(page: 0, size: 50);
         final office = response.data?.content?.firstWhere(
-              (e) => e.id.toString() == id,
+          (e) => e.id.toString() == id,
           orElse: () => throw Exception('لم يتم العثور على المكتب'),
         );
 
         serviceProvider.value = {
-          "name": "${office?.user?.firstName} ${office?.user?.lastName}".trim().isEmpty
-              ? "بدون اسم"
-              : "${office?.user?.firstName} ${office?.user?.lastName}".trim(),
+          "name":
+              "${office?.user?.firstName} ${office?.user?.lastName}"
+                      .trim()
+                      .isEmpty
+                  ? "بدون اسم"
+                  : "${office?.user?.firstName} ${office?.user?.lastName}"
+                      .trim(),
           "jobTitle": "OFFICE",
           "rating": office?.rating ?? 0.0,
           "experienceYears": 0,
-          "idCardImage": office?.commercialRegisterImage?.isNotEmpty == true
-              ? office?.commercialRegisterImage
-              : AppImages.noImage,
+          "idCardImage":
+              office?.commercialRegisterImage?.isNotEmpty == true
+                  ? office?.commercialRegisterImage
+                  : AppImages.noImage,
           "textProvider": office?.bio ?? "لا يوجد وصف",
           "price": "غير محدد",
           "rateCount": office?.rateCount ?? 0,
@@ -134,18 +141,21 @@ class ServiceProviderProfileController extends GetxController {
 
         final propertyService = PropertiesByOfficeidService(dio);
         final repo = PropertiesByOfficeIdRepository(propertyService);
-        final result = await repo.getPropertiesByOfficeId(officeId: int.parse(id));
+        final result = await repo.getPropertiesByOfficeId(
+          officeId: int.parse(id),
+        );
 
         result.fold(
-              (failure) {
+          (failure) {
             print("خطأ في جلب العقارات: ${failure.err_message}");
             properties.clear();
           },
-              (success) {
+          (success) {
             properties.assignAll(success.data.content);
           },
         );
-      };
+      }
+      ;
       // } else if (role == "OFFICE") {
       //   final officeService = OfficeService(dio);
       //   final response = await officeService.getAllOffices(page: 0, size: 50);
@@ -220,5 +230,4 @@ class ServiceProviderProfileController extends GetxController {
   void toggleFavourite() {
     isFavourite.value = !isFavourite.value;
   }
-
 }

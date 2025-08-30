@@ -7,26 +7,31 @@ import '../../../../core/utils/secure_storage.dart';
 import '../../data/data_source/expert_service.dart';
 
 class ServiceProviders_Controller extends GetxController {
+  final ExpertRepository _repository;
   final Follow_UnFollow_Repository repository;
   final Favourite_UnFavourite_Repository repository_;
+
+  ServiceProviders_Controller(
+    this._repository,
+    this.repository,
+    this.repository_,
+  );
+
   var serviceProviders = <Map<String, dynamic>>[].obs;
+
   var isLoading = true.obs;
+  RxString errorMessage = "".obs;
+
   var isFavoriteList = <int, RxBool>{}.obs;
   var isFollowingList = <int, RxBool>{}.obs;
   var isExpandedList = <int, RxBool>{}.obs;
-  var currentPage = 0.obs;
-  var totalPages = 1.obs;
-  final int pageSize = 10;
+
+  final ScrollController scrollController = ScrollController();
+  RxBool last = false.obs;
+  RxInt totalElements = 0.obs;
   var role = ''.obs;
 
-  ServiceProviders_Controller(this.repository,this.repository_);
-
-  @override
-  void onInit() {
-    super.onInit();
-    _loadRole();
-    fetchExperts();
-  }
+  get length => serviceProviders.length;
 
   Future<void> _loadRole() async {
     final storage = SecureStorage();
@@ -35,14 +40,30 @@ class ServiceProviders_Controller extends GetxController {
 
   Future<void> fetchExperts({int page = 0}) async {
     isLoading(true);
-    try {
-      final dio = DioFactory.getDio();
-      final service = ExpertService(dio);
-      final response = await service.getExperts(page: page, size: pageSize);
+    errorMessage("");
 
-      serviceProviders.value = response.data!.content!.map((expert) {
-        final expertId = expert.id;
-        if (expertId == null) return null;
+    _loadRole();
+
+    FilterModel model = FilterModel(
+      filterItems: filterItems ?? [],
+      globalOperator: globalOperator,
+      pageRequest: pageRequest ?? PageRequestModel(page: 0, size: 10),
+    );
+
+    final data = await _repository.filterExperts(model);
+    data.fold((l) => errorMessage(l.err_message), (r) async {
+      if (pageRequest == null) {
+        serviceProviders.clear();
+      }
+      serviceProviders.addAll(
+        r.data!.content!
+            .asMap()
+            .entries
+            .map((entry) {
+              final expert = entry.value;
+
+              final expertId = expert.id;
+              if (expertId == null) return null;
 
         isFavoriteList[expertId] = false.obs;
         isFollowingList[expertId] = false.obs;
@@ -84,10 +105,10 @@ class ServiceProviders_Controller extends GetxController {
   Future<void> _initUserState() async {
     final result = await repository.getMeClient();
     result.fold(
-          (failure) {
+      (failure) {
         print("❌ فشل في جلب بيانات المستخدم: ${failure.err_message}");
       },
-          (me) {
+      (me) {
         final followers = me.data.followers;
 
         for (var expertId in followers) {
@@ -121,11 +142,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository.followExpert(expertId);
       result.fold(
-            (failure) {
+        (failure) {
           print("❌ فشل في المتابعة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في المتابعة");
         },
-            (_) {
+        (_) {
           isFollowingList[expertId]?.value = true;
           Get.snackbar("Success", "تمت المتابعة");
         },
@@ -140,11 +161,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository.unfollowExpert(expertId);
       result.fold(
-            (failure) {
+        (failure) {
           print("❌ فشل في إلغاء المتابعة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في إلغاء المتابعة");
         },
-            (_) {
+        (_) {
           isFollowingList[expertId]?.value = false;
           Get.snackbar("Success", "تم إلغاء المتابعة");
         },
@@ -159,11 +180,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository_.favouriteExpert(expertId);
       result.fold(
-            (failure) {
+        (failure) {
           print("❌ فشل في إضافة المفضلة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في الإضافة للمفضلة");
         },
-            (_) {
+        (_) {
           isFavoriteList[expertId]?.value = true;
           Get.snackbar("Success", "تمت الإضافة إلى المفضلة");
         },
@@ -178,11 +199,11 @@ class ServiceProviders_Controller extends GetxController {
     try {
       final result = await repository_.unfavouriteExpert(expertId);
       result.fold(
-            (failure) {
+        (failure) {
           print("❌ فشل في إلغاء المفضلة: ${failure.err_message}");
           Get.snackbar("Error", "فشل في الإلغاء من المفضلة");
         },
-            (_) {
+        (_) {
           isFavoriteList[expertId]?.value = false;
           Get.snackbar("Success", "تم الإلغاء من المفضلة");
         },

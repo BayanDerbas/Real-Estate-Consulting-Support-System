@@ -67,44 +67,56 @@ class Customserviceprovidercard extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(40),
-                        child: provider['idCardImage'] != null &&
-                            provider['idCardImage'].toString().startsWith("http")
-                            ? Image.network(
-                          provider['idCardImage'],
-                          width: 80,
-                          height: 100,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return SizedBox(
-                              width: 80,
-                              height: 100,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                      : null,
-                                  strokeWidth: 2,
+                        child:
+                            provider['idCardImage'] != null &&
+                                    provider['idCardImage']
+                                        .toString()
+                                        .startsWith("http")
+                                ? Image.network(
+                                  provider['idCardImage'],
+                                  width: 80,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (
+                                    context,
+                                    child,
+                                    loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) return child;
+                                    return SizedBox(
+                                      width: 80,
+                                      height: 100,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          value:
+                                              loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                          strokeWidth: 2,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      AppImages.noImage,
+                                      width: 80,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                )
+                                : Image.asset(
+                                  AppImages.noImage,
+                                  width: 80,
+                                  height: 100,
+                                  fit: BoxFit.cover,
                                 ),
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              AppImages.noImage,
-                              width: 80,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        )
-                            : Image.asset(
-                          AppImages.noImage,
-                          width: 80,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
@@ -154,7 +166,10 @@ class Customserviceprovidercard extends StatelessWidget {
                                   const SizedBox(width: 4),
                                   Text(
                                     provider['rating'].toString(),
-                                    style: Fonts.itim.copyWith(fontSize: 14,color: AppColors.grey),
+                                    style: Fonts.itim.copyWith(
+                                      fontSize: 14,
+                                      color: AppColors.grey,
+                                    ),
                                   ),
                                   const SizedBox(width: 8),
                                   Flexible(
@@ -180,7 +195,10 @@ class Customserviceprovidercard extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       '${provider['rateCount']} تجربة ناجحة',
-                                      style: Fonts.itim.copyWith(fontSize: 14,color: AppColors.grey),
+                                      style: Fonts.itim.copyWith(
+                                        fontSize: 14,
+                                        color: AppColors.grey,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -193,11 +211,10 @@ class Customserviceprovidercard extends StatelessWidget {
                   ),
                   if (role == "USER")
                     Positioned(
-                    bottom: 5,
-                    left: 0,
-                    child:
-                    Row(
-                      children: [
+                      bottom: 5,
+                      left: 0,
+                      child: Row(
+                        children: [
                           Container(
                             decoration: const BoxDecoration(
                               color: AppColors.deepNavy,
@@ -205,14 +222,19 @@ class Customserviceprovidercard extends StatelessWidget {
                             ),
                             child: IconButton(
                               icon: Icon(
-                                isFavorite ? Icons.favorite : Icons.favorite_border,
-                                color: isFavorite ? AppColors.lavender : AppColors.pureWhite,
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color:
+                                    isFavorite
+                                        ? AppColors.lavender
+                                        : AppColors.pureWhite,
                                 size: 28,
                               ),
                               onPressed: onFavoriteToggle,
                             ),
                           ),
-                        SizedBox(width: 3,),
+                          SizedBox(width: 3),
                           Container(
                             decoration: BoxDecoration(
                               color: AppColors.deepNavy,
@@ -221,15 +243,54 @@ class Customserviceprovidercard extends StatelessWidget {
                             child: IconButton(
                               icon: Icon(
                                 isFollowing ? Icons.check : Icons.person_add,
-                                color:isFollowing ? AppColors.lavender :AppColors.pureWhite,
+                                color:
+                                    isFollowing
+                                        ? AppColors.lavender
+                                        : AppColors.pureWhite,
                                 size: 24,
                               ),
                               onPressed: onFollowToggle,
                             ),
                           ),
-                      ],
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: AppColors.deepNavy,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color:
+                                    isFavorite
+                                        ? AppColors.lavender
+                                        : AppColors.pureWhite,
+                                size: 28,
+                              ),
+                              onPressed: onFavoriteToggle,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.deepNavy,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                isFollowing
+                                    ? Icons.person_remove
+                                    : Icons.person_add,
+                                color: AppColors.pureWhite,
+                                size: 24,
+                              ),
+                              onPressed: onFollowToggle,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -239,7 +300,9 @@ class Customserviceprovidercard extends StatelessWidget {
               child: GestureDetector(
                 onTap: onToggleExpand,
                 child: Icon(
-                  isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                  isExpanded
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
                   color: AppColors.deepNavy,
                   size: 30,
                 ),

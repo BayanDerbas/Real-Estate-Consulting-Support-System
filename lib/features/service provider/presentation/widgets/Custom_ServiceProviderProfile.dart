@@ -4,6 +4,9 @@ import 'package:graduation_project/core/constants/colors.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import '../../../../core/constants/Fonts.dart';
+import '../../../../core/utils/secure_storage.dart';
+import '../../../home/presentation/widgets/Custom_Post.dart';
+import '../../../properties/presentation/widgets/Custom_Properties.dart';
 
 class CustomServiceproviderprofile extends StatelessWidget {
   final String image;
@@ -70,7 +73,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
     int tabLength = 1;
     if (job != "OFFICE") tabLength += 1;
     if (job == "OFFICE") tabLength += 1;
-
+    final currentId = SecureStorage().getIdByRole();
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Column(
@@ -240,6 +243,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
               ),
             ],
           ),
+          //..............................
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

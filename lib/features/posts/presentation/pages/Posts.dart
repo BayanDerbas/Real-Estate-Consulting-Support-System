@@ -17,7 +17,6 @@ class Posts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostsController controller = Get.find<PostsController>();
-    final HomeController homeController = Get.put(HomeController(Get.find()));
     final CustomDrawerController drawerController = Get.put(
       CustomDrawerController(),
     );
@@ -139,7 +138,8 @@ class Posts extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final posts = controller.postsList[index];
                   return Customposts(
-                    name: "${posts.expert?.firstName ?? ""} ${posts.expert?.lastName ?? ""}",
+                    name:
+                        "${posts.expert?.firstName ?? ""} ${posts.expert?.lastName ?? ""}",
                     userImage: posts.expert?.imageUrl ?? AppImages.noImage,
                     postingTime: posts.createdAt ?? '',
                     postText: posts.content ?? '',
