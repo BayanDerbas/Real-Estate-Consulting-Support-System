@@ -55,7 +55,7 @@ class ServiceProviders_Controller extends GetxController {
           "jobTitle": expert.profession,
           "rating": expert.rating,
           "experienceYears": expert.experience,
-          "idCardImage": expert.idCardImage,
+          "idCardImage": expert.user?.imageUrl,
           "isFavorite": false,
           "isFollowing": false,
           "isExpanded": false,
