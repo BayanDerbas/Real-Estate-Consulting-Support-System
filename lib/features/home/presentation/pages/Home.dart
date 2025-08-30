@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:graduation_project/core/constants/image_paths.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
 import 'package:graduation_project/core/widgets/Custom_Drawer.dart';
-import 'package:graduation_project/features/Discounts/presentation/controllers/DiscountsController.dart';
 import 'package:graduation_project/features/home/presentation/widgets/Custom_Post.dart';
 import 'package:graduation_project/features/properties/presentation/controllers/Properties_Controller.dart';
 import '../../../../core/constants/Fonts.dart';

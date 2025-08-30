@@ -9,7 +9,6 @@ import 'package:graduation_project/core/routes/routes.dart';
 import 'package:graduation_project/core/widgets/Custom_Appbar.dart';
 import '../../../officers/data/model/userOffice.dart';
 import '../../../properties/data/model/propertyImage_model.dart';
-import '../../data/model/get_properties_by_officeId/propertiesByOfficeId_model.dart';
 import '../../data/repository/expert_posts_repository.dart';
 import '../controllers/ServiceProviderProfileController.dart';
 import '../controllers/ServiceProvidersControllers.dart';

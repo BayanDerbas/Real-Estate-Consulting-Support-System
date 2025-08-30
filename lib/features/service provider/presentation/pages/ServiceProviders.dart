@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduation_project/core/extensions/widget_extension.dart';
-import 'package:graduation_project/core/widgets/Custom_PaginationBar.dart';
 import '../../../../core/constants/Fonts.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/utils/secure_storage.dart';
