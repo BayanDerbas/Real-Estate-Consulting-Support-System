@@ -358,6 +358,28 @@ class Serviceproviderprofile extends StatelessWidget {
                     ? double.tryParse(provider['rating']?.toString() ?? "0") ??
                         0
                     : ratingController.lastRating.value,
+            onreport: () {
+              final reportedId = provider['id'];
+              print("DEBUG: reportedId قبل الانتقال = $reportedId");
+
+              if (role.toLowerCase() == "office") {
+                Get.toNamed(
+                  AppRoutes.report_categories,
+                  arguments: {
+                    "reportedId": reportedId,
+                    "reportedRole": "office",
+                  },
+                );
+              } else {
+                Get.toNamed(
+                  AppRoutes.report_categories,
+                  arguments: {
+                    "reportedId": reportedId,
+                    "reportedRole": "expert",
+                  },
+                );
+              }
+            },
           );
         }),
       ),

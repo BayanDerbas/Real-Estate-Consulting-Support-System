@@ -89,5 +89,9 @@ class ApiConstant {
   static const String rating_office = "$baseUrl/clients/rate-office";
   //delete time from schedule time
   static const String delete_time = "$baseUrl/working_times/{id}";
- }
+  //get_report_categories
+  static const String reportCategories = '$baseUrl/reports/categories';
+  //report
+  static const String reports = '$baseUrl/reports';
+
 }

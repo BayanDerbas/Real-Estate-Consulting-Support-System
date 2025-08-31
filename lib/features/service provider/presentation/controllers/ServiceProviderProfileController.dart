@@ -74,6 +74,7 @@ class ServiceProviderProfileController extends GetxController {
           throw Exception('لا يوجد خبير في الاستجابة');
         }
         serviceProvider.value = {
+          "id": expert.data.user?.id,
           "name":
               "${expert.data.user?.firstName} ${expert.data.user?.lastName}"
                       .trim()
@@ -119,6 +120,7 @@ class ServiceProviderProfileController extends GetxController {
         );
 
         serviceProvider.value = {
+          "id": office?.user?.id,
           "name":
               "${office?.user?.firstName} ${office?.user?.lastName}"
                       .trim()

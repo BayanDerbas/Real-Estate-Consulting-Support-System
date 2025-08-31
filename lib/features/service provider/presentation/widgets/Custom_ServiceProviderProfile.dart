@@ -36,6 +36,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
   final String profileRole;
   final ValueChanged<double> onRatingChanged;
   final double rate;
+  final VoidCallback? onreport;
 
   const CustomServiceproviderprofile({
     super.key,
@@ -66,6 +67,7 @@ class CustomServiceproviderprofile extends StatelessWidget {
     required this.profileRole,
     required this.onRatingChanged,
     required this.rate,
+    required this.onreport,
   });
 
   @override
@@ -329,52 +331,59 @@ class CustomServiceproviderprofile extends StatelessWidget {
             ).padding(EdgeInsets.symmetric(vertical: 15)),
           // if (role == "USER" && profileRole != "OFFICE")
           //   if (followerImages.length >= 2)
-          Directionality(
-            textDirection: TextDirection.ltr,
-            child: RatingBar.builder(
-              initialRating: rate,
-              minRating: 1,
-              maxRating: 5,
-              itemSize: 50,
-              glow: false,
-              allowHalfRating: false,
-              itemBuilder:
-                  (context, _) => Icon(
+          Row(
+            children: [
+              IconButton(onPressed: onreport, icon: Icon(Icons.report,color: AppColors.darkGray,size: 25,)),
+              SizedBox(width: 30,),
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: RatingBar.builder(
+                  initialRating: rate,
+                  minRating: 1,
+                  maxRating: 5,
+                  itemSize: 50,
+                  glow: false,
+                  allowHalfRating: false,
+                  itemBuilder:
+                      (context, _) => Icon(
                     Icons.star_rate_rounded,
                     color: Colors.amber.withOpacity(0.7),
                   ),
-              unratedColor: AppColors.grey2,
-              onRatingUpdate: onRatingChanged,
-            ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     Stack(
-            //       children: [
-            //         CircleAvatar(
-            //           radius: 12,
-            //           backgroundImage: AssetImage(followerImages[0]),
-            //         ),
-            //         SizedBox(
-            //           width: 50,
-            //           child: CircleAvatar(
-            //             radius: 12,
-            //             backgroundImage: AssetImage(followerImages[1]),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //     SizedBox(width: 5),
-            //     Text(
-            //       "Followed by $followers",
-            //       style: Fonts.itim.copyWith(
-            //         color: AppColors.grey,
-            //         fontSize: 16,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-          ).padding(EdgeInsets.only(left: 16)),
+                  unratedColor: AppColors.grey2,
+                  onRatingUpdate: onRatingChanged,
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.start,
+                //   children: [
+                //     Stack(
+                //       children: [
+                //         CircleAvatar(
+                //           radius: 12,
+                //           backgroundImage: AssetImage(followerImages[0]),
+                //         ),
+                //         SizedBox(
+                //           width: 50,
+                //           child: CircleAvatar(
+                //             radius: 12,
+                //             backgroundImage: AssetImage(followerImages[1]),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //     SizedBox(width: 5),
+                //     Text(
+                //       "Followed by $followers",
+                //       style: Fonts.itim.copyWith(
+                //         color: AppColors.grey,
+                //         fontSize: 16,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+              ).padding(EdgeInsets.only(left: 16)),
+
+            ],
+          ),
           Divider(
             thickness: 1,
             color: AppColors.grey2,

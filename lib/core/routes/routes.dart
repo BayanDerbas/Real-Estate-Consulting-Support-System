@@ -57,6 +57,7 @@ import '../../features/properties/presentation/pages/add_images_to_property.dart
 import '../../features/properties/presentation/pages/create_property.dart';
 import '../../features/service provider/presentation/pages/ServiceProviderProfile.dart';
 import '../../features/service provider/presentation/pages/ServiceProviders.dart';
+import '../../features/service provider/presentation/pages/report_categories.dart';
 import '../../features/ticket/presentation/controllers/get_all_tickets_controller.dart';
 import '../../features/ticket/presentation/pages/all_tickets.dart';
 import '../../features/ticket/presentation/pages/publish_ticket.dart';
@@ -119,6 +120,7 @@ class AppRoutes {
   static const String serviceProviderFilterPage =
       '/service_provider_filter_page';
   static const String my_available_time = '/my_available_time';
+  static const String report_categories = '/report';
 
   static List<GetPage> routes_ = [
     GetPage(name: splashScreen, page: () => SplashScreen()),
@@ -230,5 +232,6 @@ class AppRoutes {
     GetPage(name: followings, page: () => Followers()),
     GetPage(name: favourites, page: () => Favourite()),
     GetPage(name: my_available_time, page: () => MyAvailableTimes()),
+    GetPage(name: report_categories, page: () => ReportCategoriesPage()),
   ];
 }
