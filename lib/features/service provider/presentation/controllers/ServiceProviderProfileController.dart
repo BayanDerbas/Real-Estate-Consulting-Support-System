@@ -132,8 +132,8 @@ class ServiceProviderProfileController extends GetxController {
           "rating": office?.rating ?? 0.0,
           "experienceYears": 0,
           "idCardImage":
-              office?.commercialRegisterImage?.isNotEmpty == true
-                  ? office?.commercialRegisterImage
+              office?.user?.imageUrl?.isNotEmpty == true
+                  ? office?.user?.imageUrl
                   : AppImages.noImage,
           "textProvider": office?.bio ?? "لا يوجد وصف",
           "price": "غير محدد",
