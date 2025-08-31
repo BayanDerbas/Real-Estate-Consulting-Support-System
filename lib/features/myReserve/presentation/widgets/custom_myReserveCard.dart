@@ -13,6 +13,7 @@ class MyReserveCard extends StatelessWidget {
   final String bookingStatus;
   final String imageUrl;
   final GestureTapCallback? onCallPressed;
+  final VoidCallback onreport;
 
   const MyReserveCard({
     super.key,
@@ -25,6 +26,7 @@ class MyReserveCard extends StatelessWidget {
     required this.bookingStatus,
     required this.imageUrl,
     this.onCallPressed,
+    required this.onreport,
   });
 
   @override
@@ -37,13 +39,19 @@ class MyReserveCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: onCallPressed,
-              child: Icon(
-                callType.toLowerCase() == 'video' ? Icons.videocam : Icons.call,
-                color: AppColors.lavender,
-                size: 45,
-              ),
+            Column(
+              children: [
+                IconButton(onPressed: onreport, icon: Icon(Icons.report,color: AppColors.darkGray,size: 25,)),
+                const SizedBox(height: 56),
+                GestureDetector(
+                  onTap: onCallPressed,
+                  child: Icon(
+                    callType.toLowerCase() == 'video' ? Icons.videocam : Icons.call,
+                    color: AppColors.lavender,
+                    size: 45,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(width: 16),
             Expanded(

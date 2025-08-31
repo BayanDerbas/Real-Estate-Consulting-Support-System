@@ -30,9 +30,9 @@ class MyReserve extends StatelessWidget {
             children: [
               Obx(() {
                 String title =
-                    controller.role.value == 'EXPERT'
-                        ? "Expert Reservations"
-                        : "My Reservations";
+                controller.role.value == 'EXPERT'
+                    ? "Expert Reservations"
+                    : "My Reservations";
                 return CustomAppbar(
                   text: title,
                   icon: Icons.notifications,
@@ -47,38 +47,38 @@ class MyReserve extends StatelessWidget {
                 labelColor: AppColors.purple,
                 unselectedLabelColor: Colors.grey,
                 tabs:
-                    controller.role.value == 'EXPERT'
-                        ? [
-                          Tab(
-                            child: Text(
-                              "📅 My Bookings",
-                              style: Fonts.itim.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.deepNavy,
-                              ),
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "👥 Clients Bookings",
-                              style: Fonts.itim.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.deepNavy,
-                              ),
-                            ),
-                          ),
-                        ]
-                        : [
-                          Tab(
-                            child: Text(
-                              "📅 My Bookings",
-                              style: Fonts.itim.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.deepNavy,
-                              ),
-                            ),
-                          ),
-                        ],
+                controller.role.value == 'EXPERT'
+                    ? [
+                  Tab(
+                    child: Text(
+                      "📅 My Bookings",
+                      style: Fonts.itim.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.deepNavy,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "👥 Clients Bookings",
+                      style: Fonts.itim.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.deepNavy,
+                      ),
+                    ),
+                  ),
+                ]
+                    : [
+                  Tab(
+                    child: Text(
+                      "📅 My Bookings",
+                      style: Fonts.itim.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.deepNavy,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -112,12 +112,12 @@ class MyReserve extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children:
-                    controller.role.value == 'EXPERT'
-                        ? [
-                          _buildMyBookingsTab(myBookingsController),
-                          _buildReservationsList(controller, showJob: false),
-                        ]
-                        : [_buildMyBookingsTab(myBookingsController)],
+                controller.role.value == 'EXPERT'
+                    ? [
+                  _buildMyBookingsTab(myBookingsController),
+                  _buildReservationsList(controller, showJob: false),
+                ]
+                    : [_buildMyBookingsTab(myBookingsController)],
               ),
             ),
           ],
@@ -150,9 +150,9 @@ class MyReserve extends StatelessWidget {
             final duration = booking.duration ?? 0;
             final finalPrice = booking.finalPrice ?? 0.0;
             final startTime =
-                booking.startTime != null
-                    ? dateFormat.format(DateTime.parse(booking.startTime!))
-                    : 'غير معروف';
+            booking.startTime != null
+                ? dateFormat.format(DateTime.parse(booking.startTime!))
+                : 'غير معروف';
             final status = booking.bookingStatus ?? 'غير معروف';
             final imageUrl = booking.expert?.user?.id != null ? "" : "";
 
@@ -166,7 +166,7 @@ class MyReserve extends StatelessWidget {
               bookingStatus: status,
               imageUrl: imageUrl,
               onCallPressed: () {
-                log("message");
+                log("DEBUG: calling user ${booking.expert?.user?.id}");
                 ZegoUIKitPrebuiltCallInvitationService().send(
                   resourceID: 'real_cons',
                   invitees: [
@@ -179,6 +179,26 @@ class MyReserve extends StatelessWidget {
                   callID: booking.id.toString(),
                 );
               },
+              onreport: () {
+                final reportedId = booking.expert?.user?.id;
+                print("DEBUG: reportedId للبلاغ = $reportedId");
+
+                if (reportedId != null) {
+                  Get.toNamed(
+                    AppRoutes.report_categories,
+                    arguments: {
+                      "reportedId": reportedId,
+                      "reportedRole": "expert",
+                    },
+                  );
+                } else {
+                  Get.snackbar(
+                    "خطأ",
+                    "معرف المستخدم المبلغ عنه غير متوفر",
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                }
+              },
             );
           },
         ),
@@ -187,9 +207,9 @@ class MyReserve extends StatelessWidget {
   }
 
   Widget _buildReservationsList(
-    myReserveController controller, {
-    bool showJob = true,
-  }) {
+      myReserveController controller, {
+        bool showJob = true,
+      }) {
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
@@ -213,9 +233,9 @@ class MyReserve extends StatelessWidget {
             final duration = reservation.duration ?? 0;
             final finalPrice = reservation.finalPrice ?? 0.0;
             final startTime =
-                reservation.startTime != null
-                    ? dateFormat.format(DateTime.parse(reservation.startTime!))
-                    : 'غير معروف';
+            reservation.startTime != null
+                ? dateFormat.format(DateTime.parse(reservation.startTime!))
+                : 'غير معروف';
             final status = reservation.bookingStatus ?? 'غير معروف';
             final imageUrl = reservation.expert?.idCardImage ?? "";
 
@@ -229,6 +249,26 @@ class MyReserve extends StatelessWidget {
               bookingStatus: status,
               imageUrl: imageUrl,
               onCallPressed: () {},
+              onreport: () {
+                final reportedId = reservation.client?.id;
+                print("DEBUG: reportedId للبلاغ = $reportedId");
+
+                if (reportedId != null) {
+                  Get.toNamed(
+                    AppRoutes.report_categories,
+                    arguments: {
+                      "reportedId": reportedId,
+                      "reportedRole": "client",
+                    },
+                  );
+                } else {
+                  Get.snackbar(
+                    "خطأ",
+                    "معرف المستخدم المبلغ عنه غير متوفر",
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                }
+              },
             );
           },
         ),
